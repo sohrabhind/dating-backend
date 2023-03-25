@@ -1,0 +1,192 @@
+
+
+.fb-icon-btn.fb-btn-large, .gl-icon-btn.gl-btn-large {
+    position: relative;
+    padding-left: 51px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-facebook {
+    border-color: #3B5998;
+    border-bottom-color: #263a63;
+    background-color: #3B5998;
+    color: #fff;
+    display: block;
+    margin-bottom: 0;
+    border-radius: 2px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    line-height: 1.43;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.btn-google {
+    border-color: #4286F5;
+    border-bottom-color: #3168c1;
+    background-color: #4286F5;
+    color: #fff;
+    display: block;
+    margin-bottom: 0;
+    border-radius: 2px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    line-height: 1.43;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+a.btn-facebook, a.btn-google {
+
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.fb-btn-large, .gl-btn-large {
+    padding: 9px 27px;
+    font-size: 14px;
+}
+
+.fb-btn-large .icon.icon-facebook, .gl-btn-large .icon.icon-google {
+    margin-right: 13px;
+}
+
+.fb-icon-btn.fb-btn-large .icon {
+    position: absolute;
+    font-size: 24px;
+    top: 5px;
+    left: 10px;
+}
+
+.gl-icon-btn.gl-btn-large .icon {
+    position: absolute;
+    font-size: 24px;
+    top: 7px;
+    left: 13px;
+}
+
+.icon-facebook {
+    background-image: url(/assets/img/facebook.png);
+    width: 32px;
+    height: 32px;
+}
+
+.icon-google {
+    background-image: url(/assets/img/ic_google_logo.png);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+
+/**/
+
+
+.messages_counter {
+    float: right;
+    background: #00AFF0;
+    border-radius: 3px;
+    padding: 1px;
+    padding-right: 3px;
+    padding-left: 3px;
+    color: #fff;
+    margin: 5px;
+}
+
+.box-body {
+    background-color: #FFF;
+    border-left: 1px solid #999;
+    border-right: 1px solid #999;
+    line-height: 140%;
+    display: block;
+    padding: 10px;
+}
+
+.box-body .prompt_header {
+    padding: 20px;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;;
+}
+
+.box-body .choice {
+    padding: 0 0 0px;
+    height: 28px;
+}
+
+.box-body .button_register {
+    width: 175px;
+    float: left;
+    display: block;
+}
+
+.box-body .button_login {
+    width: 175px;
+    float: right;
+    display: block;
+}
+
+.box-footer {
+
+    border: 1px solid #999;
+    border-top: 0;
+    display: block;
+}
+
+.box-footer .controls {
+
+    padding: 8px 5px;
+    background-color: #f2f2f2;
+    border-top: 1px solid #dae1e8;
+}
+
+.box-footer .controls button {
+
+    font-size: 11px;
+    margin-left: 5px;
+}
+
+.box-menu-item {
+
+    display: block;
+    height: 42px;
+    line-height: 42px;
+    color: #426a87;
+    font-weight: bold;
+    font-size: 11px;
+    padding-left: 20px;
+    text-decoration:none
+}
+
+.box-menu-item:hover{
+
+    background-color:#edf0f4;
+    color:#426a87;
+    text-decoration:none
+}
+
+.access-mode-show-on-stream, .access-mode-not-show-on-stream {
+
+    cursor: pointer;
+}
+
+.new-post-form-container {
+
+}
+
+.new-post-form-container .card-subtitle {
+
+    font-weight: normal;
+    font-size: 13px;
+    color: #F76D9B;
+}

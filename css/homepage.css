@@ -1,0 +1,128 @@
+.homepage {
+    background: #FF4444;
+    position: relative;
+    overflow: hidden;
+    margin-top: 0;
+    max-width: none;
+    padding-top: 48px
+}
+
+.homepage-section-content {
+
+    position: relative
+}
+
+
+.homepage-section-headline {
+
+    font-size: 50px;
+    line-height: 1.2em;
+    padding-right: 20px;
+}
+
+.homepage-section-description {
+
+    margin-top: 15px;
+    margin-right: 15px;
+    line-height: 20px
+}
+
+.homepage-spacing {
+
+    margin-top: 30px;
+    margin-right: 30px
+}
+
+.first-page {
+
+    background-color: #fff !important;
+}
+
+.first-page #main-footer {
+
+    margin-top: 70px !important;
+}
+
+.first-page #site-header {
+
+    width: 100%!important;
+    z-index: 100!important;
+    position: fixed!important;
+}
+
+.homepage-section-1 {
+
+    background-color: #FF4444;
+    color: #fff;
+    padding: 100px 0 70px 0;
+    float: left;
+    width: 100%;
+    position: relative;
+}
+
+.homepage-section-1 .homepage-section-content {
+
+    width: calc(100% - 500px);
+}
+
+@media only screen and (max-width:1005px) {
+
+    .homepage-section-1 {
+
+        padding: 100px 30px 70px 30px;
+    }
+
+    .homepage-section-1 .homepage-section-content {
+
+        width: calc(100% - 200px);
+    }
+}
+
+@media only screen and (max-width:768px) {
+
+    .homepage-section-1 {
+
+        width: 100%;
+        height: auto;
+        padding: 50px 15px 50px 15px;
+    }
+
+    .homepage-section-1 .homepage-section-content {
+
+        width: 100%;
+    }
+}
+
+/*@media only screen and (max-width:480px) {*/
+
+    /*.homepage-section-1 .homepage-section-headline {*/
+
+        /*font-size: 33px*/
+    /*}*/
+/*}*/
+
+
+.homepage:after, .homepage:before, .homepage-section-1, .homepage-section-2 {
+
+    background-image: url(/assets/img/index_bg.png?x=10);
+    background-size: cover;
+}
+
+@media only screen and (max-width:768px) {
+
+    .homepage-section-1 .homepage-section-headline {
+
+        font-size: 30px;
+        margin: 5px 0;
+        max-width: none
+    }
+}
+
+@media only screen and (max-width:480px) {
+
+    .homepage-section-1 .homepage-section-headline {
+
+        font-size: 18px;
+        margin: 0;
+    }
+}

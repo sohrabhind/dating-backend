@@ -1,0 +1,101 @@
+.card-profile .profile-card-header {
+    position: relative;
+    height: 15rem
+}
+
+.card-profile .profile-card-header .card-header-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #343a40
+}
+
+.card-profile .profile-card-header .card-header-bg div {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    background-color: #343a40;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    filter: blur(20px);
+    -webkit-filter: blur(20px)
+}
+
+.card-profile .profile-header-photo img {
+    width: 8rem;
+    height: 8rem;
+    max-width: 8rem;
+    max-height: 8rem;
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.card-profile .profile-header-info {
+    text-align: center
+}
+
+.card-profile .profile-header-info h3,
+.card-profile .profile-header-info .info {
+    text-shadow: 0 0 12px #444
+}
+
+.card-profile .profile-header-info h3 {
+    font-size: 1.4rem;
+    font-weight: normal;
+    color: #fff
+}
+
+.card-profile .profile-header-info div {
+    font-size: 1.1rem;
+    color: #eee
+}
+
+@media (min-width:768px) {
+    .card-profile .card-header {
+        height: 9rem;
+        padding-top: 2rem
+    }
+    .card-profile .profile-card-header .profile-header-photo {
+        max-width: 12rem
+    }
+    .card-profile .profile-card-header .profile-header-photo img {
+        width: 10rem;
+        height: 10rem;
+        max-width: 10rem;
+        max-height: 10rem;
+        margin-top: 0;
+        margin-bottom: -5rem
+    }
+    .card-profile .profile-card-header .profile-header-info {
+        text-align: left
+    }
+    .card-profile .profile-card-header .profile-header-info h3,
+    .card-profile .profile-card-header .profile-header-info .info {
+        text-shadow: 0 0 12px #444
+    }
+    .card-profile .profile-card-header .profile-header-info h3 {
+        font-size: 1.6rem;
+        font-weight: normal;
+        color: #fff
+    }
+    .card-profile .profile-card-header .profile-header-info div {
+        font-size: 1.2rem;
+        color: #eee
+    }
+}
+
+.justify-content-center {
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+}
+
+.w-100 {
+    width: 100% !important;
+}
