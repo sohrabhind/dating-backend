@@ -20,7 +20,6 @@
 								  access_level INT(10) UNSIGNED DEFAULT 0,
 								  account_type INT(10) UNSIGNED DEFAULT 0,
 								  account_author INT(10) UNSIGNED DEFAULT 0,
-								  surname VARCHAR(75) NOT NULL DEFAULT '',
 								  fullname VARCHAR(150) NOT NULL DEFAULT '',
 								  salt CHAR(3) NOT NULL DEFAULT '',
 								  password VARCHAR(32) NOT NULL DEFAULT '',
