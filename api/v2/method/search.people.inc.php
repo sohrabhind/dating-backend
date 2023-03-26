@@ -18,7 +18,7 @@ if (!empty($_POST)) {
     $gender = isset($_POST['gender']) ? $_POST['gender'] : -3;
     $online = isset($_POST['online']) ? $_POST['online'] : 0;
     $photo = isset($_POST['photo']) ? $_POST['photo'] : 0;
-    $proMode = isset($_POST['pro']) ? $_POST['pro'] : 0;
+    $proMode = isset($_POST['level']) ? $_POST['level'] : 0;
     $ageFrom = isset($_POST['ageFrom']) ? $_POST['ageFrom'] : 13;
     $ageTo = isset($_POST['ageTo']) ? $_POST['ageTo'] : 110;
 

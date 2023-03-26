@@ -13,7 +13,7 @@
 								  id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 								  gcm_regid TEXT,
 								  purchases_count INT(10) UNSIGNED DEFAULT 0,
-								  pro INT(10) UNSIGNED DEFAULT 0,
+								  level INT(10) UNSIGNED DEFAULT 0,
 								  level_create_at INT(10) UNSIGNED DEFAULT 0,
 								  gcm INT(10) UNSIGNED DEFAULT 1,
 								  state INT(10) UNSIGNED DEFAULT 0,

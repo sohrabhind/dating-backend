@@ -361,7 +361,7 @@
 
                                                 case PA_BUY_PRO_MODE: {
 
-                                                    echo $LANG['label-payments-pro-mode'];
+                                                    echo $LANG['label-payments-level-mode'];
                                                     break;
                                                 }
 

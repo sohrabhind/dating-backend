@@ -48,9 +48,9 @@
         if (auth::getAccessToken() === $token) {
             switch ($act) {
 
-                case "pro-mode": {
+                case "level-mode": {
 
-                    if ($accountInfo['pro'] == 0 && $accountInfo['balance'] >= $proModeCost) {
+                    if ($accountInfo['level'] == 0 && $accountInfo['balance'] >= $proModeCost) {
 
                         $result = $account->setPro(1);
 
@@ -75,7 +75,7 @@
 
                 case "message-package": {
 
-                    if ($accountInfo['pro'] == 0 && $accountInfo['balance'] >= $messagePackageCost) {
+                    if ($accountInfo['level'] == 0 && $accountInfo['balance'] >= $messagePackageCost) {
 
                         $result = $account->setFreeMessagesCount(auth::getCurrentFreeMessagesCount() + 100);
                         auth::setCurrentFreeMessagesCount(auth::getCurrentFreeMessagesCount() + 100);
@@ -178,29 +178,29 @@
                     }
                     ?>
 
-                    <form id="pro-mode-form" action="/account/upgrades" method="post">
+                    <form id="level-mode-form" action="/account/upgrades" method="post">
 
-                        <input type="hidden" name="act" value="pro-mode">
+                        <input type="hidden" name="act" value="level-mode">
                         <input type="hidden" name="authenticity_token" value="<?php echo auth::getAccessToken(); ?>">
 
                         <div class="card border-0">
                             <div class="card-header row mx-0">
                                 <div class="col-12 col-sm-9 col-md-9 col-lg-9 p-0">
                                     <div class="upgrades-feature-container">
-                                        <span class="upgrades-feature-badge upgrades-feature-pro-mode">
+                                        <span class="upgrades-feature-badge upgrades-feature-level-mode">
                                             <i class="iconfont icofont-label"></i>
                                         </span>
                                         <h3 class="card-title">
-                                            <?php echo $LANG['label-upgrades-pro-mode']; ?>
+                                            <?php echo $LANG['label-upgrades-level-mode']; ?>
                                         </h3>
-                                        <h5 class="card-description"><?php echo $LANG['label-upgrades-pro-mode-desc']; ?></h5>
+                                        <h5 class="card-description"><?php echo $LANG['label-upgrades-level-mode-desc']; ?></h5>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-3 col-md-3 col-lg-3 px-0 pt-2 pt-sm-0 text-center text-sm-right">
 
                                     <?php
 
-                                    if ($accountInfo['pro'] == 0) {
+                                    if ($accountInfo['level'] == 0) {
 
                                         ?>
 
@@ -226,10 +226,10 @@
 
                     <?php
 
-                        if ($accountInfo['pro'] == 0) {
+                        if ($accountInfo['level'] == 0) {
 
                             ?>
-                                <form id="pro-mode-form" action="/account/upgrades" method="post">
+                                <form id="level-mode-form" action="/account/upgrades" method="post">
 
                                     <input type="hidden" name="act" value="message-package">
                                     <input type="hidden" name="authenticity_token" value="<?php echo auth::getAccessToken(); ?>">

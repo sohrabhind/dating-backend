@@ -112,7 +112,7 @@
                     $settings = new settings($dbo);
                     $settings->createValue("defaultBalance", 10); //Default balance for new users
                     $settings->createValue("defaultFreeMessagesCount", 150); //Default free messages count after signup
-                    $settings->createValue("defaultProModeCost", 170); //Default cost for pro mode feature in credits
+                    $settings->createValue("defaultProModeCost", 170); //Default cost for promode feature in credits
                     $settings->createValue("defaultMessagesPackageCost", 20); //Default cost for buy message package feature in credits
                     $settings->createValue("allowFriendsFunction", 1);
                     $settings->createValue("allowSeenTyping", 1);

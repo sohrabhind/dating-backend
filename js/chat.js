@@ -111,7 +111,7 @@ Messages.create = function (chat_id, user_id) {
 
         if (response.hasOwnProperty('promode')) {
 
-            $('#pro-mode-dlg').modal('show');
+            $('#level-mode-dlg').modal('show');
         }
 
       if (response.hasOwnProperty('html')) {

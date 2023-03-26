@@ -18,7 +18,7 @@
     $u_online = 0;
     $u_gender = 3; // 3 = any
     $u_photo = 0; //
-    $u_pro_mode = 0; //
+    $u_level_mode = 0; //
     $u_age_from = 18; //
     $u_age_to = 80; //
     $u_distance = 1000;
@@ -41,14 +41,14 @@
         $u_online = isset($_GET['online']) ? $_GET['online'] : 0;
         $u_gender = isset($_GET['gender']) ? $_GET['gender'] : 3;
         $u_photo = isset($_GET['photo']) ? $_GET['photo'] : 0;
-        $u_pro_mode = isset($_GET['pro_mode']) ? $_GET['pro_mode'] : 0;
+        $u_level_mode = isset($_GET['level_mode']) ? $_GET['level_mode'] : 0;
         $u_age = isset($_GET['age']) ? $_GET['age'] : '18,80';
         $u_distance = isset($_GET['distance']) ? $_GET['distance'] : 30;
 
         $u_online = helper::clearInt($u_online);
         $u_gender = helper::clearInt($u_gender);
         $u_photo = helper::clearInt($u_photo);
-        $u_pro_mode = helper::clearInt($u_pro_mode);
+        $u_level_mode = helper::clearInt($u_level_mode);
         $u_distance = helper::clearInt($u_distance);
 
         $query = helper::clearText($query);
@@ -92,7 +92,7 @@
         $u_online = isset($_POST['online']) ? $_POST['online'] : 0;
         $u_gender = isset($_POST['gender']) ? $_POST['gender'] : 3;
         $u_photo = isset($_POST['photo']) ? $_POST['photo'] : 0;
-        $u_pro_mode = isset($_POST['pro_mode']) ? $_POST['pro_mode'] : 0;
+        $u_level_mode = isset($_POST['level_mode']) ? $_POST['level_mode'] : 0;
         $u_age_from = isset($_POST['age_from']) ? $_POST['age_from'] : 18;
         $u_age_to = isset($_POST['age_to']) ? $_POST['age_to'] : 105;
         $u_distance = isset($_POST['distance']) ? $_POST['distance'] : 30;
@@ -100,7 +100,7 @@
         $u_online = helper::clearInt($u_online);
         $u_photo = helper::clearInt($u_photo);
         $u_gender = helper::clearInt($u_gender);
-        $u_pro_mode = helper::clearInt($u_pro_mode);
+        $u_level_mode = helper::clearInt($u_level_mode);
         $u_distance = helper::clearInt($u_distance);
         $u_age_from = helper::clearInt($u_age_from);
         $u_age_to = helper::clearInt($u_age_to);
@@ -127,7 +127,7 @@
         $query = helper::clearText($query);
         $query = helper::escapeText($query);
 
-        $result = $search->start($query, $itemId, $u_gender, $u_online, $u_photo, $u_pro_mode, $u_age_from, $u_age_to, $u_distance, $profileInfo['lat'], $profileInfo['lng']);
+        $result = $search->start($query, $itemId, $u_gender, $u_online, $u_photo, $u_level_mode, $u_age_from, $u_age_to, $u_distance, $profileInfo['lat'], $profileInfo['lng']);
 
         $items_loaded = count($result['items']);
 
@@ -154,7 +154,7 @@
                     <header class="top-banner loading-banner p-0 pt-3">
 
                         <div class="prompt">
-                            <button onclick="Search.moreItems('<?php echo $result['itemId']; ?>', '<?php  echo $query; ?>', '<?php echo $u_gender; ?>', '<?php echo $u_online; ?>', '<?php echo $u_photo; ?>', '<?php echo $u_pro_mode; ?>', '<?php echo $u_age_from; ?>', '<?php echo $u_age_to; ?>', '<?php echo $u_distance; ?>'); return false;" class="button more loading-button"><?php echo $LANG['action-more']; ?></button>
+                            <button onclick="Search.moreItems('<?php echo $result['itemId']; ?>', '<?php  echo $query; ?>', '<?php echo $u_gender; ?>', '<?php echo $u_online; ?>', '<?php echo $u_photo; ?>', '<?php echo $u_level_mode; ?>', '<?php echo $u_age_from; ?>', '<?php echo $u_age_to; ?>', '<?php echo $u_distance; ?>'); return false;" class="button more loading-button"><?php echo $LANG['action-more']; ?></button>
                         </div>
 
                     </header>
@@ -260,11 +260,11 @@
                                                         </div>
 
                                                         <div class="search-filter-form-line">
-                                                            <h5><?php echo $LANG['search-filters-pro-mode']; ?></h5>
-                                                            <label class="search-filter-radio-button" for="pro-mode-radio-1">
-                                                                <input type="radio" name="pro_mode" id="pro-mode-radio-1" value="0" <?php if ($u_pro_mode == 0) echo "checked" ?>><?php echo $LANG['search-filters-all']; ?></label>
-                                                            <label class="search-filter-radio-button" for="pro-mode-radio-2">
-                                                                <input type="radio" name="pro_mode" id="pro-mode-radio-2" value="1" <?php if ($u_pro_mode != 0) echo "checked" ?>><?php echo $LANG['search-filters-pro-mode-on']; ?></label>
+                                                            <h5><?php echo $LANG['search-filters-level-mode']; ?></h5>
+                                                            <label class="search-filter-radio-button" for="level-mode-radio-1">
+                                                                <input type="radio" name="level_mode" id="level-mode-radio-1" value="0" <?php if ($u_level_mode == 0) echo "checked" ?>><?php echo $LANG['search-filters-all']; ?></label>
+                                                            <label class="search-filter-radio-button" for="level-mode-radio-2">
+                                                                <input type="radio" name="level_mode" id="level-mode-radio-2" value="1" <?php if ($u_level_mode != 0) echo "checked" ?>><?php echo $LANG['search-filters-level-mode-on']; ?></label>
                                                         </div>
 
                                                         <div class="search-filter-form-line mt-3">
@@ -325,7 +325,7 @@
 
                             } else {
 
-                                $result = $search->start($query, 0, $u_gender, $u_online, $u_photo, $u_pro_mode, $u_age_from, $u_age_to, $u_distance, $profileInfo['lat'], $profileInfo['lng']);
+                                $result = $search->start($query, 0, $u_gender, $u_online, $u_photo, $u_level_mode, $u_age_from, $u_age_to, $u_distance, $profileInfo['lat'], $profileInfo['lng']);
 
                                 $items_loaded = count($result['items']);
 
@@ -380,7 +380,7 @@
                                                 <header class="top-banner loading-banner p-0 pt-3">
 
                                                     <div class="prompt">
-                                                        <button onclick="Search.moreItems('<?php echo $result['itemId']; ?>', '<?php  echo $query; ?>', '<?php echo $u_gender; ?>', '<?php echo $u_online; ?>', '<?php echo $u_photo; ?>', '<?php echo $u_pro_mode; ?>', '<?php echo $u_age_from; ?>', '<?php echo $u_age_to; ?>', '<?php echo $u_distance; ?>'); return false;" class="button more loading-button"><?php echo $LANG['action-more']; ?></button>
+                                                        <button onclick="Search.moreItems('<?php echo $result['itemId']; ?>', '<?php  echo $query; ?>', '<?php echo $u_gender; ?>', '<?php echo $u_online; ?>', '<?php echo $u_photo; ?>', '<?php echo $u_level_mode; ?>', '<?php echo $u_age_from; ?>', '<?php echo $u_age_to; ?>', '<?php echo $u_distance; ?>'); return false;" class="button more loading-button"><?php echo $LANG['action-more']; ?></button>
                                                     </div>
 
                                                 </header>
@@ -422,14 +422,14 @@
 
             window.Search || ( window.Search = {} );
 
-            Search.moreItems = function (offset, query, gender, online, photo, pro_mode, age_from, age_to, distance) {
+            Search.moreItems = function (offset, query, gender, online, photo, level_mode, age_from, age_to, distance) {
 
                 $('button.loading-button').attr("disabled", "disabled");
 
                 $.ajax({
                     type: 'POST',
                     url: '/account/find',
-                    data: 'itemId=' + offset + "&loaded=" + items_loaded + "&query=" + query + "&gender=" + gender + "&online=" + online + "&photo=" + photo + "&pro_mode=" + pro_mode + "&age_from=" + age_from + "&age_to=" + age_to  + "&distance=" + distance,
+                    data: 'itemId=' + offset + "&loaded=" + items_loaded + "&query=" + query + "&gender=" + gender + "&online=" + online + "&photo=" + photo + "&level_mode=" + level_mode + "&age_from=" + age_from + "&age_to=" + age_to  + "&distance=" + distance,
                     dataType: 'json',
                     timeout: 30000,
                     success: function(response) {

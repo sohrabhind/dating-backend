@@ -574,7 +574,7 @@
 
     // For version 3.1
 
-    $TEXT['label-pro-mode-alert'] = "To send messages you need to activate \"Pro Mode\" or buy \"Message Package\" in Upgrades section";
+    $TEXT['label-level-mode-alert'] = "To send messages you need to activate \"Pro Mode\" or buy \"Message Package\" in Upgrades section";
 
     // For version 3.2
 
@@ -769,7 +769,7 @@
     $TEXT['label-payments-credits-android'] = "Buying credits with Android in-app purchases";
     $TEXT['label-payments-credits-ios'] = "Buying credits with iOS in-app purchases";
     $TEXT['label-payments-send-gift'] = "Gift Sending";
-    $TEXT['label-payments-pro-mode'] = "Activate Pro Mode";
+    $TEXT['label-payments-level-mode'] = "Activate Pro Mode";
     $TEXT['label-payments-message-package'] = "Activate Message Package";
     $TEXT['label-payments-spotlight-feature'] = "Using Spotlight feature";
     $TEXT['label-payments-registration-bonus'] = "Sign Up Bonus";
@@ -781,8 +781,8 @@
     $TEXT['page-upgrades'] = "Upgrades";
     $TEXT['page-upgrades-desc'] = "Get more with the activation of additional features!";
 
-    $TEXT['label-upgrades-pro-mode'] = "Pro Mode";
-    $TEXT['label-upgrades-pro-mode-desc'] = "Unlimited messages and a beautiful icon!";
+    $TEXT['label-upgrades-level-mode'] = "Pro Mode";
+    $TEXT['label-upgrades-level-mode-desc'] = "Unlimited messages and a beautiful icon!";
     $TEXT['label-upgrades-message-package'] = "Message Package (100 messages)";
     $TEXT['label-upgrades-message-package-desc'] = "Buy a message pack to send private messages to users. You can also activate Pro Mode to send unlimited messages.";
 
@@ -803,8 +803,8 @@
     $TEXT['search-filters-secret'] = "Secret";
     $TEXT['search-filters-any'] = "Any";
     $TEXT['search-filters-age'] = "Age from %s to %s";
-    $TEXT['search-filters-pro-mode'] = "Pro mode";
-    $TEXT['search-filters-pro-mode-on'] = "Only with Pro mode";
+    $TEXT['search-filters-level-mode'] = "Pro mode";
+    $TEXT['search-filters-level-mode-on'] = "Only with Pro mode";
     $TEXT['search-filters-addition'] = "Addition";
     $TEXT['search-filters-matches'] = "Show Matches";
     $TEXT['search-filters-liked'] = "Show Liked";

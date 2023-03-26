@@ -422,7 +422,7 @@
 
 	</div>
 
-    <div class="modal modal-form fade pro-mode-dlg" id="pro-mode-dlg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal modal-form fade level-mode-dlg" id="level-mode-dlg" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
 
@@ -435,7 +435,7 @@
 
                 <div class="modal-body">
 
-                    <div class="error-summary alert alert-warning"><?php echo $LANG['label-pro-mode-alert']; ?></div>
+                    <div class="error-summary alert alert-warning"><?php echo $LANG['label-level-mode-alert']; ?></div>
 
                 </div>
 
@@ -524,7 +524,7 @@
 
             Messages.showProAlert = function() {
 
-                $('#pro-mode-dlg').modal('show');
+                $('#level-mode-dlg').modal('show');
             };
 
             $("#image-upload").fileupload({

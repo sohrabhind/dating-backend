@@ -51,7 +51,7 @@ class find extends db_connect
 
         if ($proMode > 0) {
 
-            $proModeSql = " AND pro != 0";
+            $proModeSql = " AND level != 0";
         }
 
         $dateSql = " AND u_age >= {$ageFrom} AND u_age <= {$ageTo}";
@@ -111,7 +111,7 @@ class find extends db_connect
 
         if ($proMode > 0) {
 
-            $proModeSql = " AND pro != 0";
+            $proModeSql = " AND level != 0";
         }
 
         $dateSql = " AND u_age >= {$ageFrom} AND u_age <= {$ageTo}";
@@ -186,7 +186,7 @@ class find extends db_connect
 
         if ($proMode > 0) {
 
-            $proModeSql = " AND pro != 0";
+            $proModeSql = " AND level != 0";
         }
 
 
@@ -276,7 +276,7 @@ class find extends db_connect
 
         if ($proMode > 0) {
 
-            $proModeSql = " AND pro != 0";
+            $proModeSql = " AND level != 0";
         }
 
         $dateSql = " AND u_age >= {$ageFrom} AND u_age <= {$ageTo}";

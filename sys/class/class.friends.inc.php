@@ -224,7 +224,7 @@ class friends extends db_connect
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
                                 "friendUserId" => $row['friend'],
-                                "friendUserPro" => $profileInfo['pro'],
+                                "friendUserPro" => $profileInfo['level'],
                                 "friendUserUsername" => $profileInfo['username'],
                                 "friendUserFullname" => $profileInfo['fullname'],
                                 "friendUserPhoto" => $profileInfo['lowPhotoUrl'],

@@ -28,7 +28,7 @@ if (!auth::isSession() && isset($_COOKIE['user_name']) && isset($_COOKIE['user_p
 
         if ($auth->authorize($accountInfo['id'], $_COOKIE['user_password'])) {
 
-            auth::setSession($accountInfo['id'], $accountInfo['username'], $accountInfo['fullname'], $accountInfo['lowPhotoUrl'], $accountInfo['balance'], $accountInfo['pro'], $accountInfo['free_messages_count'], 0, $_COOKIE['user_password']);
+            auth::setSession($accountInfo['id'], $accountInfo['username'], $accountInfo['fullname'], $accountInfo['lowPhotoUrl'], $accountInfo['balance'], $accountInfo['level'], $accountInfo['free_messages_count'], 0, $_COOKIE['user_password']);
 
             $account->setLastActive();
 

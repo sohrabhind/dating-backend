@@ -176,7 +176,7 @@ class account extends db_connect
             $row = $stmt->fetch();
             $passw_hash = md5(md5($password).$row['salt']);
 
-            $stmt2 = $this->db->prepare("SELECT id, state, fullname, lowPhotoUrl, pro, free_messages_count FROM users WHERE email = (:email) AND password = (:password) LIMIT 1");
+            $stmt2 = $this->db->prepare("SELECT id, state, fullname, lowPhotoUrl, level, free_messages_count FROM users WHERE email = (:email) AND password = (:password) LIMIT 1");
             $stmt2->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt2->bindParam(":password", $passw_hash, PDO::PARAM_STR);
             $stmt2->execute();
@@ -190,7 +190,7 @@ class account extends db_connect
                                      "accountId" => $row2['id'],
                                      "fullname" => $row2['fullname'],
                                      "photoUrl" => $row2['lowPhotoUrl'],
-                                     "pro" => $row2['pro'],
+                                     "level" => $row2['level'],
                                      "free_messages_count" => $row2['free_messages_count']);
             }
         }
@@ -429,7 +429,7 @@ class account extends db_connect
     }
 
 
-    public function setPro($pro)
+    public function setPro($level)
     {
         $result = array(
             "error" => true,
@@ -438,14 +438,14 @@ class account extends db_connect
 
         $level_create_at = 0;
 
-        if ($pro != 0) {
+        if ($level != 0) {
 
             $level_create_at = time();
         }
 
-        $stmt = $this->db->prepare("UPDATE users SET pro = (:pro), level_create_at = (:level_create_at) WHERE id = (:accountId)");
+        $stmt = $this->db->prepare("UPDATE users SET level= (:level), level_create_at = (:level_create_at) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":pro", $pro, PDO::PARAM_INT);
+        $stmt->bindParam(":level", $level, PDO::PARAM_INT);
         $stmt->bindParam(":level_create_at", $level_create_at, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -461,14 +461,14 @@ class account extends db_connect
 
     public function getPro()
     {
-        $stmt = $this->db->prepare("SELECT pro FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt = $this->db->prepare("SELECT level FROM users WHERE id = (:accountId) LIMIT 1");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
             $row = $stmt->fetch();
 
-            return $row['pro'];
+            return $row['level'];
         }
 
         return 0;
@@ -1291,7 +1291,7 @@ class account extends db_connect
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
-                                "pro" => $row['pro'],
+                                "level" => $row['level'],
                                 "level_create_at" => $row['level_create_at'],
                                 "gcm" => $row['gcm'],
                                 "balance" => $row['balance'],

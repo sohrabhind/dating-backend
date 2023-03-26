@@ -97,7 +97,7 @@ if (!empty($_POST)) {
     $result['newFriendsCount'] = $friends_count;
 
     $result['free_messages_count'] = $accountInfo['free_messages_count'];
-    $result['pro'] = $accountInfo['pro'];
+    $result['level'] = $accountInfo['level'];
     $result['balance'] = $accountInfo['balance'];
 
     echo json_encode($result);

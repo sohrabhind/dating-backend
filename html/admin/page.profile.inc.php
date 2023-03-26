@@ -321,7 +321,7 @@
                                                 <td>
                                                     <?php
 
-                                                        if ($accountInfo['pro'] == 1) {
+                                                        if ($accountInfo['level'] == 1) {
 
                                                             echo "<span>Pro Mode Activated.</span>";
 
@@ -334,7 +334,7 @@
                                                 <td>
                                                     <?php
 
-                                                        if ($accountInfo['pro'] == 1) {
+                                                        if ($accountInfo['level'] == 1) {
 
                                                             ?>
                                                                 <a class="" href="/admin/profile?id=<?php echo $accountInfo['id']; ?>&access_token=<?php echo admin::getAccessToken(); ?>&act=promode_unset">Off Pro Mode</a>
@@ -453,7 +453,7 @@
 
                             <div class="card-block little-profile text-center">
 
-                                <div class="pro-img">
+                                <div class="level-img">
 
                                     <?php
 
