@@ -153,7 +153,7 @@ class update extends db_connect
 
     function addColumnToUsersTable12()
     {
-        $stmt = $this->db->prepare("ALTER TABLE users ADD pro_create_at INT(10) UNSIGNED DEFAULT 0 after pro");
+        $stmt = $this->db->prepare("ALTER TABLE users ADD level_create_at INT(10) UNSIGNED DEFAULT 0 after pro");
         $stmt->execute();
     }
 

@@ -436,17 +436,17 @@ class account extends db_connect
             "error_code" => ERROR_CODE_INITIATE
         );
 
-        $pro_create_at = 0;
+        $level_create_at = 0;
 
         if ($pro != 0) {
 
-            $pro_create_at = time();
+            $level_create_at = time();
         }
 
-        $stmt = $this->db->prepare("UPDATE users SET pro = (:pro), pro_create_at = (:pro_create_at) WHERE id = (:accountId)");
+        $stmt = $this->db->prepare("UPDATE users SET pro = (:pro), level_create_at = (:level_create_at) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
         $stmt->bindParam(":pro", $pro, PDO::PARAM_INT);
-        $stmt->bindParam(":pro_create_at", $pro_create_at, PDO::PARAM_INT);
+        $stmt->bindParam(":level_create_at", $level_create_at, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -1292,7 +1292,7 @@ class account extends db_connect
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
                                 "pro" => $row['pro'],
-                                "pro_create_at" => $row['pro_create_at'],
+                                "level_create_at" => $row['level_create_at'],
                                 "gcm" => $row['gcm'],
                                 "balance" => $row['balance'],
                                 "free_messages_count" => $row['free_messages_count'],
