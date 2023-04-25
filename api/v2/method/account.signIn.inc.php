@@ -45,7 +45,6 @@ if (!empty($_POST)) {
     }
 
     $access_data = array();
-
     $account = new account($dbo);
     $access_data = $account->signin($email, $password);
 

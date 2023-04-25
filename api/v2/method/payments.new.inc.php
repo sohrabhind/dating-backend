@@ -20,11 +20,11 @@ if (!empty($_POST)) {
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
-    $credits = isset($_POST['credits']) ? $_POST['credits'] : 0;
+    $level = isset($_POST['level']) ? $_POST['level'] : 0;
     $paymentType = isset($_POST['paymentType']) ? $_POST['paymentType'] : 0;
     $amount = isset($_POST['amount']) ? $_POST['amount'] : 0;
 
-    $credits = helper::clearInt($credits);
+    $level = helper::clearInt($level);
     $paymentType = helper::clearInt($paymentType);
     $amount = helper::clearInt($amount);
 
@@ -41,18 +41,25 @@ if (!empty($_POST)) {
     );
 
     $account = new account($dbo, $accountId);
-    $result = $account->setBalance($account->getBalance() + $credits);
 
     if (!$result['error']) {
+        $result = $account->setLevel($level);
+        $freeMessages = 0;
+        if ($level == 1) {
+            $freeMessages = 1000;
+        } elseif ($level == 2) {
+            $freeMessages = 5000;
+        } elseif ($level == 3) {
+            $freeMessages = 10000;
+        }
+        $result = $account->setFreeMessagesCount($account->getFreeMessagesCount() + $freeMessages);
 
-        $result['balance'] = $account->getBalance();
-
+        $result['level'] = $level;
         $payments = new payments($dbo);
         $payments->setRequestFrom($accountId);
-        $payments->create(PA_BUY_CREDITS, $paymentType, $credits, $amount);
+        $payments->create(PA_BUY_LEVEL, $paymentType, $level, $amount);
         unset($payments);
     }
-
     echo json_encode($result);
     exit;
 }

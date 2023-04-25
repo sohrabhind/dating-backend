@@ -47,12 +47,10 @@
 
         if (auth::getAccessToken() === $token) {
             switch ($act) {
-
+                
                 case "level-mode": {
-
                     if ($accountInfo['level'] == 0 && $accountInfo['balance'] >= $proModeCost) {
-
-                        $result = $account->setPro(1);
+                        $result = $account->setLevel(1);
 
                         if (!$result['error']) {
 
@@ -61,7 +59,7 @@
 
                             $payments = new payments($dbo);
                             $payments->setRequestFrom(auth::getCurrentUserId());
-                            $payments->create(PA_BUY_PRO_MODE, PT_CREDITS, $proModeCost);
+                            $payments->create(PA_BUY_PRO_MODE, PT_LEVEL, $proModeCost);
                             unset($payments);
                         }
 
@@ -87,7 +85,7 @@
 
                             $payments = new payments($dbo);
                             $payments->setRequestFrom(auth::getCurrentUserId());
-                            $payments->create(PA_BUY_MESSAGE_PACKAGE, PT_CREDITS, $messagePackageCost);
+                            $payments->create(PA_BUY_MESSAGE_PACKAGE, PT_LEVEL, $messagePackageCost);
                             unset($payments);
                         }
 

@@ -849,6 +849,7 @@ class msg extends db_connect
                                  "fromUserPhotoUrl" => $profileInfo['lowPhotoUrl'],
                                  "message" => htmlspecialchars_decode(stripslashes($row['message'])),
                                  "imgUrl" => $row['imgUrl'],
+                                 "audioUrl" => $row['audioUrl'],
                                  "stickerId" => $row['stickerId'],
                                  "stickerImgUrl" => $row['stickerImgUrl'],
                                  "seenAt" => $row['seenAt'],

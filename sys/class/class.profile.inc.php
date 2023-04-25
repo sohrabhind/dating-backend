@@ -153,12 +153,18 @@ class profile extends db_connect
                     $online = true;
                 }
 
-                $time = new language($this->db);
+                
+                if ($row['level'] > 0 && time() < $row['level_create_at']+(30*24*60*60)) {
+                    $level = $row['level'];
+                } else {
+                    $level = 0;
+                }
 
+                $time = new language($this->db);
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
-                                "level" => $row['level'],
+                                "level" => $level,
                                 "level_create_at" => $row['level_create_at'],
                                 "rating" => $row['rating'],
                                 "state" => $row['state'],
@@ -262,13 +268,19 @@ class profile extends db_connect
                 }
 
 
-                $time = new language($this->db);
+                
+                if ($row['level'] > 0 && time() < $row['level_create_at']+(30*24*60*60)) {
+                    $level = $row['level'];
+                } else {
+                    $level = 0;
+                }
 
+                $time = new language($this->db);
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
                                 "gcm_regid" => $row['gcm_regid'],
-                                "level" => $row['level'],
+                                "level" => $level,
                                 "level_create_at" => $row['level_create_at'],
                                 "rating" => $row['rating'],
                                 "state" => $row['state'],
@@ -343,18 +355,22 @@ class profile extends db_connect
                 $current_time = time();
 
                 if ($row['last_authorize'] != 0 && $row['last_authorize'] > ($current_time - 15 * 60)) {
-
                     $online = true;
                 }
 
+                
+                if ($row['level'] > 0 && time() < $row['level_create_at']+(30*24*60*60)) {
+                    $level = $row['level'];
+                } else {
+                    $level = 0;
+                }
 
                 $time = new language($this->db);
-
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
                                 "gcm_regid" => $row['gcm_regid'],
-                                "level" => $row['level'],
+                                "level" => $level,
                                 "level_create_at" => $row['level_create_at'],
                                 "rating" => $row['rating'],
                                 "state" => $row['state'],

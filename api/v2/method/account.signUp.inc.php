@@ -95,37 +95,25 @@ if (!empty($_POST)) {
 
         $account = new account($dbo);
         $account->setLastActive();
-        $result = $account->signin($username, $password);
+        $result = $account->signin($email, $password);
         unset($account);
 
         if (!$result['error']) {
-
             $auth = new auth($dbo);
             $result = $auth->create($result['accountId'], $clientId, $appType, $fcm_regId, $lang);
 
             if (!$result['error']) {
-
                 $account = new account($dbo, $result['accountId']);
-
                 if (strlen($uid) != 0) {
-
                     $helper = new helper($dbo);
-
                     switch ($oauth_type) {
-
-
                         case OAUTH_TYPE_GOOGLE: {
-
                             if ($helper->getUserIdByGoogle($uid) == 0) {
-
                                 $account->setGoogleFirebaseId($uid);
                             }
-
                             break;
                         }
-
                         default: {
-
                             break;
                         }
                     }

@@ -10,7 +10,6 @@
  */
 
 if (!defined("APP_SIGNATURE")) {
-
     header("Location: /");
     exit;
 }
@@ -84,21 +83,16 @@ if (!empty($_POST)) {
     }
 
     if ($profileInfo['allowMessages'] == 0) {
-
         if (!$profile->is_friend_exists($accountId)) {
-
             echo json_encode($result);
             exit;
         }
     }
 
     if (!$profileInfo['inBlackList']) {
-
         $messages = new msg($dbo);
         $messages->setRequestFrom($accountId);
-
         $result = $messages->create($profileId, $chatId, $messageText, $messageImg, $chatFromUserId, $chatToUserId, $listId, $stickerId, $stickerImgUrl);
-
     }
     
     echo json_encode($result);

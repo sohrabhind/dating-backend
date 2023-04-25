@@ -26,7 +26,7 @@ class payments extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function create($paymentAction, $paymentType, $credits, $amount = 0, $currency = 0)
+    public function create($paymentAction, $paymentType, $level, $amount = 0, $currency = 0)
     {
         $result = array(
             "error" => true,
@@ -37,11 +37,11 @@ class payments extends db_connect
         $ip_addr = helper::ip_addr();
         $u_agent = helper::u_agent();
 
-        $stmt = $this->db->prepare("INSERT INTO payments (fromUserId, paymentAction, paymentType, credits, amount, currency, createAt, ip_addr, u_agent) value (:fromUserId, :paymentAction, :paymentType, :credits, :amount, :currency, :createAt, :ip_addr, :u_agent)");
+        $stmt = $this->db->prepare("INSERT INTO payments (fromUserId, paymentAction, paymentType, level, amount, currency, createAt, ip_addr, u_agent) value (:fromUserId, :paymentAction, :paymentType, :level, :amount, :currency, :createAt, :ip_addr, :u_agent)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":paymentAction", $paymentAction, PDO::PARAM_INT);
         $stmt->bindParam(":paymentType", $paymentType, PDO::PARAM_INT);
-        $stmt->bindParam(":credits", $credits, PDO::PARAM_INT);
+        $stmt->bindParam(":level", $level, PDO::PARAM_INT);
         $stmt->bindParam(":amount", $amount, PDO::PARAM_INT);
         $stmt->bindParam(":currency", $currency, PDO::PARAM_INT);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
@@ -126,7 +126,7 @@ class payments extends db_connect
             "fromUserId" => $row['fromUserId'],
             "paymentAction" => $row['paymentAction'],
             "paymentType" => $row['paymentType'],
-            "credits" => $row['credits'],
+            "level" => $row['level'],
             "amount" => $row['amount'],
             "currency" => $row['currency'],
             "date" => date("Y-m-d H:i:s", $row['createAt']),

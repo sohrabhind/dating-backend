@@ -16,17 +16,17 @@ $payments_packages = array();
 $payments_packages[] = array(
     "id" => 0,
     "amount" => 300,
-    "credits" => 100,
-    "name" => "100 credits");
+    "level" => 1,
+    "name" => "Silver");
 
 $payments_packages[] = array(
     "id" => 1,
     "amount" => 600,
-    "credits" => 300,
-    "name" => "300 credits");
+    "level" => 2,
+    "name" => "Gold");
 
 $payments_packages[] = array(
     "id" => 2,
     "amount" => 900,
-    "credits" => 600,
-    "name" => "600 credits");
+    "level" => 3,
+    "name" => "Diamond");

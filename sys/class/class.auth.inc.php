@@ -214,8 +214,7 @@ class auth extends db_connect
         }
     }
 
-    static function setSession($user_id, $user_login, $user_fullname, $user_photo_url, $user_balance, $user_level_mode, $user_free_messages_count, $access_level, $access_token)
-    {
+    static function setSession($user_id, $user_login, $user_fullname, $user_photo_url, $user_balance, $user_level_mode, $user_free_messages_count, $access_level, $access_token) {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['user_login'] = $user_login;
         $_SESSION['user_photo_url'] = $user_photo_url;
@@ -263,14 +262,10 @@ class auth extends db_connect
         unset($_SESSION['social_email']);
     }
 
-    static function getCurrentProMode()
-    {
+    static function getCurrentLevelMode() {
         if (isset($_SESSION) && isset($_SESSION['user_level_mode'])) {
-
             return $_SESSION['user_level_mode'];
-
         } else {
-
             return 0;
         }
     }

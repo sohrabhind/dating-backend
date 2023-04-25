@@ -92,7 +92,7 @@
 
                     $payments = new payments($dbo);
                     $payments->setRequestFrom(auth::getCurrentUserId());
-                    $payments->create(PA_BUY_CREDITS, PT_CARD, $payments_packages[$_SESSION['packageId']]['credits'], $payments_packages[$_SESSION['packageId']]['amount']);
+                    $payments->create(PA_BUY_LEVEL, PT_CARD, $payments_packages[$_SESSION['packageId']]['credits'], $payments_packages[$_SESSION['packageId']]['amount']);
                     unset($payments);
 
                     unset($_SESSION['sessId']);
@@ -285,7 +285,7 @@
                                             <?php
                                             switch ($value['paymentAction']) {
 
-                                                case PA_BUY_CREDITS: {
+                                                case PA_BUY_LEVEL: {
 
                                                     echo "<span class=\"green\">+".$value['credits']."</span>";
                                                     break;
@@ -308,7 +308,7 @@
                                         <td class="text-center">
                                             <?php
                                             switch ($value['paymentAction']) {
-                                                case PA_BUY_CREDITS: {
+                                                case PA_BUY_LEVEL: {
                                                     if ($value['amount'] > 0) {
                                                         echo "$".$value['amount'] / 100;
                                                         break;
@@ -326,7 +326,7 @@
                                             <?php
                                             switch ($value['paymentAction']) {
 
-                                                case PA_BUY_CREDITS: {
+                                                case PA_BUY_LEVEL: {
 
                                                     switch ($value['paymentType']) {
 

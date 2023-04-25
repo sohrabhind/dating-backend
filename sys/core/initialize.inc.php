@@ -396,7 +396,7 @@
 								fromUserId int(11) UNSIGNED DEFAULT 0,
 								paymentAction INT(11) UNSIGNED DEFAULT 0,
 								paymentType INT(11) UNSIGNED DEFAULT 0, 
-								credits INT(11) UNSIGNED DEFAULT 0,
+								level INT(11) UNSIGNED DEFAULT 0,
 								amount INT(11) UNSIGNED DEFAULT 0,
 								currency INT(11) UNSIGNED DEFAULT 0,
 								createAt INT(11) UNSIGNED DEFAULT 0,

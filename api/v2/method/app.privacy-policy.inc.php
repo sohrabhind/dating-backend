@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Licenses</title>
+    <title>Privacy Policy and Terms of Use</title>
 
     <style type="text/css">
 
@@ -48,7 +48,7 @@
 
 </head>
 <body>
-<h2>Agreement and terms of use <?php echo APP_TITLE; ?></h2>
+<h2>Privacy Policy and Terms of Use <?php echo APP_TITLE; ?></h2>
 <p>This Agreement regulates the relations between the Administration of the information resource «<?php echo APP_TITLE; ?>» and an individual who seeks and disseminates information on this resource.</p>
 <p>Information resource «<?php echo APP_TITLE; ?>» not a mass media, the Administration of a resource does not edit the information posted and is not responsible for its content.</p>
 <p>A user posting information on the resource «<?php echo APP_TITLE; ?>», independently represents and protects its interests arising in connection with the placement of the specified information, in relations with third parties.</p>

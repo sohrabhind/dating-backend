@@ -84,7 +84,7 @@
 
                 case "promode_set": {
 
-                    $account->setPro(1);
+                    $account->setLevel(1);
 
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;
@@ -92,7 +92,7 @@
 
                 case "promode_unset": {
 
-                    $account->setPro(0);
+                    $account->setLevel(0);
 
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;

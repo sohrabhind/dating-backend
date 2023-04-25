@@ -174,38 +174,27 @@ class helper extends db_connect
     {
         $stmt = $this->db->prepare("SELECT id FROM users WHERE email = (:email) LIMIT 1");
         $stmt->bindParam(':email', $user_email, PDO::PARAM_STR);
-
         if ($stmt->execute()) {
-
             if ($stmt->rowCount() > 0) {
-
                 return true;
             }
         }
-
         return false;
     }
 
     public function isUserExists($username)
     {
-        if (file_exists("html/page.".$username.".inc.php")) {
-            return true;
-        }
-
         $username = helper::clearText($username);
         $username = helper::escapeText($username);
 
         $stmt = $this->db->prepare("SELECT id FROM users WHERE username = (:username) LIMIT 1");
         $stmt->bindParam(":username", $username, PDO::PARAM_STR);
-
+        
         if ($stmt->execute()) {
-
             if ($stmt->rowCount() > 0) {
-
                 return true;
             }
         }
-
         return false;
     }
 

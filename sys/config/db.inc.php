@@ -94,7 +94,7 @@ $C['DB_PASS'] = "D2EeNv@6n!S5QY";                         //your db password
 $C['DB_NAME'] = "hindb69n_dating";                             //your db name
 
 
-$C['DEFAULT_BALANCE'] = 10;                                    // Default user balance in credits (Is charged during the user registration)
+$C['DEFAULT_BALANCE'] = 10;                                    // Default user balance in level (Is charged during the user registration)
 
 // Errors
 $C['ERROR_SUCCESS'] = 0;
@@ -272,7 +272,7 @@ $C['ITEM_TYPE_GALLERY'] = 4;
 // Payments
 
 // PA - PAYMENT ACTION
-$C['PA_BUY_CREDITS'] = 0;
+$C['PA_BUY_LEVEL'] = 0;
 $C['PA_BUY_GIFT'] = 1;
 $C['PA_BUY_VERIFIED_BADGE'] = 2;
 $C['PA_BUY_REGISTRATION_BONUS'] = 5;
@@ -284,7 +284,7 @@ $C['PA_RECEIVE_TRANSFER'] = 12;
 
 // PT - PAYMENT TYPE
 $C['PT_UNKNOWN'] = 0;
-$C['PT_CREDITS'] = 1;
+$C['PT_LEVEL'] = 1;
 $C['PT_CARD'] = 2;
 $C['PT_GOOGLE_PURCHASE'] = 3;
 $C['PT_APPLE_PURCHASE'] = 4;

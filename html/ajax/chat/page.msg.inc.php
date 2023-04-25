@@ -67,7 +67,7 @@
             api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
         }
 
-        if (auth::getCurrentProMode() == 0 && auth::getCurrentFreeMessagesCount() == 0) {
+        if (auth::getCurrentLevelMode() == 0 && auth::getCurrentFreeMessagesCount() == 0) {
 
             $result['promode'] = false;
             $result['app_title'] = APP_NAME;;
@@ -98,9 +98,7 @@
         }
 
         if (!$profileInfo['inBlackList']) {
-
-            if (auth::getCurrentProMode() == 0 && auth::getCurrentFreeMessagesCount() > 0) {
-
+            if (auth::getCurrentLevelMode() == 0 && auth::getCurrentFreeMessagesCount() > 0) {
                 auth::setCurrentFreeMessagesCount(auth::getCurrentFreeMessagesCount() - 1);
             }
 

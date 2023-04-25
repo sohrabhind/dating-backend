@@ -429,17 +429,14 @@ class account extends db_connect
     }
 
 
-    public function setPro($level)
-    {
+    public function setLevel($level) {
         $result = array(
             "error" => true,
             "error_code" => ERROR_CODE_INITIATE
         );
 
         $level_create_at = 0;
-
         if ($level != 0) {
-
             $level_create_at = time();
         }
 
@@ -449,29 +446,12 @@ class account extends db_connect
         $stmt->bindParam(":level_create_at", $level_create_at, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-
             $result = array(
                 'error' => false,
                 'error_code' => ERROR_SUCCESS
             );
         }
-
         return $result;
-    }
-
-    public function getPro()
-    {
-        $stmt = $this->db->prepare("SELECT level FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $row = $stmt->fetch();
-
-            return $row['level'];
-        }
-
-        return 0;
     }
 
 
@@ -508,10 +488,8 @@ class account extends db_connect
         return 0;
     }
 
-    public function setFreeMessagesCount($count)
-    {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+    public function setFreeMessagesCount($count) {
+        $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET free_messages_count = (:free_messages_count) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
@@ -1283,15 +1261,19 @@ class account extends db_connect
                 if ($row['last_authorize'] != 0 && $row['last_authorize'] > ($current_time - 15 * 60)) {
                     $online = true;
                 }
+    
 
-
-
-                //
+                if ($row['level'] > 0 && time() < $row['level_create_at']+(30*24*60*60)) {
+                    $level = $row['level'];
+                } else {
+                    $level = 0;
+                }
+                
                 $time = new language($this->db);
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
-                                "level" => $row['level'],
+                                "level" => $level,
                                 "level_create_at" => $row['level_create_at'],
                                 "gcm" => $row['gcm'],
                                 "balance" => $row['balance'],

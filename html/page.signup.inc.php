@@ -33,7 +33,6 @@
     $error_message = array();
 
     if (!empty($_POST)) {
-
         $error = false;
 
         $user_username = isset($_POST['username']) ? $_POST['username'] : '';
@@ -65,34 +64,29 @@
         $resp = $recaptcha->verify($recaptcha_token, $_SERVER['REMOTE_ADDR']);
 
         if (!$resp->isSuccess()){
-
             $error = true;
             $error_message[] = "Google Recaptcha error";
         }
 
         if (auth::getAuthenticityToken() !== $token) {
-
             $error = true;
             $error_token = true;
             $error_message[] = $LANG['msg-error-unknown'];
         }
 
         if (!helper::isCorrectLogin($user_username)) {
-
             $error = true;
             $error_username = true;
             $error_message[] = $LANG['msg-login-incorrect'];
         }
 
         if ($helper->isUserExists($user_username)) {
-
             $error = true;
             $error_username = true;
             $error_message[] = $LANG['msg-login-taken'];
         }
 
         if (!helper::isCorrectFullname($user_fullname)) {
-
             $error = true;
             $error_fullname = true;
             $error_message[] = $LANG['msg-fullname-incorrect'];
@@ -113,7 +107,6 @@
         }
 
         if ($helper->isEmailExists($user_email)) {
-
             $error = true;
             $error_email = true;
             $error_message[] = $LANG['msg-email-taken'];
@@ -169,19 +162,14 @@
                             case 'google': {
 
                                 if ($helper->getUserIdByGoogle($_SESSION['uid']) == 0) {
-
                                     $account->setGoogleFirebaseId($_SESSION['uid']);
                                 }
-
                                 break;
                             }
 
                             default: {
-
                                 // google signin
-
                                 if ($helper->getUserIdByGoogle($_SESSION['uid']) == 0) {
-
                                     $account->setGoogleFirebaseId($_SESSION['uid']);
                                 }
                             }
