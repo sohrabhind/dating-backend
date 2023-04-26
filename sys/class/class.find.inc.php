@@ -20,49 +20,6 @@ class find extends db_connect
         parent::__construct($dbo);
     }
 
-    private function getCount($queryText, $gender = 3, $online = 0, $photo = 0, $proMode = 0, $ageFrom = 18, $ageTo = 105)
-    {
-        $queryText = "%".$queryText."%";
-
-        $genderSql = "";
-
-        if ($gender != 3) {
-
-            $genderSql = " AND sex = {$gender}";
-        }
-
-        $onlineSql = "";
-
-        if ($online > 0) {
-
-            $current_time = time() - (15 * 60);
-
-            $onlineSql = " AND last_authorize > {$current_time}";
-        }
-
-        $photoSql = "";
-
-        if ($photo > 0) {
-
-            $photoSql = " AND lowPhotoUrl <> ''";
-        }
-
-        $proModeSql = "";
-
-        if ($proMode > 0) {
-
-            $proModeSql = " AND level != 0";
-        }
-
-        $dateSql = " AND u_age >= {$ageFrom} AND u_age <= {$ageTo}";
-
-        $sql = "SELECT count(*) FROM users WHERE state = 0 AND (username LIKE '{$queryText}' OR fullname LIKE '{$queryText}' OR email LIKE '{$queryText}' OR country LIKE '{$queryText}')".$genderSql.$onlineSql.$photoSql.$proModeSql.$dateSql;
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
 
     public function lastIndex()
     {
@@ -72,157 +29,8 @@ class find extends db_connect
         return $number_of_rows = $stmt->fetchColumn() + 1;
     }
 
-    public function query($queryText = '', $itemId = 0, $gender = 3, $online = 0, $photo = 0, $proMode = 0, $ageFrom = 18, $ageTo = 105)
-    {
-        $originQuery = $queryText;
 
-        if ($itemId == 0) {
-
-            $itemId = $this->lastIndex();
-            $itemId++;
-        }
-
-        $endSql = " ORDER BY regtime DESC LIMIT 20";
-
-        $genderSql = "";
-
-        if ($gender != 3) {
-
-            $genderSql = " AND sex = {$gender}";
-        }
-
-        $onlineSql = "";
-
-        if ($online > 0) {
-
-            $current_time = time() - (15 * 60);
-
-            $onlineSql = " AND last_authorize > {$current_time}";
-        }
-
-        $photoSql = "";
-
-        if ($photo > 0) {
-
-            $photoSql = " AND lowPhotoUrl <> ''";
-        }
-
-        $proModeSql = "";
-
-        if ($proMode > 0) {
-
-            $proModeSql = " AND level != 0";
-        }
-
-        $dateSql = " AND u_age >= {$ageFrom} AND u_age <= {$ageTo}";
-
-        $users = array("error" => false,
-                       "error_code" => ERROR_SUCCESS,
-                       "itemCount" => $this->getCount($originQuery, $gender, $online, $photo, $proMode, $ageFrom, $ageTo),
-                       "itemId" => $itemId,
-                       "query" => $originQuery,
-                       "items" => array());
-
-        $queryText = "%".$queryText."%";
-
-        $sql = "SELECT id, regtime FROM users WHERE state = 0 AND (username LIKE '{$queryText}' OR fullname LIKE '{$queryText}' OR email LIKE '{$queryText}' OR country LIKE '{$queryText}') AND id < {$itemId}".$genderSql.$onlineSql.$photoSql.$proModeSql.$dateSql.$endSql;
-        $stmt = $this->db->prepare($sql);
-
-        if ($stmt->execute()) {
-
-            if ($stmt->rowCount() > 0) {
-
-                while ($row = $stmt->fetch()) {
-
-                    $profile = new profile($this->db, $row['id']);
-                    $profile->setRequestFrom($this->requestFrom);
-
-                    array_push($users['items'], $profile->getVeryShort());
-
-                    $users['itemId'] = $row['id'];
-
-                    unset($profile);
-                }
-            }
-        }
-
-        return $users;
-    }
-
-    public function preload($itemId = 0, $gender = 3, $online = 0, $photo = 0, $proMode = 0, $ageFrom = 18, $ageTo = 105)
-    {
-        if ($itemId == 0) {
-
-            $itemId = $this->lastIndex();
-            $itemId++;
-        }
-
-        $endSql = " ORDER BY regtime DESC LIMIT 20";
-
-        $genderSql = "";
-
-        if ($gender != 3) {
-
-            $genderSql = " AND sex = {$gender}";
-        }
-
-        $onlineSql = "";
-
-        if ($online > 0) {
-
-            $current_time = time() - (15 * 60);
-
-            $onlineSql = " AND last_authorize > {$current_time}";
-        }
-
-        $photoSql = "";
-
-        if ($photo > 0) {
-
-            $photoSql = " AND lowPhotoUrl <> ''";
-        }
-
-        $proModeSql = "";
-
-        if ($proMode > 0) {
-
-            $proModeSql = " AND level != 0";
-        }
-
-
-        $dateSql = " AND u_age >= {$ageFrom} AND u_age <= {$ageTo}";
-
-        $result = array("error" => false,
-                        "error_code" => ERROR_SUCCESS,
-                        "itemCount" => $this->getCount("", $gender, $online, $photo, $proMode, $ageFrom, $ageTo),
-                        "itemId" => $itemId,
-                        "items" => array());
-
-        $sql = "SELECT id, regtime FROM users WHERE state = 0 AND id < {$itemId}".$genderSql.$onlineSql.$photoSql.$proModeSql.$dateSql.$endSql;
-        $stmt = $this->db->prepare($sql);
-
-        if ($stmt->execute()) {
-
-            if ($stmt->rowCount() > 0) {
-
-                while ($row = $stmt->fetch()) {
-
-                    $profile = new profile($this->db, $row['id']);
-                    $profile->setRequestFrom($this->requestFrom);
-
-                    array_push($result['items'], $profile->getVeryShort());
-
-                    $result['itemId'] = $row['id'];
-
-                    unset($profile);
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    public function start($queryText = '', $itemId = 0, $gender = 3, $online = 0, $photo = 0, $proMode = 0, $ageFrom = 18, $ageTo = 105, $distance = 3000, $lat = "", $lng = "")
+    public function start($queryText = '', $itemId = 0, $gender = 3, $online = 0, $photo = 0, $levelMode = 0, $ageFrom = 18, $ageTo = 105, $distance = 3000, $lat = "", $lng = "")
     {
         $originQuery = $queryText;
 
@@ -259,24 +67,20 @@ class find extends db_connect
         $onlineSql = "";
 
         if ($online > 0) {
-
             $current_time = time() - (15 * 60);
-
             $onlineSql = " AND last_authorize > {$current_time}";
         }
 
         $photoSql = "";
 
         if ($photo > 0) {
-
             $photoSql = " AND lowPhotoUrl <> ''";
         }
 
-        $proModeSql = "";
+        $levelModeSql = "";
 
-        if ($proMode > 0) {
-
-            $proModeSql = " AND level != 0";
+        if ($levelMode > 0) {
+            $levelModeSql = " AND level != 0";
         }
 
         $dateSql = " AND u_age >= {$ageFrom} AND u_age <= {$ageTo}";
@@ -287,28 +91,22 @@ class find extends db_connect
                     ASIN(SQRT( POWER(SIN(($origLat - lat)*pi()/180/2),2)
                     +COS($origLat*pi()/180 )*COS(lat*pi()/180)
                     *POWER(SIN(($origLng-lng)*pi()/180/2),2)))
-                    as distance  FROM users WHERE state = 0 AND (username LIKE '{$queryText}' OR fullname LIKE '{$queryText}' OR email LIKE '{$queryText}' OR country LIKE '{$queryText}') AND id < {$itemId}".$genderSql.$onlineSql.$photoSql.$proModeSql.$dateSql.$endSql;
+                    as distance  FROM users WHERE state = 0 AND (fullname LIKE '{$queryText}' OR email LIKE '{$queryText}') AND id < {$itemId}".$genderSql.$onlineSql.$photoSql.$levelModeSql.$dateSql.$endSql;
         $stmt = $this->db->prepare($sql);
 
         if ($stmt->execute()) {
-
             if ($stmt->rowCount() > 0) {
-
                 while ($row = $stmt->fetch()) {
-
                     $profile = new profile($this->db, $row['id']);
                     $profile->setRequestFrom($this->getRequestFrom());
                     $profileInfo = $profile->getVeryShort();
                     $profileInfo['distance'] = round($this->getDistance($lat, $lng, $profileInfo['lat'], $profileInfo['lng']), 1);
                     unset($profile);
-
                     array_push($result['items'], $profileInfo);
-
                     $result['itemId'] = $row['id'];
                 }
             }
         }
-
         return $result;
     }
 

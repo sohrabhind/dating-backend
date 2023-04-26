@@ -18,7 +18,7 @@ if (!empty($_POST)) {
     $gender = isset($_POST['gender']) ? $_POST['gender'] : -3;
     $online = isset($_POST['online']) ? $_POST['online'] : 0;
     $photo = isset($_POST['photo']) ? $_POST['photo'] : 0;
-    $proMode = isset($_POST['level']) ? $_POST['level'] : 0;
+    $levelMode = isset($_POST['level']) ? $_POST['level'] : 0;
     $ageFrom = isset($_POST['ageFrom']) ? $_POST['ageFrom'] : 13;
     $ageTo = isset($_POST['ageTo']) ? $_POST['ageTo'] : 110;
 
@@ -35,7 +35,7 @@ if (!empty($_POST)) {
     $gender = helper::clearInt($gender);
     $online = helper::clearInt($online);
     $photo = helper::clearInt($photo);
-    $proMode = helper::clearInt($proMode);
+    $levelMode = helper::clearInt($levelMode);
 
     $ageFrom = helper::clearInt($ageFrom);
     $ageTo = helper::clearInt($ageTo);
@@ -63,7 +63,7 @@ if (!empty($_POST)) {
     $find = new find($dbo);
     $find->setRequestFrom($accountId);
 
-    $result = $find->start($query, $itemId, $gender, $online, $photo, $proMode, $ageFrom, $ageTo, $distance, $lat, $lng);
+    $result = $find->start($query, $itemId, $gender, $online, $photo, $levelMode, $ageFrom, $ageTo, $distance, $lat, $lng);
 
     echo json_encode($result);
     exit;

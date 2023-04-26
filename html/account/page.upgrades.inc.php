@@ -59,7 +59,7 @@
 
                             $payments = new payments($dbo);
                             $payments->setRequestFrom(auth::getCurrentUserId());
-                            $payments->create(PA_BUY_PRO_MODE, PT_LEVEL, $proModeCost);
+                            $payments->create(PA_BUY_PRO_MODE, PT_UNKNOWN, $proModeCost);
                             unset($payments);
                         }
 
@@ -85,7 +85,7 @@
 
                             $payments = new payments($dbo);
                             $payments->setRequestFrom(auth::getCurrentUserId());
-                            $payments->create(PA_BUY_MESSAGE_PACKAGE, PT_LEVEL, $messagePackageCost);
+                            $payments->create(PA_BUY_MESSAGE_PACKAGE, PT_UNKNOWN, $messagePackageCost);
                             unset($payments);
                         }
 

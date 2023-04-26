@@ -87,7 +87,7 @@ if (!empty($_POST)) {
 
                 $payments = new payments($dbo);
                 $payments->setRequestFrom($accountId);
-                $payments->create(PA_BUY_GIFT, PT_LEVEL, $giftInfo['cost']);
+                $payments->create(PA_BUY_GIFT, PT_UNKNOWN, $giftInfo['cost']);
                 unset($payments);
             }
         }

@@ -139,7 +139,7 @@ class update extends db_connect
 
     function addColumnToUsersTable9()
     {
-        $stmt = $this->db->prepare("ALTER TABLE users ADD purchases_count INT(10) UNSIGNED DEFAULT 0 after gcm_regid");
+        $stmt = $this->db->prepare("ALTER TABLE users ADD is_bot INT(10) UNSIGNED DEFAULT 0 after gcm_regid");
         $stmt->execute();
     }
 
@@ -147,7 +147,7 @@ class update extends db_connect
 
     function addColumnToUsersTable11()
     {
-        $stmt = $this->db->prepare("ALTER TABLE users ADD level INT(10) UNSIGNED DEFAULT 0 after purchases_count");
+        $stmt = $this->db->prepare("ALTER TABLE users ADD level INT(10) UNSIGNED DEFAULT 0 after is_bot");
         $stmt->execute();
     }
 

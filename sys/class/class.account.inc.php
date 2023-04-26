@@ -754,21 +754,16 @@ class account extends db_connect
         return '';
     }
 
-    public function setLocation($location)
-    {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+    public function setLocation($location) {
+        $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET country = (:country) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
         $stmt->bindParam(":country", $location, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
         }
-
         return $result;
     }
 

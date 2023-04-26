@@ -16,7 +16,6 @@ if (!empty($_POST)) {
 
     $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : '';
     $location = isset($_POST['location']) ? $_POST['location'] : '';
-    $facebookPage = isset($_POST['facebookPage']) ? $_POST['facebookPage'] : '';
     $instagramPage = isset($_POST['instagramPage']) ? $_POST['instagramPage'] : '';
     $bio = isset($_POST['bio']) ? $_POST['bio'] : '';
 
@@ -61,9 +60,6 @@ if (!empty($_POST)) {
 
     $location = helper::clearText($location);
     $location = helper::escapeText($location);
-
-    $facebookPage = helper::clearText($facebookPage);
-    $facebookPage = helper::escapeText($facebookPage);
 
     $instagramPage = helper::clearText($instagramPage);
     $instagramPage = helper::escapeText($instagramPage);
