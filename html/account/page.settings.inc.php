@@ -51,10 +51,7 @@
         $instagram_page = isset($_POST['instagram_page']) ? $_POST['instagram_page'] : '';
 
         $iStatus = isset($_POST['iStatus']) ? $_POST['iStatus'] : 0;
-        $politicalViews = isset($_POST['politicalViews']) ? $_POST['politicalViews'] : 0;
-        $worldViews = isset($_POST['worldViews']) ? $_POST['worldViews'] : 0;
-        $personalPriority = isset($_POST['personalPriority']) ? $_POST['personalPriority'] : 0;
-        $importantInOthers = isset($_POST['importantInOthers']) ? $_POST['importantInOthers'] : 0;
+        $religiousViews = isset($_POST['religiousViews']) ? $_POST['religiousViews'] : 0;
         $smokingViews = isset($_POST['smokingViews']) ? $_POST['smokingViews'] : 0;
         $alcoholViews = isset($_POST['alcoholViews']) ? $_POST['alcoholViews'] : 0;
         $lookingViews = isset($_POST['lookingViews']) ? $_POST['lookingViews'] : 0;
@@ -86,10 +83,7 @@
         $instagram_page = helper::escapeText($instagram_page);
 
         $iStatus = helper::clearInt($iStatus);
-        $politicalViews = helper::clearInt($politicalViews);
-        $worldViews = helper::clearInt($worldViews);
-        $personalPriority = helper::clearInt($personalPriority);
-        $importantInOthers = helper::clearInt($importantInOthers);
+        $religiousViews = helper::clearInt($religiousViews);
         $smokingViews = helper::clearInt($smokingViews);
         $alcoholViews = helper::clearInt($alcoholViews);
         $lookingViews = helper::clearInt($lookingViews);
@@ -128,10 +122,7 @@
             $account->setLocation($location);
 
             $account->set_iStatus($iStatus);
-            $account->set_iPoliticalViews($politicalViews);
-            $account->set_iWorldView($worldViews);
-            $account->set_iPersonalPriority($personalPriority);
-            $account->set_iImportantInOthers($importantInOthers);
+            $account->set_iReligiousView($religiousViews);
             $account->set_iSmokingViews($smokingViews);
             $account->set_iAlcoholViews($alcoholViews);
             $account->set_iLooking($lookingViews);
@@ -364,93 +355,29 @@
                                         </div>
                                     </div>
 
+
                                     <div class="link-preference form-row">
                                         <div class="form-cell left">
-                                            <h2><?php echo $LANG['label-political-views']; ?></h2>
+                                            <h2><?php echo $LANG['label-religious-view']; ?></h2>
                                         </div>
 
                                         <div class="form-cell">
                                             <div class="opt-in">
-                                                <select id="politicalViews" name="politicalViews" class="selectBox">
-                                                    <option value="0" <?php if ($accountInfo['iPoliticalViews'] == 0) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-0']; ?></option>
-                                                    <option value="1" <?php if ($accountInfo['iPoliticalViews'] == 1) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-1']; ?></option>
-                                                    <option value="2" <?php if ($accountInfo['iPoliticalViews'] == 2) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-2']; ?></option>
-                                                    <option value="3" <?php if ($accountInfo['iPoliticalViews'] == 3) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-3']; ?></option>
-                                                    <option value="4" <?php if ($accountInfo['iPoliticalViews'] == 4) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-4']; ?></option>
-                                                    <option value="5" <?php if ($accountInfo['iPoliticalViews'] == 5) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-5']; ?></option>
-                                                    <option value="6" <?php if ($accountInfo['iPoliticalViews'] == 6) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-6']; ?></option>
-                                                    <option value="7" <?php if ($accountInfo['iPoliticalViews'] == 7) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-7']; ?></option>
-                                                    <option value="8" <?php if ($accountInfo['iPoliticalViews'] == 8) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-8']; ?></option>
-                                                    <option value="9" <?php if ($accountInfo['iPoliticalViews'] == 9) echo "selected=\"selected\""; ?>><?php echo $LANG['label-political-views-9']; ?></option>
+                                                <select id="religiousViews" name="religiousViews" class="selectBox">
+                                                    <option value="0" <?php if ($accountInfo['iReligiousView'] == 0) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-0']; ?></option>
+                                                    <option value="1" <?php if ($accountInfo['iReligiousView'] == 1) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-1']; ?></option>
+                                                    <option value="2" <?php if ($accountInfo['iReligiousView'] == 2) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-2']; ?></option>
+                                                    <option value="3" <?php if ($accountInfo['iReligiousView'] == 3) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-3']; ?></option>
+                                                    <option value="4" <?php if ($accountInfo['iReligiousView'] == 4) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-4']; ?></option>
+                                                    <option value="5" <?php if ($accountInfo['iReligiousView'] == 5) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-5']; ?></option>
+                                                    <option value="6" <?php if ($accountInfo['iReligiousView'] == 6) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-6']; ?></option>
+                                                    <option value="7" <?php if ($accountInfo['iReligiousView'] == 7) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-7']; ?></option>
+                                                    <option value="8" <?php if ($accountInfo['iReligiousView'] == 8) echo "selected=\"selected\""; ?>><?php echo $LANG['label-religious-view-8']; ?></option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="link-preference form-row">
-                                        <div class="form-cell left">
-                                            <h2><?php echo $LANG['label-world-view']; ?></h2>
-                                        </div>
-
-                                        <div class="form-cell">
-                                            <div class="opt-in">
-                                                <select id="worldViews" name="worldViews" class="selectBox">
-                                                    <option value="0" <?php if ($accountInfo['iWorldView'] == 0) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-0']; ?></option>
-                                                    <option value="1" <?php if ($accountInfo['iWorldView'] == 1) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-1']; ?></option>
-                                                    <option value="2" <?php if ($accountInfo['iWorldView'] == 2) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-2']; ?></option>
-                                                    <option value="3" <?php if ($accountInfo['iWorldView'] == 3) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-3']; ?></option>
-                                                    <option value="4" <?php if ($accountInfo['iWorldView'] == 4) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-4']; ?></option>
-                                                    <option value="5" <?php if ($accountInfo['iWorldView'] == 5) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-5']; ?></option>
-                                                    <option value="6" <?php if ($accountInfo['iWorldView'] == 6) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-6']; ?></option>
-                                                    <option value="7" <?php if ($accountInfo['iWorldView'] == 7) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-7']; ?></option>
-                                                    <option value="8" <?php if ($accountInfo['iWorldView'] == 8) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-8']; ?></option>
-                                                    <option value="9" <?php if ($accountInfo['iWorldView'] == 9) echo "selected=\"selected\""; ?>><?php echo $LANG['label-world-view-9']; ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="link-preference form-row">
-                                        <div class="form-cell left">
-                                            <h2><?php echo $LANG['label-personal-priority']; ?></h2>
-                                        </div>
-
-                                        <div class="form-cell">
-                                            <div class="opt-in">
-                                                <select id="personalPriority" name="personalPriority" class="selectBox">
-                                                    <option value="0" <?php if ($accountInfo['iPersonalPriority'] == 0) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-0']; ?></option>
-                                                    <option value="1" <?php if ($accountInfo['iPersonalPriority'] == 1) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-1']; ?></option>
-                                                    <option value="2" <?php if ($accountInfo['iPersonalPriority'] == 2) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-2']; ?></option>
-                                                    <option value="3" <?php if ($accountInfo['iPersonalPriority'] == 3) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-3']; ?></option>
-                                                    <option value="4" <?php if ($accountInfo['iPersonalPriority'] == 4) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-4']; ?></option>
-                                                    <option value="5" <?php if ($accountInfo['iPersonalPriority'] == 5) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-5']; ?></option>
-                                                    <option value="6" <?php if ($accountInfo['iPersonalPriority'] == 6) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-6']; ?></option>
-                                                    <option value="7" <?php if ($accountInfo['iPersonalPriority'] == 7) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-7']; ?></option>
-                                                    <option value="8" <?php if ($accountInfo['iPersonalPriority'] == 8) echo "selected=\"selected\""; ?>><?php echo $LANG['label-personal-priority-8']; ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="link-preference form-row">
-                                        <div class="form-cell left">
-                                            <h2><?php echo $LANG['label-important-in-others']; ?></h2>
-                                        </div>
-
-                                        <div class="form-cell">
-                                            <div class="opt-in">
-                                                <select id="importantInOthers" name="importantInOthers" class="selectBox">
-                                                    <option value="0" <?php if ($accountInfo['iImportantInOthers'] == 0) echo "selected=\"selected\""; ?>><?php echo $LANG['label-important-in-others-0']; ?></option>
-                                                    <option value="1" <?php if ($accountInfo['iImportantInOthers'] == 1) echo "selected=\"selected\""; ?>><?php echo $LANG['label-important-in-others-1']; ?></option>
-                                                    <option value="2" <?php if ($accountInfo['iImportantInOthers'] == 2) echo "selected=\"selected\""; ?>><?php echo $LANG['label-important-in-others-2']; ?></option>
-                                                    <option value="3" <?php if ($accountInfo['iImportantInOthers'] == 3) echo "selected=\"selected\""; ?>><?php echo $LANG['label-important-in-others-3']; ?></option>
-                                                    <option value="4" <?php if ($accountInfo['iImportantInOthers'] == 4) echo "selected=\"selected\""; ?>><?php echo $LANG['label-important-in-others-4']; ?></option>
-                                                    <option value="5" <?php if ($accountInfo['iImportantInOthers'] == 5) echo "selected=\"selected\""; ?>><?php echo $LANG['label-important-in-others-5']; ?></option>
-                                                    <option value="6" <?php if ($accountInfo['iImportantInOthers'] == 6) echo "selected=\"selected\""; ?>><?php echo $LANG['label-important-in-others-6']; ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <div class="link-preference form-row">
                                         <div class="form-cell left">

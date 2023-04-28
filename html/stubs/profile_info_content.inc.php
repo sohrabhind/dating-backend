@@ -227,85 +227,79 @@
 
                 ?>
 
+
                 <?php
 
-                if ($profileInfo['iPoliticalViews'] != 0) {
+                if ($profileInfo['iReligiousView'] != 0) {
 
                     ?>
 
                     <li class="collection-item">
-                        <h5 class="title"><?php echo $LANG['label-political-views']; ?></h5>
+                        <h5 class="title"><?php echo $LANG['label-religious-view']; ?></h5>
                         <p>
                             <?php
 
-                            switch ($profileInfo['iPoliticalViews']) {
+                            switch ($profileInfo['iReligiousView']) {
 
                                 case 1: {
 
-                                    echo $LANG['label-political-views-1'];
+                                    echo $LANG['label-religious-view-1'];
 
                                     break;
                                 }
 
                                 case 2: {
 
-                                    echo $LANG['label-political-views-2'];
+                                    echo $LANG['label-religious-view-2'];
 
                                     break;
                                 }
 
                                 case 3: {
 
-                                    echo $LANG['label-political-views-3'];
+                                    echo $LANG['label-religious-view-3'];
 
                                     break;
                                 }
 
                                 case 4: {
 
-                                    echo $LANG['label-political-views-4'];
+                                    echo $LANG['label-religious-view-4'];
 
                                     break;
                                 }
 
                                 case 5: {
 
-                                    echo $LANG['label-political-views-5'];
+                                    echo $LANG['label-religious-view-5'];
 
                                     break;
                                 }
 
                                 case 6: {
 
-                                    echo $LANG['label-political-views-6'];
+                                    echo $LANG['label-religious-view-6'];
 
                                     break;
                                 }
 
                                 case 7: {
 
-                                    echo $LANG['label-political-views-7'];
+                                    echo $LANG['label-religious-view-7'];
 
                                     break;
                                 }
 
                                 case 8: {
 
-                                    echo $LANG['label-political-views-8'];
-
-                                    break;
-                                }
-
-                                case 9: {
-
-                                    echo $LANG['label-political-views-9'];
+                                    echo $LANG['label-religious-view-8'];
 
                                     break;
                                 }
 
                                 default: {
 
-                                    echo $LANG['label-political-views-0'];
+                                    echo $LANG['label-religious-view-0'];
 
                                     break;
                                 }
@@ -320,256 +314,6 @@
 
                 ?>
 
-                <?php
-
-                if ($profileInfo['iWorldView'] != 0) {
-
-                    ?>
-
-                    <li class="collection-item">
-                        <h5 class="title"><?php echo $LANG['label-world-view']; ?></h5>
-                        <p>
-                            <?php
-
-                            switch ($profileInfo['iWorldView']) {
-
-                                case 1: {
-
-                                    echo $LANG['label-world-view-1'];
-
-                                    break;
-                                }
-
-                                case 2: {
-
-                                    echo $LANG['label-world-view-2'];
-
-                                    break;
-                                }
-
-                                case 3: {
-
-                                    echo $LANG['label-world-view-3'];
-
-                                    break;
-                                }
-
-                                case 4: {
-
-                                    echo $LANG['label-world-view-4'];
-
-                                    break;
-                                }
-
-                                case 5: {
-
-                                    echo $LANG['label-world-view-5'];
-
-                                    break;
-                                }
-
-                                case 6: {
-
-                                    echo $LANG['label-world-view-6'];
-
-                                    break;
-                                }
-
-                                case 7: {
-
-                                    echo $LANG['label-world-view-7'];
-
-                                    break;
-                                }
-
-                                case 8: {
-
-                                    echo $LANG['label-world-view-8'];
-
-                                    break;
-                                }
-
-                                case 9: {
-
-                                    echo $LANG['label-world-view-9'];
-
-                                    break;
-                                }
-
-                                default: {
-
-                                    echo $LANG['label-world-view-0'];
-
-                                    break;
-                                }
-                            }
-
-                            ?>
-                        </p>
-                    </li>
-
-                    <?php
-                }
-
-                ?>
-
-                <?php
-
-                if ($profileInfo['iPersonalPriority'] != 0) {
-
-                    ?>
-
-                    <li class="collection-item">
-                        <h5 class="title"><?php echo $LANG['label-personal-priority']; ?></h5>
-                        <p>
-                            <?php
-
-                            switch ($profileInfo['iPersonalPriority']) {
-
-                                case 1: {
-
-                                    echo $LANG['label-personal-priority-1'];
-
-                                    break;
-                                }
-
-                                case 2: {
-
-                                    echo $LANG['label-personal-priority-2'];
-
-                                    break;
-                                }
-
-                                case 3: {
-
-                                    echo $LANG['label-personal-priority-3'];
-
-                                    break;
-                                }
-
-                                case 4: {
-
-                                    echo $LANG['label-personal-priority-4'];
-
-                                    break;
-                                }
-
-                                case 5: {
-
-                                    echo $LANG['label-personal-priority-5'];
-
-                                    break;
-                                }
-
-                                case 6: {
-
-                                    echo $LANG['label-personal-priority-6'];
-
-                                    break;
-                                }
-
-                                case 7: {
-
-                                    echo $LANG['label-personal-priority-7'];
-
-                                    break;
-                                }
-
-                                case 8: {
-
-                                    echo $LANG['label-personal-priority-8'];
-
-                                    break;
-                                }
-
-                                default: {
-
-                                    echo $LANG['label-personal-priority-0'];
-
-                                    break;
-                                }
-                            }
-
-                            ?>
-                        </p>
-                    </li>
-
-                    <?php
-                }
-
-                ?>
-
-                <?php
-
-                if ($profileInfo['iImportantInOthers'] != 0) {
-
-                    ?>
-
-                    <li class="collection-item">
-                        <h5 class="title"><?php echo $LANG['label-important-in-others']; ?></h5>
-                        <p>
-                            <?php
-
-                            switch ($profileInfo['iImportantInOthers']) {
-
-                                case 1: {
-
-                                    echo $LANG['label-important-in-others-1'];
-
-                                    break;
-                                }
-
-                                case 2: {
-
-                                    echo $LANG['label-important-in-others-2'];
-
-                                    break;
-                                }
-
-                                case 3: {
-
-                                    echo $LANG['label-important-in-others-3'];
-
-                                    break;
-                                }
-
-                                case 4: {
-
-                                    echo $LANG['label-important-in-others-4'];
-
-                                    break;
-                                }
-
-                                case 5: {
-
-                                    echo $LANG['label-important-in-others-5'];
-
-                                    break;
-                                }
-
-                                case 6: {
-
-                                    echo $LANG['label-important-in-others-6'];
-
-                                    break;
-                                }
-
-                                default: {
-
-                                    echo $LANG['label-important-in-others-0'];
-
-                                    break;
-                                }
-                            }
-
-                            ?>
-                        </p>
-                    </li>
-
-                    <?php
-                }
-
-                ?>
 
                 <?php
 

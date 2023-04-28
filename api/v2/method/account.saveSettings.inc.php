@@ -30,10 +30,7 @@ if (!empty($_POST)) {
     $u_weight = isset($_POST['weight']) ? $_POST['weight'] : 0;
 
     $iStatus = isset($_POST['iStatus']) ? $_POST['iStatus'] : 0;
-    $politicalViews = isset($_POST['politicalViews']) ? $_POST['politicalViews'] : 0;
-    $worldViews = isset($_POST['worldViews']) ? $_POST['worldViews'] : 0;
-    $personalPriority = isset($_POST['personalPriority']) ? $_POST['personalPriority'] : 0;
-    $importantInOthers = isset($_POST['importantInOthers']) ? $_POST['importantInOthers'] : 0;
+    $religiousViews = isset($_POST['religiousViews']) ? $_POST['religiousViews'] : 0;
     $smokingViews = isset($_POST['smokingViews']) ? $_POST['smokingViews'] : 0;
     $alcoholViews = isset($_POST['alcoholViews']) ? $_POST['alcoholViews'] : 0;
     $lookingViews = isset($_POST['lookingViews']) ? $_POST['lookingViews'] : 0;
@@ -42,10 +39,7 @@ if (!empty($_POST)) {
     $allowShowMyBirthday = isset($_POST['allowShowMyBirthday']) ? $_POST['allowShowMyBirthday'] : 0;
 
     $iStatus = helper::clearInt($iStatus);
-    $politicalViews = helper::clearInt($politicalViews);
-    $worldViews = helper::clearInt($worldViews);
-    $personalPriority = helper::clearInt($personalPriority);
-    $importantInOthers = helper::clearInt($importantInOthers);
+    $religiousViews = helper::clearInt($religiousViews);
     $smokingViews = helper::clearInt($smokingViews);
     $alcoholViews = helper::clearInt($alcoholViews);
     $lookingViews = helper::clearInt($lookingViews);
@@ -117,10 +111,7 @@ if (!empty($_POST)) {
     $account->setBirth($year, $month, $day);
 
     $account->set_iStatus($iStatus);
-    $account->set_iPoliticalViews($politicalViews);
-    $account->set_iWorldView($worldViews);
-    $account->set_iPersonalPriority($personalPriority);
-    $account->set_iImportantInOthers($importantInOthers);
+    $account->set_iReligiousView($religiousViews);
     $account->set_iSmokingViews($smokingViews);
     $account->set_iAlcoholViews($alcoholViews);
     $account->set_iLooking($lookingViews);

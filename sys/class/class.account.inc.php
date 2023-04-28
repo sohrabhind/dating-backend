@@ -1299,10 +1299,7 @@ class account extends db_connect
                                 "normalPhotoUrl" => $row['normalPhotoUrl'],
                                 "bigPhotoUrl" => $row['normalPhotoUrl'],
                                 "iStatus" => $row['iStatus'],
-                                "iPoliticalViews" => $row['iPoliticalViews'],
-                                "iWorldView" => $row['iWorldView'],
-                                "iPersonalPriority" => $row['iPersonalPriority'],
-                                "iImportantInOthers" => $row['iImportantInOthers'],
+                                "iReligiousView" => $row['iReligiousView'],
                                 "iSmokingViews" => $row['iSmokingViews'],
                                 "iAlcoholViews" => $row['iAlcoholViews'],
                                 "iLooking" => $row['iLooking'],
@@ -1435,14 +1432,15 @@ class account extends db_connect
         return 0;
     }
 
-    public function set_iPoliticalViews($politicalViews)
+
+    public function set_iReligiousView($religiousView)
     {
         $result = array("error" => true,
                         "error_code" => ERROR_CODE_INITIATE);
 
-        $stmt = $this->db->prepare("UPDATE users SET iPoliticalViews = (:iPoliticalViews) WHERE id = (:accountId)");
+        $stmt = $this->db->prepare("UPDATE users SET iReligiousView = (:iReligiousView) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":iPoliticalViews", $politicalViews, PDO::PARAM_STR);
+        $stmt->bindParam(":iReligiousView", $religiousView, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
@@ -1453,119 +1451,24 @@ class account extends db_connect
         return $result;
     }
 
-    public function get_iPoliticalViews()
+    public function get_iReligiousView()
     {
-        $stmt = $this->db->prepare("SELECT iPoliticalViews FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt = $this->db->prepare("SELECT iReligiousView FROM users WHERE id = (:accountId) LIMIT 1");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
             $row = $stmt->fetch();
 
-            return $row['iPoliticalViews'];
+            return $row['iReligiousView'];
         }
 
         return 0;
     }
 
-    public function set_iWorldView($worldView)
-    {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
 
-        $stmt = $this->db->prepare("UPDATE users SET iWorldView = (:iWorldView) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":iWorldView", $worldView, PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
-        }
-
-        return $result;
-    }
-
-    public function get_iWorldView()
-    {
-        $stmt = $this->db->prepare("SELECT iWorldView FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $row = $stmt->fetch();
-
-            return $row['iWorldView'];
-        }
-
-        return 0;
-    }
-
-    public function set_iPersonalPriority($personalPriority)
-{
-    $result = array("error" => true,
-                    "error_code" => ERROR_CODE_INITIATE);
-
-    $stmt = $this->db->prepare("UPDATE users SET iPersonalPriority = (:iPersonalPriority) WHERE id = (:accountId)");
-    $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-    $stmt->bindParam(":iPersonalPriority", $personalPriority, PDO::PARAM_STR);
-
-    if ($stmt->execute()) {
-
-        $result = array('error' => false,
-            'error_code' => ERROR_SUCCESS);
-    }
-
-    return $result;
-}
-
-    public function get_iPersonalPriority()
-    {
-        $stmt = $this->db->prepare("SELECT iPersonalPriority FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $row = $stmt->fetch();
-
-            return $row['iPersonalPriority'];
-        }
-
-        return 0;
-    }
-
-    public function set_iImportantInOthers($importantInOthers)
-    {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
-
-        $stmt = $this->db->prepare("UPDATE users SET iImportantInOthers = (:iImportantInOthers) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":iImportantInOthers", $importantInOthers, PDO::PARAM_STR);
-
-        if ($stmt->execute()) {
-
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
-        }
-
-        return $result;
-    }
-
-    public function get_iImportantInOthers()
-    {
-        $stmt = $this->db->prepare("SELECT iImportantInOthers FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $row = $stmt->fetch();
-
-            return $row['iImportantInOthers'];
-        }
-
-        return 0;
-    }
 
     public function set_iSmokingViews($smokingViews)
     {

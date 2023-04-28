@@ -466,10 +466,7 @@
     $TEXT['month-dec'] = "December";
 
     $TEXT['label-relationship-status'] = "Relationship status";
-    $TEXT['label-political-views'] = "Political views";
-    $TEXT['label-world-view'] = "World view";
-    $TEXT['label-personal-priority'] = "Personal priority";
-    $TEXT['label-important-in-others'] = "Important in others";
+    $TEXT['label-religious-view'] = "Religious view";
     $TEXT['label-smoking-views'] = "Views on smoking";
     $TEXT['label-alcohol-views'] = "Views on alcohol";
     $TEXT['label-you-looking'] = "What are you looking for?";
@@ -487,45 +484,16 @@
     $TEXT['label-relationship-status-6'] = "It's complicated";
     $TEXT['label-relationship-status-7'] = "Actively searching";
 
-    $TEXT['label-political-views-0'] = "None selected";
-    $TEXT['label-political-views-1'] = "Apathetic";
-    $TEXT['label-political-views-2'] = "Communist";
-    $TEXT['label-political-views-3'] = "Socialist";
-    $TEXT['label-political-views-4'] = "Moderate";
-    $TEXT['label-political-views-5'] = "Liberal";
-    $TEXT['label-political-views-6'] = "Conservative";
-    $TEXT['label-political-views-7'] = "Monarchist";
-    $TEXT['label-political-views-8'] = "Ultraconservative";
-    $TEXT['label-political-views-9'] = "Libertarian";
+    $TEXT['label-religious-view-0'] = "None selected";
+    $TEXT['label-religious-view-1'] = "Christianity";
+    $TEXT['label-religious-view-2'] = "Islam";
+    $TEXT['label-religious-view-3'] = "Hinduism";
+    $TEXT['label-religious-view-4'] = "Buddhism";
+    $TEXT['label-religious-view-5'] = "Shinto";
+    $TEXT['label-religious-view-6'] = "Sikhism";
+    $TEXT['label-religious-view-7'] = "Judaism";
+    $TEXT['label-religious-view-8'] = "Jainism";
 
-    $TEXT['label-world-view-0'] = "None selected";
-    $TEXT['label-world-view-1'] = "Judaism";
-    $TEXT['label-world-view-2'] = "Orthodoxy";
-    $TEXT['label-world-view-3'] = "Catholicism";
-    $TEXT['label-world-view-4'] = "Protestantism";
-    $TEXT['label-world-view-5'] = "Islam";
-    $TEXT['label-world-view-6'] = "Buddhism";
-    $TEXT['label-world-view-7'] = "Confucianism";
-    $TEXT['label-world-view-8'] = "Secular Humanism";
-    $TEXT['label-world-view-9'] = "Pastafarianism";
-
-    $TEXT['label-personal-priority-0'] = "None selected";
-    $TEXT['label-personal-priority-1'] = "Family and children";
-    $TEXT['label-personal-priority-2'] = "Career and money";
-    $TEXT['label-personal-priority-3'] = "Entertainment and leisure";
-    $TEXT['label-personal-priority-4'] = "Science and research";
-    $TEXT['label-personal-priority-5'] = "Improving the world";
-    $TEXT['label-personal-priority-6'] = "Personal development";
-    $TEXT['label-personal-priority-7'] = "Beauty and art";
-    $TEXT['label-personal-priority-8'] = "Fame and influence";
-
-    $TEXT['label-important-in-others-0'] = "None selected";
-    $TEXT['label-important-in-others-1'] = "Intellect and creativity";
-    $TEXT['label-important-in-others-2'] = "Kindness and honesty";
-    $TEXT['label-important-in-others-3'] = "Health and beauty";
-    $TEXT['label-important-in-others-4'] = "Wealth and power";
-    $TEXT['label-important-in-others-5'] = "Courage and persistence";
-    $TEXT['label-important-in-others-6'] = "Humor and love for life";
 
     $TEXT['label-smoking-views-0'] = "None selected";
     $TEXT['label-smoking-views-1'] = "Very negative";

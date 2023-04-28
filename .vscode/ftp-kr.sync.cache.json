@@ -67,8 +67,8 @@
           },
           "account.saveSettings.inc.php": {
             "type": "-",
-            "size": 5008,
-            "lmtime": 1682406959075.9927,
+            "size": 4407,
+            "lmtime": 1682658038202.3225,
             "modified": false
           },
           "account.setAllowMessages.inc.php": {
@@ -518,7 +518,7 @@
     "css": {},
     "error_log": {
       "type": "-",
-      "size": 18184,
+      "size": 31183,
       "lmtime": 0,
       "modified": true
     },
@@ -612,8 +612,8 @@
         },
         "page.settings.inc.php": {
           "type": "-",
-          "size": 40875,
-          "lmtime": 0,
+          "size": 32330,
+          "lmtime": 1682658038214.3225,
           "modified": false
         },
         "page.stream.inc.php": {
@@ -917,7 +917,26 @@
       "recaptcha": {},
       "restore": {},
       "stripe": {},
-      "stubs": {},
+      "stubs": {
+        "index.php": {
+          "type": "-",
+          "size": 214,
+          "lmtime": 0,
+          "modified": false
+        },
+        "profile.php": {
+          "type": "-",
+          "size": 524,
+          "lmtime": 0,
+          "modified": false
+        },
+        "profile_info_content.inc.php": {
+          "type": "-",
+          "size": 15515,
+          "lmtime": 1682658038218.3225,
+          "modified": false
+        }
+      },
       "terms": {}
     },
     "index.php": {
@@ -937,8 +956,8 @@
       "lang": {
         "en.php": {
           "type": "-",
-          "size": 35240,
-          "lmtime": 1682165562961.8477,
+          "size": 33428,
+          "lmtime": 1682658116846.5146,
           "modified": false
         },
         "index.php": {
@@ -963,8 +982,8 @@
         },
         "class.account.inc.php": {
           "type": "-",
-          "size": 61157,
-          "lmtime": 1682407025646.7393,
+          "size": 57934,
+          "lmtime": 1682658038206.3225,
           "modified": false
         },
         "class.admin.inc.php": {
@@ -1149,8 +1168,8 @@
         },
         "class.profile.inc.php": {
           "type": "-",
-          "size": 30316,
-          "lmtime": 1682331065326.99,
+          "size": 29838,
+          "lmtime": 1682658038206.3225,
           "modified": false
         },
         "class.report.inc.php": {
@@ -1241,8 +1260,8 @@
         },
         "initialize.inc.php": {
           "type": "-",
-          "size": 21727,
-          "lmtime": 1682406684834.132,
+          "size": 21549,
+          "lmtime": 1682658038206.3225,
           "modified": false
         }
       },

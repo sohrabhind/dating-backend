@@ -361,10 +361,10 @@ static function clearInt($value) {
         return $key;
     }
 
-    static function generateHash($n = 7)
+    static function generateHash($n = 32)
     {
         $key = '';
-        $pattern = '123456789abcdefg';
+        $pattern = '123456789abcdef';
         $counter = strlen($pattern) - 1;
 
         for ($i = 0; $i < $n; $i++) {
@@ -375,17 +375,13 @@ static function clearInt($value) {
         return $key;
     }
 
-    static function generateSalt($n = 3)
-    {
+    static function generateSalt($n = 3) {
         $key = '';
-        $pattern = '1234567890abcdefghijklmnopqrstuvwxyz.,*_-=+';
+        $pattern = '1234567890abcdef';
         $counter = strlen($pattern)-1;
-
         for ($i=0; $i<$n; $i++) {
-
             $key .= $pattern[rand(0,$counter)];
         }
-
         return $key;
     }
 

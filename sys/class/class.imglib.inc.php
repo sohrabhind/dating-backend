@@ -138,7 +138,7 @@ class imglib extends db_connect
         $imgFilename_ext = pathinfo($addon, PATHINFO_EXTENSION);
         $imgFilename_ext = strtolower($imgFilename_ext);
 
-        $imgNewName = helper::generateHash(7);
+        $imgNewName = helper::generateHash(32);
 
         if ($imgFilename_ext !== "png") {
 
@@ -204,14 +204,11 @@ class imglib extends db_connect
         $imgFilename_ext = pathinfo($imgFilename, PATHINFO_EXTENSION);
         $imgFilename_ext = strtolower($imgFilename_ext);
 
-        $imgNewName = helper::generateHash(7);
+        $imgNewName = helper::generateHash(32);
 
         if ($imgFilename_ext !== "png") {
-
             if ($imgFilename_ext !== "jpg") {
-
                 if ($imgFilename_ext !== "jpeg") {
-
                     return $result;
                 }
             }
@@ -296,12 +293,9 @@ class imglib extends db_connect
         $imgFilename_ext = pathinfo($addon, PATHINFO_EXTENSION);
         $imgFilename_ext = strtolower($imgFilename_ext);
 
-        $imgNewName = helper::generateHash(7);
-
+        $imgNewName = helper::generateHash(32);
         if ($imgFilename_ext !== "png") {
-
             if ($imgFilename_ext !== "jpg") {
-
                 return $result;
             }
         }
@@ -400,7 +394,7 @@ class imglib extends db_connect
         $imgFilename_ext = pathinfo($addon, PATHINFO_EXTENSION);
         $imgFilename_ext = strtolower($imgFilename_ext);
 
-        $imgNewName = helper::generateHash(7);
+        $imgNewName = helper::generateHash(32);
 
         if ($imgFilename_ext !== "png") {
 
