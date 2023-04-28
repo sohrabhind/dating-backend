@@ -214,178 +214,42 @@ class imglib extends db_connect
             }
         }
 
-        $imgNormal = "normal_".$imgNewName.".".$imgFilename_ext;
-        $imgThumbLow = "thumb_low_".$imgNewName.".".$imgFilename_ext;
-        $imgThumbBig = "thumb_big_".$imgNewName.".".$imgFilename_ext;
+        $imgNormal = "profile_".$imgNewName.".".$imgFilename_ext;
 
         if (rename($imgFilename, TEMP_PATH.$imgNormal)) {
-
             $imgFilename = TEMP_PATH.$imgNormal;
         }
-
+        
         list($w, $h, $type) = getimagesize($imgFilename);
 
         if ($type == IMAGETYPE_JPEG) {
-
             $photo = new photo($this->db, $imgFilename, 512);
-            imagejpeg($photo->getImgData(), TEMP_PATH.$imgThumbBig, 100);
-            unset($photo);
-
-            $photo = new photo($this->db, $imgFilename, 256);
-            imagejpeg($photo->getImgData(), TEMP_PATH.$imgThumbLow, 100);
+            imagejpeg($photo->getImgData(), TEMP_PATH.$imgNormal, 100);
             unset($photo);
 
             $result['error'] = false;
-
         } elseif ($type == IMAGETYPE_PNG) {
-
             //PNG
-
             $photo = new photo($this->db, $imgFilename, 512);
-            imagepng($photo->getImgData(), TEMP_PATH.$imgThumbBig);
-            unset($photo);
-
-            $photo = new photo($this->db, $imgFilename, 256);
-            imagepng($photo->getImgData(), TEMP_PATH.$imgThumbLow);
+            imagepng($photo->getImgData(), TEMP_PATH.$imgNormal);
             unset($photo);
 
             $result['error'] = false;
-
         } else {
-
             $result['error'] = true;
         }
 
         if (!$result['error']) {
-
             $cdn = new cdn($this->db);
-
-            $response = $cdn->uploadPhoto($imgFilename);
-
-            if ($response['error'] === false) {
-
-                $result['normalPhotoUrl'] = $response['fileUrl'];
-                $result['originPhotoUrl'] = $response['fileUrl'];
-            }
-
-            $response = $cdn->uploadPhoto(TEMP_PATH.$imgThumbBig);
-
-            if ($response['error'] === false) {
-
-                $result['bigPhotoUrl'] = $response['fileUrl'];
-            }
-
-            $response = $cdn->uploadPhoto(TEMP_PATH.$imgThumbLow);
-
-            if ($response['error'] === false) {
-
-                $result['lowPhotoUrl'] = $response['fileUrl'];
-            }
-        }
-
-        return $result;
-    }
-
-    public function createPhoto($imgFilename, $addon)
-    {
-        $result = array("error" => true);
-
-        $imgFilename_ext = pathinfo($addon, PATHINFO_EXTENSION);
-        $imgFilename_ext = strtolower($imgFilename_ext);
-
-        $imgNewName = helper::generateHash(32);
-        if ($imgFilename_ext !== "png") {
-            if ($imgFilename_ext !== "jpg") {
-                return $result;
-            }
-        }
-
-        $imgOrigin = "origin_".$imgNewName.".".$imgFilename_ext;
-        $imgNormal = "normal_".$imgNewName.".".$imgFilename_ext;
-        $imgThumbLow = "thumb_low_".$imgNewName.".".$imgFilename_ext;
-        $imgThumbBig = "thumb_big_".$imgNewName.".".$imgFilename_ext;
-
-        if ($this->checkImg($imgFilename)) {
-
-            list($w, $h, $type) = getimagesize($imgFilename);
-
-            if (rename($imgFilename, TEMP_PATH.$imgOrigin)) {
-
-                $imgFilename = TEMP_PATH.$imgOrigin;
-            }
-
-            if ($type == IMAGETYPE_JPEG) {
-
-                $this->img_resize($imgFilename, TEMP_PATH.$imgNormal, 800, 0);
-
-                $photo = new photo($this->db, $imgFilename, 512);
-                imagejpeg($photo->getImgData(), TEMP_PATH.$imgThumbBig, 100);
-                unset($photo);
-
-                $photo = new photo($this->db, $imgFilename, 512);
-                imagejpeg($photo->getImgData(), TEMP_PATH.$imgThumbLow, 100);
-                unset($photo);
-
-                $result['error'] = false;
-
-            } elseif ($type == IMAGETYPE_PNG) {
-
-                //PNG
-
-                $this->img_resize($imgFilename, TEMP_PATH.$imgNormal, 800, 0);
-
-                $photo = new photo($this->db, $imgFilename, 512);
-                imagepng($photo->getImgData(), TEMP_PATH.$imgThumbBig);
-                unset($photo);
-
-                $photo = new photo($this->db, $imgFilename, 512);
-                imagepng($photo->getImgData(), TEMP_PATH.$imgThumbLow);
-                unset($photo);
-
-                $result['error'] = false;
-
-            } else {
-
-                $result['error'] = true;
-            }
-        }
-
-        if ($result['error'] === false) {
-
-            $cdn = new cdn($this->db);
-
             $response = array();
-
             $response = $cdn->uploadPhoto(TEMP_PATH.$imgNormal);
-
             if ($response['error'] === false) {
-
-                $result['normalPhotoUrl'] = $response['fileUrl'];
-                $result['originPhotoUrl'] = $response['fileUrl'];
-            }
-
-            $response = $cdn->uploadPhoto(TEMP_PATH.$imgThumbBig);
-
-            if ($response['error'] === false) {
-
                 $result['bigPhotoUrl'] = $response['fileUrl'];
             }
-
-            $response = $cdn->uploadPhoto(TEMP_PATH.$imgThumbLow);
-
-            if ($response['error'] === false) {
-
-                $result['lowPhotoUrl'] = $response['fileUrl'];
-            }
-
-            @unlink(TEMP_PATH.$imgOrigin);
-            @unlink(TEMP_PATH.$imgNormal);
-            @unlink(TEMP_PATH.$imgThumbBig);
-            @unlink(TEMP_PATH.$imgThumbLow);
         }
-
         return $result;
     }
+
 
     public function createMyPhoto($imgFilename, $addon)
     {
