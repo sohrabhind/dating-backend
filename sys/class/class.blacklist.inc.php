@@ -157,11 +157,11 @@ class blacklist extends db_connect
                 $blockedUserId = $profile->get();
                 unset($profile);
 
-                $lowPhotoUrl = "/assets/img/profile_default_photo.png";
+                $bigPhotoUrl = "/assets/img/profile_default_photo.png";
 
-                if (strlen($blockedUserId['lowPhotoUrl']) != 0) {
+                if (strlen($blockedUserId['bigPhotoUrl']) != 0) {
 
-                    $lowPhotoUrl = $blockedUserId['lowPhotoUrl'];
+                    $bigPhotoUrl = $blockedUserId['bigPhotoUrl'];
                 }
 
                 $result = array("error" => false,
@@ -172,7 +172,7 @@ class blacklist extends db_connect
                                 "blockedUserOnline" => $blockedUserId['online'],
                                 "blockedUserUsername" => $blockedUserId['username'],
                                 "blockedUserFullname" => $blockedUserId['fullname'],
-                                "blockedUserPhotoUrl" => $lowPhotoUrl,
+                                "blockedUserPhotoUrl" => $bigPhotoUrl,
                                 "reason" => htmlspecialchars_decode(stripslashes($row['reason'])),
                                 "createAt" => $row['createAt'],
                                 "removeAt" => $row['removeAt'],

@@ -98,7 +98,7 @@
                                             <fieldset class="encounters-filter__field">
                                                 <div class="encounters-filter__control">
                                                     <div class="search-filter-form-line">
-                                                        <h5><?php echo $LANG['label-sex']; ?></h5>
+                                                        <h5><?php echo $LANG['label-gender']; ?></h5>
                                                         <label class="search-filter-radio-button" for="gender-radio-4">
                                                             <input type="radio" name="gender" id="gender-radio-4" value="3" <?php if ($gender == 3) echo "checked" ?>><?php echo $LANG['search-filters-any']; ?></label>
                                                         <label class="search-filter-radio-button" for="gender-radio-1">
@@ -448,7 +448,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '/api/' + options.api_version + '/method/hotgame.get',
-                    data: 'accessToken=' + account.accessToken + "&accountId=" + account.id + "&itemId=" + itemId + "&distance=" + distance + "&sex=" + gender + "&liked=" + liked + "&matches=" + matches + "&lat=" + lat + "&lng=" + lng,
+                    data: 'accessToken=' + account.accessToken + "&accountId=" + account.id + "&itemId=" + itemId + "&distance=" + distance + "&gender=" + gender + "&liked=" + liked + "&matches=" + matches + "&lat=" + lat + "&lng=" + lng,
                     dataType: 'json',
                     timeout: 30000,
                     success: function(response) {
@@ -475,8 +475,8 @@
                                                 match: result.items[i].match,
                                                 myLike: result.items[i].myLike,
                                                 online: result.items[i].online,
-                                                lowPhotoUrl: result.items[i].lowPhotoUrl,
-                                                normalPhotoUrl: result.items[i].normalPhotoUrl
+                                                bigPhotoUrl: result.items[i].bigPhotoUrl,
+                                                bigPhotoUrl: result.items[i].bigPhotoUrl
                                             });
                                         }
                                     }
@@ -518,7 +518,7 @@
 
                 $hotgame_profile_btn.attr("href", "/" + items[i].username);
 
-                $hotgame_profile_photo.attr("src", items[i].lowPhotoUrl);
+                $hotgame_profile_photo.attr("src", items[i].bigPhotoUrl);
 
                 $hotgame_status_image.addClass('hidden');
 

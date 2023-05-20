@@ -146,7 +146,7 @@
 
                 if (!$access_data['error']) {
 
-                    auth::setSession($result['accountId'], $result['username'], $result['fullname'], "", $result['balance'], 0, $result['free_messages_count'], 0, $access_data['accessToken']);
+                    auth::setSession($result['accountId'], $result['username'], $result['fullname'], "", $result['balance'], 0, $result['level_messages_count'], 0, $access_data['accessToken']);
                     auth::updateCookie($user_username, $access_data['accessToken']);
 
                     $language = $account->getLanguage();
@@ -394,9 +394,9 @@
 
                         <div class="opt-in">
                             <select name="gender" id="gender" style="margin-bottom: 15px; width: 100%">
-                                <option value="2" <?php if ($gender != SEX_FEMALE && $gender != SEX_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-secret']; ?></option>
-                                <option value="0" <?php if ($gender == SEX_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-male']; ?></option>
-                                <option value="1" <?php if ($gender == SEX_FEMALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-female']; ?></option>
+                                <option value="2" <?php if ($gender != GENDER_FEMALE && $gender != GENDER_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-secret']; ?></option>
+                                <option value="0" <?php if ($gender == GENDER_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-male']; ?></option>
+                                <option value="1" <?php if ($gender == GENDER_FEMALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-female']; ?></option>
                             </select>
                         </div>
 

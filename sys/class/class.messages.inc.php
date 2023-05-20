@@ -61,7 +61,7 @@ class messages extends db_connect
                         "fromUserUsername" => $profileInfo['username'],
                         "fromUserFullname" => $profileInfo['fullname'],
                         "fromUserOnline" => $profileInfo['online'],
-                        "fromUserPhotoUrl" => $profileInfo['lowPhotoUrl'],
+                        "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                         "message" => htmlspecialchars_decode(stripslashes($row['message'])),
                         "imgUrl" => $row['imgUrl'],
                         "stickerId" => $row['stickerId'],

@@ -31,20 +31,20 @@
           },
           "account.deactivate.inc.php": {
             "type": "-",
-            "size": 1576,
-            "lmtime": 0,
+            "size": 1415,
+            "lmtime": 1682686272726.5217,
             "modified": false
           },
           "account.getSettings.inc.php": {
             "type": "-",
-            "size": 2482,
-            "lmtime": 0,
+            "size": 2583,
+            "lmtime": 1684559734122.851,
             "modified": false
           },
           "account.google.inc.php": {
             "type": "-",
-            "size": 4835,
-            "lmtime": 0,
+            "size": 4836,
+            "lmtime": 1684558528735.833,
             "modified": false
           },
           "account.logOut.inc.php": {
@@ -55,8 +55,8 @@
           },
           "account.privacy.inc.php": {
             "type": "-",
-            "size": 1791,
-            "lmtime": 0,
+            "size": 1617,
+            "lmtime": 1682689262812.6772,
             "modified": false
           },
           "account.recovery.inc.php": {
@@ -67,9 +67,9 @@
           },
           "account.saveSettings.inc.php": {
             "type": "-",
-            "size": 4407,
+            "size": 4428,
             "lmtime": 1682658038202.3225,
-            "modified": false
+            "modified": true
           },
           "account.setAllowMessages.inc.php": {
             "type": "-",
@@ -109,9 +109,9 @@
           },
           "account.signUp.inc.php": {
             "type": "-",
-            "size": 4246,
+            "size": 4258,
             "lmtime": 1682328094586.2756,
-            "modified": false
+            "modified": true
           },
           "app.checkEmail.inc.php": {
             "type": "-",
@@ -181,8 +181,8 @@
           },
           "chat.update.inc.php": {
             "type": "-",
-            "size": 3080,
-            "lmtime": 0,
+            "size": 3089,
+            "lmtime": 1684559876657.7576,
             "modified": false
           },
           "comments.new.inc.php": {
@@ -247,9 +247,9 @@
           },
           "gallery.get.inc.php": {
             "type": "-",
-            "size": 1334,
+            "size": 1325,
             "lmtime": 0,
-            "modified": false
+            "modified": true
           },
           "gallery.getItem.inc.php": {
             "type": "-",
@@ -271,8 +271,8 @@
           },
           "gallery.new.inc.php": {
             "type": "-",
-            "size": 1933,
-            "lmtime": 0,
+            "size": 1759,
+            "lmtime": 1682743023608.848,
             "modified": false
           },
           "gallery.remove.inc.php": {
@@ -289,45 +289,21 @@
           },
           "gallery.stream.inc.php": {
             "type": "-",
-            "size": 1090,
+            "size": 1084,
             "lmtime": 0,
-            "modified": false
+            "modified": true
           },
           "gallery.uploadImg.inc.php": {
             "type": "-",
-            "size": 2990,
-            "lmtime": 0,
-            "modified": false
-          },
-          "gifts.get.inc.php": {
-            "type": "-",
-            "size": 1193,
-            "lmtime": 0,
-            "modified": false
-          },
-          "gifts.remove.inc.php": {
-            "type": "-",
-            "size": 1014,
-            "lmtime": 0,
-            "modified": false
-          },
-          "gifts.select.inc.php": {
-            "type": "-",
-            "size": 1060,
-            "lmtime": 0,
-            "modified": false
-          },
-          "gifts.send.inc.php": {
-            "type": "-",
-            "size": 2725,
-            "lmtime": 1682410836504.184,
+            "size": 2832,
+            "lmtime": 1682747191186.7498,
             "modified": false
           },
           "hotgame.get.inc.php": {
             "type": "-",
-            "size": 1656,
+            "size": 1674,
             "lmtime": 0,
-            "modified": false
+            "modified": true
           },
           "images.comment.inc.php": {
             "type": "-",
@@ -398,8 +374,8 @@
           },
           "payments.new.inc.php": {
             "type": "-",
-            "size": 1540,
-            "lmtime": 1682412217417.0308,
+            "size": 1545,
+            "lmtime": 1684559919606.972,
             "modified": false
           },
           "photos.feed.inc.php": {
@@ -416,19 +392,13 @@
           },
           "photos.new.inc.php": {
             "type": "-",
-            "size": 1964,
-            "lmtime": 0,
+            "size": 1790,
+            "lmtime": 1682743072281.5413,
             "modified": false
           },
           "photos.remove.inc.php": {
             "type": "-",
             "size": 1071,
-            "lmtime": 0,
-            "modified": false
-          },
-          "photos.report.inc.php": {
-            "type": "-",
-            "size": 1194,
             "lmtime": 0,
             "modified": false
           },
@@ -440,8 +410,8 @@
           },
           "photos.uploadImg.inc.php": {
             "type": "-",
-            "size": 2967,
-            "lmtime": 0,
+            "size": 2809,
+            "lmtime": 1682747198726.5237,
             "modified": false
           },
           "profile.follow.inc.php": {
@@ -470,9 +440,9 @@
           },
           "profile.getPeopleNearby.inc.php": {
             "type": "-",
-            "size": 1605,
+            "size": 1623,
             "lmtime": 0,
-            "modified": false
+            "modified": true
           },
           "profile.like.inc.php": {
             "type": "-",
@@ -488,8 +458,8 @@
           },
           "profile.uploadImg.inc.php": {
             "type": "-",
-            "size": 4400,
-            "lmtime": 0,
+            "size": 4208,
+            "lmtime": 1682748675898.1833,
             "modified": false
           },
           "search.people.inc.php": {
@@ -515,15 +485,99 @@
     },
     "assets": {},
     "cgi-bin": {},
-    "css": {},
+    "css": {
+      "account.css": {
+        "type": "-",
+        "size": 612,
+        "lmtime": 0,
+        "modified": false
+      },
+      "admin.css": {
+        "type": "-",
+        "size": 110,
+        "lmtime": 0,
+        "modified": false
+      },
+      "blueimp-gallery.min.css": {
+        "type": "-",
+        "size": 7146,
+        "lmtime": 0,
+        "modified": false
+      },
+      "bootstrap-grid.css": {
+        "type": "-",
+        "size": 64502,
+        "lmtime": 0,
+        "modified": false
+      },
+      "bootstrap-slider.css": {
+        "type": "-",
+        "size": 10368,
+        "lmtime": 0,
+        "modified": false
+      },
+      "bootstrap.css": {
+        "type": "-",
+        "size": 192307,
+        "lmtime": 0,
+        "modified": false
+      },
+      "font-awesome.css": {
+        "type": "-",
+        "size": 37468,
+        "lmtime": 0,
+        "modified": false
+      },
+      "homepage.css": {
+        "type": "-",
+        "size": 2194,
+        "lmtime": 0,
+        "modified": false
+      },
+      "icofont.css": {
+        "type": "-",
+        "size": 112259,
+        "lmtime": 0,
+        "modified": false
+      },
+      "index.php": {
+        "type": "-",
+        "size": 219,
+        "lmtime": 0,
+        "modified": false
+      },
+      "landing.css": {
+        "type": "-",
+        "size": 5588,
+        "lmtime": 0,
+        "modified": false
+      },
+      "main.css": {
+        "type": "-",
+        "size": 115792,
+        "lmtime": 0,
+        "modified": false
+      },
+      "my.css": {
+        "type": "-",
+        "size": 3508,
+        "lmtime": 1684558528739.8328,
+        "modified": false
+      },
+      "profile.css": {
+        "type": "-",
+        "size": 2279,
+        "lmtime": 0,
+        "modified": false
+      }
+    },
     "error_log": {
       "type": "-",
-      "size": 31183,
+      "size": 5780,
       "lmtime": 0,
-      "modified": true
+      "modified": false
     },
     "font": {},
-    "gifts": {},
     "html": {
       "account": {
         "index.php": {
@@ -534,14 +588,14 @@
         },
         "page.balance.inc.php": {
           "type": "-",
-          "size": 17334,
-          "lmtime": 0,
-          "modified": true
+          "size": 17060,
+          "lmtime": 1682689067625.387,
+          "modified": false
         },
         "page.chat.inc.php": {
           "type": "-",
-          "size": 29605,
-          "lmtime": 1682329175138.2942,
+          "size": 29606,
+          "lmtime": 1684557209006.0278,
           "modified": false
         },
         "page.feed.inc.php": {
@@ -564,15 +618,15 @@
         },
         "page.gallery.inc.php": {
           "type": "-",
-          "size": 21632,
-          "lmtime": 0,
-          "modified": false
+          "size": 19055,
+          "lmtime": 1682747209086.215,
+          "modified": true
         },
         "page.hotgame.inc.php": {
           "type": "-",
           "size": 26856,
-          "lmtime": 0,
-          "modified": false
+          "lmtime": 1682686550739.794,
+          "modified": true
         },
         "page.liked.inc.php": {
           "type": "-",
@@ -594,41 +648,78 @@
         },
         "page.messages.inc.php": {
           "type": "-",
-          "size": 9130,
-          "lmtime": 0,
+          "size": 9142,
+          "lmtime": 1684558528739.8328,
           "modified": false
         },
         "page.nearby.inc.php": {
           "type": "-",
-          "size": 16474,
+          "size": 16477,
           "lmtime": 0,
-          "modified": false
+          "modified": true
         },
         "page.notifications.inc.php": {
           "type": "-",
-          "size": 24020,
-          "lmtime": 0,
+          "size": 22177,
+          "lmtime": 1682690376645.046,
           "modified": false
         },
         "page.settings.inc.php": {
           "type": "-",
-          "size": 32330,
+          "size": 32357,
           "lmtime": 1682658038214.3225,
-          "modified": false
+          "modified": true
         },
         "page.stream.inc.php": {
           "type": "-",
-          "size": 5613,
+          "size": 5601,
           "lmtime": 0,
-          "modified": false
+          "modified": true
         },
         "page.upgrades.inc.php": {
           "type": "-",
-          "size": 11541,
-          "lmtime": 1682410821188.187,
+          "size": 11543,
+          "lmtime": 1684557209006.0278,
           "modified": false
         },
-        "settings": {}
+        "settings": {
+          "index.php": {
+            "type": "-",
+            "size": 214,
+            "lmtime": 0,
+            "modified": false
+          },
+          "page.blacklist.inc.php": {
+            "type": "-",
+            "size": 7816,
+            "lmtime": 0,
+            "modified": false
+          },
+          "page.deactivation.inc.php": {
+            "type": "-",
+            "size": 6572,
+            "lmtime": 1682686576688.8374,
+            "modified": false
+          },
+          "page.password.inc.php": {
+            "type": "-",
+            "size": 9416,
+            "lmtime": 0,
+            "modified": false
+          },
+          "page.privacy.inc.php": {
+            "type": "-",
+            "size": 13174,
+            "lmtime": 1682690374353.0417,
+            "modified": false
+          },
+          "page.services.inc.php": {
+            "type": "-",
+            "size": 7061,
+            "lmtime": 0,
+            "modified": false
+          }
+        }
       },
       "admin": {
         "css": {},
@@ -641,14 +732,14 @@
         "js": {},
         "page.admins.inc.php": {
           "type": "-",
-          "size": 13202,
-          "lmtime": 0,
+          "size": 13173,
+          "lmtime": 1682690252672.8357,
           "modified": false
         },
         "page.app.inc.php": {
           "type": "-",
-          "size": 11645,
-          "lmtime": 0,
+          "size": 11655,
+          "lmtime": 1684557449604.1233,
           "modified": false
         },
         "page.chat.inc.php": {
@@ -669,12 +760,6 @@
           "lmtime": 0,
           "modified": false
         },
-        "page.gifts.inc.php": {
-          "type": "-",
-          "size": 10172,
-          "lmtime": 0,
-          "modified": false
-        },
         "page.login.inc.php": {
           "type": "-",
           "size": 3965,
@@ -689,8 +774,8 @@
         },
         "page.main.inc.php": {
           "type": "-",
-          "size": 14269,
-          "lmtime": 0,
+          "size": 13670,
+          "lmtime": 1682690201788.7551,
           "modified": false
         },
         "page.moderation_actions.inc.php": {
@@ -720,13 +805,13 @@
         "page.photo_reports.inc.php": {
           "type": "-",
           "size": 12611,
-          "lmtime": 0,
+          "lmtime": 1682686639030.3477,
           "modified": false
         },
         "page.profile.inc.php": {
           "type": "-",
-          "size": 27554,
-          "lmtime": 1682331432543.3218,
+          "size": 27443,
+          "lmtime": 1684558528739.8328,
           "modified": false
         },
         "page.profile_chats.inc.php": {
@@ -738,7 +823,7 @@
         "page.profile_reports.inc.php": {
           "type": "-",
           "size": 10138,
-          "lmtime": 0,
+          "lmtime": 1682686657380.5913,
           "modified": false
         },
         "page.purchases.inc.php": {
@@ -762,7 +847,7 @@
         "page.stream_comments.inc.php": {
           "type": "-",
           "size": 11505,
-          "lmtime": 0,
+          "lmtime": 1682686712887.6685,
           "modified": false
         },
         "page.stream_messages.inc.php": {
@@ -773,9 +858,9 @@
         },
         "page.stream_photos.inc.php": {
           "type": "-",
-          "size": 11927,
-          "lmtime": 0,
-          "modified": false
+          "size": 11913,
+          "lmtime": 1682686722330.886,
+          "modified": true
         },
         "page.support.inc.php": {
           "type": "-",
@@ -792,7 +877,7 @@
         "page.users.inc.php": {
           "type": "-",
           "size": 9320,
-          "lmtime": 0,
+          "lmtime": 1682686734089.9333,
           "modified": false
         }
       },
@@ -806,8 +891,8 @@
           },
           "page.msg.inc.php": {
             "type": "-",
-            "size": 4494,
-            "lmtime": 1682329182950.2124,
+            "size": 4499,
+            "lmtime": 1684557209006.0278,
             "modified": false
           },
           "page.update.inc.php": {
@@ -816,9 +901,77 @@
             "lmtime": 0,
             "modified": false
           }
+        },
+        "index.php": {
+          "type": "-",
+          "size": 219,
+          "lmtime": 0,
+          "modified": false
+        },
+        "spotlight": {}
+      },
+      "common": {
+        "admin_banner.inc.php": {
+          "type": "-",
+          "size": 515,
+          "lmtime": 0,
+          "modified": false
+        },
+        "admin_footer.inc.php": {
+          "type": "-",
+          "size": 2566,
+          "lmtime": 0,
+          "modified": false
+        },
+        "admin_header.inc.php": {
+          "type": "-",
+          "size": 1512,
+          "lmtime": 0,
+          "modified": false
+        },
+        "admin_sidebar.inc.php": {
+          "type": "-",
+          "size": 7282,
+          "lmtime": 1682690255392.84,
+          "modified": false
+        },
+        "admin_topbar.inc.php": {
+          "type": "-",
+          "size": 4384,
+          "lmtime": 0,
+          "modified": false
+        },
+        "index.php": {
+          "type": "-",
+          "size": 215,
+          "lmtime": 0,
+          "modified": false
+        },
+        "site_footer.inc.php": {
+          "type": "-",
+          "size": 8773,
+          "lmtime": 0,
+          "modified": false
+        },
+        "site_header.inc.php": {
+          "type": "-",
+          "size": 2389,
+          "lmtime": 0,
+          "modified": false
+        },
+        "site_sidenav.inc.php": {
+          "type": "-",
+          "size": 10866,
+          "lmtime": 1682686740745.4043,
+          "modified": false
+        },
+        "site_topbar.inc.php": {
+          "type": "-",
+          "size": 9438,
+          "lmtime": 0,
+          "modified": false
         }
       },
-      "common": {},
       "error.inc.php": {
         "type": "-",
         "size": 1266,
@@ -830,8 +983,8 @@
       "gdpr": {},
       "main.inc.php": {
         "type": "-",
-        "size": 10140,
-        "lmtime": 0,
+        "size": 10149,
+        "lmtime": 1684558528739.8328,
         "modified": false
       },
       "page.about.inc.php": {
@@ -842,8 +995,8 @@
       },
       "page.enable_emoji.inc.php": {
         "type": "-",
-        "size": 2009,
-        "lmtime": 0,
+        "size": 1971,
+        "lmtime": 1682689255448.6965,
         "modified": false
       },
       "page.facebook.inc.php": {
@@ -860,14 +1013,14 @@
       },
       "page.google.inc.php": {
         "type": "-",
-        "size": 4667,
-        "lmtime": 0,
+        "size": 4670,
+        "lmtime": 1684558528739.8328,
         "modified": false
       },
       "page.install.inc.php": {
         "type": "-",
-        "size": 7721,
-        "lmtime": 0,
+        "size": 7397,
+        "lmtime": 1684557208998.0283,
         "modified": false
       },
       "page.privacy.inc.php": {
@@ -890,8 +1043,8 @@
       },
       "page.signup.inc.php": {
         "type": "-",
-        "size": 17170,
-        "lmtime": 1682328014593.1128,
+        "size": 17183,
+        "lmtime": 1684558528739.8328,
         "modified": false
       },
       "page.support.inc.php": {
@@ -907,12 +1060,31 @@
         "modified": false
       },
       "privacy": {},
-      "profile": {},
+      "profile": {
+        "page.friends.inc.php": {
+          "type": "-",
+          "size": 7456,
+          "lmtime": 0,
+          "modified": false
+        },
+        "page.gallery.inc.php": {
+          "type": "-",
+          "size": 7395,
+          "lmtime": 0,
+          "modified": false
+        },
+        "page.likes.inc.php": {
+          "type": "-",
+          "size": 7378,
+          "lmtime": 0,
+          "modified": false
+        }
+      },
       "profile.inc.php": {
         "type": "-",
-        "size": 42584,
-        "lmtime": 0,
-        "modified": false
+        "size": 35609,
+        "lmtime": 1682689274476.648,
+        "modified": true
       },
       "recaptcha": {},
       "restore": {},
@@ -941,8 +1113,8 @@
     },
     "index.php": {
       "type": "-",
-      "size": 7660,
-      "lmtime": 0,
+      "size": 7649,
+      "lmtime": 1684558528719.8335,
       "modified": false
     },
     "js": {},
@@ -956,8 +1128,8 @@
       "lang": {
         "en.php": {
           "type": "-",
-          "size": 33428,
-          "lmtime": 1682658116846.5146,
+          "size": 32677,
+          "lmtime": 1682689260592.683,
           "modified": false
         },
         "index.php": {
@@ -982,8 +1154,8 @@
         },
         "class.account.inc.php": {
           "type": "-",
-          "size": 57934,
-          "lmtime": 1682658038206.3225,
+          "size": 56637,
+          "lmtime": 1684559706288.0593,
           "modified": false
         },
         "class.admin.inc.php": {
@@ -1000,38 +1172,38 @@
         },
         "class.app.inc.php": {
           "type": "-",
-          "size": 1698,
-          "lmtime": 0,
+          "size": 1686,
+          "lmtime": 1682686845669.9749,
           "modified": false
         },
         "class.auth.inc.php": {
           "type": "-",
-          "size": 12524,
-          "lmtime": 1682329236137.6604,
+          "size": 12535,
+          "lmtime": 1684558528723.8335,
           "modified": false
         },
         "class.blacklist.inc.php": {
           "type": "-",
           "size": 7780,
-          "lmtime": 0,
+          "lmtime": 1682686890907.2485,
           "modified": false
         },
         "class.cdn.inc.php": {
           "type": "-",
-          "size": 2218,
-          "lmtime": 0,
+          "size": 2234,
+          "lmtime": 1682748675894.1826,
           "modified": false
         },
         "class.cleaner.inc.php": {
           "type": "-",
-          "size": 2672,
-          "lmtime": 0,
+          "size": 2435,
+          "lmtime": 1682742564825.9846,
           "modified": false
         },
         "class.comments.inc.php": {
           "type": "-",
           "size": 10813,
-          "lmtime": 0,
+          "lmtime": 1682686971195.018,
           "modified": false
         },
         "class.db_connect.inc.php": {
@@ -1042,8 +1214,8 @@
         },
         "class.draw.inc.php": {
           "type": "-",
-          "size": 29356,
-          "lmtime": 0,
+          "size": 25209,
+          "lmtime": 1682689984080.461,
           "modified": false
         },
         "class.fcm.inc.php": {
@@ -1060,21 +1232,21 @@
         },
         "class.find.inc.php": {
           "type": "-",
-          "size": 4319,
-          "lmtime": 0,
+          "size": 4322,
+          "lmtime": 1682687094401.8157,
           "modified": true
         },
         "class.friends.inc.php": {
           "type": "-",
-          "size": 11394,
-          "lmtime": 0,
-          "modified": false
+          "size": 11473,
+          "lmtime": 1682687109989.254,
+          "modified": true
         },
         "class.gallery.inc.php": {
           "type": "-",
-          "size": 18451,
-          "lmtime": 0,
-          "modified": false
+          "size": 18086,
+          "lmtime": 1682743279644.4504,
+          "modified": true
         },
         "class.gcm.inc.php": {
           "type": "-",
@@ -1084,38 +1256,32 @@
         },
         "class.geo.inc.php": {
           "type": "-",
-          "size": 3935,
+          "size": 3938,
           "lmtime": 0,
-          "modified": false
-        },
-        "class.gift.inc.php": {
-          "type": "-",
-          "size": 12583,
-          "lmtime": 0,
-          "modified": false
+          "modified": true
         },
         "class.helper.inc.php": {
           "type": "-",
-          "size": 10418,
-          "lmtime": 1682683567444.942,
+          "size": 10411,
+          "lmtime": 1682744952178.7192,
           "modified": false
         },
         "class.hotgame.inc.php": {
           "type": "-",
-          "size": 3800,
-          "lmtime": 0,
-          "modified": false
+          "size": 3821,
+          "lmtime": 1682687142424.1467,
+          "modified": true
         },
         "class.images.inc.php": {
           "type": "-",
           "size": 12280,
-          "lmtime": 0,
+          "lmtime": 1682687175075.1123,
           "modified": false
         },
         "class.imglib.inc.php": {
           "type": "-",
-          "size": 16227,
-          "lmtime": 1682683608349.9304,
+          "size": 11128,
+          "lmtime": 1682751751304.7764,
           "modified": false
         },
         "class.language.inc.php": {
@@ -1127,19 +1293,19 @@
         "class.messages.inc.php": {
           "type": "-",
           "size": 4758,
-          "lmtime": 0,
+          "lmtime": 1682687181998.9028,
           "modified": false
         },
         "class.msg.inc.php": {
           "type": "-",
-          "size": 37253,
-          "lmtime": 0,
+          "size": 37238,
+          "lmtime": 1684558528723.8335,
           "modified": false
         },
         "class.notify.inc.php": {
           "type": "-",
           "size": 6835,
-          "lmtime": 0,
+          "lmtime": 1682687234733.414,
           "modified": false
         },
         "class.payments.inc.php": {
@@ -1156,8 +1322,8 @@
         },
         "class.photos.inc.php": {
           "type": "-",
-          "size": 21234,
-          "lmtime": 0,
+          "size": 21125,
+          "lmtime": 1682743293772.6462,
           "modified": false
         },
         "class.phpmailer.inc.php": {
@@ -1168,14 +1334,14 @@
         },
         "class.profile.inc.php": {
           "type": "-",
-          "size": 29838,
-          "lmtime": 1682658038206.3225,
-          "modified": false
+          "size": 28959,
+          "lmtime": 1682690250392.8318,
+          "modified": true
         },
         "class.report.inc.php": {
           "type": "-",
-          "size": 14082,
-          "lmtime": 0,
+          "size": 560,
+          "lmtime": 1682742884590.838,
           "modified": false
         },
         "class.reports.inc.php": {
@@ -1186,9 +1352,9 @@
         },
         "class.search.inc.php": {
           "type": "-",
-          "size": 6218,
-          "lmtime": 0,
-          "modified": false
+          "size": 6227,
+          "lmtime": 1682687374938.2627,
+          "modified": true
         },
         "class.settings.inc.php": {
           "type": "-",
@@ -1198,14 +1364,14 @@
         },
         "class.spam.inc.php": {
           "type": "-",
-          "size": 3482,
-          "lmtime": 0,
+          "size": 2949,
+          "lmtime": 1682690247672.8276,
           "modified": false
         },
         "class.stats.inc.php": {
           "type": "-",
-          "size": 12194,
-          "lmtime": 0,
+          "size": 9663,
+          "lmtime": 1682742921627.378,
           "modified": false
         },
         "class.sticker.inc.php": {
@@ -1222,8 +1388,8 @@
         },
         "class.stream.inc.php": {
           "type": "-",
-          "size": 3498,
-          "lmtime": 0,
+          "size": 3421,
+          "lmtime": 1682743605444.9167,
           "modified": false
         },
         "class.support.inc.php": {
@@ -1234,9 +1400,9 @@
         },
         "class.update.inc.php": {
           "type": "-",
-          "size": 8088,
-          "lmtime": 1682406167376.3171,
-          "modified": true
+          "size": 410,
+          "lmtime": 1682689774172.2832,
+          "modified": false
         },
         "index.php": {
           "type": "-",
@@ -1260,8 +1426,8 @@
         },
         "initialize.inc.php": {
           "type": "-",
-          "size": 21549,
-          "lmtime": 1682658038206.3225,
+          "size": 19080,
+          "lmtime": 1684558528731.8333,
           "modified": false
         }
       },
@@ -1274,14 +1440,14 @@
         },
         "constants.inc.php": {
           "type": "-",
-          "size": 2994,
-          "lmtime": 1682410783124.2122,
+          "size": 2970,
+          "lmtime": 1682689778552.2856,
           "modified": false
         },
         "db.inc.php": {
           "type": "-",
-          "size": 10300,
-          "lmtime": 1682410743728.2676,
+          "size": 10076,
+          "lmtime": 1682748768359.6636,
           "modified": false
         },
         "gconfig.inc.php": {

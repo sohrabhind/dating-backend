@@ -40,20 +40,12 @@ if (!empty($_POST)) {
 
     // Remove Avatar
 
-    $photos = array("error" => false,
-                    "originPhotoUrl" => "",
-                    "normalPhotoUrl" => "",
-                    "bigPhotoUrl" => "",
-                    "lowPhotoUrl" => "");
-
+    $photos = array("error" => false, "bigPhotoUrl" => "");
     $account->setPhoto($photos);
 
     // Unset Facebook Id
-
     $account->setFacebookId("");
-
     // Unset Email
-
     $account->setEmail("");
 
     // Deactivate Account

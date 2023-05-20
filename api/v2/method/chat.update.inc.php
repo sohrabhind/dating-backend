@@ -21,7 +21,7 @@ if (!empty($_POST)) {
 
     $chatId = isset($_POST['chatId']) ? $_POST['chatId'] : 0;
 
-    $freeMessagesCount = isset($_POST['freeMessagesCount']) ? $_POST['freeMessagesCount'] : 0;
+    $levelMessagesCount = isset($_POST['levelMessagesCount']) ? $_POST['levelMessagesCount'] : 0;
 
     $clientId = helper::clearInt($clientId);
     $accountId = helper::clearInt($accountId);
@@ -31,7 +31,7 @@ if (!empty($_POST)) {
 
     $chatId = helper::clearInt($chatId);
 
-    $freeMessagesCount = helper::clearInt($freeMessagesCount);
+    $levelMessagesCount = helper::clearInt($levelMessagesCount);
 
     $result = array(
         "error" => false,
@@ -49,11 +49,11 @@ if (!empty($_POST)) {
 
     if (auth::isSession()) {
 
-        $freeMessagesCount = auth::getCurrentFreeMessagesCount();
+        $levelMessagesCount = auth::getCurrentLevelMessagesCount();
     }
 
     $account = new account($dbo, $accountId);
-    $account->setFreeMessagesCount($freeMessagesCount);
+    $account->setLevelMessagesCount($levelMessagesCount);
     unset($account);
 
     // Update Chat info

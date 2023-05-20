@@ -67,7 +67,7 @@ class helper extends db_connect
 
     public function getUserPhoto($accountId)
     {
-        $stmt = $this->db->prepare("SELECT lowPhotoUrl FROM users WHERE id = (:id) LIMIT 1");
+        $stmt = $this->db->prepare("SELECT bigPhotoUrl FROM users WHERE id = (:id) LIMIT 1");
         $stmt->bindParam(":id", $accountId, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -75,13 +75,13 @@ class helper extends db_connect
 
             $row = $stmt->fetch();
 
-            if (strlen($row['lowPhotoUrl']) == 0) {
+            if (strlen($row['bigPhotoUrl']) == 0) {
 
                 return "/assets/img/profile_default_photo.png";
 
             } else {
 
-                return $row['lowPhotoUrl'];
+                return $row['bigPhotoUrl'];
             }
         }
 
@@ -361,14 +361,12 @@ static function clearInt($value) {
         return $key;
     }
 
-    static function generateHash($n = 32)
-    {
+    static function generateHash($n = 32) {
         $key = '';
         $pattern = '123456789abcdef';
         $counter = strlen($pattern) - 1;
 
         for ($i = 0; $i < $n; $i++) {
-
             $key .= $pattern[rand(0, $counter)];
         }
 

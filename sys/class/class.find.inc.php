@@ -61,7 +61,7 @@ class find extends db_connect
 
         if ($gender != 3) {
 
-            $genderSql = " AND sex = {$gender}";
+            $genderSql = " AND gender = {$gender}";
         }
 
         $onlineSql = "";
@@ -74,7 +74,7 @@ class find extends db_connect
         $photoSql = "";
 
         if ($photo > 0) {
-            $photoSql = " AND lowPhotoUrl <> ''";
+            $photoSql = " AND bigPhotoUrl <> ''";
         }
 
         $levelModeSql = "";

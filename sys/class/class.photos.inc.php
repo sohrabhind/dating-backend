@@ -59,7 +59,7 @@ class photos extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $itemShowInStream = 1, $photoArea = "", $photoCountry = "", $photoCity = "", $photoLat = "0.000000", $photoLng = "0.000000")
+    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $photoArea = "", $photoCountry = "", $photoCity = "", $photoLat = "0.000000", $photoLng = "0.000000")
     {
         $result = array(
             "error" => true,
@@ -84,11 +84,10 @@ class photos extends db_connect
         $app_settings = $settings->get();
         unset($settings);
 
-        $stmt = $this->db->prepare("INSERT INTO photos (fromUserId, accessMode, itemType, itemShowInStream, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr, u_agent) value (:fromUserId, :accessMode, :itemType, :itemShowInStream, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr, :u_agent)");
+        $stmt = $this->db->prepare("INSERT INTO photos (fromUserId, accessMode, itemType, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr, u_agent) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr, :u_agent)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":accessMode", $mode, PDO::PARAM_INT);
         $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
-        $stmt->bindParam(":itemShowInStream", $itemShowInStream, PDO::PARAM_INT);
         $stmt->bindParam(":comment", $comment, PDO::PARAM_STR);
         $stmt->bindParam(":imgUrl", $imgUrl, PDO::PARAM_STR);
         $stmt->bindParam(":area", $photoArea, PDO::PARAM_STR);
@@ -444,10 +443,11 @@ class photos extends db_connect
                                 "accessMode" => $row['accessMode'],
                                 "itemType" => $row['itemType'],
                                 "fromUserId" => $row['fromUserId'],
+                                
                                 "fromUserUsername" => $profileInfo['username'],
                                 "fromUserFullname" => $profileInfo['fullname'],
-                                "fromUserPhoto" => $profileInfo['lowPhotoUrl'],
-                                "fromUserPhotoUrl" => $profileInfo['lowPhotoUrl'],
+                                "fromUserPhoto" => $profileInfo['bigPhotoUrl'],
+                                "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                                 "fromUserOnline" => $profileInfo['online'],
                                 "fromUserAllowPhotosComments" => $profileInfo['allowPhotosComments'],
                                 "comment" => htmlspecialchars_decode(stripslashes($row['comment'])),

@@ -21,10 +21,8 @@ class cleaner extends db_connect
 
     public function cleanPhotos()
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
-
-        $stmt = $this->db->prepare("UPDATE users SET lowPhotoUrl = '', originPhotoUrl = '', normalPhotoUrl = '', bigPhotoUrl = ''");
+        $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
+        $stmt = $this->db->prepare("UPDATE users SET bigPhotoUrl = ''");
 
         if ($stmt->execute()) {
 
@@ -72,9 +70,6 @@ class cleaner extends db_connect
 
                 $stmt5 = $this->db->prepare("UPDATE notifications SET removeAt = 1 WHERE notifyType > 6 AND notifyType < 10");
                 $stmt5->execute();
-
-                $stmt6 = $this->db->prepare("UPDATE photo_abuse_reports SET removeAt = 1 WHERE removeAt = 0");
-                $stmt6->execute();
 
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS);

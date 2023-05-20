@@ -19,7 +19,7 @@ class account extends db_connect
         $this->setId($accountId);
     }
 
-    public function signup($username, $fullname, $password, $email, $sex, $year, $month, $day, $u_age, $language = '')
+    public function signup($username, $fullname, $password, $email, $gender, $year, $month, $day, $u_age, $language = '')
     {
 
         $result = array("error" => true);
@@ -86,9 +86,9 @@ class account extends db_connect
             return $result;
         }
 
-        if ($sex < 0 || $sex > 1) {
+        if ($gender < 0 || $gender > 1) {
             //0 = male //1= female
-            $sex = 0; // Default gender. 0 = male
+            $gender = 0; // Default gender. 0 = male
         }
 
         if ($u_age > 110 || $u_age < 18) {
@@ -117,12 +117,12 @@ class account extends db_connect
 
         $accountState = ACCOUNT_STATE_ENABLED;
         $default_user_balance = $app_settings['defaultBalance']['intValue'];
-        $default_free_messages_count = $app_settings['defaultFreeMessagesCount']['intValue'];
+        $default_level_messages_count = $app_settings['defaultLevelMessagesCount']['intValue'];
         $default_allow_messages = $app_settings['defaultAllowMessages']['intValue'];
         $default_user_language = "en";
 
-        $stmt = $this->db->prepare("INSERT INTO users (free_messages_count, language, state, username, fullname, password, email, salt, balance, bYear, bMonth, bDay, sex, u_age, regtime, allowMessages, ip_addr) value (:free_messages_count, :language, :state, :username, :fullname, :password, :email, :salt, :balance, :bYear, :bMonth, :bDay, :sex, :age, :createAt, :allowMessages, :ip_addr)");
-        $stmt->bindParam(":free_messages_count", $default_free_messages_count, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("INSERT INTO users (level_messages_count, language, state, username, fullname, password, email, salt, balance, bYear, bMonth, bDay, gender, u_age, regtime, allowMessages, ip_addr) value (:level_messages_count, :language, :state, :username, :fullname, :password, :email, :salt, :balance, :bYear, :bMonth, :bDay, :gender, :age, :createAt, :allowMessages, :ip_addr)");
+        $stmt->bindParam(":level_messages_count", $default_level_messages_count, PDO::PARAM_INT);
         $stmt->bindParam(":language", $default_user_language, PDO::PARAM_STR);
         $stmt->bindParam(":state", $accountState, PDO::PARAM_INT);
         $stmt->bindParam(":username", $username, PDO::PARAM_STR);
@@ -134,7 +134,7 @@ class account extends db_connect
         $stmt->bindParam(":bYear", $year, PDO::PARAM_INT);
         $stmt->bindParam(":bMonth", $month, PDO::PARAM_INT);
         $stmt->bindParam(":bDay", $day, PDO::PARAM_INT);
-        $stmt->bindParam(":sex", $sex, PDO::PARAM_INT);
+        $stmt->bindParam(":gender", $gender, PDO::PARAM_INT);
         $stmt->bindParam(":age", $u_age, PDO::PARAM_INT);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
         $stmt->bindParam(":allowMessages", $default_allow_messages, PDO::PARAM_INT);
@@ -152,7 +152,7 @@ class account extends db_connect
                             'fullname' => $fullname,
                             'password' => $password,
                             'balance' => $default_user_balance,
-                            'free_messages_count' => $default_free_messages_count);
+                            'level_messages_count' => $default_level_messages_count);
 
             return $result;
         }
@@ -176,22 +176,20 @@ class account extends db_connect
             $row = $stmt->fetch();
             $passw_hash = md5(md5($password).$row['salt']);
 
-            $stmt2 = $this->db->prepare("SELECT id, state, fullname, lowPhotoUrl, level, free_messages_count FROM users WHERE email = (:email) AND password = (:password) LIMIT 1");
+            $stmt2 = $this->db->prepare("SELECT id, state, fullname, bigPhotoUrl, level, level_messages_count FROM users WHERE email = (:email) AND password = (:password) LIMIT 1");
             $stmt2->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt2->bindParam(":password", $passw_hash, PDO::PARAM_STR);
             $stmt2->execute();
 
             if ($stmt2->rowCount() > 0) {
-
                 $row2 = $stmt2->fetch();
-
                 $access_data = array("error" => false,
                                      "error_code" => ERROR_SUCCESS,
                                      "accountId" => $row2['id'],
                                      "fullname" => $row2['fullname'],
-                                     "photoUrl" => $row2['lowPhotoUrl'],
+                                     "photoUrl" => $row2['bigPhotoUrl'],
                                      "level" => $row2['level'],
-                                     "free_messages_count" => $row2['free_messages_count']);
+                                     "level_messages_count" => $row2['level_messages_count']);
             }
         }
 
@@ -373,14 +371,14 @@ class account extends db_connect
     }
 
 
-    public function setSex($sex)
+    public function setGender($gender)
     {
         $result = array("error" => true,
                         "error_code" => ERROR_CODE_INITIATE);
 
-        $stmt = $this->db->prepare("UPDATE users SET sex = (:sex) WHERE id = (:accountId)");
+        $stmt = $this->db->prepare("UPDATE users SET gender = (:gender) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":sex", $sex, PDO::PARAM_STR);
+        $stmt->bindParam(":gender", $gender, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
@@ -391,16 +389,16 @@ class account extends db_connect
         return $result;
     }
 
-    public function getSex()
+    public function getGender()
     {
-        $stmt = $this->db->prepare("SELECT sex FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt = $this->db->prepare("SELECT gender FROM users WHERE id = (:accountId) LIMIT 1");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
             $row = $stmt->fetch();
 
-            return $row['sex'];
+            return $row['gender'];
         }
 
         return 0;
@@ -488,12 +486,12 @@ class account extends db_connect
         return 0;
     }
 
-    public function setFreeMessagesCount($count) {
+    public function setLevelMessagesCount($count) {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
-        $stmt = $this->db->prepare("UPDATE users SET free_messages_count = (:free_messages_count) WHERE id = (:accountId)");
+        $stmt = $this->db->prepare("UPDATE users SET level_messages_count = (:level_messages_count) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":free_messages_count", $count, PDO::PARAM_INT);
+        $stmt->bindParam(":level_messages_count", $count, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -504,16 +502,32 @@ class account extends db_connect
         return $result;
     }
 
-    public function getFreeMessagesCount()
+    public function getLevelMessagesCount()
     {
-        $stmt = $this->db->prepare("SELECT free_messages_count FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt = $this->db->prepare("SELECT level_messages_count FROM users WHERE id = (:accountId) LIMIT 1");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
             $row = $stmt->fetch();
 
-            return $row['free_messages_count'];
+            return $row['level_messages_count'];
+        }
+
+        return 0;
+    }
+
+    public function getFreeMessagesCount()
+    {
+        $pastTime = time()-(24*60*60);
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM messages WHERE fromUserId = (:accountId) AND createAt > (:pastTime)");
+        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":pastTime", $pastTime, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $number_of_rows = $stmt->fetchColumn();
+
+            return 5-$number_of_rows;
         }
 
         return 0;
@@ -552,32 +566,6 @@ class account extends db_connect
         return 0;
     }
 
-    public function setGiftsCount($giftsCount)
-    {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
-
-        $stmt = $this->db->prepare("UPDATE users SET gifts_count = (:gifts_count) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":gifts_count", $giftsCount, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
-        }
-
-        return $result;
-    }
-
-    public function getGiftsCount()
-    {
-        $stmt = $this->db->prepare("SELECT count(*) FROM gifts WHERE giftTo = (:accountId) AND removeAt = 0");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
 
     public function setPhotosCount($photosCount) {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
@@ -604,16 +592,14 @@ class account extends db_connect
     public function updateCounters()
     {
         $photosCount = $this->getPhotosCount();
-        $giftsCount = $this->getGiftsCount();
         $likesCount = $this->getLikesCount();
         $friendsCount = $this->getFriendsCount();
 
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
-        $stmt = $this->db->prepare("UPDATE users SET photos_count = (:photos_count), gifts_count = (:gifts_count), likes_count = (:likes_count), friends_count = (:friends_count) WHERE id = (:accountId)");
+        $stmt = $this->db->prepare("UPDATE users SET photos_count = (:photos_count), likes_count = (:likes_count), friends_count = (:friends_count) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
         $stmt->bindParam(":photos_count", $photosCount, PDO::PARAM_INT);
-        $stmt->bindParam(":gifts_count", $giftsCount, PDO::PARAM_INT);
         $stmt->bindParam(":likes_count", $likesCount, PDO::PARAM_INT);
         $stmt->bindParam(":friends_count", $friendsCount, PDO::PARAM_INT);
 
@@ -1133,12 +1119,11 @@ class account extends db_connect
         return 0;
     }
 
-    public function setPrivacySettings($allowShowMyLikes, $allowShowMyGifts, $allowShowMyFriends, $allowShowMyGallery, $allowShowMyInfo)
+    public function setPrivacySettings($allowShowMyLikes, $allowShowMyFriends, $allowShowMyGallery, $allowShowMyInfo)
     {
-        $stmt = $this->db->prepare("UPDATE users SET allowShowMyLikes = (:allowShowMyLikes), allowShowMyGifts = (:allowShowMyGifts), allowShowMyFriends = (:allowShowMyFriends), allowShowMyGallery = (:allowShowMyGallery), allowShowMyInfo = (:allowShowMyInfo)  WHERE id = (:accountId)");
+        $stmt = $this->db->prepare("UPDATE users SET allowShowMyLikes = (:allowShowMyLikes), allowShowMyFriends = (:allowShowMyFriends), allowShowMyGallery = (:allowShowMyGallery), allowShowMyInfo = (:allowShowMyInfo)  WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
         $stmt->bindParam(":allowShowMyLikes", $allowShowMyLikes, PDO::PARAM_INT);
-        $stmt->bindParam(":allowShowMyGifts", $allowShowMyGifts, PDO::PARAM_INT);
         $stmt->bindParam(":allowShowMyFriends", $allowShowMyFriends, PDO::PARAM_INT);
         $stmt->bindParam(":allowShowMyGallery", $allowShowMyGallery, PDO::PARAM_INT);
         $stmt->bindParam(":allowShowMyInfo", $allowShowMyInfo, PDO::PARAM_INT);
@@ -1152,7 +1137,7 @@ class account extends db_connect
             "error_code" => ERROR_CODE_INITIATE
         );
 
-        $stmt = $this->db->prepare("SELECT allowShowMyLikes, allowShowMyGifts, allowShowMyFriends, allowShowMyGallery, allowShowMyInfo FROM users WHERE id = (:id)");
+        $stmt = $this->db->prepare("SELECT allowShowMyLikes, allowShowMyFriends, allowShowMyGallery, allowShowMyInfo FROM users WHERE id = (:id)");
         $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -1162,7 +1147,6 @@ class account extends db_connect
             $result = array("error" => false,
                             "error_code" => ERROR_SUCCESS,
                             "allowShowMyLikes" => $row['allowShowMyLikes'],
-                            "allowShowMyGifts" => $row['allowShowMyGifts'],
                             "allowShowMyFriends" => $row['allowShowMyFriends'],
                             "allowShowMyGallery" => $row['allowShowMyGallery'],
                             "allowShowMyInfo" => $row['allowShowMyInfo']);
@@ -1247,8 +1231,9 @@ class account extends db_connect
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch();
                 $notifications_count = 0;
-                $messages_count = 0;
+                $level_messages_count = 0;
                 $friends_count = 0;
+                $free_messages_count = $this->getFreeMessagesCount();
 
                 $online = false;
                 $current_time = time();
@@ -1272,7 +1257,8 @@ class account extends db_connect
                                 "level_create_at" => $row['level_create_at'],
                                 "gcm" => $row['gcm'],
                                 "balance" => $row['balance'],
-                                "free_messages_count" => $row['free_messages_count'],
+                                "free_messages_count" => $free_messages_count,
+                                "level_messages_count" => $row['level_messages_count'],
                                 "gl_id" => $row['gl_id'],
                                 "rating" => $row['rating'],
                                 "state" => $row['state'],
@@ -1285,7 +1271,7 @@ class account extends db_connect
                                 "instagram_page" => stripcslashes($row['instagram_page']),
                                 "email" => $row['email'],
                                 "emailVerify" => $row['emailVerify'],
-                                "sex" => $row['sex'],
+                                "gender" => $row['gender'],
                                 "age" => $row['u_age'],
                                 "height" => $row['u_height'],
                                 "weight" => $row['u_weight'],
@@ -1295,9 +1281,7 @@ class account extends db_connect
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],
                                 "language" => $row['language'],
-                                "lowPhotoUrl" => $row['lowPhotoUrl'],
-                                "normalPhotoUrl" => $row['normalPhotoUrl'],
-                                "bigPhotoUrl" => $row['normalPhotoUrl'],
+                                "bigPhotoUrl" => $row['bigPhotoUrl'],
                                 "iStatus" => $row['iStatus'],
                                 "iReligiousView" => $row['iReligiousView'],
                                 "iSmokingViews" => $row['iSmokingViews'],
@@ -1308,14 +1292,12 @@ class account extends db_connect
                                 "allowShowMyGallery" => $row['allowShowMyGallery'],
                                 "allowShowMyFriends" => $row['allowShowMyFriends'],
                                 "allowShowMyLikes" => $row['allowShowMyLikes'],
-                                "allowShowMyGifts" => $row['allowShowMyGifts'],
                                 "allowShowMyAge" => $row['allowShowMyAge'],
                                 "allowShowOnline" => $row['allowShowOnline'],
                                 "allowPhotosComments" => $row['allowPhotosComments'],
                                 "allowComments" => $row['allowComments'],
                                 "allowMessages" => $row['allowMessages'],
                                 "allowLikesGCM" => $row['allowLikesGCM'],
-                                "allowGiftsGCM" => $row['allowGiftsGCM'],
                                 "allowCommentsGCM" => $row['allowCommentsGCM'],
                                 "allowFollowersGCM" => $row['allowFollowersGCM'],
                                 "allowMessagesGCM" => $row['allowMessagesGCM'],
@@ -1327,10 +1309,9 @@ class account extends db_connect
                                 "friendsCount" => $row['friends_count'],
                                 "photosCount" => $row['photos_count'],
                                 "likesCount" => $row['likes_count'],
-                                "giftsCount" => $row['gifts_count'],
                                 "notificationsCount" => $notifications_count,
                                 "newFriendsCount" => $friends_count,
-                                "messagesCount" => $messages_count,
+                                "messagesCount" => $level_messages_count,
                                 "photoCreateAt" => $row['photoCreateAt'],
                                 "lastNotifyView" => $row['last_notify_view'],
                                 "lastFriendsView" => $row['last_friends_view']);
@@ -1360,12 +1341,9 @@ class account extends db_connect
 
     public function setPhoto($array_data)
     {
-        $stmt = $this->db->prepare("UPDATE users SET originPhotoUrl = (:originPhotoUrl), normalPhotoUrl = (:normalPhotoUrl), bigPhotoUrl = (:bigPhotoUrl), lowPhotoUrl = (:lowPhotoUrl) WHERE id = (:account_id)");
+        $stmt = $this->db->prepare("UPDATE users SET bigPhotoUrl = (:bigPhotoUrl) WHERE id = (:account_id)");
         $stmt->bindParam(":account_id", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":originPhotoUrl", $array_data['originPhotoUrl'], PDO::PARAM_STR);
-        $stmt->bindParam(":normalPhotoUrl", $array_data['normalPhotoUrl'], PDO::PARAM_STR);
         $stmt->bindParam(":bigPhotoUrl", $array_data['bigPhotoUrl'], PDO::PARAM_STR);
-        $stmt->bindParam(":lowPhotoUrl", $array_data['lowPhotoUrl'], PDO::PARAM_STR);
 
         $stmt->execute();
     }

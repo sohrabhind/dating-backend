@@ -72,10 +72,10 @@
                 $accountInfo = $account->get();
 
                 $account_fullname = $accountInfo['fullname'];
-                $account_photo_url = $accountInfo['lowPhotoUrl'];
+                $account_photo_url = $accountInfo['bigPhotoUrl'];
                 $account_balance = $accountInfo['balance'];
                 $account_level_mode = $accountInfo['level'];
-                $account_free_messages_count = $accountInfo['free_messages_count'];
+                $account_level_messages_count = $accountInfo['level_messages_count'];
 
                 //print_r($accountInfo);
 
@@ -97,7 +97,7 @@
 
                         if (!$access_data['error']) {
 
-                            auth::setSession($access_data['accountId'], $user_username, $account_fullname, $account_photo_url, $account_balance, $account_level_mode, $account_free_messages_count, $account->getAccessLevel($access_data['accountId']), $access_data['accessToken']);
+                            auth::setSession($access_data['accountId'], $user_username, $account_fullname, $account_photo_url, $account_balance, $account_level_mode, $account_level_messages_count, $account->getAccessLevel($access_data['accountId']), $access_data['accessToken']);
                             auth::updateCookie($user_username, $access_data['accessToken']);
 
                             unset($_SESSION['oauth']);

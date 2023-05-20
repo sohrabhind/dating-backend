@@ -36,7 +36,6 @@
         $allowMessages = isset($_POST['allowMessages']) ? $_POST['allowMessages'] : '';
 
         $allowShowMyGallery = isset($_POST['allowShowMyGallery']) ? $_POST['allowShowMyGallery'] : '';
-        $allowShowMyGifts = isset($_POST['allowShowMyGifts']) ? $_POST['allowShowMyGifts'] : '';
         $allowShowMyInfo = isset($_POST['allowShowMyInfo']) ? $_POST['allowShowMyInfo'] : '';
 
         $allowShowMyFriends = isset($_POST['allowShowMyFriends']) ? $_POST['allowShowMyFriends'] : '';
@@ -47,9 +46,6 @@
 
         $allowShowMyGallery = helper::clearText($allowShowMyGallery);
         $allowShowMyGallery = helper::escapeText($allowShowMyGallery);
-
-        $allowShowMyGifts = helper::clearText($allowShowMyGifts);
-        $allowShowMyGifts = helper::escapeText($allowShowMyGifts);
 
         $allowShowMyInfo = helper::clearText($allowShowMyInfo);
         $allowShowMyInfo = helper::escapeText($allowShowMyInfo);
@@ -79,7 +75,6 @@
             $privacy_settings = $account->getPrivacySettings();
 
             $privacy_likes = $privacy_settings['allowShowMyLikes'];
-            $privacy_gifts = $privacy_settings['allowShowMyGifts'];
             $privacy_friends = $privacy_settings['allowShowMyFriends'];
             $privacy_gallery = $privacy_settings['allowShowMyGallery'];
             $privacy_info = $privacy_settings['allowShowMyInfo'];
@@ -91,15 +86,6 @@
             } else {
 
                 $privacy_gallery = 0;
-            }
-
-            if ($allowShowMyGifts === "on") {
-
-                $privacy_gifts = 1;
-
-            } else {
-
-                $privacy_gifts = 0;
             }
 
             if ($allowShowMyInfo === "on") {
@@ -129,7 +115,7 @@
                 $privacy_likes = 0;
             }
 
-            $account->setPrivacySettings($privacy_likes, $privacy_gifts, $privacy_friends, $privacy_gallery, $privacy_info);
+            $account->setPrivacySettings($privacy_likes, $privacy_friends, $privacy_gallery, $privacy_info);
 
             header("Location: /account/settings/privacy?error=false");
             exit;
@@ -272,18 +258,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="link-preference form-row">
-                                        <div class="form-cell left">
-                                            <h2><?php echo $LANG['label-gifts-privacy']; ?></h2>
-                                        </div>
-
-                                        <div class="form-cell">
-                                            <div class="opt-in">
-                                                <input id="allowShowMyGifts" name="allowShowMyGifts" type="checkbox" <?php if ($accountInfo['allowShowMyGifts'] == 1) echo "checked=\"checked\""; ?>>
-                                                <label for="allowShowMyGifts"><?php echo $LANG['label-gifts-allow']; ?></label>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <div class="link-preference form-row">
                                         <div class="form-cell left">

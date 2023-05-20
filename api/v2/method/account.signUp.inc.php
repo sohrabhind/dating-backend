@@ -32,7 +32,7 @@ if (!empty($_POST)) {
 
     $photoUrl = isset($_POST['photo']) ? $_POST['photo'] : '';
 
-    $user_sex = isset($_POST['sex']) ? $_POST['sex'] : 0;
+    $user_gender = isset($_POST['gender']) ? $_POST['gender'] : 0;
     $user_year = isset($_POST['year']) ? $_POST['year'] : 2000;
     $user_month = isset($_POST['month']) ? $_POST['month'] : 1;
     $user_day = isset($_POST['day']) ? $_POST['day'] : 1;
@@ -44,7 +44,7 @@ if (!empty($_POST)) {
     $clientId = helper::clearInt($clientId);
     $appType = helper::clearInt($appType);
 
-    $user_sex = helper::clearInt($user_sex);
+    $user_gender = helper::clearInt($user_gender);
     $user_year = helper::clearInt($user_year);
     $user_month = helper::clearInt($user_month);
     $user_day = helper::clearInt($user_day);
@@ -84,12 +84,10 @@ if (!empty($_POST)) {
     }
 
     $result = array("error" => true);
-
     $account = new account($dbo);
     
     
-    
-    $result = $account->signup($username, $fullname, $password, $email, $user_sex, $user_year, $user_month, $user_day, $u_age, $language);
+    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $user_year, $user_month, $user_day, $u_age, $language);
     unset($account);
     if (!$result['error']) {
 

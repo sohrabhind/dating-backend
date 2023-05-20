@@ -48,19 +48,6 @@ class spam extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    // Get user send gifts count for last 30 minutes
-
-    public function getSendGiftsCount()
-    {
-        $testTime = time() - 1800; // 30 minutes
-
-        $stmt = $this->db->prepare("SELECT count(*) FROM gifts WHERE giftFrom = (:profileId) AND removeAt = 0 AND createAt > (:testTime)");
-        $stmt->bindParam(":profileId", $this->requestFrom, PDO::PARAM_INT);
-        $stmt->bindParam(":testTime", $testTime, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
 
     // Get user send friend requests count for last 30 minutes
 

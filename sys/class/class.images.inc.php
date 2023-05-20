@@ -241,11 +241,11 @@ class images extends db_connect
                     $replyToFullname = $replyToUser['fullname'];
                 }
 
-                $lowPhotoUrl = "/assets/img/profile_default_photo.png";
+                $bigPhotoUrl = "/assets/img/profile_default_photo.png";
 
-                if (strlen($fromUserId['lowPhotoUrl']) != 0) {
+                if (strlen($fromUserId['bigPhotoUrl']) != 0) {
 
-                    $lowPhotoUrl = $fromUserId['lowPhotoUrl'];
+                    $bigPhotoUrl = $fromUserId['bigPhotoUrl'];
                 }
 
                 $photos = new photos($this->db);
@@ -261,7 +261,7 @@ class images extends db_connect
                                 "fromUserState" => $fromUserId['state'],
                                 "fromUserUsername" => $fromUserId['username'],
                                 "fromUserFullname" => $fromUserId['fullname'],
-                                "fromUserPhotoUrl" => $lowPhotoUrl,
+                                "fromUserPhotoUrl" => $bigPhotoUrl,
                                 "replyToUserId" => $replyToUserId,
                                 "replyToUserUsername" => $replyToUserUsername,
                                 "replyToFullname" => $replyToFullname,

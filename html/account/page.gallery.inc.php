@@ -88,7 +88,6 @@
                         <input autocomplete="off" type="hidden" name="accessToken" value="<?php echo auth::getAccessToken(); ?>">
                         <input autocomplete="off" type="hidden" name="accessMode" value="0">
                         <input autocomplete="off" type="hidden" name="itemType" value="0">
-                        <input autocomplete="off" type="hidden" name="itemShowInStream" value="1">
                         <input autocomplete="off" type="hidden" name="imgUrl" value="">
 
                         <div class="editor-block">
@@ -208,22 +207,6 @@
 
                                 <div class="post-options-block">
 
-                                    <div class="d-inline-block align-top">
-
-                                        <span class="dropdown" style="display: inline-block;">
-                                            <button type="button" class="button flat_btn change-post-mode-button dropdown-toggle mb-sm-0" data-toggle="dropdown" style="padding: 10px; font-size: 12px;" aria-expanded="false">
-                                                <i class="iconfont icofont-news mr-1"></i>
-                                                <span><?php echo $LANG['label-show-on-stream']; ?></span>
-                                            </button>
-
-                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 36px, 0px);">
-                                                <a class="dropdown-item access-mode-show-on-stream" onclick="change_item_mode(1); return false;"><?php echo $LANG['label-show-on-stream']; ?></a>
-                                                <a class="dropdown-item access-mode-not-show-on-stream" onclick="change_item_mode(0); return false;"><?php echo $LANG['label-not-show-on-stream']; ?></a>
-                                            </div>
-                                        </span>
-
-                                    </div>
-
                                     <button style="padding: 7px 16px;" class="primary_btn blue" value="ask">Post</button>
 
                                 </div>
@@ -239,7 +222,7 @@
 
                     <?php
 
-                    $result = $gallery->get(0, auth::getCurrentUserId(), false, true);
+                    $result = $gallery->get(0, auth::getCurrentUserId(), true);
 
                     $items_loaded = count($result['items']);
 
@@ -372,11 +355,11 @@
 
                         if (result.error === false) {
 
-                            if (result.hasOwnProperty('originPhotoUrl')) {
+                            if (result.hasOwnProperty('normalPhotoUrl')) {
 
                                 var html = '<div class="gallery-item new-post-media-item">';
                                 html +=' <div class="item-inner">';
-                                html += '<div class="gallery-item-preview" style="background-image:url(' + result.previewPhotoUrl + ')">';
+                                html += '<div class="gallery-item-preview" style="background-image:url(' + result.normalPhotoUrl + ')">';
                                 html += '<span class="action" onclick="delete_item($(this))">×</span>';
                                 html += '</div>';  // gallery-item-preview
                                 html += '</div>';  // item-inner
@@ -440,34 +423,6 @@
                 update_ui();
             }
 
-            function change_item_mode(access_mode) {
-
-                $("input[name=access_mode]").val(access_mode);
-                $("button.change-post-mode-button").find("i").removeClass("icofont-news");
-
-                switch (access_mode) {
-
-                    case 1: {
-
-                        $("button.change-post-mode-button").find("span").text($("a.access-mode-show-on-stream").text());
-                        $("button.change-post-mode-button").find("i").addClass("icofont-news");
-
-                        $('input[name=itemShowInStream]').val(1);
-
-                        break;
-                    }
-
-                    default: {
-
-                        $("button.change-post-mode-button").find("span").text($("a.access-mode-not-show-on-stream").text());
-                        $("button.change-post-mode-button").find("i").addClass("icofont-news");
-
-                        $('input[name=itemShowInStream]').val(0);
-
-                        break;
-                    }
-                }
-            };
 
             function create_item() {
 

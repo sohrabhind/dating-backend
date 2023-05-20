@@ -223,10 +223,10 @@
 
                         <?php
 
-                            if (strlen($user['lowPhotoUrl']) != 0) {
+                            if (strlen($user['bigPhotoUrl']) != 0) {
 
                                 ?>
-                                    <span class="round" style="background-size: cover; background-image: url(<?php echo $user['lowPhotoUrl']; ?>)"></span>
+                                    <span class="round" style="background-size: cover; background-image: url(<?php echo $user['bigPhotoUrl']; ?>)"></span>
                                 <?php
 
                             } else {

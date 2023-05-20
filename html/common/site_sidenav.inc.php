@@ -187,7 +187,7 @@
                                     "id" => auth::getCurrentUserId(),
                                     "username" => auth::getCurrentUserLogin(),
                                     "fullname" => auth::getCurrentUserFullname(),
-                                    "lowPhotoUrl" => auth::getCurrentUserPhotoUrl(),
+                                    "bigPhotoUrl" => auth::getCurrentUserPhotoUrl(),
                                     "online" => true
                                 );
 

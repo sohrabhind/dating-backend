@@ -67,13 +67,13 @@
             api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
         }
 
-        if (auth::getCurrentLevelMode() == 0 && auth::getCurrentFreeMessagesCount() == 0) {
+        if (auth::getCurrentLevelMode() == 0 && auth::getCurrentLevelMessagesCount() == 0) {
 
             $result['promode'] = false;
             $result['app_title'] = APP_NAME;;
 
             $account = new account($dbo, auth::getCurrentUserId());
-            $account->setFreeMessagesCount(0);
+            $account->setLevelMessagesCount(0);
             unset($account);
 
             echo json_encode($result);
@@ -98,8 +98,8 @@
         }
 
         if (!$profileInfo['inBlackList']) {
-            if (auth::getCurrentLevelMode() == 0 && auth::getCurrentFreeMessagesCount() > 0) {
-                auth::setCurrentFreeMessagesCount(auth::getCurrentFreeMessagesCount() - 1);
+            if (auth::getCurrentLevelMode() == 0 && auth::getCurrentLevelMessagesCount() > 0) {
+                auth::setCurrentLevelMessagesCount(auth::getCurrentLevelMessagesCount() - 1);
             }
 
             $messages = new msg($dbo);

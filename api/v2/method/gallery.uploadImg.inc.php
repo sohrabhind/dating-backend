@@ -80,9 +80,7 @@
                     $result['error'] = false;
                     $result['error_code'] = ERROR_SUCCESS;
                     $result['error_description'] = "ok.";
-                    $result['originPhotoUrl'] = $response['originPhotoUrl'];
                     $result['normalPhotoUrl'] = $response['normalPhotoUrl'];
-                    $result['previewPhotoUrl'] = $response['previewPhotoUrl'];
                 }
 
             } else {

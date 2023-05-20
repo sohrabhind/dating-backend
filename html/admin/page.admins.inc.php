@@ -14,7 +14,6 @@
     }
 
     $stats = new stats($dbo);
-    $gift = new gift($dbo);
 
     $error = false;
     $error_message = '';

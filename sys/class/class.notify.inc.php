@@ -57,7 +57,7 @@ class notify extends db_connect
                                              "fullname" => "",
                                              "online" => false,
                                              "verify" => 0,
-                                             "lowPhotoUrl" => "/assets/img/profile_default_photo.png");
+                                             "bigPhotoUrl" => "/assets/img/profile_default_photo.png");
 
                     } else {
                         $profile = new profile($this->db, $row['notifyFromId']);
@@ -72,7 +72,7 @@ class notify extends db_connect
                                   "fromUserState" => $profileInfo['state'],
                                   "fromUserUsername" => $profileInfo['username'],
                                   "fromUserFullname" => $profileInfo['fullname'],
-                                  "fromUserPhotoUrl" => $profileInfo['lowPhotoUrl'],
+                                  "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                                   "fromUserOnline" => $profileInfo['online'],
                                   "createAt" => $row['createAt'],
                                   "timeAgo" => $time->timeAgo($row['createAt']));

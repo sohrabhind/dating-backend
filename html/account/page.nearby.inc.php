@@ -153,7 +153,7 @@
                                             <fieldset class="encounters-filter__field">
                                                 <div class="encounters-filter__control">
                                                     <div class="search-filter-form-line">
-                                                        <h5><?php echo $LANG['label-sex']; ?></h5>
+                                                        <h5><?php echo $LANG['label-gender']; ?></h5>
                                                         <label class="search-filter-radio-button" for="gender-radio-4">
                                                             <input type="radio" name="gender" id="gender-radio-4" value="3" <?php if ($gender == 3) echo "checked" ?>><?php echo $LANG['search-filters-any']; ?></label>
                                                         <label class="search-filter-radio-button" for="gender-radio-1">

@@ -41,7 +41,7 @@ if (!empty($_POST)) {
     );
 
     $gallery = new gallery($dbo);
-    $result = $gallery->get($itemId, 0, false, false, 0);
+    $result = $gallery->get($itemId, 0, false, 0);
 
     echo json_encode($result);
     exit;

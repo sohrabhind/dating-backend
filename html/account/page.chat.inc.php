@@ -250,7 +250,7 @@
 
                                         <?php
 
-                                        if (auth::getCurrentLevelMode() == 0 && auth::getCurrentFreeMessagesCount() < 1) {
+                                        if (auth::getCurrentLevelMode() == 0 && auth::getCurrentLevelMessagesCount() < 1) {
 
                                             ?>
                                                 Messages.showProAlert(); return false;

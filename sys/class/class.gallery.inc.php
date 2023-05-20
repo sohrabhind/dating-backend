@@ -60,7 +60,7 @@ class gallery extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $itemShowInStream = 1, $photoArea = "", $photoCountry = "", $photoCity = "", $photoLat = "0.000000", $photoLng = "0.000000")
+    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $photoArea = "", $photoCountry = "", $photoCity = "", $photoLat = "0.000000", $photoLng = "0.000000")
     {
         $result = array(
             "error" => true,
@@ -85,11 +85,10 @@ class gallery extends db_connect
         $app_settings = $settings->get();
         unset($settings);
 
-        $stmt = $this->db->prepare("INSERT INTO photos (fromUserId, accessMode, itemType, itemShowInStream, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr, u_agent) value (:fromUserId, :accessMode, :itemType, :itemShowInStream, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr, :u_agent)");
+        $stmt = $this->db->prepare("INSERT INTO photos (fromUserId, accessMode, itemType, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr, u_agent) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr, :u_agent)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":accessMode", $mode, PDO::PARAM_INT);
         $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
-        $stmt->bindParam(":itemShowInStream", $itemShowInStream, PDO::PARAM_INT);
         $stmt->bindParam(":comment", $comment, PDO::PARAM_STR);
         $stmt->bindParam(":imgUrl", $imgUrl, PDO::PARAM_STR);
         $stmt->bindParam(":area", $photoArea, PDO::PARAM_STR);
@@ -497,7 +496,6 @@ class gallery extends db_connect
             "commentsCount" => $row['commentsCount'],
             "likesCount" => $row['likesCount'],
             "myLike" => $myLike,
-            "showInStream" => $row['itemShowInStream'],
             "createAt" => $row['createAt'],
             "date" => date("Y-m-d H:i:s", $row['createAt']),
             "timeAgo" => $time->timeAgo($row['createAt']),
@@ -508,12 +506,11 @@ class gallery extends db_connect
     }
 
     // Get items
-    public function get($itemId = 0, $profileId = 0, $stream = false, $access = false, $limit = 20)
+    public function get($itemId = 0, $profileId = 0, $access = false, $limit = 20)
     {
 
         if ($itemId == 0) {
-
-            $itemId = 1000000;
+            $itemId = 99999999999;
             $itemId++;
         }
 
@@ -527,39 +524,26 @@ class gallery extends db_connect
         $profileSql = "";
 
         if ($profileId != 0) {
-
             $profileSql = " AND fromUserId = {$profileId}";
         }
 
         $accessSql = "";
 
         if ($access) {
-
             $accessSql = " AND accessMode = 0";
         }
 
-        $streamSql = "";
+        $endSql = " ORDER BY id DESC LIMIT $limit";
 
-        if ($stream) {
-
-            $streamSql = " AND itemShowInStream <> 0";
-        }
-
-        $endSql = " ORDER BY id DESC LIMIT {$limit}";
-
-        $sql = "SELECT * FROM photos WHERE removeAt = 0 AND id < {$itemId}".$profileSql.$accessSql.$streamSql.$endSql;
+        $sql = "SELECT * FROM photos WHERE removeAt = 0 AND id < $itemId".$profileSql.$accessSql.$endSql;
         $stmt = $this->db->prepare($sql);
 
         if ($stmt->execute()) {
-
             while ($row = $stmt->fetch()) {
-
                 array_push($result['items'], $this->quick($row));
-
                 $result['itemId'] = $row['id'];
             }
         }
-
         return $result;
     }
 

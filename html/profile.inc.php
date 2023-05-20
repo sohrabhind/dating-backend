@@ -64,11 +64,10 @@
     // Photo
 
     $profilePhotoUrl = $profileInfo['bigPhotoUrl'];
-    $profileNormalPhotoUrl = $profileInfo['normalPhotoUrl'];
 
     if (strlen($profilePhotoUrl) == 0) {
 
-        $profilePhotoUrl = $profileNormalPhotoUrl = "/assets/img/profile_default_photo.png";
+        $profilePhotoUrl = "/assets/img/profile_default_photo.png";
     }
 
     auth::newAuthenticityToken();
@@ -182,8 +181,6 @@
                                 if (!$myPage) {
 
                                     ?>
-
-                                    <a data-action="block" data-toggle="modal" data-target="#profile-gift-dlg" class="flat_btn noselect gift-btn"><?php echo $LANG['label-gift']; ?></a>
 
                                     <?php
 
@@ -331,42 +328,6 @@
 
                         <?php
 
-                        if ($profileInfo['giftsCount'] != 0) {
-
-                            if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['friend'] || $profileInfo['allowShowMyGifts'] == 0) {
-
-                                ?>
-                                <div class="main-content">
-                                    <div class="card border-0 mt-4 col-12 p-0" id="preview-gifts-block">
-                                        <div class="card-header border-0">
-                                            <h3 class="card-title"><i class="icofont icofont-gift mr-2"></i><span class="counter-button-title"><?php echo $LANG['page-gifts']; ?> <span id="stat_photos_count" class="counter-button-indicator"><?php echo $profileInfo['giftsCount']; ?></span></span></h3>
-                                            <span class="action-link"><a href="/<?php echo $profileInfo['username']; ?>/gifts"><?php echo $LANG['action-show-all']; ?></a></span>
-                                        </div>
-
-                                        <div class="card-body p-2">
-                                            <div class="grid-list gifts-list">
-
-                                                <?php
-
-                                                $gifts = new gift($dbo);
-                                                $gifts->setRequestFrom($profileInfo['id']);
-                                                $result = $gifts->get($profileInfo['id'], 0, 6);
-
-                                                foreach ($result['items'] as $key => $value) {
-
-                                                    draw::previewGiftItem($value, $profileInfo, $LANG, $helper);
-                                                }
-                                                ?>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                        }
-
 
                         if ($profileInfo['photosCount'] != 0) {
 
@@ -387,7 +348,7 @@
 
                                                     $gallery = new gallery($dbo);
                                                     $gallery->setRequestFrom($profileInfo['id']);
-                                                    $result = $gallery->get(0, $profileInfo['id'], false, true, 1, 6);
+                                                    $result = $gallery->get(0, $profileInfo['id'], true, 1, 6);
 
                                                     foreach ($result['items'] as $key => $value) {
 
@@ -509,38 +470,6 @@
 
         ?>
 
-        <div class="modal modal-form fade profile-gift-dlg" id="profile-gift-dlg" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h5 class="modal-title placeholder-title"><?php echo $LANG['label-select-gift']; ?></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body pt-0">
-
-                        <div class="loader-content p-10 m-10 d-block" style="height: 150px;">
-                            <div class="loader">
-                                <i class="ic icon-spin icon-spin"></i>
-                            </div>
-                        </div>
-
-                        <div class="gifts-content">
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $LANG['action-cancel']; ?></button>
-                        <button type="button" data-price="0" data-id="0" data-profile-id="<?php echo $profileInfo['id']; ?>" onclick="Gifts.send(this); return false;" disabled class="btn btn-primary"><?php echo $LANG['action-send']; ?></button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
         <div class="modal modal-form fade profile-block-dlg" id="profile-block-dlg" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -616,78 +545,6 @@
             var $infobox = $('#info-box');
 
 
-            $("#profile-gift-dlg").on("show.bs.modal", function(e) {
-
-                var $this = $(this);
-
-                $(this).find(".modal-footer").addClass("hidden");
-                $(this).find(".gifts-content").addClass("hidden");
-                $(this).find(".loader-content").removeClass("hidden");
-                $(this).find(".btn-primary").attr("disabled", "disabled").attr("data-id", "0").attr("data-price", "0");
-
-                $(this).find(".gifts-content").load("/ajax/gifts/list", {limit: 25}, function() {
-
-                    $this.find(".loader-content").addClass("hidden");
-                    $this.find(".gifts-content").removeClass("hidden");
-                    $this.find(".modal-footer").removeClass("hidden");
-                });
-            });
-
-            $(document).on("click", ".gift", function() {
-
-                var $this = $(this);
-
-                $('.gift').removeClass("active");
-
-                $this.addClass("active");
-
-                $("#profile-gift-dlg").find(".btn-primary").removeAttr("disabled").attr("data-id", $this.attr("data-id")).attr("data-price", $this.attr("data-price"));
-            });
-
-            window.Gifts || ( window.Gifts = {} );
-
-            Gifts.send = function (element) {
-
-                var $this = $(element);
-                var $dlg = $("#profile-gift-dlg");
-
-                $dlg.find(".modal-footer").addClass("hidden");
-                $dlg.find(".gifts-content").addClass("hidden");
-                $dlg.find(".loader-content").removeClass("hidden");
-
-                if (parseInt($dlg.find('.account-balance').attr("data-balance"), 10) < parseInt($this.attr("data-price"), 10)) {
-
-                    window.location = "/account/balance";
-
-                    return;
-                }
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/' + options.api_version + '/method/gifts.send',
-                    data: 'giftId=' + $this.attr("data-id") + '&giftTo=' + $this.attr("data-profile-id") + "&accessToken=" + account.accessToken + "&accountId=" + account.id,
-                    dataType: 'json',
-                    timeout: 30000,
-                    success: function(response) {
-
-                        if (response.hasOwnProperty('error')) {
-
-                            if (response.error === false) {
-
-                                location.reload();
-                            }
-                        }
-
-                        $('#profile-gift-dlg').modal('toggle');
-                    },
-                    error: function(xhr, type) {
-
-                        $dlg.find(".modal-footer").removeClass("hidden");
-                        $dlg.find(".gifts-content").removeClass("hidden");
-                        $dlg.find(".loader-content").addClass("hidden");
-                    }
-                });
-            };
 
             window.Friends || ( window.Friends = {} );
 
@@ -975,12 +832,12 @@
 
                         if (result.error === false) {
 
-                            if (result.hasOwnProperty('lowPhotoUrl')) {
+                            if (result.hasOwnProperty('bigPhotoUrl')) {
 
-                                $("span.profile-user-photo").css("background-image", "url(" + result.lowPhotoUrl + ")");
-                                $("span.avatar").css("background-image", "url(" + result.lowPhotoUrl + ")");
-                                $("a.profile-user-photo-link").attr("href", result.originPhotoUrl);
-                                $("img.profile-photo-avatar").attr("src", result.lowPhotoUrl);
+                                $("span.profile-user-photo").css("background-image", "url(" + result.bigPhotoUrl + ")");
+                                $("span.avatar").css("background-image", "url(" + result.bigPhotoUrl + ")");
+                                $("a.profile-user-photo-link").attr("href", result.bigPhotoUrl);
+                                $("img.profile-photo-avatar").attr("src", result.bigPhotoUrl);
 
                                 $('#welcome-block').remove();
                             }

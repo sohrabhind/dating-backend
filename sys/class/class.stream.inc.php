@@ -29,7 +29,7 @@ class stream extends db_connect
 
     public function getCount($itemType)
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM photos WHERE removeAt = 0 AND itemType = (:itemType) AND itemShowInStream <> 0");
+        $stmt = $this->db->prepare("SELECT count(*) FROM photos WHERE removeAt = 0 AND itemType = (:itemType)");
         $stmt->bindParam(':itemType', $itemType, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -68,13 +68,13 @@ class stream extends db_connect
 
             if ($itemType != -1) {
 
-                $stmt = $this->db->prepare("SELECT id FROM photos WHERE removeAt = 0 AND itemType = (:itemType) AND itemShowInStream <> 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
+                $stmt = $this->db->prepare("SELECT id FROM photos WHERE removeAt = 0 AND itemType = (:itemType) AND  id < (:itemId) ORDER BY id DESC LIMIT 20");
                 $stmt->bindParam(':itemType', $itemType, PDO::PARAM_INT);
                 $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
 
             } else {
 
-                $stmt = $this->db->prepare("SELECT id FROM photos WHERE removeAt = 0 AND itemShowInStream <> 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
+                $stmt = $this->db->prepare("SELECT id FROM photos WHERE removeAt = 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
                 $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
             }
         }

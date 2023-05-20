@@ -34,7 +34,7 @@
         $itemId = helper::clearInt($itemId);
         $loaded = helper::clearInt($loaded);
 
-        $result = $gallery->get($itemId, 0, true, false, 1);
+        $result = $gallery->get($itemId, 0, false, 1);
 
         $items_loaded = count($result['items']);
 
@@ -122,7 +122,7 @@ include_once("html/common/site_header.inc.php");
 
                         <?php
 
-                        $result = $gallery->get(0, 0, true, false, 1);
+                        $result = $gallery->get(0, 0, false, 1);
 
                         $items_loaded = count($result['items']);
 

@@ -116,7 +116,7 @@
                 $account->setWeight($u_weight);
             }
 
-            $account->setSex($gender);
+            $account->setGender($gender);
             $account->setBirth($year, $month, $day);
             $account->setStatus($status);
             $account->setLocation($location);
@@ -326,9 +326,9 @@
                                         <div class="form-cell">
                                             <div class="opt-in">
                                                 <select id="gender" name="gender" class="selectBox">
-                                                    <option value="2" <?php if ($accountInfo['sex'] != SEX_FEMALE && $accountInfo['sex'] != SEX_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-secret']; ?></option>
-                                                    <option value="0" <?php if ($accountInfo['sex'] == SEX_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-male']; ?></option>
-                                                    <option value="1" <?php if ($accountInfo['sex'] == SEX_FEMALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-female']; ?></option>
+                                                    <option value="2" <?php if ($accountInfo['gender'] != GENDER_FEMALE && $accountInfo['gender'] != GENDER_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-secret']; ?></option>
+                                                    <option value="0" <?php if ($accountInfo['gender'] == GENDER_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-male']; ?></option>
+                                                    <option value="1" <?php if ($accountInfo['gender'] == GENDER_FEMALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-female']; ?></option>
                                                 </select>
                                             </div>
                                         </div>

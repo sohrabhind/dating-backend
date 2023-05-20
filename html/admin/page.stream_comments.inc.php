@@ -290,10 +290,10 @@
 
                     <?php
 
-                        if (strlen($item['owner']['lowPhotoUrl']) != 0) {
+                        if (strlen($item['owner']['bigPhotoUrl']) != 0) {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(<?php echo $item['owner']['lowPhotoUrl']; ?>)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(<?php echo $item['owner']['bigPhotoUrl']; ?>)"></span>
                             <?php
 
                         } else {

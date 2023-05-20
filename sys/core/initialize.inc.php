@@ -41,11 +41,10 @@
 								  photos_count INT(11) UNSIGNED DEFAULT 0,
 								  likes_count INT(11) UNSIGNED DEFAULT 0,
 								  friends_count INT(11) UNSIGNED DEFAULT 0,
-								  gifts_count INT(11) UNSIGNED DEFAULT 0,
 								  rating INT(11) UNSIGNED DEFAULT 0,
 								  balance INT(11) UNSIGNED DEFAULT 5,
-								  free_messages_count INT(11) UNSIGNED DEFAULT 150,
-								  sex SMALLINT(6) UNSIGNED DEFAULT 0,
+								  level_messages_count INT(11) UNSIGNED DEFAULT 150,
+								  gender SMALLINT(6) UNSIGNED DEFAULT 0,
 								  u_age INT(10) UNSIGNED DEFAULT 18,
 								  u_height INT(10) UNSIGNED DEFAULT 0,
 								  u_weight INT(10) UNSIGNED DEFAULT 0,
@@ -71,18 +70,13 @@
 								  allowPhotosCommentsGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowFollowersGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowMessagesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowGiftsGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowCommentReplyGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowShowMyBirthday SMALLINT(6) UNSIGNED DEFAULT 0,
 								  allowShowMyInfo SMALLINT(6) UNSIGNED DEFAULT 0,
 								  allowShowMyGallery SMALLINT(6) UNSIGNED DEFAULT 0,
 								  allowShowMyFriends SMALLINT(6) UNSIGNED DEFAULT 0,
 								  allowShowMyLikes SMALLINT(6) UNSIGNED DEFAULT 0,
-								  allowShowMyGifts SMALLINT(6) UNSIGNED DEFAULT 0,
 								  allowShowMyAge SMALLINT(6) UNSIGNED DEFAULT 0,
-								  lowPhotoUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								  originPhotoUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								  normalPhotoUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								  bigPhotoUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								  photoCreateAt int(11) UNSIGNED DEFAULT 1,
   								PRIMARY KEY  (id), UNIQUE KEY (username)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
@@ -143,7 +137,6 @@
 								toUserId int(11) UNSIGNED DEFAULT 0,
 								message varchar(800) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								imgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								audioUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								stickerId int(11) UNSIGNED DEFAULT 0,
 								stickerImgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								area VARCHAR(150) NOT NULL DEFAULT '',
@@ -168,7 +161,6 @@
 								fromUserId int(11) UNSIGNED DEFAULT 0,
 								accessMode int(11) UNSIGNED DEFAULT 0,
 								itemType int(11) UNSIGNED DEFAULT 0,
-								itemShowInStream int(11) UNSIGNED DEFAULT 1,
 								likesCount int(11) UNSIGNED DEFAULT 0,
 								commentsCount int(11) UNSIGNED DEFAULT 0,
 								rating int(11) UNSIGNED DEFAULT 0,
@@ -193,7 +185,6 @@
 								likesCount int(11) UNSIGNED DEFAULT 0,
 								imageId int(11) UNSIGNED DEFAULT 0,
                                 comment varchar(800) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-                                commentNormalImgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
                                 createAt int(11) UNSIGNED DEFAULT 0,
                                 removeAt int(11) UNSIGNED DEFAULT 0,
                                 notifyId int(11) UNSIGNED DEFAULT 0,
@@ -224,28 +215,6 @@
 								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
 
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS gifts_data (
-								id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-								cost INT(11) UNSIGNED DEFAULT 0,
-								category INT(11) UNSIGNED DEFAULT 0,
-								imgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								createAt INT(11) UNSIGNED DEFAULT 0,
-								removeAt INT(11) UNSIGNED DEFAULT 0,
-								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
-        $sth->execute();
-
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS gifts (
-								id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-								giftId INT(11) UNSIGNED DEFAULT 0,
-								giftTo INT(11) UNSIGNED DEFAULT 0,
-								giftFrom INT(11) UNSIGNED DEFAULT 0,
-								giftAnonymous INT(11) UNSIGNED DEFAULT 0,
-								message varchar(400) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								imgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								createAt INT(11) UNSIGNED DEFAULT 0,
-								removeAt INT(11) UNSIGNED DEFAULT 0,
-								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
-		$sth->execute();
 
         $sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS guests (
 								id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -270,17 +239,6 @@
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
 
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS photo_likes (
-								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                                toUserId int(11) UNSIGNED DEFAULT 0,
-								fromUserId int(11) UNSIGNED DEFAULT 0,
-								photoId int(11) UNSIGNED DEFAULT 0,
-                                notifyId int(11) UNSIGNED DEFAULT 0,
-								createAt int(11) UNSIGNED DEFAULT 0,
-								removeAt int(11) UNSIGNED DEFAULT 0,
-								ip_addr CHAR(32) NOT NULL DEFAULT '',
-								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
-		$sth->execute();
 
         $sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS support (
 								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,

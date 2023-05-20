@@ -123,7 +123,7 @@ if (!empty($_POST)) {
 
                         if ($app_type == APP_TYPE_WEB) {
 
-                            auth::setSession($result['accountId'], $account_info['username'], $account_info['fullname'], $account_info['lowPhotoUrl'], $account_info['balance'], $account_info['level'], $account_info['free_messages_count'], 0, $result['accessToken']);
+                            auth::setSession($result['accountId'], $account_info['username'], $account_info['fullname'], $account_info['bigPhotoUrl'], $account_info['balance'], $account_info['level'], $account_info['level_messages_count'], 0, $result['accessToken']);
                             auth::updateCookie($account_info['username'], $result['accessToken']);
                         }
                     }

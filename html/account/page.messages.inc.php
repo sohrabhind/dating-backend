@@ -24,9 +24,9 @@
 
     if (isset($_GET['action'])) {
 
-        $messages_count = $messages->getNewMessagesCount();
+        $level_messages_count = $messages->getNewMessagesCount();
 
-        echo $messages_count;
+        echo $level_messages_count;
         exit;
     }
 

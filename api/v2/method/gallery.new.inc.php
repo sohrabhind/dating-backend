@@ -19,7 +19,6 @@ if (!empty($_POST)) {
     $accessMode = isset($_POST['accessMode']) ? $_POST['accessMode'] : 0;
 
     $itemType = isset($_POST['itemType']) ? $_POST['itemType'] : 0;
-    $itemShowInStream = isset($_POST['itemShowInStream']) ? $_POST['itemShowInStream'] : 1;
 
     $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
     $imgUrl = isset($_POST['imgUrl']) ? $_POST['imgUrl'] : "";
@@ -29,7 +28,6 @@ if (!empty($_POST)) {
 
     $accessMode = helper::clearInt($accessMode);
     $itemType = helper::clearInt($itemType);
-    $itemShowInStream = helper::clearInt($itemShowInStream);
 
     $comment = helper::clearText($comment);
 
@@ -56,7 +54,7 @@ if (!empty($_POST)) {
     $gallery = new gallery($dbo);
     $gallery->setRequestFrom($accountId);
 
-    $result = $gallery->add($accessMode, $comment, $imgUrl, $itemType, $itemShowInStream);
+    $result = $gallery->add($accessMode, $comment, $imgUrl, $itemType);
 
     echo json_encode($result);
     exit;

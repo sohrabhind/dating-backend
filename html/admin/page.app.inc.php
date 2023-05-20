@@ -30,7 +30,7 @@
     $allowFacebookAuthorization = 1;
     $allowMultiAccountsFunction = 1;
 
-    $defaultFreeMessagesCount = 150;
+    $defaultLevelMessagesCount = 0;
     $defaultBalance = 10;
 
     $defaultProModeCost = 170;
@@ -47,7 +47,7 @@
         $allowFacebookAuthorization_checkbox = isset($_POST['allowFacebookAuthorization']) ? $_POST['allowFacebookAuthorization'] : '';
         $allowMultiAccountsFunction_checkbox = isset($_POST['allowMultiAccountsFunction']) ? $_POST['allowMultiAccountsFunction'] : '';
 
-        $defaultFreeMessagesCount = isset($_POST['defaultFreeMessagesCount']) ? $_POST['defaultFreeMessagesCount'] : 150;
+        $defaultLevelMessagesCount = isset($_POST['defaultLevelMessagesCount']) ? $_POST['defaultLevelMessagesCount'] : 0;
         $defaultBalance = isset($_POST['defaultBalance']) ? $_POST['defaultBalance'] : 10;
 
         $defaultProModeCost = isset($_POST['defaultProModeCost']) ? $_POST['defaultProModeCost'] : 170;
@@ -96,7 +96,7 @@
             }
 
             $defaultBalance = helper::clearInt($defaultBalance);
-            $defaultFreeMessagesCount = helper::clearInt($defaultFreeMessagesCount);
+            $defaultLevelMessagesCount = helper::clearInt($defaultLevelMessagesCount);
 
             $settings->setValue("allowSeenTyping", $allowSeenTyping);
 
@@ -104,7 +104,7 @@
             $settings->setValue("allowMultiAccountsFunction", $allowMultiAccountsFunction);
 
             $settings->setValue("defaultBalance", $defaultBalance);
-            $settings->setValue("defaultFreeMessagesCount", $defaultFreeMessagesCount);
+            $settings->setValue("defaultLevelMessagesCount", $defaultLevelMessagesCount);
 
             $settings->setValue("defaultAllowMessages", $defaultAllowMessages);
 
@@ -139,8 +139,8 @@
     $arr = $config['defaultBalance'];
     $defaultBalance = $arr['intValue'];
 
-    $arr = $config['defaultFreeMessagesCount'];
-    $defaultFreeMessagesCount = $arr['intValue'];
+    $arr = $config['defaultLevelMessagesCount'];
+    $defaultLevelMessagesCount = $arr['intValue'];
 
     $arr = $config['defaultProModeCost'];
     $defaultProModeCost = $arr['intValue'];
@@ -248,8 +248,8 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="defaultFreeMessagesCount" class="active">Number of free messages for the user</label>
-                                        <input class="form-control" id="defaultFreeMessagesCount" type="number" size="4" name="defaultFreeMessagesCount" value="<?php echo $defaultFreeMessagesCount; ?>">
+                                        <label for="defaultLevelMessagesCount" class="active">Number of free messages for the user</label>
+                                        <input class="form-control" id="defaultLevelMessagesCount" type="number" size="4" name="defaultLevelMessagesCount" value="<?php echo $defaultLevelMessagesCount; ?>">
                                     </div>
 
 

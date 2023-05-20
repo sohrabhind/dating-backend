@@ -17,7 +17,7 @@ if (!empty($_POST)) {
 
     $liked = isset($_POST['liked']) ? $_POST['liked'] : 1;
 
-    $sex = isset($_POST['sex']) ? $_POST['sex'] : 3; // 3 = any
+    $gender = isset($_POST['gender']) ? $_POST['gender'] : 3; // 3 = any
 
     $lat = isset($_POST['lat']) ? $_POST['lat'] : '0.000000';
     $lng = isset($_POST['lng']) ? $_POST['lng'] : '0.000000';
@@ -27,7 +27,7 @@ if (!empty($_POST)) {
 
     $liked = helper::clearInt($liked);
 
-    $sex = helper::clearInt($sex);
+    $gender = helper::clearInt($gender);
 
     $lat = helper::clearText($lat);
     $lat = helper::escapeText($lat);
@@ -51,7 +51,7 @@ if (!empty($_POST)) {
 
     $hotgame = new hotgame($dbo);
     $hotgame->setRequestFrom($accountId);
-    $result = $hotgame->get($itemId, $lat, $lng, $distance, $sex, $liked);
+    $result = $hotgame->get($itemId, $lat, $lng, $distance, $gender, $liked);
     echo json_encode($result);
     exit;
 }

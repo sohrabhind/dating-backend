@@ -232,10 +232,10 @@
 
                     <?php
 
-                        if ($item['fromUserId'] != 0 && strlen($item['owner']['lowPhotoUrl']) != 0) {
+                        if ($item['fromUserId'] != 0 && strlen($item['owner']['bigPhotoUrl']) != 0) {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(<?php echo $item['owner']['lowPhotoUrl']; ?>)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(<?php echo $item['owner']['bigPhotoUrl']; ?>)"></span>
                             <?php
 
                         } else {
@@ -270,10 +270,10 @@
 
                     <?php
 
-                        if ($item['toUserId'] != 0 && strlen($item['suspect']['lowPhotoUrl']) != 0) {
+                        if ($item['toUserId'] != 0 && strlen($item['suspect']['bigPhotoUrl']) != 0) {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(<?php echo $item['suspect']['lowPhotoUrl']; ?>)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(<?php echo $item['suspect']['bigPhotoUrl']; ?>)"></span>
                             <?php
 
                         } else {

@@ -381,36 +381,6 @@
                 break;
             }
 
-            case NOTIFY_TYPE_GIFT: {
-
-                ?>
-
-                    <li class="card-item classic-item default-item" data-id="<?php echo $notify['id']; ?>">
-                        <div class="card-body">
-                            <span class="card-header">
-                                <a href="/<?php echo $notify['fromUserUsername']; ?>"><img class="card-icon" src="<?php echo $profilePhotoUrl; ?>"/></a>
-                                <span title="" class="card-notify-icon gift"></span>
-                                <?php if ($notify['fromUserOnline']) echo "<span title=\"Online\" class=\"card-online-icon\"></span>"; ?>
-                                <div class="card-content">
-                                    <span class="card-title">
-                                        <a href="/<?php echo $notify['fromUserUsername']; ?>"><?php echo  $notify['fromUserFullname']; ?></a>
-                                        
-                                        <span class="sub-title"><?php echo $LANG['label-new-gift']; ?></span>
-                                    </span>
-                                    <span class="card-username">@<?php echo  $notify['fromUserUsername']; ?></span>
-                                    <span class="card-counter black"><?php echo $time->timeAgo($notify['createAt']); ?></span>
-                                    <span class="card-action">
-                                        <a href="/<?php echo auth::getCurrentUserLogin(); ?>/gifts" class="card-act active"><?php echo $LANG['action-view']; ?> »</a>
-                                    </span>
-                                </div>
-                            </span>
-                        </div>
-                    </li>
-
-                <?php
-
-                break;
-            }
 
             case NOTIFY_TYPE_MEDIA_APPROVE: {
 

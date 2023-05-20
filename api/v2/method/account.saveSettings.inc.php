@@ -19,7 +19,7 @@ if (!empty($_POST)) {
     $instagramPage = isset($_POST['instagramPage']) ? $_POST['instagramPage'] : '';
     $bio = isset($_POST['bio']) ? $_POST['bio'] : '';
 
-    $sex = isset($_POST['sex']) ? $_POST['sex'] : 0;
+    $gender = isset($_POST['gender']) ? $_POST['gender'] : 0;
     $year = isset($_POST['year']) ? $_POST['year'] : 0;
     $month = isset($_POST['month']) ? $_POST['month'] : 0;
     $day = isset($_POST['day']) ? $_POST['day'] : 0;
@@ -65,7 +65,7 @@ if (!empty($_POST)) {
 
     $bio = helper::escapeText($bio);
 
-    $sex = helper::clearInt($sex);
+    $gender = helper::clearInt($gender);
 
     $u_age = helper::clearInt($u_age);
     $u_height = helper::clearInt($u_height);
@@ -107,7 +107,7 @@ if (!empty($_POST)) {
     $account->setLocation($location);
     $account->setStatus($bio);
 
-    $account->setSex($sex);
+    $account->setGender($gender);
     $account->setBirth($year, $month, $day);
 
     $account->set_iStatus($iStatus);

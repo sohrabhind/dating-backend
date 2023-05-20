@@ -100,9 +100,7 @@
 
                 case "delete-photo": {
 
-                    $data = array("originPhotoUrl" => '',
-                                  "normalPhotoUrl" => '',
-                                  "lowPhotoUrl" => '');
+                    $data = array("bigPhotoUrl" => '');
 
                     $account->setPhoto($data);
 
@@ -119,7 +117,7 @@
                         $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : '';
                         $location = isset($_POST['location']) ? $_POST['location'] : '';
                         $balance = isset($_POST['balance']) ? $_POST['balance'] : 0;
-                        $free_messages_count = isset($_POST['free_messages_count']) ? $_POST['free_messages_count'] : 0;
+                        $level_messages_count = isset($_POST['level_messages_count']) ? $_POST['level_messages_count'] : 0;
                         $instagram_page = isset($_POST['instagram_page']) ? $_POST['instagram_page'] : '';
                         $email = isset($_POST['email']) ? $_POST['email'] : '';
                         $phoneNumber = isset($_POST['phone_number']) ? $_POST['phone_number'] : '';
@@ -134,7 +132,7 @@
                         $location = helper::escapeText($location);
 
                         $balance = helper::clearInt($balance);
-                        $free_messages_count = helper::clearInt($free_messages_count);
+                        $level_messages_count = helper::clearInt($level_messages_count);
 
                     
                         $instagram_page = helper::clearText($instagram_page);
@@ -152,7 +150,7 @@
                             $account->setFullname($fullname);
                             $account->setLocation($location);
                             $account->setBalance($balance);
-                            $account->setFreeMessagesCount($free_messages_count);
+                            $account->setLevelMessagesCount($level_messages_count);
                             $account->setInstagramPage($instagram_page);
                             $account->setEmail($email);
                          }
@@ -431,7 +429,7 @@
                                     <div class="form-group">
                                         <label class="col-md-12">Free messages count</label>
                                         <div class="col-md-12">
-                                            <input placeholder="Free messages count" id="free_messages_count" type="text" name="free_messages_count" maxlength="255" value="<?php echo $accountInfo['free_messages_count']; ?>" class="form-control form-control-line">
+                                            <input placeholder="Free messages count" id="level_messages_count" type="text" name="level_messages_count" maxlength="255" value="<?php echo $accountInfo['level_messages_count']; ?>" class="form-control form-control-line">
                                         </div>
                                     </div>
 
@@ -457,10 +455,10 @@
 
                                     <?php
 
-                                        if (strlen($accountInfo['lowPhotoUrl']) != 0) {
+                                        if (strlen($accountInfo['bigPhotoUrl']) != 0) {
 
                                             ?>
-                                                <img src="<?php echo $accountInfo['normalPhotoUrl'] ?>" alt="user" />
+                                                <img src="<?php echo $accountInfo['bigPhotoUrl'] ?>" alt="user" />
                                             <?php
 
                                         } else {
@@ -475,7 +473,7 @@
 
                                 <?php
 
-                                    if (strlen($accountInfo['lowPhotoUrl']) != 0) {
+                                    if (strlen($accountInfo['bigPhotoUrl']) != 0) {
 
                                         ?>
                                             <p><a href="/admin/profile?id=<?php echo $accountInfo['id']; ?>&access_token=<?php echo admin::getAccessToken(); ?>&act=delete-photo">Delete Photo</a></p>

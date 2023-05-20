@@ -160,14 +160,6 @@
                                             </tr>
 
                                             <tr>
-                                                <td class="text-left">Total gifts</td>
-                                                <td><?php echo $stats->getGiftsCount(); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">Total active gifts (not removed)</td>
-                                                <td><?php echo $stats->getActiveGiftsCount(); ?></td>
-                                            </tr>
-                                            <tr>
                                                 <td class="text-left">Total chats</td>
                                                 <td><?php echo $stats->getChatsTotal(); ?></td>
                                             </tr>
@@ -276,10 +268,10 @@
                     <a href="/admin/profile?id=<?php echo $user['id']; ?>">
                         <?php
 
-                            if (strlen($user['lowPhotoUrl']) != 0) {
+                            if (strlen($user['bigPhotoUrl']) != 0) {
 
                                 ?>
-                                    <span class="round" style="background-size: cover; background-image: url(<?php echo $user['lowPhotoUrl']; ?>)"></span>
+                                    <span class="round" style="background-size: cover; background-image: url(<?php echo $user['bigPhotoUrl']; ?>)"></span>
                                 <?php
 
                             } else {

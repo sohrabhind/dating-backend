@@ -23,7 +23,6 @@
     $update->setChatEmojiSupport();
     $update->setDialogsEmojiSupport();
     $update->setPhotosEmojiSupport();
-    $update->setGiftsEmojiSupport();
     $update->setImagesCommentsEmojiSupport();
     unset($update);
 

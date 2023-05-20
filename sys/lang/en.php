@@ -1,7 +1,7 @@
 <?php
 
 	$TEXT = array();
-	$SEX = array("Male" => 0, "Female" => 1);
+	$GENDER = array("Male" => 0, "Female" => 1);
 
     $TEXT['lang-code'] = "en";
     $TEXT['lang-name'] = "English";
@@ -522,7 +522,6 @@
     $TEXT['label-profile-you-like-2'] = "I'm interested in men";
 
     $TEXT['label-notify-profile-like'] = "likes your profile.";
-    $TEXT['label-notify-gift'] = "made a gift.";
 
     $TEXT['page-guests'] = "Guests";
     $TEXT['topbar-guests'] = "Guests";
@@ -555,7 +554,7 @@
     // For version 3.5
 
     $TEXT['label-age'] = "Age";
-    $TEXT['label-sex'] = "Sex";
+    $TEXT['label-gender'] = "Gender";
     $TEXT['label-height'] = "Height";
     $TEXT['label-weight'] = "Weight";
     $TEXT['label-cm'] = "cm"; //centimeters
@@ -579,7 +578,7 @@
     $TEXT['label-errors-title'] = "Error. Read below:";
     $TEXT['label-signup-sub-title'] = "Create an account and join our community now!";
 
-    $TEXT['label-notifications-sub-title'] = "Here you can see notifications about likes, new followers, comments, gifts.";
+    $TEXT['label-notifications-sub-title'] = "Here you can see notifications about likes, new followers, comments.";
     $TEXT['label-friends-sub-title'] = "Here you can see the list of your friends.";
     $TEXT['label-guests-sub-title'] = "This section displays people who have visited to your profile.";
     $TEXT['label-messages-sub-title'] = "This section tells you about your conversations with other users.";
@@ -590,7 +589,7 @@
     $TEXT['label-settings-deactivation-sub-title'] = "Enter your current password.";
 
     $TEXT['page-notifications'] = "Notifications";
-    $TEXT['page-notifications-description'] = "Here you can see notifications about likes, friends requests, comments, gifts...";
+    $TEXT['page-notifications-description'] = "Here you can see notifications about likes, friends requests, comments...";
 
     $TEXT['tab-likes'] = "Likes";
     $TEXT['tab-liked'] = "I Liked";
@@ -619,7 +618,6 @@
     $TEXT['action-view'] = "View";
     $TEXT['label-last-visit'] = "Last visit";
     $TEXT['label-last-seen'] = "Last time online";
-    $TEXT['label-new-gift'] = "made a gift.";
 
     $TEXT['main-page-prompt-app'] = "Dating App is where you go, so you can search people and chat with your friends anytime, anywhere. Stay in touch with your friends with the mobile application Dating App. Available for Android.";
 
@@ -652,7 +650,7 @@
 
     // For version 4.7
 
-    $TEXT['main-page-prompt-login'] = "Meet and chat with people! Give people gifts and likes! You will find your couple, your love, friends and have a good time chatting with people!";
+    $TEXT['main-page-prompt-login'] = "Meet and chat with people! Give people likes! You will find your couple, your love, friends and have a good time chatting with people!";
     $TEXT['main-page-sub-prompt-login'] = "Log in to continue.";
     $TEXT['main-page-prompt-signup'] = "Join %s, where you can meet new people for chat and meetings!";
 
@@ -694,25 +692,16 @@
 
     // For version 4.8
 
-    $TEXT['page-gifts'] = "Gifts";
-    $TEXT['page-gifts-sub-title'] = "Here you can see gifts from users";
-
     $TEXT['page-upgrades'] = "Upgrades";
     $TEXT['page-upgrades-sub-title'] = "Get more by activating additional features!";
 
-    $TEXT['label-gifts'] = "Gifts";
-    $TEXT['label-gift'] = "Gift";
-    $TEXT['label-select-gift'] = "Select gift";
-
-    $TEXT['label-gifts-allow'] = "Show my gifts to friends only";
-    $TEXT['label-gifts-privacy'] = "Privacy settings for gifts";
 
     $TEXT['label-info-allow'] = "Show my profile info to friends only";
     $TEXT['label-info-privacy'] = "Privacy settings for profile info";
     $TEXT['label-info-error-permission'] = "Profile information is only available to friends of the user.";
 
     $TEXT['label-credits'] = "Credits";
-    $TEXT['label-credits-desc'] = "Credits - a universal currency. In addition, the credits can be paid for gifts and other functions."; // Кредиты - универсальная валюта. Кредитами вы можете оплачивать подарки и активировать другие функции.
+    $TEXT['label-credits-desc'] = "Credits - a universal currency."; // Кредиты - универсальная валюта. Кредитами вы можете оплачивать подарки и активировать другие функции.
     $TEXT['action-buy'] = "Buy credits";
 
     $TEXT['label-balance'] = "Balance";
@@ -736,7 +725,6 @@
     $TEXT['label-payments-credits-stripe'] = "Buying credits with Stripe";
     $TEXT['label-payments-credits-android'] = "Buying credits with Android in-app purchases";
     $TEXT['label-payments-credits-ios'] = "Buying credits with iOS in-app purchases";
-    $TEXT['label-payments-send-gift'] = "Gift Sending";
     $TEXT['label-payments-level-mode'] = "Activate Pro Mode";
     $TEXT['label-payments-message-package'] = "Activate Message Package";
     $TEXT['label-payments-spotlight-feature'] = "Using Spotlight feature";
@@ -757,10 +745,10 @@
     $TEXT['label-free-messages-count'] = "You have %s chat messages that you can send";
 
     $TEXT['page-balance'] = "Balance";
-    $TEXT['page-balance-desc'] = "Credits - a universal currency. In addition, the credits can be paid for gifts and other functions.";
+    $TEXT['page-balance-desc'] = "Credits - a universal currency.";
 
     $TEXT['page-spotlight'] = "Spotlight";
-    $TEXT['page-spotlight-desc'] = "Get more likes, gifts and new friends and acquaintances!";
+    $TEXT['page-spotlight-desc'] = "Get more likes and new friends and acquaintances!";
 
     $TEXT['action-add-me'] = "Add me here";
 
@@ -828,15 +816,14 @@
     $TEXT['label-notify-gallery-item-like'] = "likes your gallery item.";
 
     $TEXT['action-add-photo'] = "Photo";
-    $TEXT['action-add-video'] = "Video";
 
     $TEXT['label-show-on-stream'] = "Show on stream";
     $TEXT['label-not-show-on-stream'] = "Not show on stream";
 
     $TEXT['placeholder-gallery-item-description'] = "Add a description here...";
 
-    $TEXT['label-post-form-title'] = "Add new photo or video";
-    $TEXT['label-post-form-subtitle'] = "All photos and videos that you publish are subject to mandatory moderation before they are available to other users";
+    $TEXT['label-post-form-title'] = "Add new photo";
+    $TEXT['label-post-form-subtitle'] = "All photos that you publish are subject to mandatory moderation before they are available to other users";
 
     $TEXT['label-item-moderation-wait'] = "Will be available to other users after approval by the moderator";
     $TEXT['label-item-moderation-success'] = "Approved by the moderator and available to other users";

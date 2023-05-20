@@ -62,7 +62,7 @@
         $itemId = helper::clearInt($itemId);
         $loaded = helper::clearInt($loaded);
 
-        $result = $gallery->get($itemId, $profileInfo['id'], false, $access_mode, 1);
+        $result = $gallery->get($itemId, $profileInfo['id'], $access_mode, 1);
 
         $items_loaded = count($result['items']);
 
@@ -154,7 +154,7 @@
 
                         <?php
 
-                        $result = $gallery->get(0, $profileInfo['id'], false, $access_mode, 1);
+                        $result = $gallery->get(0, $profileInfo['id'], $access_mode, 1);
 
                         $items_loaded = count($result['items']);
 

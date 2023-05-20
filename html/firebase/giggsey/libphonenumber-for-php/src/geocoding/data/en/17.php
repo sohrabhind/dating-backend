@@ -4349,7 +4349,7 @@ return array (
   1780538 => 'Grande Prairie, AB',
   1780539 => 'Grande Prairie, AB',
   1780542 => 'Drayton Valley, AB',
-  1780568 => 'Sexsmith, AB',
+  1780568 => 'Gendersmith, AB',
   1780594 => 'Cold Lake, AB',
   1780608 => 'Camrose, AB',
   1780621 => 'Drayton Valley, AB',

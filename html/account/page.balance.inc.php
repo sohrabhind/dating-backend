@@ -352,14 +352,8 @@
                                                     break;
                                                 }
 
-                                                case PA_BUY_GIFT: {
 
-                                                    echo $LANG['label-payments-send-gift'];
-                                                    break;
-                                                }
-
-
-                                                case PA_BUY_PRO_MODE: {
+                                                case PA_BUY_LEVEL: {
 
                                                     echo $LANG['label-payments-level-mode'];
                                                     break;

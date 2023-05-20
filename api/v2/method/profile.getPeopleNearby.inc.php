@@ -16,7 +16,7 @@ if (!empty($_POST)) {
 
     $itemId = isset($_POST['itemId']) ? $_POST['itemId'] : 0;
 
-    $sex = isset($_POST['sex']) ? $_POST['sex'] : 2;
+    $gender = isset($_POST['gender']) ? $_POST['gender'] : 2;
     $distance = isset($_POST['distance']) ? $_POST['distance'] : 30;
 
     $lat = isset($_POST['lat']) ? $_POST['lat'] : '0.000000';
@@ -25,7 +25,7 @@ if (!empty($_POST)) {
     $distance = helper::clearInt($distance);
     $itemId = helper::clearInt($itemId);
 
-    $sex = helper::clearInt($sex);
+    $gender = helper::clearInt($gender);
 
     $lat = helper::clearText($lat);
     $lat = helper::escapeText($lat);
@@ -53,7 +53,7 @@ if (!empty($_POST)) {
     $geo = new geo($dbo);
     $geo->setRequestFrom($accountId);
 
-    $result = $geo->getPeopleNearby($itemId, $lat, $lng, $distance, $sex);
+    $result = $geo->getPeopleNearby($itemId, $lat, $lng, $distance, $gender);
 
     echo json_encode($result);
     exit;

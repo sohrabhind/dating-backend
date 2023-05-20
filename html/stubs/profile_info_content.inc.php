@@ -59,7 +59,7 @@
 
                 <?php
 
-                if (strlen($profileInfo['sex']) < 3) {
+                if (strlen($profileInfo['gender']) < 3) {
 
                     ?>
 
@@ -68,7 +68,7 @@
                         <p>
                             <?php
 
-                                switch ($profileInfo['sex']) {
+                                switch ($profileInfo['gender']) {
 
                                     case 0: {
 

@@ -211,11 +211,11 @@ class comments extends db_connect
             $replyToFullname = $replyToUser['fullname'];
         }
 
-        $lowPhotoUrl = APP_URL."/assets/img/profile_default_photo.png";
+        $bigPhotoUrl = APP_URL."/assets/img/profile_default_photo.png";
 
-        if (strlen($fromUserId['lowPhotoUrl']) != 0) {
+        if (strlen($fromUserId['bigPhotoUrl']) != 0) {
 
-            $lowPhotoUrl = $fromUserId['lowPhotoUrl'];
+            $bigPhotoUrl = $fromUserId['bigPhotoUrl'];
         }
 
         $result = array(

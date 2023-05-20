@@ -27,27 +27,21 @@ class app extends db_connect
         $stmt->bindParam(":limit", $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-
             if ($stmt->rowCount() > 2) {
-
                 while ($row = $stmt->fetch()) {
-
                     array_push($result['items'], array(
 
                             "id" => $row['id'],
                             "username" => $row['username'],
                             "fullname" => $row['fullname'],
-                            "photoUrl" => $row['lowPhotoUrl']
+                            "photoUrl" => $row['bigPhotoUrl']
                         )
                     );
                 }
 
             } else {
-
                 for ($i = 1; $i < 7; $i++) {
-
                     array_push($result['items'], array(
-
                             "id" => $i,
                             "username" => $i.'username',
                             "fullname" => $i.'fullname',

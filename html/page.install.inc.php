@@ -16,7 +16,6 @@
     include_once("sys/core/initialize.inc.php");
 
     $admin = new admin($dbo);
-    $gift = new gift($dbo);
     $stickers = new sticker($dbo);
 
     if ($admin->getCount() > 0) {
@@ -111,7 +110,7 @@
 
                     $settings = new settings($dbo);
                     $settings->createValue("defaultBalance", 10); //Default balance for new users
-                    $settings->createValue("defaultFreeMessagesCount", 150); //Default free messages count after signup
+                    $settings->createValue("defaultLevelMessagesCount", 150); //Default free messages count after signup
                     $settings->createValue("defaultProModeCost", 170); //Default cost for promode feature in credits
                     $settings->createValue("defaultMessagesPackageCost", 20); //Default cost for buy message package feature in credits
                     $settings->createValue("allowFriendsFunction", 1);
@@ -122,17 +121,6 @@
                     $settings->createValue("defaultAllowMessages", 1); //Default off
 
                     unset($settings);
-
-                    // Add standard gifts
-
-                    if ($gift->db_getMaxId() < 1) {
-
-                        for ($i = 1; $i < 31; $i++) {
-
-                            $gift->db_add(3, 0, APP_URL."/".GIFTS_PATH.$i.".jpg");
-
-                        }
-                    }
 
                     // Add standard stickers
 

@@ -23,20 +23,13 @@ if (!auth::isSession() && isset($_COOKIE['user_name']) && isset($_COOKIE['user_p
     $accountInfo = $account->get();
 
     if (!$accountInfo['error'] && $accountInfo['state'] == ACCOUNT_STATE_ENABLED) {
-
         $auth = new auth($dbo);
-
         if ($auth->authorize($accountInfo['id'], $_COOKIE['user_password'])) {
-
-            auth::setSession($accountInfo['id'], $accountInfo['username'], $accountInfo['fullname'], $accountInfo['lowPhotoUrl'], $accountInfo['balance'], $accountInfo['level'], $accountInfo['free_messages_count'], 0, $_COOKIE['user_password']);
-
+            auth::setSession($accountInfo['id'], $accountInfo['username'], $accountInfo['fullname'], $accountInfo['bigPhotoUrl'], $accountInfo['balance'], $accountInfo['level'], $accountInfo['level_messages_count'], 0, $_COOKIE['user_password']);
             $account->setLastActive();
-
         } else {
-
             auth::clearCookie();
         }
-
     } else {
 
         auth::clearCookie();

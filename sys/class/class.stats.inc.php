@@ -82,30 +82,6 @@ class stats extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    
-    public function getGiftsCount()
-    {
-        $stmt = $this->db->prepare("SELECT count(*) FROM gifts");
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
-
-    public function getActiveGiftsCount()
-    {
-        $stmt = $this->db->prepare("SELECT count(*) FROM gifts WHERE removeAt = 0");
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
-
-    private function getMaxReportId()
-    {
-        $stmt = $this->db->prepare("SELECT MAX(id) FROM profile_abuse_reports");
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
 
     private function getMaxAccountId()
     {
@@ -204,62 +180,6 @@ class stats extends db_connect
         return $users;
     }
 
-    public function getReports()
-    {
-        $reportId = $this->getMaxReportId();
-        $reportId++;
-
-        $result = array("error" => false,
-                       "error_code" => ERROR_SUCCESS,
-                       "reportId" => $reportId,
-                       "reports" => array());
-
-        $stmt = $this->db->prepare("SELECT id FROM profile_abuse_reports WHERE id < (:reportId) AND removeAt = 0 ORDER BY id DESC LIMIT 40");
-        $stmt->bindParam(':reportId', $reportId, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            while ($row = $stmt->fetch()) {
-
-                $reportInfo = $this->reportInfo($row['id']);
-
-                array_push($result['reports'], $reportInfo);
-
-                $result['reportId'] = $reportInfo['id'];
-
-                unset($reportInfo);
-            }
-        }
-
-        return $result;
-    }
-
-    public function reportInfo($reportId)
-    {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
-
-        $stmt = $this->db->prepare("SELECT * FROM profile_abuse_reports WHERE id = (:reportId) LIMIT 1");
-        $stmt->bindParam(":reportId", $reportId, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            if ($stmt->rowCount() > 0) {
-
-                $row = $stmt->fetch();
-
-                $result = array("error" => false,
-                                "error_code" => ERROR_SUCCESS,
-                                "id" => $row['id'],
-                                "abuseFromUserId" => $row['abuseFromUserId'],
-                                "abuseToUserId" => $row['abuseToUserId'],
-                                "abuseId" => $row['abuseId'],
-                                "date" => date("Y-m-d H:i:s", $row['createAt']));
-            }
-        }
-
-        return $result;
-    }
 
     public function searchAccounts($userId = 0, $query = "")
     {

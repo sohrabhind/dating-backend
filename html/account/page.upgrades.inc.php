@@ -59,7 +59,7 @@
 
                             $payments = new payments($dbo);
                             $payments->setRequestFrom(auth::getCurrentUserId());
-                            $payments->create(PA_BUY_PRO_MODE, PT_UNKNOWN, $proModeCost);
+                            $payments->create(PA_BUY_LEVEL, PT_UNKNOWN, $proModeCost);
                             unset($payments);
                         }
 
@@ -75,8 +75,8 @@
 
                     if ($accountInfo['level'] == 0 && $accountInfo['balance'] >= $messagePackageCost) {
 
-                        $result = $account->setFreeMessagesCount(auth::getCurrentFreeMessagesCount() + 100);
-                        auth::setCurrentFreeMessagesCount(auth::getCurrentFreeMessagesCount() + 100);
+                        $result = $account->setLevelMessagesCount(auth::getCurrentLevelMessagesCount() + 100);
+                        auth::setCurrentLevelMessagesCount(auth::getCurrentLevelMessagesCount() + 100);
 
                         if (!$result['error']) {
 
@@ -242,7 +242,7 @@
                                                     <h3 class="card-title">
                                                         <?php echo $LANG['label-upgrades-message-package']; ?>
                                                     </h3>
-                                                    <h5 style="font-weight: normal" class="card-description"><?php echo sprintf($LANG['label-free-messages-count'], "<strong>".auth::getCurrentFreeMessagesCount()."</strong>"); ?></h5>
+                                                    <h5 style="font-weight: normal" class="card-description"><?php echo sprintf($LANG['label-free-messages-count'], "<strong>".auth::getCurrentLevelMessagesCount()."</strong>"); ?></h5>
                                                     <h5 class="card-description"><?php echo $LANG['label-upgrades-message-package-desc']; ?></h5>
                                                 </div>
                                             </div>

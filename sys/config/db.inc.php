@@ -33,10 +33,9 @@ $B['APP_HOST'] = "dating.hindbyte.com";                 //edit to your domain, e
 $B['APP_URL'] = "https://dating.hindbyte.com";           //edit to your domain url, example (WARNING - with http:// or https://): http://yourdomain.com
 
 $B['TEMP_PATH'] = "assets/tmp/";                                //don`t edit this option
-$B['PHOTO_PATH'] = "assets/photo/";                             //don`t edit this option
+$B['PROFILE_PHOTO_PATH'] = "assets/profile/";                             //don`t edit this option
 $B['CHAT_IMAGE_PATH'] = "assets/chat_images/";                  //don`t edit this option
-$B['GIFTS_PATH'] = "assets/gifts/";                             //don`t edit this option
-$B['MY_PHOTOS_PATH'] = "assets/gallery/";                             //don`t edit this option
+$B['MY_PHOTOS_PATH'] = "assets/photos/";                             //don`t edit this option
 $B['STICKERS_PATH'] = "assets/stickers/";                       //don`t edit this option
 
 $B['GOOGLE_PLAY_LINK'] = "https://play.google.com/store/apps/details?id=com.hindbyte.dating";
@@ -141,12 +140,9 @@ $C['ENABLE_FOLLOWERS_GCM'] = 1;
 $C['DISABLE_MESSAGES_GCM'] = 0;
 $C['ENABLE_MESSAGES_GCM'] = 1;
 
-$C['DISABLE_GIFTS_GCM'] = 0;
-$C['ENABLE_GIFTS_GCM'] = 1;
-
-$C['SEX_MALE'] = 0;
-$C['SEX_FEMALE'] = 1;
-$C['SEX_ANY'] = 2;
+$C['GENDER_MALE'] = 0;
+$C['GENDER_FEMALE'] = 1;
+$C['GENDER_ANY'] = 2;
 
 $C['USER_CREATED_SUCCESSFULLY'] = 0;
 $C['USER_CREATE_FAILED'] = 1;
@@ -163,7 +159,6 @@ $C['NOTIFY_TYPE_MESSAGE'] = 2;
 $C['NOTIFY_TYPE_COMMENT'] = 3;
 $C['NOTIFY_TYPE_COMMENT_REPLY'] = 4;
 $C['NOTIFY_TYPE_FRIEND_REQUEST_ACCEPTED'] = 5;
-$C['NOTIFY_TYPE_GIFT'] = 6;
 
 $C['NOTIFY_TYPE_IMAGE_COMMENT'] = 7;
 $C['NOTIFY_TYPE_IMAGE_COMMENT_REPLY'] = 8;
@@ -182,7 +177,6 @@ $C['GCM_NOTIFY_MESSAGE'] = 9;
 $C['GCM_NOTIFY_COMMENT_REPLY'] = 10;
 $C['GCM_FRIEND_REQUEST_INBOX'] = 11;
 $C['GCM_FRIEND_REQUEST_ACCEPTED'] = 12;
-$C['GCM_NOTIFY_GIFT'] = 14;
 $C['GCM_NOTIFY_SEEN'] = 15;
 $C['GCM_NOTIFY_TYPING'] = 16;
 $C['GCM_NOTIFY_URL'] = 17;
@@ -270,7 +264,6 @@ $C['ITEM_TYPE_GALLERY'] = 4;
 
 // PA - PAYMENT ACTION
 $C['PA_BUY_LEVEL'] = 0;
-$C['PA_BUY_GIFT'] = 1;
 $C['PA_BUY_VERIFIED_BADGE'] = 2;
 $C['PA_BUY_REGISTRATION_BONUS'] = 5;
 $C['PA_BUY_MANUAL_BONUS'] = 7;

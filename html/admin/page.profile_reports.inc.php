@@ -205,10 +205,10 @@
 
                     <?php
 
-                        if ($user['fromUserId'] != 0 && strlen($user['owner']['lowPhotoUrl']) != 0) {
+                        if ($user['fromUserId'] != 0 && strlen($user['owner']['bigPhotoUrl']) != 0) {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(<?php echo $user['owner']['lowPhotoUrl']; ?>)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(<?php echo $user['owner']['bigPhotoUrl']; ?>)"></span>
                             <?php
 
                         } else {
@@ -242,10 +242,10 @@
 
                     <?php
 
-                        if ($user['toUserId'] != 0 && strlen($user['suspect']['lowPhotoUrl']) > 0) {
+                        if ($user['toUserId'] != 0 && strlen($user['suspect']['bigPhotoUrl']) > 0) {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(<?php echo $user['suspect']['lowPhotoUrl']; ?>)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(<?php echo $user['suspect']['bigPhotoUrl']; ?>)"></span>
                             <?php
 
                         } else {

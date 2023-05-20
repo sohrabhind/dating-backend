@@ -41,7 +41,7 @@ if (!empty($_POST)) {
 
 
     $notifications_count = 0;
-    $messages_count = 0;
+    $level_messages_count = 0;
     $friends_count = 0;
 
     // Get new messages count
@@ -51,7 +51,7 @@ if (!empty($_POST)) {
         $msg = new msg($dbo);
         $msg->setRequestFrom($accountId);
 
-        $messages_count = $msg->getNewMessagesCount();
+        $level_messages_count = $msg->getNewMessagesCount();
 
         unset($msg);
     }
@@ -92,11 +92,13 @@ if (!empty($_POST)) {
     $arr = $config['defaultMessagesPackageCost'];
     $result['defaultMessagesPackageCost'] = $arr['intValue'];
 
-    $result['messagesCount'] = $messages_count;
+    $result['messagesCount'] = $level_messages_count;
     $result['notificationsCount'] = $notifications_count;
     $result['newFriendsCount'] = $friends_count;
 
+    
     $result['free_messages_count'] = $accountInfo['free_messages_count'];
+    $result['level_messages_count'] = $accountInfo['level_messages_count'];
     $result['level'] = $accountInfo['level'];
     $result['balance'] = $accountInfo['balance'];
 

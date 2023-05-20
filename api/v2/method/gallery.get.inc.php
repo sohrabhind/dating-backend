@@ -44,8 +44,7 @@ if (!empty($_POST)) {
 
     if ($accountId == $profileId) $accessMode = true;
 
-    $result = $gallery->get($itemId, $profileId, false, $accessMode, 20);
-
+    $result = $gallery->get($itemId, $profileId, $accessMode, 20);
     echo json_encode($result);
     exit;
 }

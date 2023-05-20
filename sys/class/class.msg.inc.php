@@ -18,8 +18,7 @@ class msg extends db_connect
     private $SPAM_LIST_ARRAY = array(
         "069sex",
         "069sex.com",
-        "sex.com",
-        "I will fulfill your seхual desires");
+        "sex.com");
 
 	public function __construct($dbo = NULL)
     {
@@ -229,7 +228,7 @@ class msg extends db_connect
                             "fromUserOnline" => $profileInfo['online'],
                             "fromUserUsername" => $profileInfo['username'],
                             "fromUserFullname" => $profileInfo['fullname'],
-                            "fromUserPhotoUrl" => $profileInfo['lowPhotoUrl'],
+                            "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                             "message" => htmlspecialchars_decode(stripslashes($message)),
                             "imgUrl" => $imgUrl,
                             "stickerId" => $stickerId,
@@ -429,7 +428,7 @@ class msg extends db_connect
                     $profileId = $row['toUserId'];
                 }
 
-                $new_messages_count = 0;
+                $new_level_messages_count = 0;
 
                 $profile = new profile($this->db, $profileId);
                 $profileInfo = $profile->getVeryShort();
@@ -446,11 +445,11 @@ class msg extends db_connect
                                 "withUserState" => $profileInfo['state'],
                                 "withUserUsername" => $profileInfo['username'],
                                 "withUserFullname" => $profileInfo['fullname'],
-                                "withUserPhotoUrl" => $profileInfo['lowPhotoUrl'],
+                                "withUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                                 "lastMessage" => $row['message'],
                                 "lastMessageAgo" => $time->timeAgo($row['messageCreateAt']),
                                 "lastMessageCreateAt" => $row['messageCreateAt'],
-                                "newMessagesCount" => $new_messages_count,
+                                "newMessagesCount" => $new_level_messages_count,
                                 "createAt" => $row['createAt'],
                                 "date" => date("Y-m-d H:i:s", $row['createAt']),
                                 "timeAgo" => $time->timeAgo($row['createAt']),
@@ -522,7 +521,7 @@ class msg extends db_connect
                                 "fromUserUsername" => $profileInfo['username'],
                                 "fromUserFullname" => $profileInfo['fullname'],
                                 "fromUserOnline" => $profileInfo['online'],
-                                "fromUserPhotoUrl" => $profileInfo['lowPhotoUrl'],
+                                "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                                 "message" => htmlspecialchars_decode(stripslashes($row['message'])),
                                 "imgUrl" => $row['imgUrl'],
                                 "stickerId" => $row['stickerId'],
@@ -573,7 +572,7 @@ class msg extends db_connect
                 $profileInfo = $profile->getVeryShort();
                 unset($profile);
 
-                $new_messages_count = 0;
+                $new_level_messages_count = 0;
 
                 if (APP_MESSAGES_COUNTERS) {
 
@@ -581,14 +580,14 @@ class msg extends db_connect
 
                         if ($row['fromUserId_lastView'] < $row['messageCreateAt']) {
 
-                            $new_messages_count = $this->getNewMessagesInChat($row['id'], $row['fromUserId'], $row['fromUserId_lastView'], $row['toUserId_lastView']);
+                            $new_level_messages_count = $this->getNewMessagesInChat($row['id'], $row['fromUserId'], $row['fromUserId_lastView'], $row['toUserId_lastView']);
                         }
 
                     } else {
 
                         if ($row['toUserId_lastView'] < $row['messageCreateAt']) {
 
-                            $new_messages_count = $this->getNewMessagesInChat($row['id'], $row['fromUserId'], $row['fromUserId_lastView'], $row['toUserId_lastView']);
+                            $new_level_messages_count = $this->getNewMessagesInChat($row['id'], $row['fromUserId'], $row['fromUserId_lastView'], $row['toUserId_lastView']);
                         }
                     }
                 }
@@ -605,11 +604,11 @@ class msg extends db_connect
                                   "withUserOnline" => $profileInfo['online'],
                                   "withUserUsername" => $profileInfo['username'],
                                   "withUserFullname" => $profileInfo['fullname'],
-                                  "withUserPhotoUrl" => $profileInfo['normalPhotoUrl'],
+                                  "withUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                                   "lastMessage" => $row['message'],
                                   "lastMessageAgo" => $time->timeAgo($row['messageCreateAt']),
                                   "lastMessageCreateAt" => $row['messageCreateAt'],
-                                  "newMessagesCount" => $new_messages_count,
+                                  "newMessagesCount" => $new_level_messages_count,
                                   "createAt" => $row['createAt'],
                                   "date" => date("Y-m-d H:i:s", $row['createAt']),
                                   "timeAgo" => $time->timeAgo($row['createAt']),
@@ -682,7 +681,7 @@ class msg extends db_connect
                                  "fromUserUsername" => $profileInfo['username'], //$profileInfo['username']
                                  "fromUserFullname" => $profileInfo['fullname'], //$profileInfo['fullname']
                                  "fromUserOnline" => $profileInfo['online'], //$profileInfo['fullname']
-                                 "fromUserPhotoUrl" => $profileInfo['lowPhotoUrl'], //$profileInfo['lowPhotoUrl']
+                                 "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'], //$profileInfo['bigPhotoUrl']
                                  "message" => htmlspecialchars_decode(stripslashes($row['message'])),
                                  "imgUrl" => $row['imgUrl'],
                                  "stickerId" => $row['stickerId'],
@@ -729,7 +728,7 @@ class msg extends db_connect
                                 "fromUserState" => 0,     //$profileInfo['state'],
                                 "fromUserUsername" => "", //$profileInfo['username']
                                 "fromUserFullname" => "", //$profileInfo['fullname']
-                                "fromUserPhotoUrl" => "", //$profileInfo['lowPhotoUrl']
+                                "fromUserPhotoUrl" => "", //$profileInfo['bigPhotoUrl']
                                 "fromUserOnline" => "",
                                 "message" => htmlspecialchars_decode(stripslashes($row['message'])),
                                 "imgUrl" => $row['imgUrl'],
@@ -846,10 +845,9 @@ class msg extends db_connect
                                  "fromUserState" => $profileInfo['state'],
                                  "fromUserUsername" => $profileInfo['username'],
                                  "fromUserFullname" => $profileInfo['fullname'],
-                                 "fromUserPhotoUrl" => $profileInfo['lowPhotoUrl'],
+                                 "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                                  "message" => htmlspecialchars_decode(stripslashes($row['message'])),
                                  "imgUrl" => $row['imgUrl'],
-                                 "audioUrl" => $row['audioUrl'],
                                  "stickerId" => $row['stickerId'],
                                  "stickerImgUrl" => $row['stickerImgUrl'],
                                  "seenAt" => $row['seenAt'],

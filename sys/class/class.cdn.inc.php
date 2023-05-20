@@ -62,11 +62,11 @@ class cdn extends db_connect
 
     public function uploadPhoto($imgFilename)
     {
-        rename($imgFilename, PHOTO_PATH.basename($imgFilename));
+        rename($imgFilename, PROFILE_PHOTO_PATH.basename($imgFilename));
 
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
-                        "fileUrl" => APP_URL."/".PHOTO_PATH.basename($imgFilename));
+                        "fileUrl" => APP_URL."/".PROFILE_PHOTO_PATH.basename($imgFilename));
 
         return $result;
     }

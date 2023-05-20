@@ -28,7 +28,7 @@ class search extends db_connect
 
         if ($gender != -1) {
 
-            $genderSql = " AND sex = {$gender}";
+            $genderSql = " AND gender = {$gender}";
         }
 
         $onlineSql = "";
@@ -44,7 +44,7 @@ class search extends db_connect
 
         if ($photo != -1) {
 
-            $photoSql = " AND lowPhotoUrl <> ''";
+            $photoSql = " AND bigPhotoUrl <> ''";
         }
 
         $current_year = date("Y");
@@ -86,7 +86,7 @@ class search extends db_connect
 
         if ($gender != -1) {
 
-            $genderSql = " AND sex = {$gender}";
+            $genderSql = " AND gender = {$gender}";
         }
 
         $onlineSql = "";
@@ -102,7 +102,7 @@ class search extends db_connect
 
         if ($photo != -1) {
 
-            $photoSql = " AND lowPhotoUrl <> ''";
+            $photoSql = " AND bigPhotoUrl <> ''";
         }
 
         $current_year = date("Y");
@@ -159,7 +159,7 @@ class search extends db_connect
 
         if ($gender != -1) {
 
-            $genderSql = " AND sex = {$gender}";
+            $genderSql = " AND gender = {$gender}";
         }
 
         $onlineSql = "";
@@ -175,7 +175,7 @@ class search extends db_connect
 
         if ($photo != -1) {
 
-            $photoSql = " AND lowPhotoUrl <> ''";
+            $photoSql = " AND bigPhotoUrl <> ''";
         }
 
         $current_year = date("Y");

@@ -53,7 +53,7 @@ class geo extends db_connect
 
         } else {
 
-            $gender_sql = " and (sex = {$gender}) ";
+            $gender_sql = " and (gender = {$gender}) ";
         }
 
         $sql = "SELECT id, lat, lng, 3956 * 2 *

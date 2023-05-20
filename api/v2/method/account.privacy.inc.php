@@ -15,13 +15,11 @@ if (!empty($_POST)) {
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
     $allowShowMyLikes = isset($_POST['allowShowMyLikes']) ? $_POST['allowShowMyLikes'] : 0;
-    $allowShowMyGifts = isset($_POST['allowShowMyGifts']) ? $_POST['allowShowMyGifts'] : 0;
     $allowShowMyFriends = isset($_POST['allowShowMyFriends']) ? $_POST['allowShowMyFriends'] : 0;
     $allowShowMyGallery = isset($_POST['allowShowMyGallery']) ? $_POST['allowShowMyGallery'] : 0;
     $allowShowMyInfo = isset($_POST['allowShowMyInfo']) ? $_POST['allowShowMyInfo'] : 0;
 
     $allowShowMyLikes = helper::clearInt($allowShowMyLikes);
-    $allowShowMyGifts = helper::clearInt($allowShowMyGifts);
     $allowShowMyFriends = helper::clearInt($allowShowMyFriends);
     $allowShowMyGallery = helper::clearInt($allowShowMyGallery);
     $allowShowMyInfo = helper::clearInt($allowShowMyInfo);
@@ -41,7 +39,7 @@ if (!empty($_POST)) {
 
     $account = new account($dbo, $accountId);
 
-    $account->setPrivacySettings($allowShowMyLikes, $allowShowMyGifts, $allowShowMyFriends, $allowShowMyGallery, $allowShowMyInfo);
+    $account->setPrivacySettings($allowShowMyLikes, $allowShowMyFriends, $allowShowMyGallery, $allowShowMyInfo);
 
     $result = $account->getPrivacySettings();
 

@@ -111,7 +111,7 @@ class imglib extends db_connect
         return $imagefile;
     }
 
-    public function checkImg($img_filename, $min_width = 99, $min_height = 99)
+    public function checkImg($img_filename, $min_width = 1, $min_height = 1)
     {
         $result = false;
 
@@ -148,7 +148,7 @@ class imglib extends db_connect
             }
         }
 
-        $imgOrigin = "img_".$imgNewName.".".$imgFilename_ext;
+        $imgOrigin = $imgNewName.".".$imgFilename_ext;
 
         if ($this->checkImg($imgFilename)) {
 
@@ -187,10 +187,9 @@ class imglib extends db_connect
 
                 $result['imgUrl'] = $response['fileUrl'];
             }
-
-            @unlink(TEMP_PATH.$imgOrigin);
         }
 
+        @unlink(TEMP_PATH.$imgOrigin);
         return $result;
     }
 
@@ -214,9 +213,10 @@ class imglib extends db_connect
             }
         }
 
-        $imgNormal = "profile_".$imgNewName.".".$imgFilename_ext;
+        $imgNormal = $imgNewName.".".$imgFilename_ext;
 
         if (rename($imgFilename, TEMP_PATH.$imgNormal)) {
+
             $imgFilename = TEMP_PATH.$imgNormal;
         }
         
@@ -224,14 +224,14 @@ class imglib extends db_connect
 
         if ($type == IMAGETYPE_JPEG) {
             $photo = new photo($this->db, $imgFilename, 512);
-            imagejpeg($photo->getImgData(), TEMP_PATH.$imgNormal, 100);
+            imagejpeg($photo->getImgData(), TEMP_PATH.$imgNormal, 80);
             unset($photo);
 
             $result['error'] = false;
         } elseif ($type == IMAGETYPE_PNG) {
             //PNG
             $photo = new photo($this->db, $imgFilename, 512);
-            imagepng($photo->getImgData(), TEMP_PATH.$imgNormal);
+            imagepng($photo->getImgData(), TEMP_PATH.$imgNormal, 80);
             unset($photo);
 
             $result['error'] = false;
@@ -247,6 +247,8 @@ class imglib extends db_connect
                 $result['bigPhotoUrl'] = $response['fileUrl'];
             }
         }
+
+        @unlink(TEMP_PATH.$imgNormal);
         return $result;
     }
 
@@ -268,41 +270,22 @@ class imglib extends db_connect
             }
         }
 
-        $imgOrigin = "origin_".$imgNewName.".".$imgFilename_ext;
-        $imgNormal = "normal_".$imgNewName.".".$imgFilename_ext;
-        $imgPreview = "preview_".$imgNewName.".".$imgFilename_ext;
+        $imgNormal = $imgNewName.".".$imgFilename_ext;
 
         if ($this->checkImg($imgFilename)) {
 
             list($w, $h, $type) = getimagesize($imgFilename);
+            
+            if (copy($imgFilename, TEMP_PATH.$imgNormal)) {
 
-            if (rename($imgFilename, TEMP_PATH.$imgOrigin)) {
-
-                $imgFilename = TEMP_PATH.$imgOrigin;
+                $imgFilename = TEMP_PATH.$imgNormal;
             }
 
-            if ($type == IMAGETYPE_JPEG) {
+            if ($type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) {
 
                 $this->img_resize($imgFilename, TEMP_PATH.$imgNormal, 800, 0);
 
-                $photo = new photo($this->db, $imgFilename, 512);
-                imagejpeg($photo->getImgData(), TEMP_PATH.$imgPreview, 100);
-                unset($photo);
-
                 $result['error'] = false;
-
-            } elseif ($type == IMAGETYPE_PNG) {
-
-                //PNG
-
-                $this->img_resize($imgFilename, TEMP_PATH.$imgNormal, 800, 0);
-
-                $photo = new photo($this->db, $imgFilename, 512);
-                imagepng($photo->getImgData(), TEMP_PATH.$imgPreview);
-                unset($photo);
-
-                $result['error'] = false;
-
             } else {
 
                 $result['error'] = true;
@@ -320,21 +303,9 @@ class imglib extends db_connect
             if ($response['error'] === false) {
 
                 $result['normalPhotoUrl'] = $response['fileUrl'];
-                $result['originPhotoUrl'] = $response['fileUrl'];
             }
-
-            $response = $cdn->uploadMyPhoto(TEMP_PATH.$imgPreview);
-
-            if ($response['error'] === false) {
-
-                $result['previewPhotoUrl'] = $response['fileUrl'];
-            }
-
-            @unlink(TEMP_PATH.$imgOrigin);
-            @unlink(TEMP_PATH.$imgNormal);
-            @unlink(TEMP_PATH.$imgPreview);
         }
-
+        @unlink(TEMP_PATH.$imgNormal);
         return $result;
     }
 
@@ -348,7 +319,7 @@ class imglib extends db_connect
     $rgb             - цвет фона, по умолчанию - белый
     $quality         - качество генерируемого JPEG, по умолчанию - максимальное (100)
      ***********************************************************************************/
-    public function img_resize($src, $dest, $width, $height, $rgb = 0xFFFFFF, $quality = 100)
+    public function img_resize($src, $dest, $width, $height, $rgb = 0xFFFFFF, $quality = 80)
     {
 
         if (!file_exists($src)) return false;
@@ -418,7 +389,6 @@ class imglib extends db_connect
 
         imagedestroy($isrc);
         imagedestroy($idest);
-
         return true;
     }
 }

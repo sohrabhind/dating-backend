@@ -34,12 +34,6 @@
                         </a>
                     </li>
                     <li>
-                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "gifts") { echo "active";} ?>" href="/admin/gifts" aria-expanded="false">
-                            <i class="ti-gift"></i>
-                            <span class="hide-menu">Gifts</span>
-                        </a>
-                    </li>
-                    <li>
                         <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "stickers") { echo "active";} ?>" href="/admin/stickers" aria-expanded="false">
                             <i class="ti-face-smile"></i>
                             <span class="hide-menu">Stickers</span>

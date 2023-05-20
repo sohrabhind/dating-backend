@@ -43,9 +43,7 @@
             $result = $account->deactivation($password);
 
             if (!$result['error']) {
-
                 // Remove All Medias
-
                 $gallery = new gallery($dbo);
                 $gallery->setRequestFrom($accountId);
                 $gallery->removeAll();
@@ -57,10 +55,7 @@
 
                 $photos = array(
                         "error" => false,
-                        "originPhotoUrl" => "",
-                        "normalPhotoUrl" => "",
-                        "bigPhotoUrl" => "",
-                        "lowPhotoUrl" => "");
+                        "bigPhotoUrl" => "");
 
                 $account->setPhoto($photos);
 

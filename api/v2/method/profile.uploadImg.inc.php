@@ -93,17 +93,12 @@ if (!empty($_POST)) {
                         if (!$result['error']) {
 
                             // Delete old photos from server
-
                             $profile = new profile($dbo, $accountId);
                             $profileInfo = $profile->getVeryShort();
                             unset($profile);
 
-                            @unlink(PHOTO_PATH."/".basename($profileInfo['normalPhotoUrl']));
-                            @unlink(PHOTO_PATH."/".basename($profileInfo['bigPhotoUrl']));
-                            @unlink(PHOTO_PATH."/".basename($profileInfo['lowPhotoUrl']));
-
+                            @unlink(PROFILE_PHOTO_PATH."/".basename($profileInfo['bigPhotoUrl']));
                             unset($profileInfo);
-
                             // Set new photos
 
                             $account = new account($dbo, $accountId);
@@ -111,11 +106,9 @@ if (!empty($_POST)) {
                             unset($account);
 
                             if (auth::isSession()) {
-
-                                auth::setCurrentUserPhotoUrl($result['normalPhotoUrl']);
+                                auth::setCurrentUserPhotoUrl($result['bigPhotoUrl']);
                             }
                         }
-
                         break;
                     }
 

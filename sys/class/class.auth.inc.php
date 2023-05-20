@@ -214,14 +214,14 @@ class auth extends db_connect
         }
     }
 
-    static function setSession($user_id, $user_login, $user_fullname, $user_photo_url, $user_balance, $user_level_mode, $user_free_messages_count, $access_level, $access_token) {
+    static function setSession($user_id, $user_login, $user_fullname, $user_photo_url, $user_balance, $user_level_mode, $user_level_messages_count, $access_level, $access_token) {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['user_login'] = $user_login;
         $_SESSION['user_photo_url'] = $user_photo_url;
         $_SESSION['user_fullname'] = $user_fullname;
         $_SESSION['user_balance'] = $user_balance;
         $_SESSION['user_level_mode'] = $user_level_mode;
-        $_SESSION['user_free_messages_count'] = $user_free_messages_count;
+        $_SESSION['user_level_messages_count'] = $user_level_messages_count;
         $_SESSION['access_level'] = $access_level;
         $_SESSION['create_at'] = time();
         $_SESSION['access_token'] = $access_token;
@@ -235,7 +235,7 @@ class auth extends db_connect
         unset($_SESSION['user_fullname']);
         unset($_SESSION['user_balance']);
         unset($_SESSION['user_level_mode']);
-        unset($_SESSION['user_free_messages_count']);
+        unset($_SESSION['user_level_messages_count']);
         unset($_SESSION['access_level']);
         unset($_SESSION['create_at']);
         unset($_SESSION['access_token']);
@@ -288,11 +288,11 @@ class auth extends db_connect
         $_SESSION['user_balance'] = $user_balance;
     }
 
-    static function getCurrentFreeMessagesCount()
+    static function getCurrentLevelMessagesCount()
     {
-        if (isset($_SESSION) && isset($_SESSION['user_free_messages_count'])) {
+        if (isset($_SESSION) && isset($_SESSION['user_level_messages_count'])) {
 
-            return $_SESSION['user_free_messages_count'];
+            return $_SESSION['user_level_messages_count'];
 
         } else {
 
@@ -300,10 +300,10 @@ class auth extends db_connect
         }
     }
 
-    static function setCurrentFreeMessagesCount($user_free_messages_count)
+    static function setCurrentLevelMessagesCount($user_level_messages_count)
     {
 
-        $_SESSION['user_free_messages_count'] = $user_free_messages_count;
+        $_SESSION['user_level_messages_count'] = $user_level_messages_count;
     }
 
     static function getCurrentUserId()

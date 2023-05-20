@@ -37,7 +37,7 @@
         $itemId = helper::clearInt($itemId);
         $loaded = helper::clearInt($loaded);
 
-        $result = $gallery->get($itemId, 0, false, false, 1);
+        $result = $gallery->get($itemId, 0, false, 1);
 
         $inbox_loaded = count($result['items']);
 
@@ -128,7 +128,7 @@
 
                 <?php
 
-                    $result = $gallery->get(0, 0, false, false, 1);
+                    $result = $gallery->get(0, 0, false, 1);
 
                     $inbox_loaded = count($result['items']);
 
@@ -292,10 +292,10 @@
 
                     <?php
 
-                        if (strlen($item['owner']['lowPhotoUrl']) != 0) {
+                        if (strlen($item['owner']['bigPhotoUrl']) != 0) {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(<?php echo $item['owner']['lowPhotoUrl']; ?>)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(<?php echo $item['owner']['bigPhotoUrl']; ?>)"></span>
                             <?php
 
                         } else {

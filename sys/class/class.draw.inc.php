@@ -149,9 +149,9 @@ class draw extends db_connect
     {
         $profilePhotoUrl = "/assets/img/profile_default_photo.png";
 
-        if (strlen($profile['lowPhotoUrl']) != 0) {
+        if (strlen($profile['bigPhotoUrl']) != 0) {
 
-            $profilePhotoUrl = $profile['lowPhotoUrl'];
+            $profilePhotoUrl = $profile['bigPhotoUrl'];
         }
 
         ?>
@@ -247,7 +247,7 @@ class draw extends db_connect
 
             $profileInfo['username'] = $userInfo['username'];
             $profileInfo['fullname'] = $userInfo['fullname'];
-            $profileInfo['photoUrl'] = $userInfo['lowPhotoUrl'];
+            $profileInfo['photoUrl'] = $userInfo['bigPhotoUrl'];
             $profileInfo['online'] = $userInfo['online'];
         }
 
@@ -329,9 +329,9 @@ class draw extends db_connect
     {
         $profilePhotoUrl = "/assets/img/profile_default_photo.png";
 
-        if (strlen($profile['lowPhotoUrl']) != 0) {
+        if (strlen($profile['bigPhotoUrl']) != 0) {
 
-            $profilePhotoUrl = $profile['lowPhotoUrl'];
+            $profilePhotoUrl = $profile['bigPhotoUrl'];
         }
 
         ?>
@@ -387,9 +387,9 @@ class draw extends db_connect
     {
         $fromUserPhoto = "/assets/img/profile_default_photo.png";
 
-        if (strlen($post['owner']['lowPhotoUrl']) != 0) {
+        if (strlen($post['owner']['bigPhotoUrl']) != 0) {
 
-            $fromUserPhoto = $post['owner']['lowPhotoUrl'];
+            $fromUserPhoto = $post['owner']['bigPhotoUrl'];
         }
 
         $time = new language(NULL, $LANG['lang-code']);
@@ -550,9 +550,9 @@ class draw extends db_connect
 
                         $profilePhotoUrl = "/assets/img/profile_default_photo.png";
 
-                        if (strlen($photo['owner']['lowPhotoUrl']) != 0) {
+                        if (strlen($photo['owner']['bigPhotoUrl']) != 0) {
 
-                            $profilePhotoUrl = $photo['owner']['lowPhotoUrl'];
+                            $profilePhotoUrl = $photo['owner']['bigPhotoUrl'];
                         }
 
                         ?>
@@ -672,9 +672,9 @@ class draw extends db_connect
 
                 $previewImg = "/assets/img/profile_default_photo.png";
 
-                if (strlen($item['lowPhotoUrl']) != 0) {
+                if (strlen($item['bigPhotoUrl']) != 0) {
 
-                    $previewImg = $item['lowPhotoUrl'];
+                    $previewImg = $item['bigPhotoUrl'];
                 }
 
                 ?>
@@ -698,131 +698,5 @@ class draw extends db_connect
         <?php
     }
 
-    static function giftItem($item, $LANG, $helper, $preview = false, $advanced = false)
-    {
 
-        ?>
-
-        <div class="gallery-item <?php if ($advanced) echo 'gallery-advanced-item'; ?>" data-id="<?php echo $item['id']; ?>">
-
-            <div class="item-inner">
-
-                <?php
-
-                if (!$preview) {
-
-                    if (auth::getCurrentUserId() != 0 && auth::getCurrentUserId() == $item['giftTo']) {
-
-                        ?>
-
-                        <span title="<?php echo $LANG['action-remove']; ?>" class="action" onclick="Gifts.remove('<?php echo $item['id']; ?>'); return false;"><i class="icon icofont icofont-close-line"></i></span>
-
-                        <?php
-                    }
-                }
-
-                $previewImg = $item['imgUrl'];
-
-                ?>
-
-
-                <span>
-
-                    <span class="card-loader-container">
-                        <div class="loader"><i class="ic icon-spin icon-spin"></i></div>
-                    </span>
-
-                    <div class="gallery-item-preview" style="background-image:url(<?php echo $previewImg; ?>)">
-
-                        <?php
-
-                        if (!$preview) {
-
-                            ?>
-
-                            <span class="info-badge black"><i class="icon icofont icofont-clock-time"></i> <?php echo $item['timeAgo']; ?></span>
-
-                            <?php
-                        }
-
-                        ?>
-
-                    </div>
-                </span>
-
-                <?php
-
-                if ($advanced) {
-
-                    $profilePhotoUrl = "/assets/img/profile_default_photo.png";
-
-                    if (strlen($item['giftFromUserPhoto']) != 0) {
-
-                        $profilePhotoUrl = $item['giftFromUserPhoto'];
-                    }
-
-                    ?>
-                    <div class="p-0">
-
-                        <div class="card-item classic-item default-item p-2">
-                            <div class="card-body p-0">
-                                    <span class="card-header">
-                                        <a href="/<?php echo $item['giftFromUserUsername']; ?>"><img class="card-icon" src="<?php echo $profilePhotoUrl; ?>"></a>
-
-                                        <?php
-
-                                            if ($item['giftFromUserOnline']) {
-
-                                                ?>
-                                                    <span title="Online" class="card-online-icon"></span>
-                                                <?php
-                                            }
-                                        ?>
-
-                                        <div class="card-content">
-                                            <span class="card-title">
-                                                <a href="/<?php echo $item['giftFromUserUsername']; ?>"><?php echo $item['giftFromUserFullname']; ?></a>
-                                            </span>
-                                            <span class="card-username">@<?php echo $item['giftFromUserUsername']; ?></span>
-                                        </div>
-                                    </span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <?php
-                }
-                ?>
-
-            </div>
-        </div>
-
-        <?php
-    }
-
-    static function previewGiftItem($item, $profileInfo, $LANG, $helper)
-    {
-
-        ?>
-
-        <div class="gift-item col p-0" data-id="<?php echo $item['id']; ?>">
-
-            <div class="item-inner">
-
-                <a class="" href="/<?php echo $profileInfo['username']; ?>/gifts">
-
-                    <span class="card-loader-container">
-                        <div class="loader"><i class="ic icon-spin icon-spin"></i></div>
-                    </span>
-
-                    <div class="gallery-item-preview" >
-                        <img src="<?php echo $item['imgUrl']; ?>" style="">
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <?php
-    }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 if (!defined("APP_SIGNATURE")) {
     header("Location: /");
     exit;
@@ -32,15 +31,15 @@ if (!empty($_POST)) {
 
     $result['level'] = $level;
     $result = $account->setLevel($level);
-    $freeMessages = 0;
+    $levelMessages = 0;
     if ($level == 1) {
-        $freeMessages = 1000;
+        $levelMessages = 1000;
     } elseif ($level == 2) {
-        $freeMessages = 5000;
+        $levelMessages = 5000;
     } elseif ($level == 3) {
-        $freeMessages = 10000;
+        $levelMessages = 10000;
     }
-    $result = $account->setFreeMessagesCount($account->getFreeMessagesCount() + $freeMessages);
+    $result = $account->setLevelMessagesCount($account->getLevelMessagesCount() + $levelMessages);
         
     $payments = new payments($dbo);
     $payments->setRequestFrom($accountId);
