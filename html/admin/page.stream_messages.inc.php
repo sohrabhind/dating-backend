@@ -44,18 +44,28 @@
         $result['inbox_all'] = $inbox_all;
 
         if ($inbox_loaded != 0) {
+
             ob_start();
+
             foreach ($result['messages'] as $key => $value) {
+
                 draw($value);
             }
+
             $result['html'] = ob_get_clean();
+
             if ($result['inbox_loaded'] < $inbox_all) {
+
                 ob_start();
+
                 ?>
+
                     <a href="javascript:void(0)" onclick="Messages.moreItems('<?php echo $result['msgId']; ?>'); return false;">
                         <button type="button" class="btn  btn-info footable-show">View More</button>
                     </a>
+
                 <?php
+
                 $result['html2'] = ob_get_clean();
             }
         }
@@ -77,10 +87,12 @@
     <div id="main-wrapper">
 
         <?php
+
             include_once("html/common/admin_topbar.inc.php");
         ?>
 
         <?php
+
             include_once("html/common/admin_sidebar.inc.php");
         ?>
 
@@ -145,7 +157,8 @@
                                                     <?php
 
                                                         foreach ($result['messages'] as $key => $value) {
-                                                            draw($value);                                               
+
+                                                            draw($value);
                                                         }
 
                                                     ?>
@@ -197,6 +210,7 @@
             </div> <!-- End Container fluid  -->
 
             <?php
+
                 include_once("html/common/admin_footer.inc.php");
             ?>
 
@@ -315,11 +329,15 @@
                 </td>
                 <td>
                     <?php
+
                         if (strlen($item['message']) != 0) {
+
                             ?>
                                 <h6><?php echo $item['message']; ?></h6>
                             <?php
+
                         } else {
+
                             ?>
                                 <h6>-</h6>
                             <?php

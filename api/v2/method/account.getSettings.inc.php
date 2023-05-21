@@ -85,13 +85,6 @@ if (!empty($_POST)) {
     $arr = $config['allowSeenTyping'];
     $result['seenTyping'] = $arr['intValue'];
 
-
-    $arr = $config['defaultProModeCost'];
-    $result['defaultProModeCost'] = $arr['intValue'];
-
-    $arr = $config['defaultMessagesPackageCost'];
-    $result['defaultMessagesPackageCost'] = $arr['intValue'];
-
     $result['messagesCount'] = $level_messages_count;
     $result['notificationsCount'] = $notifications_count;
     $result['newFriendsCount'] = $friends_count;
@@ -100,7 +93,6 @@ if (!empty($_POST)) {
     $result['free_messages_count'] = $accountInfo['free_messages_count'];
     $result['level_messages_count'] = $accountInfo['level_messages_count'];
     $result['level'] = $accountInfo['level'];
-    $result['balance'] = $accountInfo['balance'];
 
     echo json_encode($result);
     exit;

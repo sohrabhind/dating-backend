@@ -10,6 +10,7 @@
      */
 
     if (!admin::isSession()) {
+
         header("Location: /admin/login");
         exit;
     }
@@ -29,6 +30,7 @@
         $msgId = helper::clearInt($msgId);
 
         if ($accessToken === admin::getAccessToken() && !APP_DEMO) {
+
             $messages = new msg($dbo);
             $messages->remove($msgId);
         }

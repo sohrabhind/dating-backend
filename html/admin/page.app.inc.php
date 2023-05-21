@@ -27,14 +27,10 @@
 
     $allowSeenTyping = 1;
 
-    $allowFacebookAuthorization = 1;
     $allowMultiAccountsFunction = 1;
 
     $defaultLevelMessagesCount = 0;
     $defaultBalance = 10;
-
-    $defaultProModeCost = 170;
-    $defaultMessagesPackageCost = 20;
 
     $defaultAllowMessages = 1;
 
@@ -44,14 +40,10 @@
 
         $allowSeenTyping_checkbox = isset($_POST['allowSeenTyping']) ? $_POST['allowSeenTyping'] : '';
 
-        $allowFacebookAuthorization_checkbox = isset($_POST['allowFacebookAuthorization']) ? $_POST['allowFacebookAuthorization'] : '';
         $allowMultiAccountsFunction_checkbox = isset($_POST['allowMultiAccountsFunction']) ? $_POST['allowMultiAccountsFunction'] : '';
 
         $defaultLevelMessagesCount = isset($_POST['defaultLevelMessagesCount']) ? $_POST['defaultLevelMessagesCount'] : 0;
         $defaultBalance = isset($_POST['defaultBalance']) ? $_POST['defaultBalance'] : 10;
-
-        $defaultProModeCost = isset($_POST['defaultProModeCost']) ? $_POST['defaultProModeCost'] : 170;
-        $defaultMessagesPackageCost = isset($_POST['defaultMessagesPackageCost']) ? $_POST['defaultMessagesPackageCost'] : 20;
 
         $defaultAllowMessages_checkbox = isset($_POST['defaultAllowMessages']) ? $_POST['defaultAllowMessages'] : '';
 
@@ -66,15 +58,6 @@
             } else {
 
                 $allowSeenTyping = 0;
-            }
-
-            if ($allowFacebookAuthorization_checkbox === "on") {
-
-                $allowFacebookAuthorization = 1;
-
-            } else {
-
-                $allowFacebookAuthorization = 0;
             }
 
             if ($allowMultiAccountsFunction_checkbox === "on") {
@@ -100,7 +83,6 @@
 
             $settings->setValue("allowSeenTyping", $allowSeenTyping);
 
-            $settings->setValue("allowFacebookAuthorization", $allowFacebookAuthorization);
             $settings->setValue("allowMultiAccountsFunction", $allowMultiAccountsFunction);
 
             $settings->setValue("defaultBalance", $defaultBalance);
@@ -108,18 +90,6 @@
 
             $settings->setValue("defaultAllowMessages", $defaultAllowMessages);
 
-
-            if (helper::clearInt($defaultProModeCost) > 0) {
-
-                $defaultProModeCost = helper::clearInt($defaultProModeCost);
-                $settings->setValue("defaultProModeCost", $defaultProModeCost);
-            }
-
-            if (helper::clearInt($defaultMessagesPackageCost) > 0) {
-
-                $defaultMessagesPackageCost = helper::clearInt($defaultMessagesPackageCost);
-                $settings->setValue("defaultMessagesPackageCost", $defaultMessagesPackageCost);
-            }
         }
     }
 
@@ -130,9 +100,6 @@
     $arr = $config['allowSeenTyping'];
     $allowSeenTyping = $arr['intValue'];
 
-    $arr = $config['allowFacebookAuthorization'];
-    $allowFacebookAuthorization = $arr['intValue'];
-
     $arr = $config['allowMultiAccountsFunction'];
     $allowMultiAccountsFunction = $arr['intValue'];
 
@@ -141,12 +108,6 @@
 
     $arr = $config['defaultLevelMessagesCount'];
     $defaultLevelMessagesCount = $arr['intValue'];
-
-    $arr = $config['defaultProModeCost'];
-    $defaultProModeCost = $arr['intValue'];
-
-    $arr = $config['defaultMessagesPackageCost'];
-    $defaultMessagesPackageCost = $arr['intValue'];
 
     $arr = $config['defaultAllowMessages'];
     $defaultAllowMessages = $arr['intValue'];
@@ -225,11 +186,6 @@
                                             <label for="allowSeenTyping">Allow Seen&Typing functions in chat</label>
                                         </p>
 
-                                        <p style="display: none">
-                                            <input type="checkbox" name="allowFacebookAuthorization" id="allowFacebookAuthorization" <?php if ($allowFacebookAuthorization == 1) echo "checked=\"checked\"";  ?> />
-                                            <label for="allowFacebookAuthorization">Allow registration/authorization via Facebook</label>
-                                        </p>
-
                                         <p>
                                             <input type="checkbox" name="allowMultiAccountsFunction" id="allowMultiAccountsFunction" <?php if ($allowMultiAccountsFunction == 1) echo "checked=\"checked\"";  ?> />
                                             <label for="allowMultiAccountsFunction">Enable creation of multi-accounts</label>
@@ -251,18 +207,7 @@
                                         <label for="defaultLevelMessagesCount" class="active">Number of free messages for the user</label>
                                         <input class="form-control" id="defaultLevelMessagesCount" type="number" size="4" name="defaultLevelMessagesCount" value="<?php echo $defaultLevelMessagesCount; ?>">
                                     </div>
-
-
-                                    <div class="form-group">
-                                        <label for="defaultProModeCost" class="active">Pro mode activation cost (in credits)</label>
-                                        <input class="form-control" id="defaultProModeCost" type="number" size="4" name="defaultProModeCost" value="<?php echo $defaultProModeCost; ?>">
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <label for="defaultMessagesPackageCost" class="active">Cost for message package (in credits)</label>
-                                        <input class="form-control" id="defaultMessagesPackageCost" type="number" size="4" name="defaultMessagesPackageCost" value="<?php echo $defaultMessagesPackageCost; ?>">
-                                    </div>
+                                    
 
                                     <div class="form-group">
                                         <div class="col-xs-12">

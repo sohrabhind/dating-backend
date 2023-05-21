@@ -110,13 +110,10 @@
 
                     $settings = new settings($dbo);
                     $settings->createValue("defaultBalance", 10); //Default balance for new users
-                    $settings->createValue("defaultLevelMessagesCount", 150); //Default free messages count after signup
-                    $settings->createValue("defaultProModeCost", 170); //Default cost for promode feature in credits
-                    $settings->createValue("defaultMessagesPackageCost", 20); //Default cost for buy message package feature in credits
+                    $settings->createValue("defaultLevelMessagesCount", 0); //Default free messages count after signup
                     $settings->createValue("allowFriendsFunction", 1);
                     $settings->createValue("allowSeenTyping", 1);
                     $settings->createValue("allowMultiAccountsFunction", 1);
-                    $settings->createValue("allowFacebookAuthorization", 1);
                     $settings->createValue("allowUpgradesSection", 1);
                     $settings->createValue("defaultAllowMessages", 1); //Default off
 

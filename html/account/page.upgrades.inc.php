@@ -33,12 +33,7 @@
 
     $settings = new settings($dbo);
     $config = $settings->get();
-
-    $arr = $config['defaultProModeCost'];
-    $proModeCost = $arr['intValue'];
-
-    $arr = $config['defaultMessagesPackageCost'];
-    $messagePackageCost = $arr['intValue'];
+    
 
     if (!empty($_POST)) {
 

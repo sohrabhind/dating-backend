@@ -46,7 +46,6 @@
 
         header("Location: /admin/main");
         exit;
-    
     }
 
     if (!empty($_POST)) {
@@ -150,7 +149,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Message text</label>
+                                        <label >Message text</label>
                                         <input placeholder="Message text" id="message" type="text" name="message" maxlength="100" class="form-control form-control-line">
                                     </div>
 
@@ -202,6 +201,7 @@
                                                     <?php
 
                                                         foreach ($result['data'] as $key => $value) {
+
                                                             draw($value);
                                                         }
 
@@ -239,6 +239,7 @@
             </div> <!-- End Container fluid  -->
 
             <?php
+
                 include_once("html/common/admin_footer.inc.php");
             ?>
 

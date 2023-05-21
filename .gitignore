@@ -1,2 +1,6 @@
 /assets
 /.vscode
+error_log
+.vscode/ftp-kr.sync.cache.json
+.ftpquota
+.vscode/ftp-kr.sync.cache.json

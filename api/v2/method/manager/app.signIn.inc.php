@@ -8,6 +8,7 @@
  */;
 
 if (!defined("APP_SIGNATURE")) {
+
     header("Location: /");
     exit;
 }
