@@ -138,6 +138,17 @@ class msg extends db_connect
         return $str;
     }
 
+    public function getMessagesInChat($chatId, $fromUserId) {
+        $stmt = $this->db->prepare("SELECT count(*) FROM messages WHERE chatId = (:chatId) AND fromUserId = (:fromUserId) AND removeAt = 0");
+        $stmt->bindParam(':chatId', $chatId, PDO::PARAM_INT);
+        $stmt->bindParam(':fromUserId', $fromUserId, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $number_of_rows = $stmt->fetchColumn();
+        }
+        return 0;
+    }
+
 
     public function create($toUserId, $chatId,  $message = "", $imgUrl = "", $chatFromUserId = 0, $chatToUserId = 0, $listId = 0, $stickerId = 0, $stickerImgUrl = "")
     {
@@ -145,6 +156,20 @@ class msg extends db_connect
             "error" => true,
             "error_code" => ERROR_CODE_INITIATE
         );
+        
+        $account = new account($this->db, $this->requestFrom);
+        $free_messages_count = $account->getFreeMessagesCount();
+        $level_messages_count = $account->getLevelMessagesCount();
+
+        if ($account->getGender() == 1) {
+            $free_messages_count = 1;
+        } else if (($free_messages_count == 0 || $this->getMessagesInChat($chatId, $toUserId) > 0) && ($account->getLevel() == 0 || $level_messages_count == 0)) {
+            $result = array(
+                "error" => true,
+                "error_code" => 402
+            );
+            return $result;
+        }
 
         if (strlen($imgUrl) == 0 && strlen($message) == 0 && strlen($stickerImgUrl) == 0) {
 
@@ -202,10 +227,13 @@ class msg extends db_connect
         $stmt->bindParam(":ip_addr", $ip_addr);
         $stmt->bindParam(":u_agent", $u_agent);
 
+
         if ($stmt->execute()) {
-
+            if ($free_messages_count == 0) {
+                $account->setLevelMessagesCount($level_messages_count - 1);
+            }
             $msgId = $this->db->lastInsertId();
-
+        
             $result = array("error" => false,
                             "error_code" => ERROR_SUCCESS,
                             "chatId" => $chatId,

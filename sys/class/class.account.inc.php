@@ -389,18 +389,13 @@ class account extends db_connect
         return $result;
     }
 
-    public function getGender()
-    {
+    public function getGender() {
         $stmt = $this->db->prepare("SELECT gender FROM users WHERE id = (:accountId) LIMIT 1");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-
         if ($stmt->execute()) {
-
             $row = $stmt->fetch();
-
             return $row['gender'];
         }
-
         return 0;
     }
 
@@ -452,6 +447,23 @@ class account extends db_connect
         return $result;
     }
 
+    public function getLevel() {
+        $stmt = $this->db->prepare("SELECT level, level_create_at FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetch();
+
+            if ($row['level'] > 0 && time() < $row['level_create_at']+(30*24*60*60)) {
+                $level = $row['level'];
+            } else {
+                $level = 0;
+            }
+            return $level;
+        }
+        return 0;
+    }
+
 
     public function setBalance($balance)
     {
@@ -487,6 +499,7 @@ class account extends db_connect
     }
 
     public function setLevelMessagesCount($count) {
+        if ($count < 0) { $count = 0; }
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET level_messages_count = (:level_messages_count) WHERE id = (:accountId)");
@@ -519,6 +532,7 @@ class account extends db_connect
 
     public function getFreeMessagesCount()
     {
+        $free_messages_per_day = 5;
         $pastTime = time()-(24*60*60);
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM messages WHERE fromUserId = (:accountId) AND createAt > (:pastTime)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
@@ -526,10 +540,12 @@ class account extends db_connect
 
         if ($stmt->execute()) {
             $number_of_rows = $stmt->fetchColumn();
-
-            return 5-$number_of_rows;
+            $free_messages_count = $free_messages_per_day-$number_of_rows;
+            if ($free_messages_count < 0) {
+                $free_messages_count = 0;
+            } 
+            return $free_messages_count;
         }
-
         return 0;
     }
 

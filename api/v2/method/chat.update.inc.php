@@ -21,8 +21,6 @@ if (!empty($_POST)) {
 
     $chatId = isset($_POST['chatId']) ? $_POST['chatId'] : 0;
 
-    $levelMessagesCount = isset($_POST['levelMessagesCount']) ? $_POST['levelMessagesCount'] : 0;
-
     $clientId = helper::clearInt($clientId);
     $accountId = helper::clearInt($accountId);
 
@@ -31,30 +29,12 @@ if (!empty($_POST)) {
 
     $chatId = helper::clearInt($chatId);
 
-    $levelMessagesCount = helper::clearInt($levelMessagesCount);
-
     $result = array(
         "error" => false,
         "error_code" => ERROR_CODE_INITIATE
     );
 
-//    $auth = new auth($dbo);
-//
-//    if (!$auth->authorize($accountId, $accessToken)) {
-//
-//        api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
-//    }
 
-    // Set Free Messages Count for Function "Pro Mode"
-
-    if (auth::isSession()) {
-
-        $levelMessagesCount = auth::getCurrentLevelMessagesCount();
-    }
-
-    $account = new account($dbo, $accountId);
-    $account->setLevelMessagesCount($levelMessagesCount);
-    unset($account);
 
     // Update Chat info
 
