@@ -21,7 +21,7 @@ class stream extends db_connect
 
     public function getAllCount()
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM photos WHERE removeAt = 0");
+        $stmt = $this->db->prepare("SELECT count(*) FROM images WHERE removeAt = 0");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -29,7 +29,7 @@ class stream extends db_connect
 
     public function getCount($itemType)
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM photos WHERE removeAt = 0 AND itemType = (:itemType)");
+        $stmt = $this->db->prepare("SELECT count(*) FROM images WHERE removeAt = 0 AND itemType = (:itemType)");
         $stmt->bindParam(':itemType', $itemType, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -38,7 +38,7 @@ class stream extends db_connect
 
     private function getMaxId()
     {
-        $stmt = $this->db->prepare("SELECT MAX(id) FROM photos");
+        $stmt = $this->db->prepare("SELECT MAX(id) FROM images");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -61,20 +61,20 @@ class stream extends db_connect
 
         if ($this->getRequestFromAdmin()) {
 
-            $stmt = $this->db->prepare("SELECT id FROM photos WHERE removeAt = 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
+            $stmt = $this->db->prepare("SELECT id FROM images WHERE removeAt = 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
             $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
 
         } else {
 
             if ($itemType != -1) {
 
-                $stmt = $this->db->prepare("SELECT id FROM photos WHERE removeAt = 0 AND itemType = (:itemType) AND  id < (:itemId) ORDER BY id DESC LIMIT 20");
+                $stmt = $this->db->prepare("SELECT id FROM images WHERE removeAt = 0 AND itemType = (:itemType) AND  id < (:itemId) ORDER BY id DESC LIMIT 20");
                 $stmt->bindParam(':itemType', $itemType, PDO::PARAM_INT);
                 $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
 
             } else {
 
-                $stmt = $this->db->prepare("SELECT id FROM photos WHERE removeAt = 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
+                $stmt = $this->db->prepare("SELECT id FROM images WHERE removeAt = 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
                 $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
             }
         }
@@ -85,16 +85,16 @@ class stream extends db_connect
 
                 while ($row = $stmt->fetch()) {
 
-                    $photo = new photos($this->db);
-                    $photo->setRequestFrom($this->requestFrom);
-                    $photoInfo = $photo->info($row['id']);
+                    $images = new images($this->db);
+                    $images->setRequestFrom($this->requestFrom);
+                    $imageInfo = $images->info($row['id']);
                     unset($post);
 
-                    array_push($result['items'], $photoInfo);
+                    array_push($result['items'], $imageInfo);
 
-                    $result['itemId'] = $photoInfo['id'];
+                    $result['itemId'] = $imageInfo['id'];
 
-                    unset($photoInfo);
+                    unset($imageInfo);
                 }
             }
         }

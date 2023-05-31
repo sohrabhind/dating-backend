@@ -184,31 +184,6 @@
 
                                     <?php
 
-                                    if ($profileInfo['friend']) {
-
-                                        ?>
-                                        <a onclick="Friends.remove('<?php echo $profileInfo['id']; ?>'); return false;" class="flat_btn noselect friends-btn"><?php echo $LANG['action-remove-from-friends']; ?></a>
-                                        <?php
-
-                                    } else {
-
-                                        if ($profileInfo['follow']) {
-
-                                            ?>
-                                            <a onclick="Friends.cancelRequest('<?php echo $profileInfo['id']; ?>'); return false;" class="flat_btn noselect friends-btn"><?php echo $LANG['action-cancel-friend-request']; ?></a>
-                                            <?php
-
-                                        } else {
-
-                                            ?>
-                                            <a onclick="Friends.sendRequest('<?php echo $profileInfo['id']; ?>'); return false;"  class="flat_btn noselect friends-btn" ><?php echo $LANG['action-add-to-friends']; ?></a>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-
-                                    <?php
-
                                     if (!$profileInfo['myLike']) {
 
                                         ?>
@@ -222,7 +197,7 @@
 
                                     <?php
 
-                                    if ($profileInfo['allowMessages'] == 0 && !$profileInfo['friend']) {
+                                    if ($profileInfo['allowMessages'] == 0) {
 
                                         ?>
 
@@ -276,7 +251,7 @@
                                                 </div>
                                             </span>
 
-                                            <a href="<?php echo $profileNormalPhotoUrl; ?>" class="profile_img_wrap profile-user-photo-link">
+                                            <a href="<?php echo $profilenormalImageUrl; ?>" class="profile_img_wrap profile-user-photo-link">
                                                 <span alt="Photo" class="profile-user-photo user_image profile-user-photo-bg" style="background-image: url('<?php echo $profilePhotoUrl; ?>') " onclick="blueimp.Gallery($('.profile-user-photo-link')); return false"></span>
                                             </a>
 
@@ -329,15 +304,15 @@
                         <?php
 
 
-                        if ($profileInfo['photosCount'] != 0) {
+                        if ($profileInfo['imagesCount'] != 0) {
 
-                            if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['friend'] || $profileInfo['allowShowMyGallery'] == 0) {
+                            if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['allowShowMyGallery'] == 0) {
 
                                 ?>
                                     <div class="main-content">
                                         <div class="card border-0 mt-4 col-12 p-0" id="preview-gallery-block">
                                             <div class="card-header border-0">
-                                                <h3 class="card-title"><i class="icofont icofont-image mr-2"></i><span class="counter-button-title"><?php echo $LANG['page-gallery']; ?> <span id="stat_photos_count" class="counter-button-indicator"><?php echo $profileInfo['photosCount']; ?></span></span></h3>
+                                                <h3 class="card-title"><i class="icofont icofont-image mr-2"></i><span class="counter-button-title"><?php echo $LANG['page-gallery']; ?> <span id="stat_images_count" class="counter-button-indicator"><?php echo $profileInfo['imagesCount']; ?></span></span></h3>
                                                 <span class="action-link"><a href="/<?php echo $profileInfo['username']; ?>/gallery"><?php echo $LANG['action-show-all']; ?></a></span>
                                             </div>
 
@@ -364,46 +339,11 @@
                                 <?php
                             }
                         }
-
-                        if ($profileInfo['friendsCount'] != 0) {
-
-                            if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['friend'] || $profileInfo['allowShowMyFriends'] == 0) {
-
-                                ?>
-                                <div class="main-content">
-                                    <div class="card border-0 mt-4 col-12 p-0" id="preview-friends-block">
-                                        <div class="card-header border-0">
-                                            <h3 class="card-title"><i class="icofont icofont-users mr-2"></i><span class="counter-button-title"><?php echo $LANG['page-friends']; ?> <span id="stat_friends_count" class="counter-button-indicator"><?php echo $profileInfo['friendsCount']; ?></span></span></h3>
-                                            <span class="action-link"><a href="/<?php echo $profileInfo['username']; ?>/friends"><?php echo $LANG['action-show-all']; ?></a></span>
-                                        </div>
-
-                                        <div class="card-body p-2">
-                                            <div class="grid-list">
-
-                                                <?php
-
-                                                $friends = new friends($dbo, $profileInfo['id']);
-                                                $friends->setRequestFrom($profileInfo['id']);
-                                                $result = $friends->get(0, 6);
-
-                                                foreach ($result['items'] as $key => $value) {
-
-                                                    draw::previewFriendItem($value, $LANG, $helper);
-                                                }
-                                                ?>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                        }
+                        
 
                         if ($profileInfo['likesCount'] != 0) {
 
-                            if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['friend'] || $profileInfo['allowShowMyLikes'] == 0) {
+                            if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['allowShowMyLikes'] == 0) {
 
                                 ?>
                                 <div class="main-content">
@@ -545,74 +485,6 @@
             var $infobox = $('#info-box');
 
 
-
-            window.Friends || ( window.Friends = {} );
-
-            Friends.remove = function (profile_id) {
-
-                $("a.friends-btn").text(strings.sz_action_add_to_friends);
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/' + options.api_version + '/method/friends.remove',
-                    data: 'friendId=' + profile_id + "&accessToken=" + account.accessToken + "&accountId=" + account.id,
-                    dataType: 'json',
-                    timeout: 30000,
-                    success: function(response){
-
-                        $("a.friends-btn").text(strings.sz_action_add_to_friends);
-                        $("a.friends-btn").attr('onClick', 'Friends.sendRequest(\'' + profile_id +  '\'); return false;');
-                    },
-                    error: function(xhr, type){
-
-                        $("a.friends-btn").text(strings.sz_action_remove_from_friends);
-                    }
-                });
-            };
-
-            Friends.cancelRequest = function (profile_id) {
-
-                $("a.friends-btn").text(strings.sz_action_add_to_friends);
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/' + options.api_version + '/method/friends.sendRequest',
-                    data: 'accountId=' + account.id + "&accessToken=" + account.accessToken + "&profileId=" + profile_id,
-                    dataType: 'json',
-                    timeout: 30000,
-                    success: function(response){
-
-                        $("a.friends-btn").text(strings.sz_action_add_to_friends);
-                        $("a.friends-btn").attr('onClick', 'Friends.sendRequest(\'' + profile_id +  '\'); return false;');
-                    },
-                    error: function(xhr, type){
-
-                        $("a.friends-btn").text(strings.sz_action_cancel_friends_request);
-                    }
-                });
-            };
-
-            Friends.sendRequest = function (profile_id) {
-
-                $("a.friends-btn").text(strings.sz_action_cancel_friends_request);
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/' + options.api_version + '/method/friends.sendRequest',
-                    data: 'accountId=' + account.id + "&accessToken=" + account.accessToken + "&profileId=" + profile_id,
-                    dataType: 'json',
-                    timeout: 30000,
-                    success: function(response){
-
-                        $("a.friends-btn").text(strings.sz_action_cancel_friends_request);
-                        $("a.friends-btn").attr('onClick', 'Friends.cancelRequest(\'' + profile_id +  '\'); return false;');
-                    },
-                    error: function(xhr, type){
-
-                        $("a.friends-btn").text(strings.sz_action_add_to_friends);
-                    }
-                });
-            };
 
             window.Report || ( window.Report = {} );
 

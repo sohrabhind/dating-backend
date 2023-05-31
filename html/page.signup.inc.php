@@ -135,14 +135,15 @@
             $account = new account($dbo);
 
             $result = array();
-            $result = $account->signup($user_username, $user_fullname, $user_password, $user_email, $gender, 2000, 1, 1, $age, $LANG['lang-code']);
+            $access_level = 0;
+            $result = $account->signup($user_username, $user_fullname, $user_password, $user_email, $gender, $access_level, $age, "");
 
             if (!$result['error']) {
 
-                $clientId = 0; // Desktop version
+                
 
                 $auth = new auth($dbo);
-                $access_data = $auth->create($result['accountId'], $clientId, APP_TYPE_WEB, "", $LANG['lang-code']);
+                $access_data = $auth->create($result['accountId'], APP_TYPE_WEB, "");
 
                 if (!$access_data['error']) {
 

@@ -87,9 +87,9 @@
 
                 if ($accountInfo['error'] === false && $accountInfo['state'] != ACCOUNT_STATE_BLOCKED) {
 
-                    $clientId = 0; // Desktop version
+                    
 
-                    $restorePointInfo = $account->restorePointCreate($email, $clientId);
+                    $restorePointInfo = $account->restorePointCreate($email);
 
                     ob_start();
 

@@ -1,25 +1,26 @@
 <?php
 
-    /*!
-     * ifsoft.co.uk
-     *
-     * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
+/*!
+ * ifsoft.co.uk
+ *
+ * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
+ * hindbyte@gmail.com
+ *
+ * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
+ */
 
 class imglib extends db_connect
 {
     private $profile_id = 0;
     private $request_from = 0;
 
-    public function __construct($dbo = NULL, $profile_id = 0)
+    public function __construct($dbo = null, $profile_id = 0)
     {
         parent::__construct($dbo);
     }
 
-    public function setCorrectImageOrientation($filename) {
+    public function setCorrectImageOrientation($filename)
+    {
 
         $imgInfo = getimagesize($filename);
 
@@ -66,272 +67,140 @@ class imglib extends db_connect
         }
     }
 
-    public function isImageFile($filename, $png = true, $gif = true)
+
+    public function createChatImg($new_file_name, $temp_file_name)
     {
-        $imagefile = true;
+        $result = array("error" => true);
 
-        $whitelist_type = array('image/jpeg');
-
-        if ($png) {
-
-            $whitelist_type[] = 'image/png';
+        list($w, $h, $type) = getimagesize($new_file_name);
+        if ($w < 1 || $h < 1) {
+            unlink($new_file_name);
+            return $result;
         }
-
-        if ($gif) {
-
-            $whitelist_type[] = 'image/gif';
-        }
-
-        if (function_exists('finfo_open')) {
-
-            $fileinfo = finfo_open(FILEINFO_MIME_TYPE);
-
-            if (!$fileinfo) {
-
-                $imagefile  = false; // Uploaded file is not a valid image
-
-            } else {
-
-                if (!in_array(finfo_file($fileinfo, $filename), $whitelist_type)) {
-
-                    $imagefile  = false; // Uploaded file is not a valid image
-                }
-            }
-
+    
+        if (rename($new_file_name, $temp_file_name)) {
+            $new_file_name = $temp_file_name;
         } else {
-
-            //@ - for hide warning when image not valid
-
-            if (!@getimagesize($filename)) {
-
-                $imagefile  = false; // Uploaded file is not a valid image
-            }
+            unlink($new_file_name);
+            return $result;
         }
 
-        return $imagefile;
-    }
-
-    public function checkImg($img_filename, $min_width = 1, $min_height = 1)
-    {
-        $result = false;
-
-        if (file_exists($img_filename)) {
-
-            list($w, $h, $type) = getimagesize($img_filename);
-
-            if ($type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG || $type == IMAGETYPE_GIF) {
-
-                if ($w > $min_width && $h > $min_height) {
-
-                    $result = true;
-                }
-            }
+        if ($type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG || $type == IMAGETYPE_GIF) {
+            $this->img_resize($new_file_name, $temp_file_name, 800, 0);
+        } else {
+            unlink($temp_file_name);
+            return $result;
         }
 
-        return $result;
-    }
-
-    public function createChatImg($imgFilename, $addon)
-    {
-        $result = array("error" => true);
-
-        $imgFilename_ext = pathinfo($addon, PATHINFO_EXTENSION);
-        $imgFilename_ext = strtolower($imgFilename_ext);
-
-        $imgNewName = helper::generateHash(32);
-
-        if ($imgFilename_ext !== "png") {
-
-            if ($imgFilename_ext !== "jpg") {
-
-                return $result;
-            }
-        }
-
-        $imgOrigin = $imgNewName.".".$imgFilename_ext;
-
-        if ($this->checkImg($imgFilename)) {
-
-            list($w, $h, $type) = getimagesize($imgFilename);
-
-            if (copy($imgFilename, TEMP_PATH.$imgOrigin)) {
-
-                $imgFilename = TEMP_PATH.$imgOrigin;
-            }
-
-            if ($type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) {
-
-                $this->img_resize($imgFilename, TEMP_PATH.$imgOrigin, 800, 0);
-
-                $result['error'] = false;
-
-            } else if ($type == IMAGETYPE_GIF) {
-
-                $result['error'] = false;
-
-            } else {
-
-                $result['error'] = true;
-            }
-        }
-
-        if ($result['error'] === false) {
-
-            $cdn = new cdn($this->db);
-
-            $response = array();
-
-            $response = $cdn->uploadChatImg(TEMP_PATH.$imgOrigin);
-
-            if ($response['error'] === false) {
-
-                $result['imgUrl'] = $response['fileUrl'];
-            }
-        }
-
-        @unlink(TEMP_PATH.$imgOrigin);
-        return $result;
-    }
-
-
-    public function newProfilePhoto($imgFilename)
-    {
-        $result = array("error" => true);
-
-        $this->setCorrectImageOrientation($imgFilename);
-
-        $imgFilename_ext = pathinfo($imgFilename, PATHINFO_EXTENSION);
-        $imgFilename_ext = strtolower($imgFilename_ext);
-
-        $imgNewName = helper::generateHash(32);
-
-        if ($imgFilename_ext !== "png") {
-            if ($imgFilename_ext !== "jpg") {
-                if ($imgFilename_ext !== "jpeg") {
-                    return $result;
-                }
-            }
-        }
-
-        $imgNormal = $imgNewName.".".$imgFilename_ext;
-
-        if (rename($imgFilename, TEMP_PATH.$imgNormal)) {
-
-            $imgFilename = TEMP_PATH.$imgNormal;
+        $cdn = new cdn($this->db);
+        $response = array();
+        $response = $cdn->uploadChatImg($temp_file_name);
+        if ($response['error'] === false) {
+            $result['error'] = false;
+            $result['imgUrl'] = $response['fileUrl'];
         }
         
-        list($w, $h, $type) = getimagesize($imgFilename);
-
-        if ($type == IMAGETYPE_JPEG) {
-            $photo = new photo($this->db, $imgFilename, 512);
-            imagejpeg($photo->getImgData(), TEMP_PATH.$imgNormal, 80);
-            unset($photo);
-
-            $result['error'] = false;
-        } elseif ($type == IMAGETYPE_PNG) {
-            //PNG
-            $photo = new photo($this->db, $imgFilename, 512);
-            imagepng($photo->getImgData(), TEMP_PATH.$imgNormal, 80);
-            unset($photo);
-
-            $result['error'] = false;
-        } else {
-            $result['error'] = true;
-        }
-
-        if (!$result['error']) {
-            $cdn = new cdn($this->db);
-            $response = array();
-            $response = $cdn->uploadPhoto(TEMP_PATH.$imgNormal);
-            if ($response['error'] === false) {
-                $result['bigPhotoUrl'] = $response['fileUrl'];
-            }
-        }
-
-        @unlink(TEMP_PATH.$imgNormal);
+        @unlink($temp_file_name);
         return $result;
     }
 
 
-    public function createMyPhoto($imgFilename, $addon)
+    public function newProfilePhoto($new_file_name, $temp_file_name)
     {
         $result = array("error" => true);
 
-        $imgFilename_ext = pathinfo($addon, PATHINFO_EXTENSION);
-        $imgFilename_ext = strtolower($imgFilename_ext);
+        $this->setCorrectImageOrientation($new_file_name);
 
-        $imgNewName = helper::generateHash(32);
-
-        if ($imgFilename_ext !== "png") {
-
-            if ($imgFilename_ext !== "jpg") {
-
-                return $result;
-            }
+        list($w, $h, $type) = getimagesize($new_file_name);
+        if ($w < 1 || $h < 1) {
+            unlink($new_file_name);
+            return $result;
+        }
+    
+        if (rename($new_file_name, $temp_file_name)) {
+            $new_file_name = $temp_file_name;
+        } else {
+            unlink($new_file_name);
+            return $result;
         }
 
-        $imgNormal = $imgNewName.".".$imgFilename_ext;
-
-        if ($this->checkImg($imgFilename)) {
-
-            list($w, $h, $type) = getimagesize($imgFilename);
-            
-            if (copy($imgFilename, TEMP_PATH.$imgNormal)) {
-
-                $imgFilename = TEMP_PATH.$imgNormal;
-            }
-
-            if ($type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) {
-
-                $this->img_resize($imgFilename, TEMP_PATH.$imgNormal, 800, 0);
-
-                $result['error'] = false;
-            } else {
-
-                $result['error'] = true;
-            }
+        if ($type == IMAGETYPE_JPEG) {
+            $photo = new photo($this->db, $new_file_name, 512);
+            imagejpeg($photo->getImgData(), $temp_file_name, 80);
+            unset($photo);
+        } elseif ($type == IMAGETYPE_PNG) {
+            //PNG
+            $photo = new photo($this->db, $new_file_name, 512);
+            imagepng($photo->getImgData(), $temp_file_name, 80);
+            unset($photo);
+        } else {
+            unlink($temp_file_name);
+            return $result;
         }
 
-        if ($result['error'] === false) {
-
-            $cdn = new cdn($this->db);
-
-            $response = array();
-
-            $response = $cdn->uploadMyPhoto(TEMP_PATH.$imgNormal);
-
-            if ($response['error'] === false) {
-
-                $result['normalPhotoUrl'] = $response['fileUrl'];
-            }
+        $cdn = new cdn($this->db);
+        $response = array();
+        $response = $cdn->uploadPhoto($temp_file_name);
+        if ($response['error'] === false) {
+            $result['error'] = false;
+            $result['bigPhotoUrl'] = $response['fileUrl'];
         }
-        @unlink(TEMP_PATH.$imgNormal);
+
+        @unlink($temp_file_name);
         return $result;
     }
 
-    /***********************************************************************************
-    Функция img_resize(): генерация thumbnails
-    Параметры:
-    $src             - имя исходного файла
-    $dest            - имя генерируемого файла
-    $width, $height  - ширина и высота генерируемого изображения, в пикселях
-    Необязательные параметры:
-    $rgb             - цвет фона, по умолчанию - белый
-    $quality         - качество генерируемого JPEG, по умолчанию - максимальное (100)
-     ***********************************************************************************/
-    public function img_resize($src, $dest, $width, $height, $rgb = 0xFFFFFF, $quality = 80)
-    {
 
-        if (!file_exists($src)) return false;
+    public function createMyImage($new_file_name, $temp_file_name)
+    {
+        $result = array("error" => true);
+
+        list($w, $h, $type) = getimagesize($new_file_name);
+        if ($w < 1 || $h < 1) {
+            unlink($new_file_name);
+            return $result;
+        }
+
+        if (rename($new_file_name, $temp_file_name)) {
+            $new_file_name = $temp_file_name;
+        } else {
+            unlink($new_file_name);
+            return $result;
+        }
+
+        $this->img_resize($new_file_name, $temp_file_name, 800, 0);
+
+        $cdn = new cdn($this->db);
+        $response = array();
+        $response = $cdn->uploadMyImage($temp_file_name);
+        if ($response['error'] === false) {
+            $result['error'] = false;
+            $result['normalImageUrl'] = $response['fileUrl'];
+        }
+
+        @unlink($temp_file_name);
+        return $result;
+    }
+
+
+    public function img_resize($src, $dest, $width, $height, $rgb = 0xFFFFFF, $quality = 80) {
+
+        if (!file_exists($src)) {
+            return false;
+        }
 
         $size = getimagesize($src);
 
-        if ($size === false) return false;
+        if ($size === false) {
+            return false;
+        }
 
         $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
         $icfunc = 'imagecreatefrom'.$format;
 
-        if (!function_exists($icfunc)) return false;
+        if (!function_exists($icfunc)) {
+            return false;
+        }
 
         $x_ratio = $width  / $size[0];
         $y_ratio = $height / $size[1];
@@ -350,9 +219,9 @@ class imglib extends db_connect
         $ratio       = min($x_ratio, $y_ratio);
         $use_x_ratio = ($x_ratio == $ratio);
 
-        $new_width   = $use_x_ratio  ? $width  : floor($size[0] * $ratio);
+        $new_width   = $use_x_ratio ? $width : floor($size[0] * $ratio);
         $new_height  = !$use_x_ratio ? $height : floor($size[1] * $ratio);
-        $new_left    = $use_x_ratio  ? 0 : floor(($width - $new_width)   / 2);
+        $new_left    = $use_x_ratio ? 0 : floor(($width - $new_width)   / 2);
         $new_top     = !$use_x_ratio ? 0 : floor(($height - $new_height) / 2);
 
         // если не нужно увеличивать маленькую картинку до указанного размера
@@ -368,10 +237,12 @@ class imglib extends db_connect
         imagefill($idest, 0, 0, $rgb);
         imagecopyresampled($idest, $isrc, $new_left, $new_top, 0, 0, $new_width, $new_height, $size[0], $size[1]);
 
-        $i = strrpos($dest,'.');
-        if (!$i) return '';
+        $i = strrpos($dest, '.');
+        if (!$i) {
+            return '';
+        }
         $l = strlen($dest) - $i;
-        $ext = substr($dest,$i+1,$l);
+        $ext = substr($dest, $i+1, $l);
 
         switch ($ext) {
 

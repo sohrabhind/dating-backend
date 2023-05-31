@@ -22,69 +22,6 @@ class draw extends db_connect
 		parent::__construct($dbo);
 	}
 
-    static function friendItem($profile, $LANG, $helper = null)
-    {
-        $profilePhotoUrl = "/assets/img/profile_default_photo.png";
-
-        if (strlen($profile['friendUserPhoto']) != 0) {
-
-            $profilePhotoUrl = $profile['friendUserPhoto'];
-        }
-
-        ?>
-
-        <div class="cardview-item">
-            <div class="card-body">
-
-                <a class="user-photo" href="/<?php echo $profile['friendUserUsername']; ?>">
-                    <div class="cardview-img cardview-img-container">
-                        <span class="card-loader-container">
-                            <div class="loader"><i class="ic icon-spin icon-spin"></i></div>
-                        </span>
-                        <span class="cardview-img" style="background-image: url('<?php echo $profilePhotoUrl; ?>')"></span>
-                    </div>
-                </a>
-
-
-
-                <?php
-
-                if ($profile['friendUserOnline']) {
-
-                    ?>
-                        <i class="online-label"></i>
-                    <?php
-
-                } else {
-
-                    ?>
-                        <span class="card-counter black noselect cardview-item-badge" original-title="<?php echo $LANG['label-last-seen']; ?>"><?php echo $profile['timeAgo']; ?></span>
-                    <?php
-                }
-                ?>
-
-                <div class="cardview-item-footer" style="position: relative;">
-                    <h4 class="cardview-item-title-header">
-                        <a class="cardview-item-title" href="/<?php echo $profile['friendUserUsername']; ?>">
-                            <?php echo $profile['friendUserFullname']; ?>
-                        </a>
-                    </h4>
-                    <?php
-                        if (strlen($profile['friendLocation']) > 0) {
-
-                            ?>
-                                <div class="gray-text"><?php echo $profile['friendLocation']; ?></div>
-                            <?php
-                        }
-                    ?>
-
-                </div>
-
-            </div>
-        </div>
-
-        <?php
-    }
 
     static function guestItem($profile, $LANG, $helper = null)
     {
@@ -605,44 +542,6 @@ class draw extends db_connect
             <div class="item-inner">
 
                 <a class="" href="/<?php echo $photo['owner']['username']; ?>/gallery/<?php echo $photo['id']; ?>">
-
-                    <span class="card-loader-container">
-                        <div class="loader"><i class="ic icon-spin icon-spin"></i></div>
-                    </span>
-
-                    <div class="gallery-item-preview" style="background-image:url(<?php echo $previewImg; ?>)">
-
-                    </div>
-
-                </a>
-
-            </div>
-        </div>
-
-        <?php
-    }
-
-    static function previewFriendItem($item, $LANG, $helper)
-    {
-        ?>
-
-        <div class="gallery-item col-3 col-lg-2 col-md-2 col-sm-3" data-id="<?php echo $item['friendUserId']; ?>">
-
-            <div class="item-inner">
-
-                <?php
-
-                $previewImg = "/assets/img/profile_default_photo.png";
-
-                if (strlen($item['friendUserPhoto']) != 0) {
-
-                    $previewImg = $item['friendUserPhoto'];
-                }
-
-                ?>
-
-
-                <a class="" href="/<?php echo $item['friendUserUsername']; ?>" title="<?php echo $item['friendUserFullname']; ?>">
 
                     <span class="card-loader-container">
                         <div class="loader"><i class="ic icon-spin icon-spin"></i></div>

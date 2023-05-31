@@ -35,9 +35,8 @@ class payments extends db_connect
 
         $currentTime = time();
         $ip_addr = helper::ip_addr();
-        $u_agent = helper::u_agent();
 
-        $stmt = $this->db->prepare("INSERT INTO payments (fromUserId, paymentAction, paymentType, level, amount, currency, createAt, ip_addr, u_agent) value (:fromUserId, :paymentAction, :paymentType, :level, :amount, :currency, :createAt, :ip_addr, :u_agent)");
+        $stmt = $this->db->prepare("INSERT INTO payments (fromUserId, paymentAction, paymentType, level, amount, currency, createAt, ip_addr) value (:fromUserId, :paymentAction, :paymentType, :level, :amount, :currency, :createAt, :ip_addr)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":paymentAction", $paymentAction, PDO::PARAM_INT);
         $stmt->bindParam(":paymentType", $paymentType, PDO::PARAM_INT);
@@ -45,7 +44,6 @@ class payments extends db_connect
         $stmt->bindParam(":amount", $amount, PDO::PARAM_INT);
         $stmt->bindParam(":currency", $currency, PDO::PARAM_INT);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":u_agent", $u_agent, PDO::PARAM_STR);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
 
         if ($stmt->execute()) {

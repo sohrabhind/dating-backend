@@ -117,7 +117,7 @@ class auth extends db_connect
         $stmt->execute();
     }
 
-    public function create($accountId, $clientId = 0, $app_type = 0, $fcm_regId = "", $lang = "")
+    public function create($accountId, $app_type = 0, $fcm_regId = "")
     {
         $result = array(
             "error" => true,
@@ -125,21 +125,16 @@ class auth extends db_connect
         );
 
         $currentTime = time();	// Current time
-
-        $u_agent = helper::u_agent();
         $ip_addr = helper::ip_addr();
 
         $accessToken = md5(uniqid(rand(), true));
 
-        $stmt = $this->db->prepare("INSERT INTO access_data (accountId, accessToken, fcm_regId, appType, clientId, lang, createAt, u_agent, ip_addr) value (:accountId, :accessToken, :fcm_regId, :appType, :clientId, :lang, :createAt, :u_agent, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO access_data (accountId, accessToken, fcm_regId, appType, createAt, ip_addr) value (:accountId, :accessToken, :fcm_regId, :appType, :createAt, :ip_addr)");
         $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
         $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
         $stmt->bindParam(":fcm_regId", $fcm_regId, PDO::PARAM_STR);
         $stmt->bindParam(":appType", $app_type, PDO::PARAM_INT);
-        $stmt->bindParam(":clientId", $clientId, PDO::PARAM_INT);
-        $stmt->bindParam(":lang", $lang, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":u_agent", $u_agent, PDO::PARAM_STR);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
         if ($stmt->execute()) {
             $result = array(

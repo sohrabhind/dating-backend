@@ -90,7 +90,7 @@ class fcm extends db_connect
 
         } else if ($this->getAppType() == APP_TYPE_MANAGER) {
 
-            $stmt = $this->db->prepare("SELECT fcm_regId FROM admins_access_data WHERE removeAt = 0 AND appType = (:appType) AND fcm_regId <> ''");
+            $stmt = $this->db->prepare("SELECT fcm_regId FROM admins_data WHERE removeAt = 0 AND appType = (:appType) AND fcm_regId <> ''");
             $stmt->bindParam(":appType", $this->appType, PDO::PARAM_INT);
 
         } else {

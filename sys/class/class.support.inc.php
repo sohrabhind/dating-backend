@@ -47,24 +47,21 @@ class support extends db_connect
         return $result;
     }
 
-    public function createTicket($accountId, $email, $subject, $text, $clientId = 0)
+    public function createTicket($accountId, $email, $subject, $text)
     {
         $result = array("error" => true,
                         "error_code" => ERROR_CODE_INITIATE);
 
         $currentTime = time();
         $ip_addr = helper::ip_addr();
-        $u_agent = helper::u_agent();
 
-        $stmt = $this->db->prepare("INSERT INTO support (clientId, accountId, email, subject, text, createAt, ip_addr, u_agent) value (:clientId, :accountId, :email, :subject, :text, :createAt, :ip_addr, :u_agent)");
-        $stmt->bindParam(":clientId", $clientId, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("INSERT INTO support (accountId, email, subject, text, createAt, ip_addr) value (:accountId, :email, :subject, :text, :createAt, :ip_addr)");
         $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
         $stmt->bindParam(":email", $email, PDO::PARAM_STR);
         $stmt->bindParam(":subject", $subject, PDO::PARAM_STR);
         $stmt->bindParam(":text", $text, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-        $stmt->bindParam(":u_agent", $u_agent, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
@@ -92,7 +89,6 @@ class support extends db_connect
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
-                                "clientId" => $row['clientId'],
                                 "accountId" => $row['accountId'],
                                 "email" => $row['email'],
                                 "subject" => htmlspecialchars_decode(stripslashes($row['subject'])),
@@ -102,7 +98,6 @@ class support extends db_connect
                                 "replyFrom" => $row['replyFrom'],
                                 "removeAt" => $row['removeAt'],
                                 "createAt" => $row['createAt'],
-                                "u_agent" => $row['u_agent'],
                                 "ip_addr" => $row['ip_addr']);
             }
         }

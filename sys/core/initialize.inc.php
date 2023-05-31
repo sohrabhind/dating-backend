@@ -25,30 +25,24 @@
 								  email VARCHAR(64) NOT NULL DEFAULT '',
 								  lang CHAR(10) DEFAULT 'en',
 								  language CHAR(10) DEFAULT 'en',
-								  bYear SMALLINT(6) UNSIGNED DEFAULT 2000,
-								  bMonth SMALLINT(6) UNSIGNED DEFAULT 0,
-								  bDay SMALLINT(6) UNSIGNED DEFAULT 1,
-								  status VARCHAR(500) NOT NULL DEFAULT '',
+								  bio VARCHAR(500) NOT NULL DEFAULT '',
 								  country VARCHAR(30) NOT NULL DEFAULT '',
 								  city VARCHAR(50) NOT NULL DEFAULT '',
 								  lat float(10,6) DEFAULT 0,
 								  lng float(10,6) DEFAULT 0,
-								  instagram_page VARCHAR(150) NOT NULL DEFAULT '',
+								  interests VARCHAR(150) NOT NULL DEFAULT '',
 								  removed SMALLINT(6) UNSIGNED DEFAULT 0,
 								  gl_id varchar(40) NOT NULL DEFAULT '',
 								  regtime INT(10) UNSIGNED DEFAULT 0,
 								  lasttime INT(10) UNSIGNED DEFAULT 0,
-								  photos_count INT(11) UNSIGNED DEFAULT 0,
+								  images_count INT(11) UNSIGNED DEFAULT 0,
 								  likes_count INT(11) UNSIGNED DEFAULT 0,
-								  friends_count INT(11) UNSIGNED DEFAULT 0,
 								  rating INT(11) UNSIGNED DEFAULT 0,
 								  balance INT(11) UNSIGNED DEFAULT 5,
 								  level_messages_count INT(11) UNSIGNED DEFAULT 150,
 								  gender SMALLINT(6) UNSIGNED DEFAULT 0,
 								  u_age INT(10) UNSIGNED DEFAULT 18,
 								  u_height INT(10) UNSIGNED DEFAULT 0,
-								  u_weight INT(10) UNSIGNED DEFAULT 0,
-								  iStatus SMALLINT(6) UNSIGNED DEFAULT 0,
 								  iReligiousView SMALLINT(6) UNSIGNED DEFAULT 0,
 								  iSmokingViews SMALLINT(6) UNSIGNED DEFAULT 0,
 								  iAlcoholViews SMALLINT(6) UNSIGNED DEFAULT 0,
@@ -56,8 +50,6 @@
 								  iInterested SMALLINT(6) UNSIGNED DEFAULT 0,
 								  emailVerify SMALLINT(6) UNSIGNED DEFAULT 0,
 								  last_notify_view INT(10) UNSIGNED DEFAULT 0,
-								  last_friends_view INT(10) UNSIGNED DEFAULT 0,
-								  last_feed_view INT(10) UNSIGNED DEFAULT 0,
 								  last_authorize INT(10) UNSIGNED DEFAULT 0,
 								  ip_addr CHAR(32) NOT NULL DEFAULT '',
 								  allowComments SMALLINT(6) UNSIGNED DEFAULT 1,
@@ -68,10 +60,8 @@
 								  allowPhotosLikesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowCommentsGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowPhotosCommentsGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowFollowersGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowMessagesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowCommentReplyGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowShowMyBirthday SMALLINT(6) UNSIGNED DEFAULT 0,
 								  allowShowMyInfo SMALLINT(6) UNSIGNED DEFAULT 0,
 								  allowShowMyGallery SMALLINT(6) UNSIGNED DEFAULT 0,
 								  allowShowMyFriends SMALLINT(6) UNSIGNED DEFAULT 0,
@@ -88,7 +78,6 @@
 								refillType INT(10) UNSIGNED DEFAULT 0,
 								amount int(11) UNSIGNED DEFAULT 0,
                                 createAt int(11) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci");
 		$sth->execute();
@@ -124,8 +113,6 @@
 								updateAt INT(11) UNSIGNED DEFAULT 0,
 								createAt INT(11) UNSIGNED DEFAULT 0,
 								removeAt INT(11) UNSIGNED DEFAULT 0,
-								removeToUserId int(11) UNSIGNED DEFAULT 0,
-								removeFromUserId int(11) UNSIGNED DEFAULT 0,
 								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
 
@@ -146,17 +133,12 @@
 								lng float(10,6),
 								createAt int(11) UNSIGNED DEFAULT 0,
 								removeAt int(11) UNSIGNED DEFAULT 0,
-								removeFromUserId int(11) UNSIGNED DEFAULT 0,
-								removeToUserId int(11) UNSIGNED DEFAULT 0,
 								seenAt INT(11) UNSIGNED DEFAULT 0,
-								seenFromUserId int(11) UNSIGNED DEFAULT 0,
-								seenToUserId int(11) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
 
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS photos (
+		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS images (
 								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 								fromUserId int(11) UNSIGNED DEFAULT 0,
 								accessMode int(11) UNSIGNED DEFAULT 0,
@@ -171,7 +153,6 @@
 								city VARCHAR(150) NOT NULL DEFAULT '',
 								lat float(10,6),
 								lng float(10,6),
-								u_agent varchar(300) DEFAULT '',
 								createAt int(11) UNSIGNED DEFAULT 0,
 								removeAt int(11) UNSIGNED DEFAULT 0,
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
@@ -188,7 +169,6 @@
                                 createAt int(11) UNSIGNED DEFAULT 0,
                                 removeAt int(11) UNSIGNED DEFAULT 0,
                                 notifyId int(11) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
@@ -224,7 +204,6 @@
                                 lastVisitAt INT(11) UNSIGNED DEFAULT 0,
 								createAt INT(11) UNSIGNED DEFAULT 0,
 								removeAt INT(11) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
         $sth->execute();
@@ -242,7 +221,6 @@
 
         $sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS support (
 								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-								clientId int(11) UNSIGNED DEFAULT 0,
                                 accountId int(11) UNSIGNED DEFAULT 0,
                                 email varchar(64) DEFAULT '',
                                 subject varchar(180) DEFAULT '',
@@ -252,7 +230,6 @@
                                 replyFrom int(11) UNSIGNED DEFAULT 0,
                                 removeAt int(11) UNSIGNED DEFAULT 0,
                                 createAt int(11) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
         $sth->execute();
@@ -263,11 +240,9 @@
 								accessToken varchar(32) DEFAULT '',
 								fcm_regId varchar(255) DEFAULT '',
 								appType int(10) UNSIGNED DEFAULT 0,
-								clientId int(11) UNSIGNED DEFAULT 0,
 								lang CHAR(10) DEFAULT 'en',
 								createAt int(10) UNSIGNED DEFAULT 0,
 								removeAt int(10) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
@@ -277,10 +252,8 @@
 								accountId int(11) UNSIGNED NOT NULL,
 								hash varchar(32) DEFAULT '',
 								email VARCHAR(64) NOT NULL DEFAULT '',
-								clientId int(11) UNSIGNED DEFAULT 0,
 								createAt int(10) UNSIGNED DEFAULT 0,
 								removeAt int(10) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
         $sth->execute();
@@ -295,7 +268,6 @@
 								description varchar(300) DEFAULT '',
 								createAt INT(11) UNSIGNED DEFAULT 0,
 								removeAt int(10) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci");
         $sth->execute();
@@ -307,29 +279,10 @@
 								reason varchar(400) DEFAULT '',
 								createAt INT(11) UNSIGNED DEFAULT 0,
 								removeAt INT(11) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
         $sth->execute();
-
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS profile_followers (
-								id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-								follower INT(11) UNSIGNED DEFAULT 0,
-								follow_to INT(11) UNSIGNED DEFAULT 0,
-								follow_type INT(11) UNSIGNED DEFAULT 0,
-								create_at INT(11) UNSIGNED DEFAULT 0,
-								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci");
-		$sth->execute();
-
-        $sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS friends (
-								id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-								friend INT(11) UNSIGNED DEFAULT 0,
-								friendTo INT(11) UNSIGNED DEFAULT 0,
-								friendType INT(11) UNSIGNED DEFAULT 0,
-								createAt INT(11) UNSIGNED DEFAULT 0,
-								removeAt INT(11) UNSIGNED DEFAULT 0,
-								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
-        $sth->execute();
+		
 
 		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS gcm_history (
 								  id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -352,7 +305,6 @@
 								currency INT(11) UNSIGNED DEFAULT 0,
 								createAt INT(11) UNSIGNED DEFAULT 0,
 								removeAt INT(11) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
         $sth->execute();
@@ -366,23 +318,20 @@
                                 fullname VARCHAR(150) NOT NULL DEFAULT '',
                                 createAt int(11) UNSIGNED DEFAULT 0,
                                 removeAt int(11) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci");
         $sth->execute();
 
-        $sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS admins_access_data (
+        $sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS admins_data (
 								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 								accountId int(11) UNSIGNED NOT NULL,
 								accessLevel INT(10) UNSIGNED DEFAULT 0,
 								accessToken varchar(32) DEFAULT '',
 								fcm_regId varchar(255) DEFAULT '',
 								appType int(10) UNSIGNED DEFAULT 0,
-								clientId int(11) UNSIGNED DEFAULT 0,
 								lang CHAR(10) DEFAULT 'en',
 								createAt int(10) UNSIGNED DEFAULT 0,
 								removeAt int(10) UNSIGNED DEFAULT 0,
-								u_agent varchar(300) DEFAULT '',
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
         $sth->execute();

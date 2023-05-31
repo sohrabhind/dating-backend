@@ -15,7 +15,7 @@ if (!defined("APP_SIGNATURE")) {
 
 if (!empty($_POST)) {
 
-    $client_id = isset($_POST['client_id']) ? $_POST['client_id'] : 0;
+    
 
     $account_id = isset($_POST['account_id']) ? $_POST['account_id'] : 0;
     $access_token = isset($_POST['access_token']) ? $_POST['access_token'] : '';
@@ -23,20 +23,14 @@ if (!empty($_POST)) {
     $app_type = isset($_POST['app_type']) ? $_POST['app_type'] : 0; // 0 = APP_TYPE_UNKNOWN
     $fcm_regId = isset($_POST['fcm_regId']) ? $_POST['fcm_regId'] : '';
     $action = isset($_POST['action']) ? $_POST['action'] : '';
-    $lang = isset($_POST['lang']) ? $_POST['lang'] : '';
-
+    
     $uid = isset($_POST['uid']) ? $_POST['uid'] : '';
     $email = isset($_POST['email']) ? $_POST['email'] : '';
-
-    $client_id = helper::clearInt($client_id);
 
     $app_type = helper::clearInt($app_type);
 
     $action = helper::clearText($action);
     $action = helper::escapeText($action);
-
-    $lang = helper::clearText($lang);
-    $lang = helper::escapeText($lang);
 
     $fcm_regId = helper::clearText($fcm_regId);
     $fcm_regId = helper::escapeText($fcm_regId);
@@ -106,14 +100,12 @@ if (!empty($_POST)) {
                 }
             }
             if ($account_id != 0) {
-
                 $account = new account($dbo, $account_id);
                 $account_info = $account->get();
                 if ($account_info['state'] == ACCOUNT_STATE_ENABLED) {
 
                     $auth = new auth($dbo);
-                    $result = $auth->create($account_id, $client_id, $app_type, $fcm_regId, $lang);
-
+                    $result = $auth->create($account_id, $app_type, $fcm_regId);
                     if (!$result['error']) {
 
                         $account->setLastActive();

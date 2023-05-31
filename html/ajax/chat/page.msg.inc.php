@@ -91,7 +91,7 @@
             exit;
         }
 
-        if ($profileInfo['allowMessages'] == 0 && !$profileInfo['friend']) {
+        if ($profileInfo['allowMessages'] == 0) {
 
             echo json_encode($result);
             exit;

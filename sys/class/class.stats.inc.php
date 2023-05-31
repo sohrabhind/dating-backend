@@ -66,17 +66,17 @@ class stats extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function getPhotosCount()
+    public function getImagesCount()
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM photos");
+        $stmt = $this->db->prepare("SELECT count(*) FROM images");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function getActivePhotosCount()
+    public function getActiveImagesCount()
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM photos WHERE removeAt = 0");
+        $stmt = $this->db->prepare("SELECT count(*) FROM images WHERE removeAt = 0");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -247,7 +247,6 @@ class stats extends db_connect
                                   "clientId" => $row['clientId'],
                                   "createAt" => $row['createAt'],
                                   "removeAt" => $row['removeAt'],
-                                  "u_agent" => $row['u_agent'],
                                   "ip_addr" => $row['ip_addr']);
 
                 array_push($result['data'], $dataInfo);

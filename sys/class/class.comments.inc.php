@@ -50,16 +50,14 @@ class comments extends db_connect
 
         $currentTime = time();
         $ip_addr = helper::ip_addr();
-        $u_agent = helper::u_agent();
 
-        $stmt = $this->db->prepare("INSERT INTO images_comments (fromUserId, replyToUserId, imageId, comment, createAt, ip_addr, u_agent) value (:fromUserId, :replyToUserId, :imageId, :comment, :createAt, :ip_addr, :u_agent)");
+        $stmt = $this->db->prepare("INSERT INTO images_comments (fromUserId, replyToUserId, imageId, comment, createAt, ip_addr) value (:fromUserId, :replyToUserId, :imageId, :comment, :createAt, :ip_addr)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":replyToUserId", $replyToUserId, PDO::PARAM_INT);
         $stmt->bindParam(":imageId", $itemId, PDO::PARAM_INT);
         $stmt->bindParam(":comment", $text, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-        $stmt->bindParam(":u_agent", $u_agent, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 

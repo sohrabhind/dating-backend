@@ -355,17 +355,17 @@
 
                         if (result.error === false) {
 
-                            if (result.hasOwnProperty('normalPhotoUrl')) {
+                            if (result.hasOwnProperty('normalImageUrl')) {
 
                                 var html = '<div class="gallery-item new-post-media-item">';
                                 html +=' <div class="item-inner">';
-                                html += '<div class="gallery-item-preview" style="background-image:url(' + result.normalPhotoUrl + ')">';
+                                html += '<div class="gallery-item-preview" style="background-image:url(' + result.normalImageUrl + ')">';
                                 html += '<span class="action" onclick="delete_item($(this))">×</span>';
                                 html += '</div>';  // gallery-item-preview
                                 html += '</div>';  // item-inner
                                 html += '</div>';  // gallery-item
                                 $image_container.find('.img-items-list-page').html(html);
-                                $('input[name=imgUrl]').val(result.normalPhotoUrl);
+                                $('input[name=imgUrl]').val(result.normalImageUrl);
                                 $('input[name=itemType]').val("0");
                             }
 

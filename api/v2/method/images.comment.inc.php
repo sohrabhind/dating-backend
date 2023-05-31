@@ -11,7 +11,7 @@
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
+    
 
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : '';
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
@@ -21,7 +21,7 @@ if (!empty($_POST)) {
 
     $replyToUserId = isset($_POST['replyToUserId']) ? $_POST['replyToUserId'] : 0;
 
-    $clientId = helper::clearInt($clientId);
+    
     $accountId = helper::clearInt($accountId);
 
 
@@ -48,10 +48,10 @@ if (!empty($_POST)) {
 
     if (strlen($commentText) != 0) {
 
-        $photos = new photos($dbo);
-        $photos->setRequestFrom($accountId);
+        $images = new images($dbo);
+        $images->setRequestFrom($accountId);
 
-        $imageInfo = $photos->info($itemId);
+        $imageInfo = $images->info($itemId);
 
         $blacklist = new blacklist($dbo);
         $blacklist->setRequestFrom($imageInfo['fromUserId']);
@@ -67,12 +67,12 @@ if (!empty($_POST)) {
             exit;
         }
 
-        $images = new images($dbo);
-        $images->setRequestFrom($accountId);
+        $image = new image($dbo);
+        $image->setRequestFrom($accountId);
 
         $notifyId = 0;
 
-        $result = $images->commentsCreate($itemId, $commentText, $notifyId, $replyToUserId);
+        $result = $image->commentsCreate($itemId, $commentText, $notifyId, $replyToUserId);
     }
 
     echo json_encode($result);

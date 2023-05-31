@@ -191,7 +191,7 @@
                                                         <th class="text-left">Id</th>
                                                         <th>Message</th>
                                                         <th>Type</th>
-                                                        <th>Status</th>
+                                                        <th>Bio</th>
                                                         <th>Delivered</th>
                                                         <th>Create At</th>
                                                     </tr>

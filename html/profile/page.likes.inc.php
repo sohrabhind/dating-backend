@@ -42,7 +42,7 @@
 
     $access_denied = false;
 
-    if ($profileInfo['id'] != auth::getCurrentUserId() && !$profileInfo['friend'] && $profileInfo['allowShowMyLikes'] == 1) {
+    if ($profileInfo['id'] != auth::getCurrentUserId() && $profileInfo['allowShowMyLikes'] == 1) {
 
         $access_denied = true;
     }

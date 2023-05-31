@@ -35,13 +35,10 @@ $B['APP_URL'] = "https://dating.hindbyte.com";           //edit to your domain u
 $B['TEMP_PATH'] = "assets/tmp/";                                //don`t edit this option
 $B['PROFILE_PHOTO_PATH'] = "assets/profile/";                             //don`t edit this option
 $B['CHAT_IMAGE_PATH'] = "assets/chat_images/";                  //don`t edit this option
-$B['MY_PHOTOS_PATH'] = "assets/photos/";                             //don`t edit this option
+$B['MY_PHOTOS_PATH'] = "assets/images/";                             //don`t edit this option
 $B['STICKERS_PATH'] = "assets/stickers/";                       //don`t edit this option
 
 $B['GOOGLE_PLAY_LINK'] = "https://play.google.com/store/apps/details?id=com.hindbyte.dating";
-
-$B['CLIENT_ID'] = 1;                               //Client ID | Integer | For identify the application | Example: 12567
-$B['CLIENT_SECRET'] = "e862f4egfad1d65ef08f1e491690be56b24";        //Client Secret | String | Text value for identify the application | Example: wFt4*KBoNN_kjSdG13m1k3k=
 
 // Stripe settings | Settings from Cross-Platform Mobile Payments | See documentation
 
@@ -108,7 +105,6 @@ $C['ERROR_EMPTY_FULL_NAME'] = 106;
 $C['ERROR_INCORRECT_PASSWORD'] = 107;
 $C['ERROR_INCORRECT_EMAIL'] = 108;
 
-$C['ERROR_CLIENT_ID'] = 19100;
 $C['ERROR_CLIENT_SECRET'] = 19101;
 
 $C['ERROR_FILE_SIZE_BIG'] = 501;
@@ -134,9 +130,6 @@ $C['ENABLE_LIKES_GCM'] = 1;
 $C['DISABLE_COMMENTS_GCM'] = 0;
 $C['ENABLE_COMMENTS_GCM'] = 1;
 
-$C['DISABLE_FOLLOWERS_GCM'] = 0;
-$C['ENABLE_FOLLOWERS_GCM'] = 1;
-
 $C['DISABLE_MESSAGES_GCM'] = 0;
 $C['ENABLE_MESSAGES_GCM'] = 1;
 
@@ -154,11 +147,9 @@ $C['EMPTY_DATA'] = 6;
 $C['ERROR_API_KEY'] = 7;
 
 $C['NOTIFY_TYPE_LIKE'] = 0;
-$C['NOTIFY_TYPE_FOLLOWER'] = 1;
 $C['NOTIFY_TYPE_MESSAGE'] = 2;
 $C['NOTIFY_TYPE_COMMENT'] = 3;
 $C['NOTIFY_TYPE_COMMENT_REPLY'] = 4;
-$C['NOTIFY_TYPE_FRIEND_REQUEST_ACCEPTED'] = 5;
 
 $C['NOTIFY_TYPE_IMAGE_COMMENT'] = 7;
 $C['NOTIFY_TYPE_IMAGE_COMMENT_REPLY'] = 8;
@@ -171,12 +162,9 @@ $C['GCM_NOTIFY_LIKE'] = 3;
 $C['GCM_NOTIFY_ANSWER'] = 4;
 $C['GCM_NOTIFY_QUESTION'] = 5;
 $C['GCM_NOTIFY_COMMENT'] = 6;
-$C['GCM_NOTIFY_FOLLOWER'] = 7;
 $C['GCM_NOTIFY_PERSONAL'] = 8;
 $C['GCM_NOTIFY_MESSAGE'] = 9;
 $C['GCM_NOTIFY_COMMENT_REPLY'] = 10;
-$C['GCM_FRIEND_REQUEST_INBOX'] = 11;
-$C['GCM_FRIEND_REQUEST_ACCEPTED'] = 12;
 $C['GCM_NOTIFY_SEEN'] = 15;
 $C['GCM_NOTIFY_TYPING'] = 16;
 $C['GCM_NOTIFY_URL'] = 17;

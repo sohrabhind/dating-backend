@@ -30,25 +30,25 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $images = new images($dbo);
-    $images->setRequestFrom($accountId);
+    $image = new image($dbo);
+    $image->setRequestFrom($accountId);
 
-    $commentInfo = $images->commentsInfo($commentId);
+    $commentInfo = $image->commentsInfo($commentId);
 
     if ($commentInfo['fromUserId'] == $accountId) {
 
-        $images->commentsRemove($commentId);
+        $image->commentsRemove($commentId);
 
     } else {
 
-        $photos = new photos($dbo);
-        $photos->setRequestFrom($accountId);
+        $images = new images($dbo);
+        $images->setRequestFrom($accountId);
 
-        $imageInfo = $photos->info($commentInfo['imageId']);
+        $imageInfo = $images->info($commentInfo['imageId']);
 
         if ($imageInfo['fromUserId'] == $accountId) {
 
-            $images->commentsRemove($commentId);
+            $image->commentsRemove($commentId);
         }
     }
 

@@ -135,8 +135,8 @@
 
     $TEXT['label-location'] = "Location";
     $TEXT['label-facebook-link'] = "Facebook page";
-    $TEXT['label-instagram-link'] = "Instagram page";
-    $TEXT['label-status'] = "Bio";
+    $TEXT['label-interests'] = "Interests";
+    $TEXT['label-bio'] = "Bio";
 
     $TEXT['label-error-404'] = "Requested page was not found.";
 
@@ -452,20 +452,6 @@
     $TEXT['gender-male'] = "Gender Male";
     $TEXT['gender-female'] = "Gender Female";
 
-    $TEXT['month-jan'] = "January";
-    $TEXT['month-feb'] = "February";
-    $TEXT['month-mar'] = "March";
-    $TEXT['month-apr'] = "April";
-    $TEXT['month-may'] = "May";
-    $TEXT['month-june'] = "June";
-    $TEXT['month-july'] = "July";
-    $TEXT['month-aug'] = "August";
-    $TEXT['month-sept'] = "September";
-    $TEXT['month-oct'] = "October";
-    $TEXT['month-nov'] = "November";
-    $TEXT['month-dec'] = "December";
-
-    $TEXT['label-relationship-status'] = "Relationship status";
     $TEXT['label-religious-view'] = "Religious view";
     $TEXT['label-smoking-views'] = "Views on smoking";
     $TEXT['label-alcohol-views'] = "Views on alcohol";
@@ -474,15 +460,7 @@
 
     $TEXT['label-profile-looking'] = "Looking";
     $TEXT['label-profile-like'] = "Gender like";
-
-    $TEXT['label-relationship-status-0'] = "Not specified";
-    $TEXT['label-relationship-status-1'] = "Single";
-    $TEXT['label-relationship-status-2'] = "In a relationship";
-    $TEXT['label-relationship-status-3'] = "Engaged";
-    $TEXT['label-relationship-status-4'] = "Married";
-    $TEXT['label-relationship-status-5'] = "In love";
-    $TEXT['label-relationship-status-6'] = "It's complicated";
-    $TEXT['label-relationship-status-7'] = "Actively searching";
+    
 
     $TEXT['label-religious-view-0'] = "None selected";
     $TEXT['label-religious-view-1'] = "Christianity";
@@ -545,7 +523,7 @@
 
     // For version 3.2
 
-    $TEXT['page-profile-deactivation-sub-title2'] = "Remember!<br>You will not be able to restore this account and your photos will be deleted!";
+    $TEXT['page-profile-deactivation-sub-title2'] = "Remember!<br>You will not be able to restore this account and your images will be deleted!";
 
     // For version 3.4
 
@@ -556,9 +534,7 @@
     $TEXT['label-age'] = "Age";
     $TEXT['label-gender'] = "Gender";
     $TEXT['label-height'] = "Height";
-    $TEXT['label-weight'] = "Weight";
     $TEXT['label-cm'] = "cm"; //centimeters
-    $TEXT['label-kg'] = "kg"; //kilograms
 
     $TEXT['label-select-gender'] = "Gender";
     $TEXT['label-select-age'] = "Age";
@@ -582,7 +558,7 @@
     $TEXT['label-friends-sub-title'] = "Here you can see the list of your friends.";
     $TEXT['label-guests-sub-title'] = "This section displays people who have visited to your profile.";
     $TEXT['label-messages-sub-title'] = "This section tells you about your conversations with other users.";
-    $TEXT['label-gallery-sub-title'] = "Add more photos and pictures!";
+    $TEXT['label-gallery-sub-title'] = "Add more images and pictures!";
     $TEXT['label-settings-main-section-title'] = "Basics";
     $TEXT['label-settings-main-section-sub-title'] = "Enter your name, your gender, date of birth, etc.";
     $TEXT['label-settings-password-sub-title'] = "Enter your old password and new password.";
@@ -667,7 +643,7 @@
     $TEXT['label-likes-sub-title'] = "People who like me";
 
     $TEXT['label-welcome-title'] = "Welcome!";
-    $TEXT['label-welcome-sub-title'] = "Upload a photo for your Profile, and enter other information about yourself. Real photos and reliable information will help you quickly find people for dating and friendship!";
+    $TEXT['label-welcome-sub-title'] = "Upload a photo for your Profile, and enter other information about yourself. Real images and reliable information will help you quickly find people for dating and friendship!";
 
     $TEXT['page-gallery'] = "Gallery";
     $TEXT['page-my-gallery'] = "My gallery";
@@ -677,7 +653,7 @@
 
     $TEXT['page-gallery-sub-title'] = "Photos";
     $TEXT['page-matches-sub-title'] = "My matches";
-    $TEXT['page-media-stream-sub-title'] = "Global stream of user photos";
+    $TEXT['page-media-stream-sub-title'] = "Global stream of user images";
     $TEXT['page-media-feed-sub-title'] = "Photos of my friends";
 
     $TEXT['action-add-photo'] = "Add photo";
@@ -823,7 +799,7 @@
     $TEXT['placeholder-gallery-item-description'] = "Add a description here...";
 
     $TEXT['label-post-form-title'] = "Add new photo";
-    $TEXT['label-post-form-subtitle'] = "All photos that you publish are subject to mandatory moderation before they are available to other users";
+    $TEXT['label-post-form-subtitle'] = "All images that you publish are subject to mandatory moderation before they are available to other users";
 
     $TEXT['label-item-moderation-wait'] = "Will be available to other users after approval by the moderator";
     $TEXT['label-item-moderation-success'] = "Approved by the moderator and available to other users";
@@ -867,6 +843,4 @@
     $TEXT['action-connect-google'] = "Connect with Google";
 
     // For version 6.2
-
-    $TEXT['label-month-time'] = "For 30 days";
     $TEXT['label-life-time'] = "Forever";

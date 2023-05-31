@@ -42,7 +42,6 @@ if (!empty($_POST)) {
 
     $notifications_count = 0;
     $level_messages_count = 0;
-    $friends_count = 0;
 
     // Get new messages count
 
@@ -65,14 +64,6 @@ if (!empty($_POST)) {
 
     unset($notifications);
 
-    // Get new friends count
-
-    $friends = new friends($dbo, $accountId);
-    $friends->setRequestFrom($accountId);
-
-    $friends_count = $friends->getNewCount($accountInfo['lastFriendsView']);
-
-    unset($friends);
 
     // Get chat settings
 
@@ -87,8 +78,6 @@ if (!empty($_POST)) {
 
     $result['messagesCount'] = $level_messages_count;
     $result['notificationsCount'] = $notifications_count;
-    $result['newFriendsCount'] = $friends_count;
-
     
     $result['free_messages_count'] = $accountInfo['free_messages_count'];
     $result['level_messages_count'] = $accountInfo['level_messages_count'];

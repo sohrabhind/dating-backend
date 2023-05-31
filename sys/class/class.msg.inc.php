@@ -138,9 +138,9 @@ class msg extends db_connect
         return $str;
     }
 
-    public function getMessagesInChat($chatId, $fromUserId) {
-        $stmt = $this->db->prepare("SELECT count(*) FROM messages WHERE chatId = (:chatId) AND fromUserId = (:fromUserId) AND removeAt = 0");
-        $stmt->bindParam(':chatId', $chatId, PDO::PARAM_INT);
+    public function getMessagesFromUser($myUserId, $fromUserId) {
+        $stmt = $this->db->prepare("SELECT count(*) FROM messages WHERE toUserId = (:toUserId) AND fromUserId = (:fromUserId)");
+        $stmt->bindParam(':toUserId', $myUserId, PDO::PARAM_INT);
         $stmt->bindParam(':fromUserId', $fromUserId, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -163,7 +163,7 @@ class msg extends db_connect
 
         if ($account->getGender() == 1) {
             $free_messages_count = 1;
-        } else if (($free_messages_count == 0 || $this->getMessagesInChat($chatId, $toUserId) > 0) && ($account->getLevel() == 0 || $level_messages_count == 0)) {
+        } else if (($free_messages_count == 0 || $this->getMessagesFromUser($this->requestFrom, $toUserId) > 0) && ($account->getLevel() == 0 || $level_messages_count == 0)) {
             $result = array(
                 "error" => true,
                 "error_code" => 402
@@ -213,9 +213,8 @@ class msg extends db_connect
 
         $currentTime = time();
         $ip_addr = helper::ip_addr();
-        $u_agent = helper::u_agent();
 
-        $stmt = $this->db->prepare("INSERT INTO messages (chatId, fromUserId, toUserId, message, imgUrl, stickerId, stickerImgUrl, createAt, ip_addr, u_agent) value (:chatId, :fromUserId, :toUserId, :message, :imgUrl, :stickerId, :stickerImgUrl, :createAt, :ip_addr, :u_agent)");
+        $stmt = $this->db->prepare("INSERT INTO messages (chatId, fromUserId, toUserId, message, imgUrl, stickerId, stickerImgUrl, createAt, ip_addr) value (:chatId, :fromUserId, :toUserId, :message, :imgUrl, :stickerId, :stickerImgUrl, :createAt, :ip_addr)");
         $stmt->bindParam(":chatId", $chatId);
         $stmt->bindParam(":fromUserId", $this->requestFrom);
         $stmt->bindParam(":toUserId", $toUserId);
@@ -225,7 +224,6 @@ class msg extends db_connect
         $stmt->bindParam(":stickerImgUrl", $stickerImgUrl);
         $stmt->bindParam(":createAt", $currentTime);
         $stmt->bindParam(":ip_addr", $ip_addr);
-        $stmt->bindParam(":u_agent", $u_agent);
 
 
         if ($stmt->execute()) {

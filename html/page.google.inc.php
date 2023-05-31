@@ -62,7 +62,7 @@
                     if ($account_info['state'] == ACCOUNT_STATE_ENABLED) {
 
                         $auth = new auth($dbo);
-                        $result = $auth->create($account_id, CLIENT_ID, APP_TYPE_WEB);
+                        $result = $auth->create($account_id, APP_TYPE_WEB);
 
                         if (!$result['error']) {
 

@@ -100,7 +100,7 @@
 
                 if ($access_data['error'] === false) {
 
-                    $clientId = 0; // Desktop version
+                    
 
                     admin::createAccessToken();
 
@@ -111,7 +111,6 @@
                     $settings = new settings($dbo);
                     $settings->createValue("defaultBalance", 10); //Default balance for new users
                     $settings->createValue("defaultLevelMessagesCount", 0); //Default free messages count after signup
-                    $settings->createValue("allowFriendsFunction", 1);
                     $settings->createValue("allowSeenTyping", 1);
                     $settings->createValue("allowMultiAccountsFunction", 1);
                     $settings->createValue("allowUpgradesSection", 1);

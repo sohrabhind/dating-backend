@@ -52,48 +52,18 @@ class blacklist extends db_connect
 
         $currentTime = time();
         $ip_addr = helper::ip_addr();
-        $u_agent = helper::u_agent();
 
-        $stmt = $this->db->prepare("INSERT INTO profile_blacklist (blockedByUserId, blockedUserId, reason, createAt, ip_addr, u_agent) value (:blockedByUserId, :blockedUserId, :reason, :createAt, :ip_addr, :u_agent)");
+        $stmt = $this->db->prepare("INSERT INTO profile_blacklist (blockedByUserId, blockedUserId, reason, createAt, ip_addr) value (:blockedByUserId, :blockedUserId, :reason, :createAt, :ip_addr)");
         $stmt->bindParam(":blockedByUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":blockedUserId", $userId, PDO::PARAM_INT);
         $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-        $stmt->bindParam(":u_agent", $u_agent, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
             $result = array("error" => false,
                             "error_code" => ERROR_SUCCESS);
-
-            $my_profile = new profile($this->db, $this->requestFrom);
-
-            if ($my_profile->is_friend_exists($userId)) {
-
-                $friends = new friends($this->db, $this->requestFrom);
-                $friends->remove($userId);
-                unset($friends);
-
-            } else {
-
-                if ($my_profile->is_follower_exists($userId)) {
-
-                    // Unfollow
-                    $my_profile->addFollower($userId);
-                }
-
-                $profile = new profile($this->db, $userId);
-
-                if ($profile->is_follower_exists($this->requestFrom)) {
-
-                    $profile->addFollower($this->requestFrom);
-                }
-
-                unset($profile);
-            }
-
-            unset($my_profile);
         }
 
         return $result;

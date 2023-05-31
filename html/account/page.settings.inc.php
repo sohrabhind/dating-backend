@@ -38,19 +38,13 @@
         $u_age = isset($_POST['u_age']) ? $_POST['u_age'] : 0;
 
         $u_height = isset($_POST['u_height']) ? $_POST['u_height'] : 0;
-        $u_weight = isset($_POST['u_weight']) ? $_POST['u_weight'] : 0;
-
-        $day = isset($_POST['day']) ? $_POST['day'] : 0;
-        $month = isset($_POST['month']) ? $_POST['month'] : 0;
-        $year = isset($_POST['year']) ? $_POST['year'] : 0;
 
         $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : '';
-        $status = isset($_POST['status']) ? $_POST['status'] : '';
+        $bio = isset($_POST['bio']) ? $_POST['bio'] : '';
         $location = isset($_POST['location']) ? $_POST['location'] : '';
         $facebook_page = isset($_POST['facebook_page']) ? $_POST['facebook_page'] : '';
-        $instagram_page = isset($_POST['instagram_page']) ? $_POST['instagram_page'] : '';
+        $interests = isset($_POST['interests']) ? $_POST['interests'] : '';
 
-        $iStatus = isset($_POST['iStatus']) ? $_POST['iStatus'] : 0;
         $religiousViews = isset($_POST['religiousViews']) ? $_POST['religiousViews'] : 0;
         $smokingViews = isset($_POST['smokingViews']) ? $_POST['smokingViews'] : 0;
         $alcoholViews = isset($_POST['alcoholViews']) ? $_POST['alcoholViews'] : 0;
@@ -61,17 +55,12 @@
 
         $u_age = helper::clearInt($u_age);
         $u_height = helper::clearInt($u_height);
-        $u_weight = helper::clearInt($u_weight);
-
-        $day = helper::clearInt($day);
-        $month = helper::clearInt($month);
-        $year = helper::clearInt($year);
 
         $fullname = helper::clearText($fullname);
         $fullname = helper::escapeText($fullname);
 
-        $status = helper::clearText($status);
-        $status = helper::escapeText($status);
+        $bio = helper::clearText($bio);
+        $bio = helper::escapeText($bio);
 
         $location = helper::clearText($location);
         $location = helper::escapeText($location);
@@ -79,10 +68,9 @@
         $facebook_page = helper::clearText($facebook_page);
         $facebook_page = helper::escapeText($facebook_page);
 
-        $instagram_page = helper::clearText($instagram_page);
-        $instagram_page = helper::escapeText($instagram_page);
+        $interests = helper::clearText($interests);
+        $interests = helper::escapeText($interests);
 
-        $iStatus = helper::clearInt($iStatus);
         $religiousViews = helper::clearInt($religiousViews);
         $smokingViews = helper::clearInt($smokingViews);
         $alcoholViews = helper::clearInt($alcoholViews);
@@ -111,17 +99,10 @@
                 $account->setHeight($u_height);
             }
 
-            if ($u_weight > -1 && $u_weight < 300) {
-
-                $account->setWeight($u_weight);
-            }
-
             $account->setGender($gender);
-            $account->setBirth($year, $month, $day);
-            $account->setStatus($status);
+            $account->setBio($bio);
             $account->setLocation($location);
 
-            $account->set_iStatus($iStatus);
             $account->set_iReligiousView($religiousViews);
             $account->set_iSmokingViews($smokingViews);
             $account->set_iAlcoholViews($alcoholViews);
@@ -129,13 +110,13 @@
             $account->set_iInterested($interestedViews);
 
 
-            if (helper::isValidURL($instagram_page)) {
+            if (helper::isValidURL($interests)) {
 
-                $account->setInstagramPage($instagram_page);
+                $account->setInterests($interests);
 
             } else {
 
-                $account->setInstagramPage("");
+                $account->setInterests("");
             }
 
             header("Location: /account/settings?error=false");
@@ -262,8 +243,8 @@
                                         <div class="form-cell">
                                             <input id="fullname" name="fullname" placeholder="<?php echo $LANG['label-fullname']; ?>" maxlength="64" type="text" value="<?php echo $accountInfo['fullname']; ?>">
                                             <input id="location" name="location" placeholder="<?php echo $LANG['label-location']; ?>" maxlength="64" type="text" value="<?php echo $accountInfo['location']; ?>">
-                                            <input id="instagram_page" name="instagram_page" placeholder="<?php echo $LANG['label-instagram-link']; ?>" maxlength="255" type="text" value="<?php echo $accountInfo['instagram_page']; ?>">
-                                            <textarea placeholder="<?php echo $LANG['label-status']; ?>" id="status" name="status" maxlength="400"><?php echo $accountInfo['status']; ?></textarea>
+                                            <input id="interests" name="interests" placeholder="<?php echo $LANG['label-interests']; ?>" maxlength="255" type="text" value="<?php echo $accountInfo['interests']; ?>">
+                                            <textarea placeholder="<?php echo $LANG['label-bio']; ?>" id="bio" name="bio" maxlength="400"><?php echo $accountInfo['status']; ?></textarea>
 
                                         </div>
                                     </div>
@@ -275,16 +256,6 @@
 
                                         <div class="form-cell">
                                             <input id="u_height" type="number" size="3" name="u_height" value="<?php echo $accountInfo['height']; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="profile-basics form-row">
-                                        <div class="form-cell left">
-                                            <h2><?php echo $LANG['label-weight']." (".$LANG['label-kg'].")"; ?></h2>
-                                        </div>
-
-                                        <div class="form-cell">
-                                            <input id="u_weight" type="number" size="3" name="u_weight" value="<?php echo $accountInfo['weight']; ?>">
                                         </div>
                                     </div>
 
@@ -329,27 +300,6 @@
                                                     <option value="2" <?php if ($accountInfo['gender'] != GENDER_FEMALE && $accountInfo['gender'] != GENDER_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-secret']; ?></option>
                                                     <option value="0" <?php if ($accountInfo['gender'] == GENDER_MALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-male']; ?></option>
                                                     <option value="1" <?php if ($accountInfo['gender'] == GENDER_FEMALE) echo "selected=\"selected\""; ?>><?php echo $LANG['gender-female']; ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="link-preference form-row">
-                                        <div class="form-cell left">
-                                            <h2><?php echo $LANG['label-relationship-status']; ?></h2>
-                                        </div>
-
-                                        <div class="form-cell">
-                                            <div class="opt-in">
-                                                <select id="iStatus" name="iStatus" class="selectBox">
-                                                    <option value="0" <?php if ($accountInfo['iStatus'] == 0) echo "selected=\"selected\""; ?>><?php echo $LANG['label-relationship-status-0']; ?></option>
-                                                    <option value="1" <?php if ($accountInfo['iStatus'] == 1) echo "selected=\"selected\""; ?>><?php echo $LANG['label-relationship-status-1']; ?></option>
-                                                    <option value="2" <?php if ($accountInfo['iStatus'] == 2) echo "selected=\"selected\""; ?>><?php echo $LANG['label-relationship-status-2']; ?></option>
-                                                    <option value="3" <?php if ($accountInfo['iStatus'] == 3) echo "selected=\"selected\""; ?>><?php echo $LANG['label-relationship-status-3']; ?></option>
-                                                    <option value="4" <?php if ($accountInfo['iStatus'] == 4) echo "selected=\"selected\""; ?>><?php echo $LANG['label-relationship-status-4']; ?></option>
-                                                    <option value="5" <?php if ($accountInfo['iStatus'] == 5) echo "selected=\"selected\""; ?>><?php echo $LANG['label-relationship-status-5']; ?></option>
-                                                    <option value="6" <?php if ($accountInfo['iStatus'] == 6) echo "selected=\"selected\""; ?>><?php echo $LANG['label-relationship-status-6']; ?></option>
-                                                    <option value="7" <?php if ($accountInfo['iStatus'] == 7) echo "selected=\"selected\""; ?>><?php echo $LANG['label-relationship-status-7']; ?></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -445,71 +395,6 @@
                                                     <option value="0" <?php if ($accountInfo['iInterested'] == 0) echo "selected=\"selected\""; ?>><?php echo $LANG['label-you-like-0']; ?></option>
                                                     <option value="1" <?php if ($accountInfo['iInterested'] == 1) echo "selected=\"selected\""; ?>><?php echo $LANG['label-you-like-1']; ?></option>
                                                     <option value="2" <?php if ($accountInfo['iInterested'] == 2) echo "selected=\"selected\""; ?>><?php echo $LANG['label-you-like-2']; ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="link-preference form-row">
-                                        <div class="form-cell left">
-                                            <h2><?php echo $LANG['label-birth-date']; ?></h2>
-                                        </div>
-
-                                        <div class="form-cell">
-                                            <div class="opt-in">
-                                                <select id="day" name="day" class="selectBox" style="width: 30%;">
-
-                                                    <?php
-
-                                                    for ($day = 1; $day <= 31; $day++) {
-
-                                                        if ($day == $accountInfo['day']) {
-
-                                                            echo "<option value=\"$day\" selected=\"selected\">$day</option>";
-
-                                                        } else {
-
-                                                            echo "<option value=\"$day\">$day</option>";
-                                                        }
-                                                    }
-                                                    ?>
-
-                                                </select>
-
-                                                <select id="month" name="month" class="selectBox" style="width: 30%;">
-                                                    <option value="0" <?php if ($accountInfo['month'] == 0) echo "selected=\"selected\""; ?>><?php echo $LANG['month-jan']; ?></option>
-                                                    <option value="1" <?php if ($accountInfo['month'] == 1) echo "selected=\"selected\""; ?>><?php echo $LANG['month-feb']; ?></option>
-                                                    <option value="2" <?php if ($accountInfo['month'] == 2) echo "selected=\"selected\""; ?>><?php echo $LANG['month-mar']; ?></option>
-                                                    <option value="3" <?php if ($accountInfo['month'] == 3) echo "selected=\"selected\""; ?>><?php echo $LANG['month-apr']; ?></option>
-                                                    <option value="4" <?php if ($accountInfo['month'] == 4) echo "selected=\"selected\""; ?>><?php echo $LANG['month-may']; ?></option>
-                                                    <option value="5" <?php if ($accountInfo['month'] == 5) echo "selected=\"selected\""; ?>><?php echo $LANG['month-june']; ?></option>
-                                                    <option value="6" <?php if ($accountInfo['month'] == 6) echo "selected=\"selected\""; ?>><?php echo $LANG['month-july']; ?></option>
-                                                    <option value="7" <?php if ($accountInfo['month'] == 7) echo "selected=\"selected\""; ?>><?php echo $LANG['month-aug']; ?></option>
-                                                    <option value="8" <?php if ($accountInfo['month'] == 8) echo "selected=\"selected\""; ?>><?php echo $LANG['month-sept']; ?></option>
-                                                    <option value="9" <?php if ($accountInfo['month'] == 9) echo "selected=\"selected\""; ?>><?php echo $LANG['month-oct']; ?></option>
-                                                    <option value="10" <?php if ($accountInfo['month'] == 10) echo "selected=\"selected\""; ?>><?php echo $LANG['month-nov']; ?></option>
-                                                    <option value="11" <?php if ($accountInfo['month'] == 11) echo "selected=\"selected\""; ?>><?php echo $LANG['month-dec']; ?></option>
-                                                </select>
-
-                                                <select id="year" name="year" class="selectBox" style="width: 30%;">
-
-                                                    <?php
-
-                                                    $current_year = date("Y");
-
-                                                    for ($year = 1915; $year <= $current_year; $year++) {
-
-                                                        if ($year == $accountInfo['year']) {
-
-                                                            echo "<option value=\"$year\" selected=\"selected\">$year</option>";
-
-                                                        } else {
-
-                                                            echo "<option value=\"$year\">$year</option>";
-                                                        }
-                                                    }
-                                                    ?>
-
                                                 </select>
                                             </div>
                                         </div>

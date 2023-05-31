@@ -47,11 +47,11 @@
 
             if (!$result['error']) {
 
-                $clientId = 0; // Desktop version
+                
 
                 $admin->setId($result['accountId']);
 
-                $access_data = $admin->createAuthorization($result['accountId'], $clientId, APP_TYPE_WEB);
+                $access_data = $admin->createAuthorization($result['accountId'], APP_TYPE_WEB);
 
                 if (!$access_data['error']) {
 

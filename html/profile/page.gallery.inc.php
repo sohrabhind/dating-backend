@@ -46,7 +46,7 @@
 
     $access_denied = false;
 
-    if ($profileInfo['id'] != auth::getCurrentUserId() && !$profileInfo['friend'] && $profileInfo['allowShowMyGallery'] == 1) {
+    if ($profileInfo['id'] != auth::getCurrentUserId() && $profileInfo['allowShowMyGallery'] == 1) {
 
         $access_denied = true;
     }

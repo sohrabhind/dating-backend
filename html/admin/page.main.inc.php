@@ -83,8 +83,8 @@
                                         <i class="ti-image"></i>
                                     </div>
                                     <div class="m-l-10 align-self-center">
-                                        <h3 class="m-b-0 font-lgiht"><?php echo $stats->getPhotosCount(); ?></h3>
-                                        <h5 class="text-muted m-b-0">Total photos</h5></div>
+                                        <h3 class="m-b-0 font-lgiht"><?php echo $stats->getImagesCount(); ?></h3>
+                                        <h5 class="text-muted m-b-0">Total images</h5></div>
                                 </div>
                             </div>
                         </div>
@@ -151,12 +151,12 @@
 
 
                                             <tr>
-                                                <td class="text-left">Total photos</td>
-                                                <td><?php echo $stats->getPhotosCount(); ?></td>
+                                                <td class="text-left">Total images</td>
+                                                <td><?php echo $stats->getImagesCount(); ?></td>
                                             </tr>
                                             <tr>
-                                                <td class="text-left">Total active photos (not removed)</td>
-                                                <td><?php echo $stats->getActivePhotosCount(); ?></td>
+                                                <td class="text-left">Total active images (not removed)</td>
+                                                <td><?php echo $stats->getActiveImagesCount(); ?></td>
                                             </tr>
 
                                             <tr>

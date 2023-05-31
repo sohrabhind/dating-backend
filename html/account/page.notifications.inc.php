@@ -231,44 +231,6 @@
                 });
             };
 
-            window.Friends || ( window.Friends = {} );
-
-            Friends.acceptRequest = function (id, friend_id) {
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/' + options.api_version + '/method/friends.acceptRequest',
-                    data: 'friendId=' + friend_id + "&accessToken=" + account.accessToken + "&accountId=" + account.id,
-                    dataType: 'json',
-                    timeout: 30000,
-                    success: function(response){
-
-                        $('li.card-item[data-id=' + id + ']').remove();
-                    },
-                    error: function(xhr, type){
-
-                    }
-                });
-            };
-
-            Friends.rejectRequest = function (id, friend_id) {
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/' + options.api_version + '/method/friends.rejectRequest',
-                    data: 'friendId=' + friend_id + "&accessToken=" + account.accessToken + "&accountId=" + account.id,
-                    dataType: 'json',
-                    timeout: 30000,
-                    success: function(response){
-
-                        $('li.card-item[data-id=' + id + ']').remove();
-                    },
-                    error: function(xhr, type){
-
-                    }
-                });
-            };
-
         </script>
 
 </body>
@@ -338,38 +300,6 @@
                                     <span class="card-counter black"><?php echo $time->timeAgo($notify['createAt']); ?></span>
                                     <span class="card-action">
                                         <a href="/account/likes" class="card-act active"><?php echo $LANG['action-view']; ?> »</a>
-                                    </span>
-                                </div>
-                            </span>
-                        </div>
-                    </li>
-
-                <?php
-
-                break;
-            }
-
-            case NOTIFY_TYPE_FOLLOWER: {
-
-                ?>
-
-                    <li class="card-item classic-item default-item" data-id="<?php echo $notify['id']; ?>">
-                        <div class="card-body">
-                            <span class="card-header">
-                                <a href="/<?php echo $notify['fromUserUsername']; ?>"><img class="card-icon" src="<?php echo $profilePhotoUrl; ?>"/></a>
-                                <span title="" class="card-notify-icon friend-request"></span>
-                                <?php if ($notify['fromUserOnline']) echo "<span title=\"Online\" class=\"card-online-icon\"></span>"; ?>
-                                <div class="card-content">
-                                    <span class="card-title">
-                                        <a href="/<?php echo $notify['fromUserUsername']; ?>"><?php echo  $notify['fromUserFullname']; ?></a>
-                                        
-                                        <span class="sub-title"><?php echo $LANG['label-notify-request-to-friends']; ?></span>
-                                    </span>
-                                    <span class="card-username">@<?php echo  $notify['fromUserUsername']; ?></span>
-                                    <span class="card-counter black"><?php echo $time->timeAgo($notify['createAt']); ?></span>
-                                    <span class="card-action">
-                                        <a class="card-act negative" href="javascript:void(0)" onclick="Friends.rejectRequest('<?php echo $notify['id']; ?>', '<?php echo $notify['fromUserId']; ?>'); return false;"><?php echo $LANG['action-reject']; ?></a>
-                                        <a class="card-act active" href="javascript:void(0)" onclick="Friends.acceptRequest('<?php echo $notify['id']; ?>', '<?php echo $notify['fromUserId']; ?>'); return false;"><?php echo $LANG['action-accept']; ?></a>
                                     </span>
                                 </div>
                             </span>

@@ -118,7 +118,7 @@
                         $location = isset($_POST['location']) ? $_POST['location'] : '';
                         $balance = isset($_POST['balance']) ? $_POST['balance'] : 0;
                         $level_messages_count = isset($_POST['level_messages_count']) ? $_POST['level_messages_count'] : 0;
-                        $instagram_page = isset($_POST['instagram_page']) ? $_POST['instagram_page'] : '';
+                        $interests = isset($_POST['interests']) ? $_POST['interests'] : '';
                         $email = isset($_POST['email']) ? $_POST['email'] : '';
                         $phoneNumber = isset($_POST['phone_number']) ? $_POST['phone_number'] : '';
 
@@ -135,8 +135,8 @@
                         $level_messages_count = helper::clearInt($level_messages_count);
 
                     
-                        $instagram_page = helper::clearText($instagram_page);
-                        $instagram_page = helper::escapeText($instagram_page);
+                        $interests = helper::clearText($interests);
+                        $interests = helper::escapeText($interests);
 
                         $email = helper::clearText($email);
                         $email = helper::escapeText($email);
@@ -151,7 +151,7 @@
                             $account->setLocation($location);
                             $account->setBalance($balance);
                             $account->setLevelMessagesCount($level_messages_count);
-                            $account->setInstagramPage($instagram_page);
+                            $account->setInterests($interests);
                             $account->setEmail($email);
                          }
                     }
@@ -406,9 +406,9 @@
 
 
                                     <div class="form-group">
-                                        <label class="col-md-12">Instagram page</label>
+                                        <label class="col-md-12">Interests</label>
                                         <div class="col-md-12">
-                                            <input placeholder="Instagram page" id="instagram_page" type="text" name="instagram_page" maxlength="255" value="<?php echo $accountInfo['instagram_page']; ?>" class="form-control form-control-line">
+                                            <input placeholder="Interests" id="interests" type="text" name="interests" maxlength="255" value="<?php echo $accountInfo['interests']; ?>" class="form-control form-control-line">
                                         </div>
                                     </div>
 
@@ -588,10 +588,8 @@
         <tr>
             <td class="text-left"><?php echo $authObj['id']; ?></td>
             <td><?php echo $authObj['accessToken']; ?></td>
-            <td><?php echo $authObj['clientId']; ?></td>
             <td><?php echo date("Y-m-d H:i:s", $authObj['createAt']); ?></td>
             <td><?php if ($authObj['removeAt'] == 0) {echo "-";} else {echo date("Y-m-d H:i:s", $authObj['removeAt']);} ?></td>
-            <td><?php echo $authObj['u_agent']; ?></td>
             <td><?php if (admin::getAccessLevel() != ADMIN_ACCESS_LEVEL_READ_ONLY_RIGHTS) {echo $authObj['ip_addr'];} else {echo "It is not available in the demo version";} ?></td>
         </tr>
 

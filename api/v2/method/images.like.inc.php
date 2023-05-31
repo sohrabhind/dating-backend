@@ -33,10 +33,10 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $photos = new photos($dbo);
-    $photos->setRequestFrom($accountId);
+    $images = new images($dbo);
+    $images->setRequestFrom($accountId);
 
-    $result = $photos->like($itemId, $accountId);
+    $result = $images->like($itemId, $accountId);
 
     echo json_encode($result);
     exit;

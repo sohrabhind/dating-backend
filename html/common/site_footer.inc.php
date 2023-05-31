@@ -182,9 +182,6 @@
             sz_report_reason_3: "<?php echo $LANG['label-profile-report-reason-3']; ?>",
             sz_report_reason_4: "<?php echo $LANG['label-profile-report-reason-4']; ?>",
             sz_report_reason_5: "<?php echo $LANG['label-profile-report-reason-5']; ?>",
-            sz_action_remove_from_friends: "<?php echo $LANG['action-remove-from-friends']; ?>",
-            sz_action_cancel_friends_request: "<?php echo $LANG['action-cancel-friend-request']; ?>",
-            sz_action_add_to_friends: "<?php echo $LANG['action-add-to-friends']; ?>",
             sz_message_empty_list: "<?php echo $LANG['label-empty-list']; ?>"
         };
 

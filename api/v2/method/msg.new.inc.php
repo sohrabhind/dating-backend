@@ -7,7 +7,7 @@ if (!defined("APP_SIGNATURE")) {
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
+    
 
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
@@ -19,7 +19,6 @@ if (!empty($_POST)) {
 
     $chatId = isset($_POST['chatId']) ? $_POST['chatId'] : 0;
     $messageText = isset($_POST['messageText']) ? $_POST['messageText'] : "";
-    $messageImg = isset($_POST['messageImg']) ? $_POST['messageImg'] : "";
 
     $listId = isset($_POST['listId']) ? $_POST['listId'] : 0;
 
@@ -31,7 +30,7 @@ if (!empty($_POST)) {
     $stickerImgUrl = helper::clearText($stickerImgUrl);
     $stickerImgUrl = helper::escapeText($stickerImgUrl);
 
-    $clientId = helper::clearInt($clientId);
+    
     $accountId = helper::clearInt($accountId);
 
     $profileId = helper::clearInt($profileId);
@@ -49,9 +48,6 @@ if (!empty($_POST)) {
     $messageText  = preg_replace('/\s+/', ' ', $messageText);        //replace all white spaces to one space
 
     $messageText = helper::escapeText($messageText);
-
-    $messageImg = helper::clearText($messageImg);
-    $messageImg = helper::escapeText($messageImg);
 
     $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
@@ -74,7 +70,7 @@ if (!empty($_POST)) {
     }
 
     if ($profileInfo['allowMessages'] == 0) {
-        if (!$profile->is_friend_exists($accountId)) {
+        if (!$profileInfo['myFan']) {
             echo json_encode($result);
             exit;
         }
@@ -83,7 +79,7 @@ if (!empty($_POST)) {
     if (!$profileInfo['inBlackList']) {
         $messages = new msg($dbo);
         $messages->setRequestFrom($accountId);
-        $result = $messages->create($profileId, $chatId, $messageText, $messageImg, $chatFromUserId, $chatToUserId, $listId, $stickerId, $stickerImgUrl);
+        $result = $messages->create($profileId, $chatId, $messageText, "", $chatFromUserId, $chatToUserId, $listId, $stickerId, $stickerImgUrl);
     }
     
     echo json_encode($result);

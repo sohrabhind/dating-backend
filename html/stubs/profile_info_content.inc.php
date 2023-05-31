@@ -3,7 +3,7 @@
     <?php
 
 
-        if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['friend'] || $profileInfo['allowShowMyInfo'] == 0) {
+        if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['allowShowMyInfo'] == 0) {
 
             ?>
 
@@ -29,13 +29,13 @@
 
                 <?php
 
-                    if (strlen($profileInfo['instagram_page']) > 0) {
+                    if (strlen($profileInfo['interests']) > 0) {
 
                         ?>
 
                         <li class="collection-item">
-                            <h5 class="title"><?php echo $LANG['label-instagram-link']; ?></h5>
-                            <p><a rel="nofollow" target="_blank" href="<?php echo $profileInfo['instagram_page']; ?>"><?php echo $profileInfo['instagram_page']; ?></a></p>
+                            <h5 class="title"><?php echo $LANG['label-interests']; ?></h5>
+                            <p><a rel="nofollow" target="_blank" href="<?php echo $profileInfo['interests']; ?>"><?php echo $profileInfo['interests']; ?></a></p>
                         </li>
 
                         <?php
@@ -44,13 +44,13 @@
 
                 <?php
 
-                if (strlen($profileInfo['status']) > 0) {
+                if (strlen($profileInfo['bio']) > 0) {
 
                     ?>
 
                     <li class="collection-item">
-                        <h5 class="title"><?php echo $LANG['label-status']; ?></h5>
-                        <p><?php echo $profileInfo['status']; ?></p>
+                        <h5 class="title"><?php echo $LANG['label-bio']; ?></h5>
+                        <p><?php echo $profileInfo['bio']; ?></p>
                     </li>
 
                     <?php
@@ -125,101 +125,6 @@
                     <li class="collection-item">
                         <h5 class="title"><?php echo $LANG['label-height']; ?></h5>
                         <p><?php echo $profileInfo['height']." (".$LANG['label-cm'].")"; ?></p>
-                    </li>
-
-                    <?php
-                }
-
-                ?>
-
-                <?php
-
-                if ($profileInfo['weight'] > 0) {
-
-                    ?>
-
-                    <li class="collection-item">
-                        <h5 class="title"><?php echo $LANG['label-weight']; ?></h5>
-                        <p><?php echo $profileInfo['weight']." (".$LANG['label-kg'].")"; ?></p>
-                    </li>
-
-                    <?php
-                }
-
-                ?>
-
-                <?php
-
-                if ($profileInfo['iStatus'] != 0) {
-
-                    ?>
-
-                    <li class="collection-item">
-                        <h5 class="title"><?php echo $LANG['label-relationship-status']; ?></h5>
-                        <p>
-                            <?php
-
-                            switch ($profileInfo['iStatus']) {
-
-                                case 1: {
-
-                                    echo $LANG['label-relationship-status-1'];
-
-                                    break;
-                                }
-
-                                case 2: {
-
-                                    echo $LANG['label-relationship-status-2'];
-
-                                    break;
-                                }
-
-                                case 3: {
-
-                                    echo $LANG['label-relationship-status-3'];
-
-                                    break;
-                                }
-
-                                case 4: {
-
-                                    echo $LANG['label-relationship-status-4'];
-
-                                    break;
-                                }
-
-                                case 5: {
-
-                                    echo $LANG['label-relationship-status-5'];
-
-                                    break;
-                                }
-
-                                case 6: {
-
-                                    echo $LANG['label-relationship-status-6'];
-
-                                    break;
-                                }
-
-                                case 7: {
-
-                                    echo $LANG['label-relationship-status-7'];
-
-                                    break;
-                                }
-
-                                default: {
-
-                                    echo $LANG['label-relationship-status-0'];
-
-                                    break;
-                                }
-                            }
-
-                            ?>
-                        </p>
                     </li>
 
                     <?php

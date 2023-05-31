@@ -90,10 +90,10 @@
 
                         $account->setState(ACCOUNT_STATE_ENABLED);
 
-                        $clientId = 0; // Desktop version
+                        
 
                         $auth = new auth($dbo);
-                        $access_data = $auth->create($accountInfo['id'], $clientId, APP_TYPE_WEB, "", $LANG['lang-code']);
+                        $access_data = $auth->create($accountInfo['id'], APP_TYPE_WEB, "");
 
                         if (!$access_data['error']) {
 

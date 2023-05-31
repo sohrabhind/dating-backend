@@ -15,18 +15,10 @@ if (!defined("APP_SIGNATURE")) {
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
-
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : '';
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
-    $clientId = helper::clearInt($clientId);
     $accountId = helper::clearInt($accountId);
-
-    if ($clientId != CLIENT_ID) {
-
-        api::printError(ERROR_CLIENT_ID, "Error client Id.");
-    }
 
     $result = array("error" => true);
 

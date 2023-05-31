@@ -12,8 +12,6 @@
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
-
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
@@ -26,7 +24,6 @@ if (!empty($_POST)) {
 
     $android_fcm_regId = isset($_POST['android_fcm_regId']) ? $_POST['android_fcm_regId'] : "";
 
-    $clientId = helper::clearInt($clientId);
     $accountId = helper::clearInt($accountId);
 
     $chatFromUserId = helper::clearInt($chatFromUserId);

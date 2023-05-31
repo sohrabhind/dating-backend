@@ -46,23 +46,6 @@ App.run = function() {
                         $('span.messages-primary-badge').text(response.messagesCount);
                     }
                 }
-
-
-                if (response.hasOwnProperty('newFriendsCount')) {
-
-                    if (response.newFriendsCount < 1) {
-
-                        $("div.friends-badge").addClass("hidden");
-                        $("span.friends-badge").addClass("hidden");
-                        $('span.friends-primary-badge').text("");
-
-                    }  else {
-
-                        $("div.friends-badge").removeClass("hidden");
-                        $("span.friends-badge").removeClass("hidden");
-                        $('span.friends-primary-badge').text(response.newFriendsCount);
-                    }
-                }
             }
         },
         complete: function() {

@@ -40,7 +40,7 @@ class profile extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function get(){
+    public function get() {
         $result = array("error" => true, "error_code" => ERROR_ACCOUNT_ID);
 
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = (:id) LIMIT 1");
@@ -55,16 +55,19 @@ class profile extends db_connect
 
                 // test to my like
 
-                $myLike = false;
-
+                $iLiked = false;
                 if ($this->getRequestFrom() != 0 && $this->getRequestFrom() != $this->getId()) {
-
                     if ($this->is_like_exists($this->requestFrom)) {
-
-                        $myLike = true;
+                        $iLiked = true;
                     }
                 }
 
+                $myFan = false;
+                if ($this->getRequestFrom() != 0 && $this->getRequestFrom() != $this->getId()) {
+                    if ($this->is_my_fan($this->requestFrom)) {
+                        $myFan = true;
+                    }
+                }
 
                 // test to blocked
                 $blocked = false;
@@ -82,51 +85,6 @@ class profile extends db_connect
                     unset($blacklist);
                 }
 
-                // test to friend
-                $friend = false;
-
-                if ($this->getRequestFrom() != 0 && $this->getRequestFrom() != $this->getId()) {
-
-                    if ($this->is_friend_exists($this->requestFrom)) {
-
-                        $friend = true;
-                    }
-                }
-
-                // test to follow
-                $follow = false;
-
-                // test to my follower
-                $follower = false;
-
-                if (!$friend && $this->getRequestFrom() != $this->getId()) {
-
-                    // test to follow
-                    // $follow = false;
-
-                    if ($this->getRequestFrom() != 0) {
-
-                        if ($this->is_follower_exists($this->requestFrom)) {
-
-                            $follow = true;
-                        }
-                    }
-
-                    // test to my follower
-                    // $follower = false;
-
-                    if ($this->getRequestFrom() != 0) {
-
-                        $myProfile = new profile($this->db, $this->requestFrom);
-
-                        if ($myProfile->is_follower_exists($this->getId())) {
-
-                            $follower = true;
-                        }
-
-                        unset($myProfile);
-                    }
-                }
 
                 // is my profile exists in blacklist
                 $inBlackList = false;
@@ -171,19 +129,14 @@ class profile extends db_connect
                                 "gender" => $row['gender'],
                                 "age" => $row['u_age'],
                                 "height" => $row['u_height'],
-                                "weight" => $row['u_weight'],
-                                "year" => $row['bYear'],
-                                "month" => $row['bMonth'],
-                                "day" => $row['bDay'],
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
                                 "fullname" => htmlspecialchars_decode(stripslashes($row['fullname'])),
                                 "location" => stripcslashes($row['country']),
-                                "status" => stripcslashes($row['status']),
-                                "instagram_page" => stripcslashes($row['instagram_page']),
+                                "bio" => stripcslashes($row['bio']),
+                                "interests" => stripcslashes($row['interests']),
                                 "bigPhotoUrl" => $row['bigPhotoUrl'],
-                                "iStatus" => $row['iStatus'],
                                 "iReligiousView" => $row['iReligiousView'],
                                 "iSmokingViews" => $row['iSmokingViews'],
                                 "iAlcoholViews" => $row['iAlcoholViews'],
@@ -191,22 +144,18 @@ class profile extends db_connect
                                 "iInterested" => $row['iInterested'],
                                 "allowPhotosComments" => $row['allowPhotosComments'],
                                 "allowMessages" => $row['allowMessages'],
-                                "allowShowMyBirthday" => $row['allowShowMyBirthday'],
                                 "allowShowMyInfo" => $row['allowShowMyInfo'],
                                 "allowShowMyGallery" => $row['allowShowMyGallery'],
                                 "allowShowMyFriends" => $row['allowShowMyFriends'],
                                 "allowShowMyLikes" => $row['allowShowMyLikes'],
                                 "allowShowMyAge" => $row['allowShowMyAge'],
                                 "allowShowOnline" => $row['allowShowOnline'],
-                                "friendsCount" => $row['friends_count'],
-                                "photosCount" => $row['photos_count'],
+                                "imagesCount" => $row['images_count'],
                                 "likesCount" => $row['likes_count'],
-                                "follower" => $follower,
-                                "friend" => $friend,
                                 "inBlackList" => $inBlackList,
-                                "follow" => $follow,
                                 "blocked" => $blocked,
-                                "myLike" => $myLike,
+                                "iLiked" => $iLiked,
+                                "myFan" => $myFan,
                                 "createAt" => $row['regtime'],
                                 "createDate" => date("Y-m-d", $row['regtime']),
                                 "lastAuthorize" => $row['last_authorize'],
@@ -235,6 +184,23 @@ class profile extends db_connect
 
                 $row = $stmt->fetch();
 
+                // test to my like
+
+                $iLiked = false;
+                if ($this->getRequestFrom() != 0 && $this->getRequestFrom() != $this->getId()) {
+                    if ($this->is_like_exists($this->requestFrom)) {
+                        $iLiked = true;
+                    }
+                }
+
+                $myFan = false;
+                if ($this->getRequestFrom() != 0 && $this->getRequestFrom() != $this->getId()) {
+                    if ($this->is_my_fan($this->requestFrom)) {
+                        $myFan = true;
+                    }
+                }
+
+                
                 // is my profile exists in blacklist
                 $inBlackList = false;
 
@@ -280,24 +246,18 @@ class profile extends db_connect
                                 "gender" => $row['gender'],
                                 "age" => $row['u_age'],
                                 "height" => $row['u_height'],
-                                "weight" => $row['u_weight'],
-                                "year" => $row['bYear'],
-                                "month" => $row['bMonth'],
-                                "day" => $row['bDay'],
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
                                 "fullname" => htmlspecialchars_decode(stripslashes($row['fullname'])),
                                 "location" => stripcslashes($row['country']),
-                                "status" => stripcslashes($row['status']),
-                                "instagram_page" => stripcslashes($row['instagram_page']),
-                                "friendsCount" => $row['friends_count'],
-                                "photosCount" => $row['photos_count'],
+                                "bio" => stripcslashes($row['bio']),
+                                "interests" => stripcslashes($row['interests']),
+                                "imagesCount" => $row['images_count'],
                                 "likesCount" => $row['likes_count'],
                                 "bigPhotoUrl" => $row['bigPhotoUrl'],
                                 "allowPhotosComments" => $row['allowPhotosComments'],
                                 "allowMessages" => $row['allowMessages'],
-                                "allowShowMyBirthday" => $row['allowShowMyBirthday'],
                                 "allowShowMyInfo" => $row['allowShowMyInfo'],
                                 "allowShowMyGallery" => $row['allowShowMyGallery'],
                                 "allowShowMyFriends" => $row['allowShowMyFriends'],
@@ -305,6 +265,8 @@ class profile extends db_connect
                                 "allowShowMyAge" => $row['allowShowMyAge'],
                                 "allowShowOnline" => $row['allowShowOnline'],
                                 "inBlackList" => $inBlackList,
+                                "iLiked" => $iLiked,
+                                "myFan" => $myFan,
                                 "createAt" => $row['regtime'],
                                 "createDate" => date("Y-m-d", $row['regtime']),
                                 "lastAuthorize" => $row['last_authorize'],
@@ -334,12 +296,22 @@ class profile extends db_connect
                 $row = $stmt->fetch();
 
                 $online = false;
-                $myLike = false;
                 $inBlackList = false;
-                $follower = false;
-                $friend = false;
-                $follow = false;
                 $blocked = false;
+
+                $iLiked = false;
+                if ($this->getRequestFrom() != 0 && $this->getRequestFrom() != $this->getId()) {
+                    if ($this->is_like_exists($this->requestFrom)) {
+                        $iLiked = true;
+                    }
+                }
+
+                $myFan = false;
+                if ($this->getRequestFrom() != 0 && $this->getRequestFrom() != $this->getId()) {
+                    if ($this->is_my_fan($this->requestFrom)) {
+                        $myFan = true;
+                    }
+                }
 
                 $current_time = time();
 
@@ -366,26 +338,20 @@ class profile extends db_connect
                                 "gender" => $row['gender'],
                                 "age" => $row['u_age'],
                                 "height" => $row['u_height'],
-                                "weight" => $row['u_weight'],
-                                "year" => $row['bYear'],
-                                "month" => $row['bMonth'],
-                                "day" => $row['bDay'],
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
                                 "fullname" => htmlspecialchars_decode(stripslashes($row['fullname'])),
                                 "location" => stripcslashes($row['country']),
-                                "status" => stripcslashes($row['status']),
-                                "instagram_page" => stripcslashes($row['instagram_page']),
+                                "bio" => stripcslashes($row['bio']),
+                                "interests" => stripcslashes($row['interests']),
                                 "bigPhotoUrl" => $row['bigPhotoUrl'],
-                                "iStatus" => $row['iStatus'],
                                 "iReligiousView" => $row['iReligiousView'],
                                 "iSmokingViews" => $row['iSmokingViews'],
                                 "iAlcoholViews" => $row['iAlcoholViews'],
                                 "iLooking" => $row['iLooking'],
                                 "iInterested" => $row['iInterested'],
-                                "friendsCount" => $row['friends_count'],
-                                "photosCount" => $row['photos_count'],
+                                "imagesCount" => $row['images_count'],
                                 "likesCount" => $row['likes_count'],
                                 "createAt" => $row['regtime'],
                                 "createDate" => date("Y-m-d", $row['regtime']),
@@ -394,7 +360,6 @@ class profile extends db_connect
                                 "lastAuthorizeTimeAgo" => $time->timeAgo($row['last_authorize']),
                                 "allowPhotosComments" => $row['allowPhotosComments'],
                                 "allowMessages" => $row['allowMessages'],
-                                "allowShowMyBirthday" => $row['allowShowMyBirthday'],
                                 "allowShowMyInfo" => $row['allowShowMyInfo'],
                                 "allowShowMyGallery" => $row['allowShowMyGallery'],
                                 "allowShowMyFriends" => $row['allowShowMyFriends'],
@@ -402,12 +367,10 @@ class profile extends db_connect
                                 "allowShowMyAge" => $row['allowShowMyAge'],
                                 "allowShowOnline" => $row['allowShowOnline'],
                                 "online" => $online,
-                                "follower" => $follower,
-                                "friend" => $friend,
                                 "inBlackList" => $inBlackList,
-                                "follow" => $follow,
                                 "blocked" => $blocked,
-                                "myLike" => $myLike);
+                                "iLiked" => $iLiked,
+                                "myFan" => $myFan);
             }
         }
 
@@ -426,7 +389,7 @@ class profile extends db_connect
         $account->setLastActive();
         unset($account);
 
-        $myLike = false;
+        $iLiked = false;
 
         if ($this->is_like_exists($fromUserId)) {
             $stmt = $this->db->prepare("DELETE FROM profile_likes WHERE toUserId = (:toUserId) AND fromUserId = (:fromUserId)");
@@ -438,7 +401,7 @@ class profile extends db_connect
             $notify->removeNotify($this->id, $fromUserId, NOTIFY_TYPE_LIKE, 0);
             unset($notify);
 
-            $myLike = false;
+            $iLiked = false;
         } else {
             $createAt = time();
             $ip_addr = helper::ip_addr();
@@ -449,7 +412,7 @@ class profile extends db_connect
             $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
             $stmt->execute();
 
-            $myLike = true;
+            $iLiked = true;
 
             $u_profile = new profile($this->db, $fromUserId);
             $u_profile->setRequestFrom($this->id);
@@ -494,7 +457,7 @@ class profile extends db_connect
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
                         "likesCount" => $likesCount,
-                        "myLike" => $myLike);
+                        "iLiked" => $iLiked);
 
         return $result;
     }
@@ -594,121 +557,18 @@ class profile extends db_connect
         return false;
     }
 
-    public function addFollower($follower_id)
+    public function is_my_fan($myUserId)
     {
-        $result = array(
-            "error" => true,
-            "error_code" => ERROR_CODE_INITIATE
-        );
-
-        $spam = new spam($this->db);
-        $spam->setRequestFrom($this->getRequestFrom());
-
-        if ($spam->getSendFriendRequestsCount() > 20) {
-
-            return $result;
-        }
-
-        unset($spam);
-
-        if ($this->is_friend_exists($follower_id)) {
-
-            return $result;
-        }
-
-        if ($this->is_follower_exists($follower_id)) {
-
-            $stmt = $this->db->prepare("DELETE FROM profile_followers WHERE follower = (:follower) AND follow_to = (:follow_to)");
-            $stmt->bindParam(":follower", $follower_id, PDO::PARAM_INT);
-            $stmt->bindParam(":follow_to", $this->id, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-            $result = array("error" => false,
-                            "error_code" => ERROR_SUCCESS,
-                            "follow" => false,
-                            "followersCount" => 0);
-
-            $notify = new notify($this->db);
-            $notify->removeNotify($this->id, $follower_id, NOTIFY_TYPE_FOLLOWER, 0);
-            unset($notify);
-
-        } else {
-
-            $create_at = time();
-
-            $stmt = $this->db->prepare("INSERT INTO profile_followers (follower, follow_to, create_at) value (:follower, :follow_to, :create_at)");
-            $stmt->bindParam(":follower", $follower_id, PDO::PARAM_INT);
-            $stmt->bindParam(":follow_to", $this->id, PDO::PARAM_INT);
-            $stmt->bindParam(":create_at", $create_at, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-            $blacklist = new blacklist($this->db);
-            $blacklist->setRequestFrom($this->id);
-
-            if (!$blacklist->isExists($follower_id)) {
-
-                $account = new account($this->db, $this->id);
-
-                $fcm = new fcm($this->db);
-                $fcm->setRequestFrom($this->getRequestFrom());
-                $fcm->setRequestTo($this->id);
-                $fcm->setType(GCM_NOTIFY_FOLLOWER);
-                $fcm->setTitle("You have new follower");
-                $fcm->prepare();
-                $fcm->send();
-                unset($fcm);
-
-                unset($account);
-
-                $notify = new notify($this->db);
-                $notify->createNotify($this->id, $follower_id, NOTIFY_TYPE_FOLLOWER, 0);
-                unset($notify);
-            }
-
-            unset($blacklist);
-
-            $result = array("error" => false,
-                            "error_code" => ERROR_SUCCESS,
-                            "follow" => true,
-                            "followersCount" => 0);
-        }
-
-        return $result;
-    }
-
-    public function is_follower_exists($follower_id)
-    {
-
-        $stmt = $this->db->prepare("SELECT id FROM profile_followers WHERE follower = (:follower) AND follow_to = (:follow_to) LIMIT 1");
-        $stmt->bindParam(":follower", $follower_id, PDO::PARAM_INT);
-        $stmt->bindParam(":follow_to", $this->id, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("SELECT id FROM profile_likes WHERE fromUserId = (:fromUserId) AND toUserId = (:toUserId) LIMIT 1");
+        $stmt->bindParam(":toUserId", $myUserId, PDO::PARAM_INT);
+        $stmt->bindParam(":fromUserId", $this->id, PDO::PARAM_INT);
         $stmt->execute();
-
         if ($stmt->rowCount() > 0) {
-
             return true;
         }
-
         return false;
     }
-
-    public function is_friend_exists($friend_id)
-    {
-
-        $stmt = $this->db->prepare("SELECT id FROM friends WHERE friend = (:friend) AND friendTo = (:friendTo) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":friend", $friend_id, PDO::PARAM_INT);
-        $stmt->bindParam(":friendTo", $this->id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-
-            return true;
-        }
-
-        return false;
-    }
+    
 
 
     public function getState()

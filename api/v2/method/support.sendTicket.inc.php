@@ -11,7 +11,7 @@
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
+    
 
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
@@ -20,7 +20,7 @@ if (!empty($_POST)) {
     $subject = isset($_POST['subject']) ? $_POST['subject'] : "";
     $detail = isset($_POST['detail']) ? $_POST['detail'] : "";
 
-    $clientId = helper::clearInt($clientId);
+    
     $accountId = helper::clearInt($accountId);
 
     $email = helper::clearText($email);
@@ -45,7 +45,7 @@ if (!empty($_POST)) {
     $support = new support($dbo);
     $support->setRequestFrom($accountId);
 
-    $result = $support->createTicket($accountId, $email, $subject, $detail, $clientId);
+    $result = $support->createTicket($accountId, $email, $subject, $detail);
 
     echo json_encode($result);
     exit;

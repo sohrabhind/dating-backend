@@ -15,20 +15,13 @@ if (!defined("APP_SIGNATURE")) {
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
-
     $appType = isset($_POST['appType']) ? $_POST['appType'] : 2; // 2 = APP_TYPE_ANDROID
     $fcm_regId = isset($_POST['fcm_regId']) ? $_POST['fcm_regId'] : '';
-    $lang = isset($_POST['lang']) ? $_POST['lang'] : '';
-
+    
     $email = isset($_POST['email']) ? $_POST['email'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-    $clientId = helper::clearInt($clientId);
     $appType = helper::clearInt($appType);
-
-    $lang = helper::clearText($lang);
-    $lang = helper::escapeText($lang);
 
     $email = helper::clearText($email);
     $email = helper::escapeText($email);
@@ -38,11 +31,6 @@ if (!empty($_POST)) {
 
     $fcm_regId = helper::clearText($fcm_regId);
     $fcm_regId = helper::escapeText($fcm_regId);
-
-    if ($clientId != CLIENT_ID) {
-
-        api::printError(ERROR_CLIENT_ID, "Error client Id.");
-    }
 
     $access_data = array();
     $account = new account($dbo);
@@ -69,7 +57,7 @@ if (!empty($_POST)) {
             default: {
 
                 $auth = new auth($dbo);
-                $access_data = $auth->create($access_data['accountId'], $clientId, $appType, $fcm_regId, $lang);
+                $access_data = $auth->create($access_data['accountId'], $appType, $fcm_regId);
 
                 if (!$access_data['error']) {
 

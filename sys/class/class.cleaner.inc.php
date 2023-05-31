@@ -54,11 +54,11 @@ class cleaner extends db_connect
         $result = array("error" => true,
                         "error_code" => ERROR_CODE_INITIATE);
 
-        $stmt = $this->db->prepare("UPDATE users SET photos_count = 0 WHERE photos_count > 0");
+        $stmt = $this->db->prepare("UPDATE users SET images_count = 0 WHERE images_count > 0");
 
         if ($stmt->execute()) {
 
-            $stmt2 = $this->db->prepare("UPDATE photos SET removeAt = 1 WHERE removeAt = 0");
+            $stmt2 = $this->db->prepare("UPDATE images SET removeAt = 1 WHERE removeAt = 0");
 
             if ($stmt2->execute()) {
 

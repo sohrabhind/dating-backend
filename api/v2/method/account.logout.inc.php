@@ -14,12 +14,12 @@ if (!empty($_POST)) {
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
-    $friendId = isset($_POST['friendId']) ? $_POST['friendId'] : 0;
+    $accountId = helper::clearInt($accountId);
 
-    $friendId = helper::clearInt($friendId);
+    $accessToken = helper::clearText($accessToken);
+    $accessToken = helper::escapeText($accessToken);
 
-    $result = array("error" => true,
-                    "error_code" => ERROR_CODE_INITIATE);
+    $result = array("error" => true);
 
     $auth = new auth($dbo);
 
@@ -28,10 +28,13 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $friends = new friends($dbo, $accountId);
-    $friends->setRequestFrom($accountId);
+    $account = new account($dbo, $accountId);
+    $account->setLastActive();
+    $account->logout($accountId, $accessToken);
 
-    $result = $friends->remove($friendId);
+    $result = array("error" => false,
+                    "error_code" => ERROR_SUCCESS);
+
 
     echo json_encode($result);
     exit;

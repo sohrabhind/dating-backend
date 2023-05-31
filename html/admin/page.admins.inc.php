@@ -213,7 +213,7 @@
                                                     <th>Username</th>
                                                     <th>Access Rights</th>
                                                     <th>Create Date</th>
-                                                    <th>Status</th>
+                                                    <th>Bio</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>

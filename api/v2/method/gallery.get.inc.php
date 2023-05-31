@@ -11,7 +11,7 @@
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
+    
 
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
@@ -19,7 +19,7 @@ if (!empty($_POST)) {
     $profileId = isset($_POST['profileId']) ? $_POST['profileId'] : 0;
     $itemId = isset($_POST['itemId']) ? $_POST['itemId'] : 0;
 
-    $clientId = helper::clearInt($clientId);
+    
     $accountId = helper::clearInt($accountId);
 
     $profileId = helper::clearInt($profileId);

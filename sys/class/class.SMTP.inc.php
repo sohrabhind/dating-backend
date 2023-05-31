@@ -578,7 +578,7 @@ class SMTP
         $k_ipad = $key ^ $ipad;
         $k_opad = $key ^ $opad;
 
-        return md5($k_opad . pack('H*', md5($k_ipad . $data)));
+        return k_opad . pack('H*', md5($k_ipad . $data)));
     }
 
     /**

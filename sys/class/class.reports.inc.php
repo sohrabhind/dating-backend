@@ -69,10 +69,9 @@ class reports extends db_connect
         }
 
         $create_at = time();
-        $u_agent = helper::u_agent();
         $ip_addr = helper::ip_addr();
 
-        $stmt = $this->db->prepare("INSERT INTO reports (itemType, fromUserId, toUserId, itemId, abuseId, description, createAt, u_agent, ip_addr) value (:itemType, :fromUserId, :toUserId, :itemId, :abuseId, :description, :createAt, :u_agent, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO reports (itemType, fromUserId, toUserId, itemId, abuseId, description, createAt, ip_addr) value (:itemType, :fromUserId, :toUserId, :itemId, :abuseId, :description, :createAt, :ip_addr)");
         $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":toUserId", $toUseId, PDO::PARAM_INT);
@@ -80,7 +79,6 @@ class reports extends db_connect
         $stmt->bindParam(":abuseId", $abuseId, PDO::PARAM_INT);
         $stmt->bindParam(":description", $description, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $create_at, PDO::PARAM_INT);
-        $stmt->bindParam(":u_agent", $u_agent, PDO::PARAM_STR);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
@@ -296,7 +294,6 @@ class reports extends db_connect
             "removeAt" => $row['removeAt'],
             "date" => date("Y-m-d H:i:s", $row['createAt']),
             "timeAgo" => $time->timeAgo($row['createAt']),
-            "u_agent" => $row['u_agent'],
             "ip_addr" => $row['ip_addr']);
 
         if ($row['toUserId'] != 0) {

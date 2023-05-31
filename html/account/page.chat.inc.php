@@ -92,7 +92,7 @@
         $showForm = false;
     }
 
-    if ($user_info['allowMessages'] == 0 && $user_info['friend'] === false) {
+    if ($user_info['allowMessages'] == 0) {
 
         $showForm = false;
     }

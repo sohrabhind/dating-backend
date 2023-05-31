@@ -20,7 +20,7 @@ class search extends db_connect
         parent::__construct($dbo);
     }
 
-    private function getCount($queryText, $gender = -1, $online = -1, $photo = -1, $ageFrom = 13, $ageTo = 110)
+    private function getCount($queryText, $gender = -1, $online = -1, $photo = -1, $ageFrom = 18, $ageTo = 110)
     {
         $queryText = "%".$queryText."%";
 
@@ -47,13 +47,10 @@ class search extends db_connect
             $photoSql = " AND bigPhotoUrl <> ''";
         }
 
-        $current_year = date("Y");
+        $ageTo = $ageTo+1;
+        $ageFrom = $ageFrom-1;
 
-        $fromYear = $current_year - $ageFrom;
-        $toYear = $current_year - $ageTo;
-
-        $dateSql = " AND bYear < {$fromYear} AND bYear > {$toYear}";
-
+        $dateSql = " AND u_age < {$ageTo} AND u_age > {$ageFrom}";
         $sql = "SELECT count(*) FROM users WHERE state = 0 AND (username LIKE '{$queryText}' OR fullname LIKE '{$queryText}' OR email LIKE '{$queryText}' OR country LIKE '{$queryText}')".$genderSql.$onlineSql.$photoSql.$dateSql;
 
         $stmt = $this->db->prepare($sql);
@@ -70,7 +67,7 @@ class search extends db_connect
         return $number_of_rows = $stmt->fetchColumn() + 1;
     }
 
-    public function query($queryText = '', $userId = 0, $gender = -1, $online = -1, $photo = -1, $ageFrom = 13, $ageTo = 110)
+    public function query($queryText = '', $userId = 0, $gender = -1, $online = -1, $photo = -1, $ageFrom = 18, $ageTo = 110)
     {
         $originQuery = $queryText;
 
@@ -105,12 +102,11 @@ class search extends db_connect
             $photoSql = " AND bigPhotoUrl <> ''";
         }
 
-        $current_year = date("Y");
+        
+        $ageTo = $ageTo+1;
+        $ageFrom = $ageFrom-1;
 
-        $fromYear = $current_year - $ageFrom;
-        $toYear = $current_year - $ageTo;
-
-        $dateSql = " AND bYear < {$fromYear} AND bYear > {$toYear}";
+        $dateSql = " AND u_age < {$ageTo} AND u_age > {$ageFrom}";
 
         $users = array("error" => false,
                        "error_code" => ERROR_SUCCESS,
@@ -178,12 +174,11 @@ class search extends db_connect
             $photoSql = " AND bigPhotoUrl <> ''";
         }
 
-        $current_year = date("Y");
+        
+        $ageTo = $ageTo+1;
+        $ageFrom = $ageFrom-1;
 
-        $fromYear = $current_year - $ageFrom;
-        $toYear = $current_year - $ageTo;
-
-        $dateSql = " AND bYear < {$fromYear} AND bYear > {$toYear}";
+        $dateSql = " AND u_age < {$ageTo} AND u_age > {$ageFrom}";
 
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,

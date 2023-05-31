@@ -11,14 +11,14 @@
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
+    
 
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
     $itemId = isset($_POST['itemId']) ? $_POST['itemId'] : 0;
 
-    $clientId = helper::clearInt($clientId);
+    
     $accountId = helper::clearInt($accountId);
 
     $itemId = helper::clearInt($itemId);
@@ -33,10 +33,10 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $photos = new photos($dbo);
-    $photos->setRequestFrom($accountId);
+    $images = new images($dbo);
+    $images->setRequestFrom($accountId);
 
-    $itemInfo = $photos->info($itemId);
+    $itemInfo = $images->info($itemId);
 
     if (!$itemInfo['error']) {
 
@@ -45,13 +45,13 @@ if (!empty($_POST)) {
             exit;
         }
 
-        $images = new images($dbo);
-        $images->setRequestFrom($accountId);
+        $image = new image($dbo);
+        $image->setRequestFrom($accountId);
 
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
                         "itemId" => $itemId,
-                        "comments" => $images->commentsGet($itemId, 0),
+                        "comments" => $image->commentsGet($itemId, 0),
                         "items" => array());
 
         array_push($result['items'], $itemInfo);

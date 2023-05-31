@@ -11,181 +11,118 @@
 
 class images extends db_connect
 {
-
 	private $requestFrom = 0;
     private $language = 'en';
+    private $profileId = 0;
 
 	public function __construct($dbo = NULL)
     {
 		parent::__construct($dbo);
 	}
 
-    public function allCommentsCount()
+    public function getAllCount()
     {
-        $stmt = $this->db->prepare("SELECT max(id) FROM images_comments");
+        $stmt = $this->db->prepare("SELECT count(*) FROM images");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function getCommentsCount()
+    private function getMaxId()
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM images_comments WHERE removeAt = 0");
+        $stmt = $this->db->prepare("SELECT MAX(id) FROM images");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function commentsCount($imageId)
+    private function getMaxIdLikes()
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM images_comments WHERE imageId = (:imageId) AND removeAt = 0");
-        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("SELECT MAX(id) FROM images_likes");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function commentsCreate($imageId, $text, $notifyId = 0, $replyToUserId = 0)
+    public function count($itemType = -1, $moderated = false)
+    {
+        $sql = "SELECT count(*) FROM images WHERE fromUserId = {$this->requestFrom} AND removeAt = 0";
+
+        if ($itemType != -1) {
+
+            $sql = $sql." AND itemType = {$itemType}";
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $number_of_rows = $stmt->fetchColumn();
+    }
+
+    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $imageArea = "", $imageCountry = "", $imageCity = "", $imageLat = "0.000000", $imageLng = "0.000000")
     {
         $result = array(
             "error" => true,
             "error_code" => ERROR_CODE_INITIATE
         );
 
-        $spam = new spam($this->db);
-        $spam->setRequestFrom($this->getRequestFrom());
-
-        if ($spam->getCommentsCount() > 20) {
+        if (strlen($imgUrl) == 0) {
 
             return $result;
         }
 
-        unset($spam);
+        if (strlen($comment) != 0) {
 
-        if (strlen($text) == 0) {
-
-            return $result;
+            $comment = $comment." ";
         }
-
-        $photos = new photos($this->db);
-
-        $imageInfo = $photos->info($imageId);
 
         $currentTime = time();
         $ip_addr = helper::ip_addr();
-        $u_agent = helper::u_agent();
 
-        $stmt = $this->db->prepare("INSERT INTO images_comments (fromUserId, replyToUserId, imageId, comment, createAt, notifyId, ip_addr, u_agent) value (:fromUserId, :replyToUserId, :imageId, :comment, :createAt, :notifyId, :ip_addr, :u_agent)");
+        $settings = new settings($this->db);
+        $app_settings = $settings->get();
+        unset($settings);
+
+        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
-        $stmt->bindParam(":replyToUserId", $replyToUserId, PDO::PARAM_INT);
-        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
-        $stmt->bindParam(":comment", $text, PDO::PARAM_STR);
+        $stmt->bindParam(":accessMode", $mode, PDO::PARAM_INT);
+        $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
+        $stmt->bindParam(":comment", $comment, PDO::PARAM_STR);
+        $stmt->bindParam(":imgUrl", $imgUrl, PDO::PARAM_STR);
+        $stmt->bindParam(":area", $imageArea, PDO::PARAM_STR);
+        $stmt->bindParam(":country", $imageCountry, PDO::PARAM_STR);
+        $stmt->bindParam(":city", $imageCity, PDO::PARAM_STR);
+        $stmt->bindParam(":lat", $imageLat, PDO::PARAM_STR);
+        $stmt->bindParam(":lng", $imageLng, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":notifyId", $notifyId, PDO::PARAM_INT);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-        $stmt->bindParam(":u_agent", $u_agent, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
             $result = array("error" => false,
                             "error_code" => ERROR_SUCCESS,
-                            "commentId" => $this->db->lastInsertId(),
-                            "comment" => $this->commentsInfo($this->db->lastInsertId()));
-
-            $account = new account($this->db, $this->requestFrom);
-            $account->setLastActive();
-            unset($account);
-
-            if (($this->requestFrom != $imageInfo['fromUserId']) && ($replyToUserId != $imageInfo['fromUserId'])) {
-
-                $account = new account($this->db, $imageInfo['fromUserId']);
-
-                $fcm = new fcm($this->db);
-                $fcm->setRequestFrom($this->getRequestFrom());
-                $fcm->setRequestTo($imageInfo['fromUserId']);
-                $fcm->setType(GCM_NOTIFY_IMAGE_COMMENT);
-                $fcm->setTitle("You have a new comment.");
-                $fcm->prepare();
-                $fcm->send();
-                unset($fcm);
-
-                $notify = new notify($this->db);
-                $notifyId = $notify->createNotify($imageInfo['fromUserId'], $this->requestFrom, NOTIFY_TYPE_IMAGE_COMMENT, $imageInfo['id']);
-                unset($notify);
-
-                $this->commentsSetNotifyId($result['commentId'], $notifyId);
-
-                unset($account);
-            }
-
-            if ($replyToUserId != $this->requestFrom && $replyToUserId != 0) {
-
-                $account = new account($this->db, $replyToUserId);
-
-                $fcm = new fcm($this->db);
-                $fcm->setRequestFrom($this->getRequestFrom());
-                $fcm->setRequestTo($replyToUserId);
-                $fcm->setType(GCM_NOTIFY_IMAGE_COMMENT_REPLY);
-                $fcm->setTitle("You have a new reply to comment.");
-                $fcm->prepare();
-                $fcm->send();
-                unset($fcm);
-
-                $notify = new notify($this->db);
-                $notifyId = $notify->createNotify($replyToUserId, $this->requestFrom, NOTIFY_TYPE_IMAGE_COMMENT_REPLY, $imageInfo['id']);
-                unset($notify);
-
-                $this->commentsSetNotifyId($result['commentId'], $notifyId);
-
-                unset($account);
-            }
-
-            $photos->recalculate($imageId);
+                            "imageId" => $this->db->lastInsertId(),
+                            "itemId" => $this->db->lastInsertId(),
+                            "image" => $this->info($this->db->lastInsertId()));
         }
-
-        unset($photos);
 
         return $result;
     }
 
-    private function commentsSetNotifyId($commentId, $notifyId)
-    {
-        $stmt = $this->db->prepare("UPDATE images_comments SET notifyId = (:notifyId) WHERE id = (:commentId)");
-        $stmt->bindParam(":commentId", $commentId, PDO::PARAM_INT);
-        $stmt->bindParam(":notifyId", $notifyId, PDO::PARAM_INT);
+    public function removeAll() {
 
-        $stmt->execute();
-    }
-
-    public function commentsRemove($commentId)
-    {
         $result = array(
             "error" => true,
             "error_code" => ERROR_CODE_INITIATE
         );
 
-        $commentInfo = $this->commentsInfo($commentId);
-
-        if ($commentInfo['error']) {
-
-            return $result;
-        }
-
         $currentTime = time();
 
-        $stmt = $this->db->prepare("UPDATE images_comments SET removeAt = (:removeAt) WHERE id = (:commentId)");
-        $stmt->bindParam(":commentId", $commentId, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("UPDATE images SET removeAt = (:removeAt) WHERE fromUserId = (:fromUserId) AND removeAt = 0");
+        $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-
-            $notify = new notify($this->db);
-            $notify->remove($commentInfo['notifyId']);
-            unset($notify);
-
-            $photos = new photos($this->db);
-            $photos->recalculate($commentInfo['imageId']);
-            unset($photos);
 
             $result = array(
                 "error" => false,
@@ -196,24 +133,285 @@ class images extends db_connect
         return $result;
     }
 
-    public function commentsRemoveAll($imageId) {
+    public function remove($imageId)
+    {
+        $result = array("error" => true);
+
+        $imageInfo = $this->info($imageId);
+
+        if ($imageInfo['error']) {
+
+            return $result;
+        }
+
+        if ($imageInfo['fromUserId'] != $this->getRequestFrom()) {
+
+            return $result;
+        }
 
         $currentTime = time();
 
-        $stmt = $this->db->prepare("UPDATE images_comments SET removeAt = (:removeAt) WHERE imageId = (:imageId)");
+        $stmt = $this->db->prepare("UPDATE images SET removeAt = (:removeAt) WHERE id = (:imageId)");
         $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
         $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            $stmt2 = $this->db->prepare("DELETE FROM notifications WHERE itemId = (:itemId) AND notifyType > 6");
+            $stmt2->bindParam(":itemId", $imageId, PDO::PARAM_INT);
+            $stmt2->execute();
+
+            //remove all comments to post
+
+            $stmt3 = $this->db->prepare("UPDATE images_comments SET removeAt = (:removeAt) WHERE imageId = (:imageId)");
+            $stmt3->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+            $stmt3->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+            $stmt3->execute();
+
+            //remove all likes to post
+
+            $stmt4 = $this->db->prepare("UPDATE images_likes SET removeAt = (:removeAt) WHERE imageId = (:imageId) AND removeAt = 0");
+            $stmt4->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+            $stmt4->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+            $stmt4->execute();
+
+            $result = array("error" => false);
+
+            $account = new account($this->db, $imageInfo['fromUserId']);
+            $account->updateCounters();
+            unset($account);
+        }
+
+        return $result;
     }
 
-    public function commentsInfo($commentId)
+
+    public function restore($imageId)
     {
+        $result = array("error" => true);
+
+        $imageInfo = $this->info($imageId);
+
+        if ($imageInfo['error'] === true) {
+
+            return $result;
+        }
+
+        $stmt = $this->db->prepare("UPDATE images SET removeAt = 0 WHERE id = (:imageId)");
+        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            $result = array("error" => false);
+        }
+
+        return $result;
+    }
+
+    private function getLikesCount($imageId)
+    {
+        $stmt = $this->db->prepare("SELECT count(*) FROM images_likes WHERE imageId = (:imageId) AND removeAt = 0");
+        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $number_of_rows = $stmt->fetchColumn();
+    }
+
+    public function recalculate($imageId) {
+
+        $comments_count = 0;
+        $likes_count = 0;
+        $rating = 0;
+
+        $likes_count = $this->getLikesCount($imageId);
+
+        $images = new images($this->db);
+        $comments_count = $images->commentsCount($imageId);
+        unset($comments);
+
+        $rating = $likes_count + $comments_count;
+
+        $stmt = $this->db->prepare("UPDATE images SET likesCount = (:likesCount), commentsCount = (:commentsCount), rating = (:rating) WHERE id = (:imageId)");
+        $stmt->bindParam(":likesCount", $likes_count, PDO::PARAM_INT);
+        $stmt->bindParam(":commentsCount", $comments_count, PDO::PARAM_INT);
+        $stmt->bindParam(":rating", $rating, PDO::PARAM_INT);
+        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $account = new account($this->db, $this->requestFrom);
+        $account->updateCounters();
+        unset($account);
+    }
+
+    public function like($imageId, $fromUserId)
+    {
+        $account = new account($this->db, $fromUserId);
+        $account->setLastActive();
+        unset($account);
+
         $result = array(
             "error" => true,
             "error_code" => ERROR_CODE_INITIATE
         );
 
-        $stmt = $this->db->prepare("SELECT * FROM images_comments WHERE id = (:commentId) LIMIT 1");
-        $stmt->bindParam(":commentId", $commentId, PDO::PARAM_INT);
+        $spam = new spam($this->db);
+        $spam->setRequestFrom($this->getRequestFrom());
+
+        if ($spam->getGalleryLikesCount() > 30) {
+
+            return $result;
+        }
+
+        unset($spam);
+
+        $imageInfo = $this->info($imageId);
+
+        if ($imageInfo['error']) {
+
+            return $result;
+        }
+
+        if ($imageInfo['removeAt'] != 0) {
+
+            return $result;
+        }
+
+        if ($this->is_like_exists($imageId, $fromUserId)) {
+
+            $removeAt = time();
+
+            $stmt = $this->db->prepare("UPDATE images_likes SET removeAt = (:removeAt) WHERE imageId = (:imageId) AND fromUserId = (:fromUserId) AND removeAt = 0");
+            $stmt->bindParam(":fromUserId", $fromUserId, PDO::PARAM_INT);
+            $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+            $stmt->bindParam(":removeAt", $removeAt, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $notify = new notify($this->db);
+            $notify->removeNotify($imageInfo['fromUserId'], $fromUserId, NOTIFY_TYPE_IMAGE_LIKE, $imageId);
+            unset($notify);
+
+        } else {
+
+            $createAt = time();
+            $ip_addr = helper::ip_addr();
+
+            $stmt = $this->db->prepare("INSERT INTO images_likes (toUserId, fromUserId, imageId, createAt, ip_addr) value (:toUserId, :fromUserId, :imageId, :createAt, :ip_addr)");
+            $stmt->bindParam(":toUserId", $imageInfo['fromUserId'], PDO::PARAM_INT);
+            $stmt->bindParam(":fromUserId", $fromUserId, PDO::PARAM_INT);
+            $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+            $stmt->bindParam(":createAt", $createAt, PDO::PARAM_INT);
+            $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+            $stmt->execute();
+
+            if ($imageInfo['fromUserId'] != $fromUserId) {
+
+                $blacklist = new blacklist($this->db);
+                $blacklist->setRequestFrom($imageInfo['fromUserId']);
+
+                if (!$blacklist->isExists($fromUserId)) {
+
+                    $account = new account($this->db, $imageInfo['fromUserId']);
+
+                    $fcm = new fcm($this->db);
+                    $fcm->setRequestFrom($this->getRequestFrom());
+                    $fcm->setRequestTo($imageInfo['fromUserId']);
+                    $fcm->setType(GCM_NOTIFY_IMAGE_LIKE);
+                    $fcm->setTitle("You have new like");
+                    $fcm->prepare();
+                    $fcm->send();
+                    unset($fcm);
+
+                    unset($account);
+
+                    $notify = new notify($this->db);
+                    $notify->createNotify($imageInfo['fromUserId'], $fromUserId, NOTIFY_TYPE_IMAGE_LIKE, $imageId);
+                    unset($notify);
+                }
+
+                unset($blacklist);
+            }
+        }
+
+        $this->recalculate($imageId);
+
+        $img_info = $this->info($imageId);
+
+        if ($img_info['fromUserId'] != $this->requestFrom) {
+
+            $account = new account($this->db, $img_info['fromUserId']);
+            $account->updateCounters();
+            unset($account);
+        }
+
+        $result = array("error" => false,
+                        "error_code" => ERROR_SUCCESS,
+                        "likesCount" => $img_info['likesCount'],
+                        "iLiked" => $img_info['myLike']);
+
+        return $result;
+    }
+
+    private function is_like_exists($imageId, $fromUserId)
+    {
+        $stmt = $this->db->prepare("SELECT id FROM images_likes WHERE fromUserId = (:fromUserId) AND imageId = (:imageId) AND removeAt = 0 LIMIT 1");
+        $stmt->bindParam(":fromUserId", $fromUserId, PDO::PARAM_INT);
+        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getLikers($imageId, $likeId = 0)
+    {
+
+        if ($likeId == 0) {
+
+            $likeId = $this->getMaxIdLikes();
+            $likeId++;
+        }
+
+        $likers = array("error" => false,
+                        "error_code" => ERROR_SUCCESS,
+                        "likeId" => $likeId,
+                        "likers" => array());
+
+        $stmt = $this->db->prepare("SELECT * FROM images_likes WHERE imageId = (:imageId) AND id < (:likeId) AND removeAt = 0 ORDER BY id DESC LIMIT 20");
+        $stmt->bindParam(':imageId', $imageId, PDO::PARAM_INT);
+        $stmt->bindParam(':likeId', $likeId, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            if ($stmt->rowCount() > 0) {
+
+                while ($row = $stmt->fetch()) {
+
+                    $profile = new profile($this->db, $row['fromUserId']);
+                    $profile->setRequestFrom($this->requestFrom);
+                    $profileInfo = $profile->getVeryShort();
+                    unset($profile);
+
+                    array_push($likers['likers'], $profileInfo);
+
+                    $likers['likeId'] = $row['id'];
+                }
+            }
+        }
+
+        return $likers;
+    }
+
+    public function info($imageId)
+    {
+        $result = array("error" => true,
+                        "error_code" => ERROR_CODE_INITIATE);
+
+        $stmt = $this->db->prepare("SELECT * FROM images WHERE id = (:imageId) LIMIT 1");
+        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -223,129 +421,145 @@ class images extends db_connect
 
                 $time = new language($this->db, $this->language);
 
+                $iLiked = false;
+
+                if ($this->requestFrom != 0) {
+
+                    if ($this->is_like_exists($imageId, $this->requestFrom)) {
+
+                        $iLiked = true;
+                    }
+                }
+
                 $profile = new profile($this->db, $row['fromUserId']);
-                $fromUserId = $profile->getVeryShort();
+                $profileInfo = $profile->getVeryShort();
                 unset($profile);
-
-                $replyToUserId = $row['replyToUserId'];
-                $replyToUserUsername = "";
-                $replyToFullname = "";
-
-                if ($replyToUserId != 0) {
-
-                    $profile = new profile($this->db, $row['replyToUserId']);
-                    $replyToUser = $profile->getVeryShort();
-                    unset($profile);
-
-                    $replyToUserUsername = $replyToUser['username'];
-                    $replyToFullname = $replyToUser['fullname'];
-                }
-
-                $bigPhotoUrl = "/assets/img/profile_default_photo.png";
-
-                if (strlen($fromUserId['bigPhotoUrl']) != 0) {
-
-                    $bigPhotoUrl = $fromUserId['bigPhotoUrl'];
-                }
-
-                $photos = new photos($this->db);
-                $photos->setRequestFrom($this->getRequestFrom());
-
-                $imageInfo = $photos->info($row['imageId']);
 
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
-                                "comment" => htmlspecialchars_decode(stripslashes($row['comment'])),
+                                "accessMode" => $row['accessMode'],
+                                "itemType" => $row['itemType'],
                                 "fromUserId" => $row['fromUserId'],
-                                "fromUserState" => $fromUserId['state'],
-                                "fromUserUsername" => $fromUserId['username'],
-                                "fromUserFullname" => $fromUserId['fullname'],
-                                "fromUserPhotoUrl" => $bigPhotoUrl,
-                                "replyToUserId" => $replyToUserId,
-                                "replyToUserUsername" => $replyToUserUsername,
-                                "replyToFullname" => $replyToFullname,
-                                "imageId" => $row['imageId'],
-                                "imageFromUserId" => $imageInfo['fromUserId'],
+                                
+                                "fromUserUsername" => $profileInfo['username'],
+                                "fromUserFullname" => $profileInfo['fullname'],
+                                "fromUserPhoto" => $profileInfo['bigPhotoUrl'],
+                                "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
+                                "fromUserOnline" => $profileInfo['online'],
+                                "fromUserAllowPhotosComments" => $profileInfo['allowPhotosComments'],
+                                "comment" => htmlspecialchars_decode(stripslashes($row['comment'])),
+                                "area" => htmlspecialchars_decode(stripslashes($row['area'])),
+                                "country" => htmlspecialchars_decode(stripslashes($row['country'])),
+                                "city" => htmlspecialchars_decode(stripslashes($row['city'])),
+                                "lat" => $row['lat'],
+                                "lng" => $row['lng'],
+                                "imgUrl" => $row['imgUrl'],
+                                "rating" => $row['rating'],
+                                "commentsCount" => $row['commentsCount'],
+                                "likesCount" => $row['likesCount'],
+                                "iLiked" => $iLiked,
                                 "createAt" => $row['createAt'],
-                                "notifyId" => $row['notifyId'],
-                                "timeAgo" => $time->timeAgo($row['createAt']));
+                                "date" => date("Y-m-d H:i:s", $row['createAt']),
+                                "timeAgo" => $time->timeAgo($row['createAt']),
+                                "removeAt" => $row['removeAt']);
             }
         }
 
         return $result;
     }
 
-    public function commentsGet($imageId, $commentId = 0)
+    public function get($profileId, $imageId = 0, $accessMode = 0, $itemType = -1, $limit = 20)
     {
-        if ($commentId == 0) {
+        if ($imageId == 0) {
 
-            $commentId = $this->allCommentsCount() + 1;
+            $imageId = $this->getMaxId();
+            $imageId++;
         }
 
-        $comments = array("error" => false,
-                         "error_code" => ERROR_SUCCESS,
-                         "commentId" => $commentId,
-                         "imageId" => $imageId,
-                         "comments" => array());
+        $images = array(
+            "error" => false,
+            "error_code" => ERROR_SUCCESS,
+            "imageId" => $imageId,
+            "itemId" => $imageId,
+            "images" => array()
+        );
 
-        $stmt = $this->db->prepare("SELECT id FROM images_comments WHERE imageId = (:imageId) AND id < (:commentId) AND removeAt = 0 ORDER BY id DESC LIMIT 70");
-        $stmt->bindParam(':imageId', $imageId, PDO::PARAM_INT);
-        $stmt->bindParam(':commentId', $commentId, PDO::PARAM_INT);
+        if ($accessMode == 0) {
+
+            if ($itemType != -1) {
+
+                $stmt = $this->db->prepare("SELECT id FROM images WHERE accessMode = 0 AND fromUserId = (:fromUserId) AND itemType = (:itemType) AND removeAt = 0 AND id < (:imageId) ORDER BY id DESC LIMIT :limit");
+                $stmt->bindParam(':fromUserId', $profileId, PDO::PARAM_INT);
+                $stmt->bindParam(':itemType', $itemType, PDO::PARAM_INT);
+                $stmt->bindParam(':imageId', $imageId, PDO::PARAM_INT);
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+
+            } else {
+
+                $stmt = $this->db->prepare("SELECT id FROM images WHERE accessMode = 0 AND fromUserId = (:fromUserId) AND removeAt = 0 AND id < (:imageId) ORDER BY id DESC LIMIT :limit");
+                $stmt->bindParam(':fromUserId', $profileId, PDO::PARAM_INT);
+                $stmt->bindParam(':imageId', $imageId, PDO::PARAM_INT);
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            }
+
+        } else {
+
+            if ($this->getRequestFrom() == $profileId) {
+
+                if ($itemType != -1) {
+
+                    $stmt = $this->db->prepare("SELECT id FROM images WHERE fromUserId = (:fromUserId) AND itemType = (:itemType) AND removeAt = 0 AND id < (:imageId) ORDER BY id DESC LIMIT :limit");
+                    $stmt->bindParam(':fromUserId', $profileId, PDO::PARAM_INT);
+                    $stmt->bindParam(':itemType', $itemType, PDO::PARAM_INT);
+                    $stmt->bindParam(':imageId', $imageId, PDO::PARAM_INT);
+                    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+
+                } else {
+
+                    $stmt = $this->db->prepare("SELECT id FROM images WHERE fromUserId = (:fromUserId) AND removeAt = 0 AND id < (:imageId) ORDER BY id DESC LIMIT :limit");
+                    $stmt->bindParam(':fromUserId', $profileId, PDO::PARAM_INT);
+                    $stmt->bindParam(':imageId', $imageId, PDO::PARAM_INT);
+                    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                }
+
+
+            } else {
+
+                if ($itemType != -1) {
+
+                    $stmt = $this->db->prepare("SELECT id FROM images WHERE fromUserId = (:fromUserId) AND itemType = (:itemType) AND removeAt = 0 AND id < (:imageId) ORDER BY id DESC LIMIT :limit");
+                    $stmt->bindParam(':fromUserId', $profileId, PDO::PARAM_INT);
+                    $stmt->bindParam(':itemType', $itemType, PDO::PARAM_INT);
+                    $stmt->bindParam(':imageId', $imageId, PDO::PARAM_INT);
+                    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+
+                } else {
+
+                    $stmt = $this->db->prepare("SELECT id FROM images WHERE fromUserId = (:fromUserId) AND removeAt = 0 AND id < (:imageId) ORDER BY id DESC LIMIT :limit");
+                    $stmt->bindParam(':fromUserId', $profileId, PDO::PARAM_INT);
+                    $stmt->bindParam(':imageId', $imageId, PDO::PARAM_INT);
+                    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                }
+            }
+        }
 
         if ($stmt->execute()) {
 
             while ($row = $stmt->fetch()) {
 
-                $commentInfo = $this->commentsInfo($row['id']);
+                $imageInfo = $this->info($row['id']);
 
-                array_push($comments['comments'], $commentInfo);
+                array_push($images['images'], $imageInfo);
 
-                $comments['commentId'] = $commentInfo['id'];
+                $images['imageId'] = $imageInfo['id'];
+                $images['itemId'] = $imageInfo['id'];
 
-                unset($commentInfo);
+                unset($imageInfo);
             }
         }
 
-        return $comments;
-    }
-
-    public function commentsStream($itemId = 0)
-    {
-        if ($itemId == 0) {
-
-            $itemId = 10000000;
-            $itemId++;
-        }
-
-        $result = array(
-            "error" => false,
-            "error_code" => ERROR_SUCCESS,
-            "itemId" => $itemId,
-            "items" => array()
-        );
-
-        $stmt = $this->db->prepare("SELECT id FROM images_comments WHERE removeAt = 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
-        $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            if ($stmt->rowCount() > 0) {
-
-                while ($row = $stmt->fetch()) {
-
-                    $commentInfo = $this->commentsInfo($row['id']);
-
-                    array_push($result['items'], $commentInfo);
-
-                    $result['itemId'] = $commentInfo['id'];
-
-                    unset($commentInfo);
-                }
-            }
-        }
-
-        return $result;
+        return $images;
     }
 
     public function setLanguage($language)
@@ -366,5 +580,15 @@ class images extends db_connect
     public function getRequestFrom()
     {
         return $this->requestFrom;
+    }
+
+    public function setProfileId($profileId)
+    {
+        $this->profileId = $profileId;
+    }
+
+    public function getProfileId()
+    {
+        return $this->profileId;
     }
 }

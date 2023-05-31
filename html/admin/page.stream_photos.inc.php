@@ -75,7 +75,7 @@
         exit;
     }
 
-    $page_id = "stream_photos";
+    $page_id = "stream_images";
 
     $css_files = array("mytheme.css");
     $page_title = "Photos Stream | Admin Panel";
@@ -245,7 +245,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '/admin/stream_photos',
+                    url: '/admin/stream_images',
                     data: 'itemId=' + offset + "&loaded=" + inbox_loaded,
                     dataType: 'json',
                     timeout: 30000,

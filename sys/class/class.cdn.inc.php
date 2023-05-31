@@ -49,7 +49,7 @@ class cdn extends db_connect
         }
     }
 
-    public function uploadMyPhoto($imgFilename)
+    public function uploadMyImage($imgFilename)
     {
         rename($imgFilename, MY_PHOTOS_PATH.basename($imgFilename));
 

@@ -80,10 +80,9 @@
         if (!$error) {
 
             $accountId = auth::getCurrentUserId();
-            $clientId = 0; //Desktop version;
 
             $support = new support($dbo);
-            $support->createTicket($accountId, $email, $subject, $about, $clientId);
+            $support->createTicket($accountId, $email, $subject, $about);
 
             $send_status = true;
         }

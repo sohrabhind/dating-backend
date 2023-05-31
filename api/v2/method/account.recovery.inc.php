@@ -11,16 +11,9 @@
 
 if (!empty($_POST)) {
 
-    $clientId = isset($_POST['clientId']) ? $_POST['clientId'] : 0;
     $email = isset($_POST['email']) ? $_POST['email'] : '';
 
-    $clientId = helper::clearInt($clientId);
     $email = helper::escapeText($email);
-
-    if ($clientId != CLIENT_ID) {
-
-        api::printError(ERROR_CLIENT_ID, "Error client Id.");
-    }
 
     $result = array("error" => true,
                     "error_code" => ERROR_CODE_INITIATE);
@@ -37,7 +30,7 @@ if (!empty($_POST)) {
 
             if ($accountInfo['error'] === false && $accountInfo['state'] != ACCOUNT_STATE_BLOCKED) {
 
-                $restorePointInfo = $account->restorePointCreate($email, $clientId);
+                $restorePointInfo = $account->restorePointCreate($email);
 
                 ob_start();
 

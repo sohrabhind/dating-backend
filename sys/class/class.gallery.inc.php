@@ -28,7 +28,7 @@ class gallery extends db_connect
 
     public function getAllCount()
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM photos");
+        $stmt = $this->db->prepare("SELECT count(*) FROM images");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -36,7 +36,7 @@ class gallery extends db_connect
 
     private function getMaxId()
     {
-        $stmt = $this->db->prepare("SELECT MAX(id) FROM photos");
+        $stmt = $this->db->prepare("SELECT MAX(id) FROM images");
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -52,7 +52,7 @@ class gallery extends db_connect
 
     public function count()
     {
-        $sql = "SELECT count(*) FROM photos WHERE removeAt = 0";
+        $sql = "SELECT count(*) FROM images WHERE removeAt = 0";
         
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -60,7 +60,7 @@ class gallery extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $photoArea = "", $photoCountry = "", $photoCity = "", $photoLat = "0.000000", $photoLng = "0.000000")
+    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $imageArea = "", $imageCountry = "", $imageCity = "", $imageLat = "0.000000", $imageLng = "0.000000")
     {
         $result = array(
             "error" => true,
@@ -79,35 +79,33 @@ class gallery extends db_connect
 
         $currentTime = time();
         $ip_addr = helper::ip_addr();
-        $u_agent = helper::u_agent();
 
         $settings = new settings($this->db);
         $app_settings = $settings->get();
         unset($settings);
 
-        $stmt = $this->db->prepare("INSERT INTO photos (fromUserId, accessMode, itemType, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr, u_agent) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr, :u_agent)");
+        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":accessMode", $mode, PDO::PARAM_INT);
         $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
         $stmt->bindParam(":comment", $comment, PDO::PARAM_STR);
         $stmt->bindParam(":imgUrl", $imgUrl, PDO::PARAM_STR);
-        $stmt->bindParam(":area", $photoArea, PDO::PARAM_STR);
-        $stmt->bindParam(":country", $photoCountry, PDO::PARAM_STR);
-        $stmt->bindParam(":city", $photoCity, PDO::PARAM_STR);
-        $stmt->bindParam(":lat", $photoLat, PDO::PARAM_STR);
-        $stmt->bindParam(":lng", $photoLng, PDO::PARAM_STR);
+        $stmt->bindParam(":area", $imageArea, PDO::PARAM_STR);
+        $stmt->bindParam(":country", $imageCountry, PDO::PARAM_STR);
+        $stmt->bindParam(":city", $imageCity, PDO::PARAM_STR);
+        $stmt->bindParam(":lat", $imageLat, PDO::PARAM_STR);
+        $stmt->bindParam(":lng", $imageLng, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-        $stmt->bindParam(":u_agent", $u_agent, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
             $result = array(
                 "error" => false,
                 "error_code" => ERROR_SUCCESS,
-                "photoId" => $this->db->lastInsertId(),
+                "imageId" => $this->db->lastInsertId(),
                 "itemId" => $this->db->lastInsertId(),
-                "photo" => $this->info($this->db->lastInsertId())
+                "image" => $this->info($this->db->lastInsertId())
             );
             $fcm = new fcm($this->db);
             $fcm->setRequestFrom(0);
@@ -132,7 +130,7 @@ class gallery extends db_connect
 
         $currentTime = time();
 
-        $stmt = $this->db->prepare("UPDATE photos SET removeAt = (:removeAt) WHERE fromUserId = (:fromUserId) AND removeAt = 0");
+        $stmt = $this->db->prepare("UPDATE images SET removeAt = (:removeAt) WHERE fromUserId = (:fromUserId) AND removeAt = 0");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
 
@@ -147,51 +145,51 @@ class gallery extends db_connect
         return $result;
     }
 
-    public function remove($photoId)
+    public function remove($imageId)
     {
         $result = array("error" => true);
 
-        $photoInfo = $this->info($photoId);
+        $imageInfo = $this->info($imageId);
 
-        if ($photoInfo['error']) {
+        if ($imageInfo['error']) {
 
             return $result;
         }
 
-        if ($photoInfo['owner']['id'] != $this->getRequestFrom()) {
+        if ($imageInfo['owner']['id'] != $this->getRequestFrom()) {
 
             return $result;
         }
 
         $currentTime = time();
 
-        $stmt = $this->db->prepare("UPDATE photos SET removeAt = (:removeAt) WHERE id = (:photoId)");
-        $stmt->bindParam(":photoId", $photoId, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("UPDATE images SET removeAt = (:removeAt) WHERE id = (:imageId)");
+        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
         $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
             $stmt2 = $this->db->prepare("DELETE FROM notifications WHERE itemId = (:itemId) AND notifyType > 6");
-            $stmt2->bindParam(":itemId", $photoId, PDO::PARAM_INT);
+            $stmt2->bindParam(":itemId", $imageId, PDO::PARAM_INT);
             $stmt2->execute();
 
             //remove all comments to post
 
             $stmt3 = $this->db->prepare("UPDATE images_comments SET removeAt = (:removeAt) WHERE imageId = (:imageId)");
             $stmt3->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
-            $stmt3->bindParam(":imageId", $photoId, PDO::PARAM_INT);
+            $stmt3->bindParam(":imageId", $imageId, PDO::PARAM_INT);
             $stmt3->execute();
 
             //remove all likes to post
 
             $stmt4 = $this->db->prepare("UPDATE images_likes SET removeAt = (:removeAt) WHERE imageId = (:imageId) AND removeAt = 0");
-            $stmt4->bindParam(":imageId", $photoId, PDO::PARAM_INT);
+            $stmt4->bindParam(":imageId", $imageId, PDO::PARAM_INT);
             $stmt4->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
             $stmt4->execute();
 
             $result = array("error" => false);
 
-            $account = new account($this->db, $photoInfo['owner']['id']);
+            $account = new account($this->db, $imageInfo['owner']['id']);
             $account->updateCounters();
             unset($account);
         }
@@ -199,19 +197,19 @@ class gallery extends db_connect
         return $result;
     }
 
-    public function restore($photoId)
+    public function restore($imageId)
     {
         $result = array("error" => true);
 
-        $photoInfo = $this->info($photoId);
+        $imageInfo = $this->info($imageId);
 
-        if ($photoInfo['error'] === true) {
+        if ($imageInfo['error'] === true) {
 
             return $result;
         }
 
-        $stmt = $this->db->prepare("UPDATE photos SET removeAt = 0 WHERE id = (:photoId)");
-        $stmt->bindParam(":photoId", $photoId, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("UPDATE images SET removeAt = 0 WHERE id = (:imageId)");
+        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -255,7 +253,7 @@ class gallery extends db_connect
 
         $rating = $likes_count + $comments_count;
 
-        $stmt = $this->db->prepare("UPDATE photos SET likesCount = (:likesCount), commentsCount = (:commentsCount), rating = (:rating) WHERE id = (:itemId)");
+        $stmt = $this->db->prepare("UPDATE images SET likesCount = (:likesCount), commentsCount = (:commentsCount), rating = (:rating) WHERE id = (:itemId)");
         $stmt->bindParam(":likesCount", $likes_count, PDO::PARAM_INT);
         $stmt->bindParam(":commentsCount", $comments_count, PDO::PARAM_INT);
         $stmt->bindParam(":rating", $rating, PDO::PARAM_INT);
@@ -376,7 +374,7 @@ class gallery extends db_connect
             "error" => false,
             "error_code" => ERROR_SUCCESS,
             "likesCount" => $imageInfo['likesCount'],
-            "myLike" => $imageInfo['myLike']
+            "iLiked" => $imageInfo['myLike']
         );
 
         return $result;
@@ -444,7 +442,7 @@ class gallery extends db_connect
             "error_code" => ERROR_CODE_INITIATE
         );
 
-        $stmt = $this->db->prepare("SELECT * FROM photos WHERE id = (:itemId) LIMIT 1");
+        $stmt = $this->db->prepare("SELECT * FROM images WHERE id = (:itemId) LIMIT 1");
         $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -464,13 +462,13 @@ class gallery extends db_connect
     {
         $time = new language($this->db, $this->language);
 
-        $myLike = false;
+        $iLiked = false;
 
         if ($this->getRequestFrom() != 0) {
 
             if ($this->is_like_exists($row['id'], $this->getRequestFrom())) {
 
-                $myLike = true;
+                $iLiked = true;
             }
         }
 
@@ -495,7 +493,7 @@ class gallery extends db_connect
             "rating" => $row['rating'],
             "commentsCount" => $row['commentsCount'],
             "likesCount" => $row['likesCount'],
-            "myLike" => $myLike,
+            "iLiked" => $iLiked,
             "createAt" => $row['createAt'],
             "date" => date("Y-m-d H:i:s", $row['createAt']),
             "timeAgo" => $time->timeAgo($row['createAt']),
@@ -535,7 +533,7 @@ class gallery extends db_connect
 
         $endSql = " ORDER BY id DESC LIMIT $limit";
 
-        $sql = "SELECT * FROM photos WHERE removeAt = 0 AND id < $itemId".$profileSql.$accessSql.$endSql;
+        $sql = "SELECT * FROM images WHERE removeAt = 0 AND id < $itemId".$profileSql.$accessSql.$endSql;
         $stmt = $this->db->prepare($sql);
 
         if ($stmt->execute()) {

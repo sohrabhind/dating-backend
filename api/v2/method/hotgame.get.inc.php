@@ -1,12 +1,5 @@
 <?php
 
-/*!
- * https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
-
 if (!empty($_POST)) {
 
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
@@ -52,6 +45,7 @@ if (!empty($_POST)) {
     $hotgame = new hotgame($dbo);
     $hotgame->setRequestFrom($accountId);
     $result = $hotgame->get($itemId, $lat, $lng, $distance, $gender, $liked);
+    
     echo json_encode($result);
     exit;
 }

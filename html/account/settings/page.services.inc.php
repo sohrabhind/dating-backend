@@ -75,9 +75,9 @@
 
                         $msg = $LANG['page-services-sub-title'];
 
-                        if (isset($_GET['status'])) {
+                        if (isset($_GET['bio'])) {
 
-                            switch($_GET['status']) {
+                            switch($_GET['bio']) {
 
                                 case "connected": {
 
@@ -200,7 +200,7 @@
 
                             if (!response.error) {
 
-                                window.location = "/account/settings/services?status=g_disconnected";
+                                window.location = "/account/settings/services?bio=g_disconnected";
                             }
                         }
                     },
