@@ -377,7 +377,7 @@
 
                                 if (!result.error) {
 
-                                    items[itemIndex].myLike = result.myLike;
+                                    items[itemIndex].iLiked = result.iLiked;
                                     items[itemIndex].match = result.match;
 
                                     $hotgame_like_btn.removeAttr('disabled');
@@ -473,7 +473,7 @@
                                                 username: result.items[i].username,
                                                 age: result.items[i].age,
                                                 match: result.items[i].match,
-                                                myLike: result.items[i].myLike,
+                                                iLiked: result.items[i].iLiked,
                                                 online: result.items[i].online,
                                                 bigPhotoUrl: result.items[i].bigPhotoUrl,
                                                 bigPhotoUrl: result.items[i].bigPhotoUrl
@@ -528,7 +528,7 @@
                 $hotgame_skip_btn.find('i').removeClass('icofont-close');
                 $hotgame_skip_btn.find('i').removeClass('icofont-arrow-right');
 
-                if (items[i].myLike) {
+                if (items[i].iLiked) {
 
                     $hotgame_skip_btn.find('i').removeClass('icofont-close');
                     $hotgame_skip_btn.find('i').addClass('icofont-arrow-right');
@@ -552,7 +552,7 @@
 
                 } else {
 
-                    if (items[i].myLike) {
+                    if (items[i].iLiked) {
 
                         $hotgame_status_image.attr("src", '/assets/img/ic_hotgame_liked.png');
                         $hotgame_status_image.removeClass('hidden');

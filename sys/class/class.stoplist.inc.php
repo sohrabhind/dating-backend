@@ -115,7 +115,7 @@ class stoplist extends db_connect
                                 "id" => $row['id'],
                                 "byAdminId" => $row['byAdminId'],
                                 "ip_addr" => $row['ip_addr'],
-                                "reason" => htmlspecialchars_decode(stripslashes($row['reason'])),
+                                "reason" => $row['reason'],
                                 "createAt" => $row['createAt'],
                                 "removeAt" => $row['removeAt'],
                                 "timeAgo" => $time->timeAgo($row['createAt']));

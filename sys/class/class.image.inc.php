@@ -254,7 +254,7 @@ class image extends db_connect
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
-                                "comment" => htmlspecialchars_decode(stripslashes($row['comment'])),
+                                "comment" => $row['comment'],
                                 "fromUserId" => $row['fromUserId'],
                                 "fromUserState" => $fromUserId['state'],
                                 "fromUserUsername" => $fromUserId['username'],

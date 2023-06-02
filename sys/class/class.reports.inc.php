@@ -289,7 +289,7 @@ class reports extends db_connect
             ),
             "itemId" => $row['itemId'],
             "abuseId" => $row['abuseId'],
-            "description" => htmlspecialchars_decode(stripslashes($row['description'])),
+            "description" => $row['description'],
             "createAt" => $row['createAt'],
             "removeAt" => $row['removeAt'],
             "date" => date("Y-m-d H:i:s", $row['createAt']),

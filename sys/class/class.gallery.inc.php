@@ -60,7 +60,7 @@ class gallery extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $imageArea = "", $imageCountry = "", $imageCity = "", $imageLat = "0.000000", $imageLng = "0.000000")
+    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $imageArea = "", $imageCountry = "", $imageLat = "0.000000", $imageLng = "0.000000")
     {
         $result = array(
             "error" => true,
@@ -84,7 +84,7 @@ class gallery extends db_connect
         $app_settings = $settings->get();
         unset($settings);
 
-        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, area, country, lat, lng, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :lat, :lng, :createAt, :ip_addr)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":accessMode", $mode, PDO::PARAM_INT);
         $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
@@ -92,7 +92,6 @@ class gallery extends db_connect
         $stmt->bindParam(":imgUrl", $imgUrl, PDO::PARAM_STR);
         $stmt->bindParam(":area", $imageArea, PDO::PARAM_STR);
         $stmt->bindParam(":country", $imageCountry, PDO::PARAM_STR);
-        $stmt->bindParam(":city", $imageCity, PDO::PARAM_STR);
         $stmt->bindParam(":lat", $imageLat, PDO::PARAM_STR);
         $stmt->bindParam(":lng", $imageLng, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
@@ -316,7 +315,7 @@ class gallery extends db_connect
             $stmt->bindParam(":removeAt", $removeAt, PDO::PARAM_INT);
             $stmt->execute();
 
-            $imageInfo['myLike'] = false;
+            $imageInfo['iLiked'] = false;
             $imageInfo['likesCount'] = $imageInfo['likesCount'] - 1;
 
             $notify = new notify($this->db);
@@ -336,7 +335,7 @@ class gallery extends db_connect
             $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
             $stmt->execute();
 
-            $imageInfo['myLike'] = true;
+            $imageInfo['iLiked'] = true;
             $imageInfo['likesCount'] = $imageInfo['likesCount'] + 1;
 
             if ($imageInfo['owner']['id'] != $fromUserId) {
@@ -374,7 +373,7 @@ class gallery extends db_connect
             "error" => false,
             "error_code" => ERROR_SUCCESS,
             "likesCount" => $imageInfo['likesCount'],
-            "iLiked" => $imageInfo['myLike']
+            "iLiked" => $imageInfo['iLiked']
         );
 
         return $result;
@@ -483,10 +482,9 @@ class gallery extends db_connect
             "owner" => $profileInfo,
             "accessMode" => $row['accessMode'],
             "itemType" => $row['itemType'],
-            "comment" => htmlspecialchars_decode(stripslashes($row['comment'])),
-            "area" => htmlspecialchars_decode(stripslashes($row['area'])),
-            "country" => htmlspecialchars_decode(stripslashes($row['country'])),
-            "city" => htmlspecialchars_decode(stripslashes($row['city'])),
+            "comment" => $row['comment'],
+            "area" => $row['area'],
+            "country" => $row['country'],
             "lat" => $row['lat'],
             "lng" => $row['lng'],
             "imgUrl" => $row['imgUrl'],

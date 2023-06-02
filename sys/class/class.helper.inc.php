@@ -9,18 +9,18 @@
 
 class helper extends db_connect
 {
-
-    public function __construct($dbo = NULL)
+    public function __construct($dbo = null)
     {
         parent::__construct($dbo);
     }
 
-    static function isValidURL($url) {
+    public static function isValidURL($url)
+    {
 
         return preg_match('|^(http(s)?://)?[a-z0-9-]+\.(.[a-z0-9-]+)+(:[0-9]+)?(/.*)?$|i', $url);
     }
 
-    static function truncate($str, $len)
+    public static function truncate($str, $len)
     {
         $tail = max(0, $len-10);
         $trunk = substr($str, 0, $tail);
@@ -29,20 +29,20 @@ class helper extends db_connect
         return $trunk;
     }
 
-    static function createMsgClickableLinks($matches)
+    public static function createMsgClickableLinks($matches)
     {
         $title = $face = $matches[0];
 
         $face = helper::truncate($face, 50);
 
-        $matches[0] = str_replace( "www.", "http://www.", $matches[0] );
-        $matches[0] = str_replace( "http://http://www.", "http://www.", $matches[0] );
-        $matches[0] = str_replace( "https://http://www.", "https://www.", $matches[0] );
+        $matches[0] = str_replace("www.", "http://www.", $matches[0]);
+        $matches[0] = str_replace("http://http://www.", "http://www.", $matches[0]);
+        $matches[0] = str_replace("https://http://www.", "https://www.", $matches[0]);
 
         return "<a title=\"$title\" class=\"posted_link\" target=\"_blank\" href=$matches[0]>$face</a>";
     }
 
-    static function processMsgText($text)
+    public static function processMsgText($text)
     {
         $text = preg_replace_callback('@(?<=^|(?<=[^a-zA-Z0-9-_\.//]))((https?://)?([-\w]+\.[-\w\.]+)+\w(:\d+)?(/([-\w/_\.\,]*(\?\S+)?)?)*)@', "helper::createMsgClickableLinks", $text);
 
@@ -189,7 +189,7 @@ class helper extends db_connect
 
         $stmt = $this->db->prepare("SELECT id FROM users WHERE username = (:username) LIMIT 1");
         $stmt->bindParam(":username", $username, PDO::PARAM_STR);
-        
+
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 return true;
@@ -217,7 +217,7 @@ class helper extends db_connect
         return false;
     }
 
-    static function getContent($url_address)
+    public static function getContent($url_address)
     {
 
         if (function_exists('curl_init') && function_exists('curl_setopt') && function_exists('curl_exec') && function_exists('curl_exec')) {
@@ -242,9 +242,9 @@ class helper extends db_connect
 
         return $result;
     }
-    
 
-    static function isCorrectFullname($fullname)
+
+    public static function isCorrectFullname($fullname)
     {
         if (strlen($fullname) > 0) {
             return true;
@@ -252,7 +252,7 @@ class helper extends db_connect
         return false;
     }
 
-    static function isCorrectLogin($username)
+    public static function isCorrectLogin($username)
     {
         if (preg_match("/^.{8,64}$/i", $username)) {
 
@@ -262,14 +262,15 @@ class helper extends db_connect
         return true;
     }
 
-    static function isCorrectPassword($password) {
+    public static function isCorrectPassword($password)
+    {
         if (preg_match('/^.{6,64}$/i', $password)) {
             return true;
         }
         return false;
     }
 
-    static function isCorrectEmail($email)
+    public static function isCorrectEmail($email)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
@@ -277,7 +278,7 @@ class helper extends db_connect
         return false;
     }
 
-    static function getLang($language)
+    public static function getLang($language)
     {
         $languages = array("en",
                            "ru",
@@ -299,7 +300,7 @@ class helper extends db_connect
     }
 
 
-    static function escapeText($text)
+    public static function escapeText($text)
     {
         if (APP_MYSQLI_EXTENSION) {
 
@@ -311,43 +312,46 @@ class helper extends db_connect
         return $text;
     }
 
-    
-    static function clearText($text) {
 
-	$text = trim($text);
-	$text = strip_tags($text);
-	$text = htmlspecialchars($text);
+    public static function clearText($text)
+    {
+        $text = trim($text);
+        $text = strip_tags($text);
+        return $text;
+    }
 
-	return $text;
+public static function clearInt($value)
+{
+
+    $value = intval($value);
+
+    return $value;
 }
 
-static function clearInt($value) {
 
-	$value = intval($value);
-
-	return $value;
-}
-		
-
-    static function ip_addr()
+    public static function ip_addr()
     {
         (string) $ip_addr = 'undefined';
 
-        if (isset($_SERVER['REMOTE_ADDR'])) $ip_addr = $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip_addr = $_SERVER['REMOTE_ADDR'];
+        }
 
         return $ip_addr;
     }
 
-    static function u_agent()
+    public static function u_agent()
     {
         (string) $u_agent = 'undefined';
 
-        if (isset($_SERVER['HTTP_USER_AGENT'])) $u_agent = $_SERVER['HTTP_USER_AGENT'];
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $u_agent = $_SERVER['HTTP_USER_AGENT'];
+        }
 
         return $u_agent;
     }
 
-    static function generateId($n = 2)
+    public static function generateId($n = 2)
     {
         $key = '';
         $pattern = '123456789';
@@ -361,7 +365,8 @@ static function clearInt($value) {
         return $key;
     }
 
-    static function generateHash($n = 32) {
+    public static function generateHash($n = 32)
+    {
         $key = '';
         $pattern = '123456789abcdef';
         $counter = strlen($pattern) - 1;
@@ -373,23 +378,24 @@ static function clearInt($value) {
         return $key;
     }
 
-    static function generateSalt($n = 3) {
+    public static function generateSalt($n = 3)
+    {
         $key = '';
         $pattern = '1234567890abcdef';
         $counter = strlen($pattern)-1;
         for ($i=0; $i<$n; $i++) {
-            $key .= $pattern[rand(0,$counter)];
+            $key .= $pattern[rand(0, $counter)];
         }
         return $key;
     }
 
-    static function declOfNum($number, $titles)
+    public static function declOfNum($number, $titles)
     {
         $cases = array(2, 0, 1, 1, 1, 2);
-        return $number.' '.$titles[ ($number%100>4 && $number%100<20) ? 2 : $cases[($number%10<5) ? $number%10:5] ];
+        return $number.' '.$titles[ ($number%100>4 && $number%100<20) ? 2 : $cases[($number%10<5) ? $number%10 : 5] ];
     }
 
-    static function newAuthenticityToken()
+    public static function newAuthenticityToken()
     {
 
         $authenticity_token = md5(uniqid(rand(), true));
@@ -400,7 +406,7 @@ static function clearInt($value) {
         }
     }
 
-    static function getAuthenticityToken()
+    public static function getAuthenticityToken()
     {
         if (isset($_SESSION) && isset($_SESSION['authenticity_token'])) {
 
@@ -408,7 +414,7 @@ static function clearInt($value) {
 
         } else {
 
-            return NULL;
+            return null;
         }
     }
 }

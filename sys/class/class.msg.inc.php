@@ -255,7 +255,7 @@ class msg extends db_connect
                             "fromUserUsername" => $profileInfo['username'],
                             "fromUserFullname" => $profileInfo['fullname'],
                             "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
-                            "message" => htmlspecialchars_decode(stripslashes($message)),
+                            "message" => $message,
                             "imgUrl" => $imgUrl,
                             "stickerId" => $stickerId,
                             "stickerImgUrl" => $stickerImgUrl,
@@ -548,7 +548,7 @@ class msg extends db_connect
                                 "fromUserFullname" => $profileInfo['fullname'],
                                 "fromUserOnline" => $profileInfo['online'],
                                 "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
-                                "message" => htmlspecialchars_decode(stripslashes($row['message'])),
+                                "message" => $row['message'],
                                 "imgUrl" => $row['imgUrl'],
                                 "stickerId" => $row['stickerId'],
                                 "stickerImgUrl" => $row['stickerImgUrl'],
@@ -708,7 +708,7 @@ class msg extends db_connect
                                  "fromUserFullname" => $profileInfo['fullname'], //$profileInfo['fullname']
                                  "fromUserOnline" => $profileInfo['online'], //$profileInfo['fullname']
                                  "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'], //$profileInfo['bigPhotoUrl']
-                                 "message" => htmlspecialchars_decode(stripslashes($row['message'])),
+                                 "message" => $row['message'],
                                  "imgUrl" => $row['imgUrl'],
                                  "stickerId" => $row['stickerId'],
                                  "stickerImgUrl" => $row['stickerImgUrl'],
@@ -756,7 +756,7 @@ class msg extends db_connect
                                 "fromUserFullname" => "", //$profileInfo['fullname']
                                 "fromUserPhotoUrl" => "", //$profileInfo['bigPhotoUrl']
                                 "fromUserOnline" => "",
-                                "message" => htmlspecialchars_decode(stripslashes($row['message'])),
+                                "message" => $row['message'],
                                 "imgUrl" => $row['imgUrl'],
                                 "stickerId" => $row['stickerId'],
                                 "stickerImgUrl" => $row['stickerImgUrl'],
@@ -872,7 +872,7 @@ class msg extends db_connect
                                  "fromUserUsername" => $profileInfo['username'],
                                  "fromUserFullname" => $profileInfo['fullname'],
                                  "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
-                                 "message" => htmlspecialchars_decode(stripslashes($row['message'])),
+                                 "message" => $row['message'],
                                  "imgUrl" => $row['imgUrl'],
                                  "stickerId" => $row['stickerId'],
                                  "stickerImgUrl" => $row['stickerImgUrl'],

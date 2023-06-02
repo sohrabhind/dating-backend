@@ -62,7 +62,7 @@ if (!empty($_POST)) {
     $account = new account($dbo);
     
     $access_level = 0;
-    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $access_level, $u_age, $interests);
+    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $access_level, $u_age, "", $interests);
     unset($account);
     if (!$result['error']) {
 

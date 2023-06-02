@@ -184,7 +184,7 @@
 
                                     <?php
 
-                                    if (!$profileInfo['myLike']) {
+                                    if (!$profileInfo['iLiked']) {
 
                                         ?>
 

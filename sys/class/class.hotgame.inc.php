@@ -77,7 +77,7 @@ class hotgame extends db_connect
                     $profileInfo = $profile->get();
                     $profileInfo['distance'] = round($this->getDistance($lat, $lng, $profileInfo['lat'], $profileInfo['lng']), 1);
                     unset($profile);
-                    if ($liked == 0 && $profileInfo['myLike']) {
+                    if ($liked == 0 && $profileInfo['iLiked']) {
 
                     } else {
                         array_push($result['items'], $profileInfo);

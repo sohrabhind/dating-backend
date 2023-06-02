@@ -1,14 +1,5 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
-
 class images extends db_connect
 {
 	private $requestFrom = 0;
@@ -59,7 +50,7 @@ class images extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $imageArea = "", $imageCountry = "", $imageCity = "", $imageLat = "0.000000", $imageLng = "0.000000")
+    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $imageArea = "", $imageCountry = "", $imageLat = "0.000000", $imageLng = "0.000000")
     {
         $result = array(
             "error" => true,
@@ -83,7 +74,7 @@ class images extends db_connect
         $app_settings = $settings->get();
         unset($settings);
 
-        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, area, country, city, lat, lng, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :city, :lat, :lng, :createAt, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, area, country, lat, lng, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :lat, :lng, :createAt, :ip_addr)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":accessMode", $mode, PDO::PARAM_INT);
         $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
@@ -91,7 +82,6 @@ class images extends db_connect
         $stmt->bindParam(":imgUrl", $imgUrl, PDO::PARAM_STR);
         $stmt->bindParam(":area", $imageArea, PDO::PARAM_STR);
         $stmt->bindParam(":country", $imageCountry, PDO::PARAM_STR);
-        $stmt->bindParam(":city", $imageCity, PDO::PARAM_STR);
         $stmt->bindParam(":lat", $imageLat, PDO::PARAM_STR);
         $stmt->bindParam(":lng", $imageLng, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
@@ -346,7 +336,7 @@ class images extends db_connect
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
                         "likesCount" => $img_info['likesCount'],
-                        "iLiked" => $img_info['myLike']);
+                        "iLiked" => $img_info['iLiked']);
 
         return $result;
     }
@@ -448,10 +438,9 @@ class images extends db_connect
                                 "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                                 "fromUserOnline" => $profileInfo['online'],
                                 "fromUserAllowPhotosComments" => $profileInfo['allowPhotosComments'],
-                                "comment" => htmlspecialchars_decode(stripslashes($row['comment'])),
-                                "area" => htmlspecialchars_decode(stripslashes($row['area'])),
-                                "country" => htmlspecialchars_decode(stripslashes($row['country'])),
-                                "city" => htmlspecialchars_decode(stripslashes($row['city'])),
+                                "comment" => $row['comment'],
+                                "area" => $row['area'],
+                                "country" => $row['country'],
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],
                                 "imgUrl" => $row['imgUrl'],

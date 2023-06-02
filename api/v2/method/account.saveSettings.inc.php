@@ -93,16 +93,8 @@ if (!empty($_POST)) {
     $account->set_iAlcoholViews($alcoholViews);
     $account->set_iLooking($lookingViews);
     $account->set_iInterested($interestedViews);
-    
+    $account->setInterests($interests);
 
-    if (helper::isValidURL($interests)) {
-
-        $account->setInterests($interests);
-
-    } else {
-
-        $account->setInterests("");
-    }
 
     $result = $account->get();
 

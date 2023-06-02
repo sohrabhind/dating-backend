@@ -292,7 +292,7 @@ Item.like = function (itemId, itemType) {
         timeout: 30000,
         success: function(response){
 
-            if (response.myLike) {
+            if (response.iLiked) {
 
                 $('.item-like-button[data-id=' + itemId + ']').addClass("active");
 

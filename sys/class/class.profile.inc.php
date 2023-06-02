@@ -132,7 +132,7 @@ class profile extends db_connect
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
-                                "fullname" => htmlspecialchars_decode(stripslashes($row['fullname'])),
+                                "fullname" => $row['fullname'],
                                 "location" => stripcslashes($row['country']),
                                 "bio" => stripcslashes($row['bio']),
                                 "interests" => stripcslashes($row['interests']),
@@ -249,7 +249,7 @@ class profile extends db_connect
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
-                                "fullname" => htmlspecialchars_decode(stripslashes($row['fullname'])),
+                                "fullname" => $row['fullname'],
                                 "location" => stripcslashes($row['country']),
                                 "bio" => stripcslashes($row['bio']),
                                 "interests" => stripcslashes($row['interests']),
@@ -341,7 +341,7 @@ class profile extends db_connect
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
-                                "fullname" => htmlspecialchars_decode(stripslashes($row['fullname'])),
+                                "fullname" => $row['fullname'],
                                 "location" => stripcslashes($row['country']),
                                 "bio" => stripcslashes($row['bio']),
                                 "interests" => stripcslashes($row['interests']),
@@ -589,7 +589,7 @@ class profile extends db_connect
         $stmt->execute();
 
         $row = $stmt->fetch();
-        $fullname = stripslashes($row['fullname']);
+        $fullname = $row['fullname'];
         if (strlen($fullname) < 1) {
             $fullname = $row['username'];
         }

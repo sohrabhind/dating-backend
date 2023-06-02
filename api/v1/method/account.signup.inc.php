@@ -39,12 +39,15 @@ if (!empty($_POST)) {
 
     $user_gender = isset($_POST['gender']) ? $_POST['gender'] : 2;
     $u_age = isset($_POST['age']) ? $_POST['age'] : 0;
+    $bio = isset($_POST['bio']) ? $_POST['bio'] : "";
     $interests = isset($_POST['interests']) ? $_POST['interests'] : "";
 
     $appType = helper::clearInt($appType);
 
     $user_gender = helper::clearInt($user_gender);
     $u_age = helper::clearInt($u_age);
+    $bio = helper::clearText($bio);
+    $bio = helper::escapeText($bio);
     $interests = helper::clearText($interests);
     $interests = helper::escapeText($interests);
 
@@ -110,7 +113,7 @@ if (!empty($_POST)) {
 
     $account = new account($dbo);
     $access_level = 1;
-    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $access_level, $u_age, $interests);
+    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $access_level, $u_age, $bio, $interests);
     unset($account);
     if (!$result['error']) {
         $account = new account($dbo);

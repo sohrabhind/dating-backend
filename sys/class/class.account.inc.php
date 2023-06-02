@@ -19,7 +19,7 @@ class account extends db_connect
         $this->setId($accountId);
     }
 
-    public function signup($username, $fullname, $password, $email, $gender, $access_level, $u_age, $interests)
+    public function signup($username, $fullname, $password, $email, $gender, $access_level, $u_age, $bio, $interests)
     {
 
         $result = array("error" => true);
@@ -37,7 +37,6 @@ class account extends db_connect
         }
 
         if ($helper->isUserExists($username)) {
-
             $result = array("error" => true,
                             "error_code" => ERROR_LOGIN_TAKEN,
                             "error_type" => 0,
@@ -120,7 +119,7 @@ class account extends db_connect
         $default_allow_messages = $app_settings['defaultAllowMessages']['intValue'];
         $default_user_language = "en";
 
-        $stmt = $this->db->prepare("INSERT INTO users (access_level, level_messages_count, language, state, username, fullname, password, email, balance, interests, gender, u_age, regtime, allowMessages, ip_addr) value (:access_level, :level_messages_count, :language, :state, :username, :fullname, :password, :email, :balance, :interests, :gender, :age, :createAt, :allowMessages, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO users (access_level, level_messages_count, language, state, username, fullname, password, email, balance, bio, interests, gender, u_age, regtime, allowMessages, ip_addr) value (:access_level, :level_messages_count, :language, :state, :username, :fullname, :password, :email, :balance, :bio, :interests, :gender, :age, :createAt, :allowMessages, :ip_addr)");
         $stmt->bindParam(":access_level", $access_level, PDO::PARAM_INT);
         $stmt->bindParam(":level_messages_count", $default_level_messages_count, PDO::PARAM_INT);
         $stmt->bindParam(":language", $default_user_language, PDO::PARAM_STR);
@@ -131,6 +130,7 @@ class account extends db_connect
         $stmt->bindParam(":email", $email, PDO::PARAM_STR);
         $stmt->bindParam(":balance", $default_user_balance, PDO::PARAM_INT);
         $stmt->bindParam(":gender", $gender, PDO::PARAM_INT);
+        $stmt->bindParam(":bio", $bio, PDO::PARAM_STR);
         $stmt->bindParam(":interests", $interests, PDO::PARAM_STR);
         $stmt->bindParam(":age", $u_age, PDO::PARAM_INT);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);

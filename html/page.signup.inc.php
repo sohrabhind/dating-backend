@@ -136,7 +136,7 @@
 
             $result = array();
             $access_level = 0;
-            $result = $account->signup($user_username, $user_fullname, $user_password, $user_email, $gender, $access_level, $age, "");
+            $result = $account->signup($user_username, $user_fullname, $user_password, $user_email, $gender, $access_level, $age, "", "");
 
             if (!$result['error']) {
 

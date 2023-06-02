@@ -143,7 +143,7 @@ class blacklist extends db_connect
                                 "blockedUserUsername" => $blockedUserId['username'],
                                 "blockedUserFullname" => $blockedUserId['fullname'],
                                 "blockedUserPhotoUrl" => $bigPhotoUrl,
-                                "reason" => htmlspecialchars_decode(stripslashes($row['reason'])),
+                                "reason" => $row['reason'],
                                 "createAt" => $row['createAt'],
                                 "removeAt" => $row['removeAt'],
                                 "timeAgo" => $time->timeAgo($row['createAt']));

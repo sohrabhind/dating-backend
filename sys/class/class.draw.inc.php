@@ -404,7 +404,7 @@ class draw extends db_connect
                 <div class="item-footer">
                     <div class="item-footer-container">
                             <span class="item-footer-button">
-                                <a class="item-like-button item-footer-button <?php if ($post['myLike']) echo "active"; ?>" onclick="Item.like('<?php echo $post['id']; ?>', '<?php echo ITEM_TYPE_GALLERY; ?>'); return false;" data-id="<?php echo $post['id']; ?>">
+                                <a class="item-like-button item-footer-button <?php if ($post['iLiked']) echo "active"; ?>" onclick="Item.like('<?php echo $post['id']; ?>', '<?php echo ITEM_TYPE_GALLERY; ?>'); return false;" data-id="<?php echo $post['id']; ?>">
                                     <i class="iconfont icofont-heart mr-1"></i>
                                     <?php echo $LANG['action-like']; ?>
                                 </a>

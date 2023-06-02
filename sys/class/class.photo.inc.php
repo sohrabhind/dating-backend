@@ -51,7 +51,7 @@ class photo extends db_connect
 
                 $koe = $srcW / $this->photoSize;
                 $destW = $this->photoSize;
-                $destH = ceil($srcH/$koe);
+                $destH = round($srcH/$koe);
                 $src_x = ($destW / 2) - ($this->photoSize / 2);
                 $src_y = 0;
 
@@ -59,7 +59,7 @@ class photo extends db_connect
 
                 $koe = $srcH / $this->photoSize;
                 $destH = $this->photoSize;
-                $destW = ceil($srcW/$koe);
+                $destW = round($srcW/$koe);
                 $src_x = ($destW / 2) - ($this->photoSize / 2);
                 $src_y = 0;
             }

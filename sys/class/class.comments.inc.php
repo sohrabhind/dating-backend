@@ -222,7 +222,7 @@ class comments extends db_connect
             "id" => $row['id'],
             "owner" => $fromUserId,
             "replyTo" => $replyToUser,
-            "comment" => htmlspecialchars_decode(stripslashes($row['comment'])),
+            "comment" => $row['comment'],
             "fromUserId" => $row['fromUserId'],
             "replyToUserId" => $replyToUserId,
             "replyToUserUsername" => $replyToUserUsername,

@@ -55,7 +55,7 @@ class gcm extends db_connect
 
     public function sendToAll()
     {
-        $laps = ceil(count($this->ids) / 999);
+        $laps = round(count($this->ids) / 999);
 
         if ($laps == 1) {
 
