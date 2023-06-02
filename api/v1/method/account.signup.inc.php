@@ -8,10 +8,7 @@
  */
 
 
-if (!defined("APP_SIGNATURE")) {
-    header("Location: /");
-    exit;
-}
+
 
 if (!empty($_POST)) {
     $appType = isset($_POST['appType']) ? $_POST['appType'] : 2; // 2 = APP_TYPE_ANDROID
@@ -103,9 +100,9 @@ if (!empty($_POST)) {
                 file_put_contents($new_file_name, $contents);
                 $response = $imglib->createMyImage($new_file_name, $temp_file_name);
                 if (!$response['error']) {
-                    $gallery = new gallery($dbo);
-                    $gallery->setRequestFrom($accountId);
-                    $gallery->add(0, "", $response['normalImageUrl'], 0);
+                    $images = new gallery($dbo);
+                    $images->setRequestFrom($accountId);
+                    $images->add(0, "", $response['normalImageUrl'], 0);
                 }
             }
         }

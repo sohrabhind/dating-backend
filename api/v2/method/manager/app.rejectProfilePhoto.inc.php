@@ -7,11 +7,7 @@
  * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
  */;
 
-if (!defined("APP_SIGNATURE")) {
 
-    header("Location: /");
-    exit;
-}
 
 if (!empty($_POST)) {
 

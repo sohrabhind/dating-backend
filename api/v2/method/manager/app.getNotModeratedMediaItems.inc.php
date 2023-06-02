@@ -7,11 +7,7 @@
  * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
  */;
 
-if (!defined("APP_SIGNATURE")) {
 
-    header("Location: /");
-    exit;
-}
 
 if (!empty($_POST)) {
 
@@ -40,8 +36,8 @@ if (!empty($_POST)) {
         "error_code" => ERROR_SUCCESS
     );
 
-    $gallery = new gallery($dbo);
-    $result = $gallery->get($itemId, 0, false, 0);
+    $images = new gallery($dbo);
+    $result = $images->get($itemId, 0, false, 0);
 
     echo json_encode($result);
     exit;

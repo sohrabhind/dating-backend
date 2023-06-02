@@ -207,7 +207,6 @@
                                                 <tr>
                                                     <th colspan="2">User</th>
                                                     <th>Account state</th>
-                                                    <th>Facebook</th>
                                                     <th>Email</th>
                                                     <th>Sign up date</th>
                                                     <th>Ip address</th>

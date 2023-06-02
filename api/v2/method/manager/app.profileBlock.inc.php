@@ -47,10 +47,10 @@ if (!empty($_POST)) {
 
         // Remove all gallery items
 
-        $gallery = new gallery($dbo);
-        $gallery->setRequestFrom($profileId);
-        $gallery->removeAll();
-        unset($gallery);
+        $images = new gallery($dbo);
+        $images->setRequestFrom($profileId);
+        $images->removeAll();
+        unset($images);
 
         // Close all authorizations
 

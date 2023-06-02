@@ -103,9 +103,9 @@ class comments extends db_connect
                 $this->setNotifyId($result['commentId'], $notifyId);
             }
 
-            $gallery = new gallery($this->db);
-            $gallery->recalculate($itemId);
-            unset($gallery);
+            $images = new gallery($this->db);
+            $images->recalculate($itemId);
+            unset($images);
         }
 
         return $result;
@@ -137,9 +137,9 @@ class comments extends db_connect
         $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            $gallery = new gallery($this->db);
-            $gallery->recalculate($commentInfo['imageId']);
-            unset($gallery);
+            $images = new gallery($this->db);
+            $images->recalculate($commentInfo['imageId']);
+            unset($images);
 
             $notify = new notify($this->db);
             $notify->remove($commentInfo['notifyId']);
@@ -237,10 +237,10 @@ class comments extends db_connect
 
         if ($itemFromUserId == 0) {
 
-            $gallery = new gallery($this->db);
-            $gallery->setRequestFrom($this->getRequestFrom());
+            $images = new gallery($this->db);
+            $images->setRequestFrom($this->getRequestFrom());
 
-            $imageInfo = $gallery->info($row['imageId']);
+            $imageInfo = $images->info($row['imageId']);
 
             $result['imageFromUserId'] = $imageInfo['owner']['id'];
         }
@@ -255,10 +255,10 @@ class comments extends db_connect
         }
 
         if (empty($itemInfo)) {
-            $gallery = new gallery($this->db);
-            $gallery->setRequestFrom($this->getRequestFrom());
+            $images = new gallery($this->db);
+            $images->setRequestFrom($this->getRequestFrom());
 
-            $itemInfo = $gallery->info($itemId);
+            $itemInfo = $images->info($itemId);
         }
 
         $result = array(

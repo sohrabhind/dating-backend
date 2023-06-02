@@ -14,9 +14,9 @@ if (!empty($_POST)) {
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
-    $notifyId = isset($_POST['notifyId']) ? $_POST['notifyId'] : 0;
+    $friendId = isset($_POST['friendId']) ? $_POST['friendId'] : 0;
 
-    $notifyId = helper::clearInt($notifyId);
+    $friendId = helper::clearInt($friendId);
 
     $result = array("error" => true,
                     "error_code" => ERROR_CODE_INITIATE);
@@ -28,16 +28,10 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    if ($notifyId == 0) {
+    $friends = new friends($dbo, $accountId);
+    $friends->setRequestFrom($accountId);
 
-        $account = new account($dbo, $accountId);
-        $account->setLastNotifyView();
-        unset($account);
-    }
-
-    $notify = new notify($dbo);
-    $notify->setRequestFrom($accountId);
-    $result = $notify->getAll($notifyId);
+    $result = $friends->accept($friendId);
 
     echo json_encode($result);
     exit;

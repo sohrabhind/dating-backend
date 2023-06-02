@@ -43,10 +43,10 @@ if (!empty($_POST)) {
 
         } else {
 
-            $gallery = new gallery($dbo);
-            $gallery->setRequestFrom($accountId);
+            $images = new gallery($dbo);
+            $images->setRequestFrom($accountId);
 
-            $itemInfo = $gallery->info($commentInfo['imageId']);
+            $itemInfo = $images->info($commentInfo['imageId']);
 
             if ($itemInfo['owner']['id'] == $accountId) {
 
@@ -54,7 +54,7 @@ if (!empty($_POST)) {
             }
 
             unset($itemInfo);
-            unset($gallery);
+            unset($images);
         }
     }
 

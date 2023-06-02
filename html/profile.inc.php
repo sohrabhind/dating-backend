@@ -7,11 +7,7 @@
      * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
      */
 
-    if (!defined("APP_SIGNATURE")) {
-
-        header("Location: /");
-        exit;
-    }
+    
 
     if (!auth::isSession()) {
 
@@ -321,9 +317,9 @@
 
                                                     <?php
 
-                                                    $gallery = new gallery($dbo);
-                                                    $gallery->setRequestFrom($profileInfo['id']);
-                                                    $result = $gallery->get(0, $profileInfo['id'], true, 1, 6);
+                                                    $images = new gallery($dbo);
+                                                    $images->setRequestFrom($profileInfo['id']);
+                                                    $result = $images->get(0, $profileInfo['id'], true, 1, 6);
 
                                                     foreach ($result['items'] as $key => $value) {
 

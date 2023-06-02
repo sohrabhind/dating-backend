@@ -37,14 +37,14 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $gallery = new gallery($dbo);
-    $gallery->setRequestFrom($accountId);
+    $images = new gallery($dbo);
+    $images->setRequestFrom($accountId);
 
     $accessMode = false;
 
     if ($accountId == $profileId) $accessMode = true;
 
-    $result = $gallery->get($itemId, $profileId, $accessMode, 20);
+    $result = $images->get($itemId, $profileId, $accessMode, 20);
     echo json_encode($result);
     exit;
 }

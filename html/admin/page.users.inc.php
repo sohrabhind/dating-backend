@@ -89,7 +89,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="query" name="query" value="<?php echo $query; ?>" placeholder="Find users by username, full name, email. Minimum of 3 characters.">
+                                                    <input type="text" class="form-control" id="query" name="query" value="<?php echo stripslashes($query); ?>" placeholder="Find users by username, full name, email. Minimum of 3 characters.">
                                                     <div class="input-group-append">
                                                         <button type="submit" class="btn btn-info" type="button">Search</button>
                                                     </div>

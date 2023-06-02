@@ -15,8 +15,6 @@
         exit;
     }
 
-    require_once 'html/recaptcha/autoload.php';
-
     $email = '';
 
     $error = false;

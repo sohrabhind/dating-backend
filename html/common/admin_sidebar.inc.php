@@ -9,11 +9,7 @@
      * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
      */
 
-    if (!defined("APP_SIGNATURE")) {
-
-        header("Location: /");
-        exit;
-    }
+    
 
 ?>
 
@@ -71,9 +67,9 @@
                 <li class="nav-small-cap">Stream</li>
 
                     <li>
-                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "stream_photos") { echo "active";} ?>" href="/admin/stream_photos" aria-expanded="false">
+                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "stream_images") { echo "active";} ?>" href="/admin/stream_images" aria-expanded="false">
                             <i class="ti-image"></i>
-                            <span class="hide-menu">Photos Stream</span>
+                            <span class="hide-menu">Images Stream</span>
                         </a>
                     </li>
 
@@ -103,7 +99,7 @@
                     </li>
 
                     <li>
-                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "photo_reports") { echo "active";} ?>" href="/admin/photo_reports" aria-expanded="false">
+                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "image_reports") { echo "active";} ?>" href="/admin/image_reports" aria-expanded="false">
                             <i class="ti-gallery"></i>
                             <span class="hide-menu">Photo Reports</span>
                         </a>

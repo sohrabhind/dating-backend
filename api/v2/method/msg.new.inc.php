@@ -1,9 +1,6 @@
 <?php
 
-if (!defined("APP_SIGNATURE")) {
-    header("Location: /");
-    exit;
-}
+
 
 if (!empty($_POST)) {
 

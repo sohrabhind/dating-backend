@@ -3,17 +3,11 @@
 /*!
  * ifsoft.co.uk
  *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
+ * http://ifsoft.com.ua, http://ifsoft.co.uk
  * hindbyte@gmail.com
  *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
+ * Copyright 2012-2019 Demyanchuk Dmitry (hindbyte@gmail.com)
  */
-
-if (!defined("APP_SIGNATURE")) {
-
-    header("Location: /");
-    exit;
-}
 
 if (!empty($_POST)) {
 
@@ -29,10 +23,8 @@ if (!empty($_POST)) {
 
     $itemId = helper::clearInt($itemId);
 
-    $result = array(
-        "error" => true,
-        "error_code" => ERROR_CODE_INITIATE
-    );
+    $result = array("error" => true,
+                    "error_code" => ERROR_CODE_INITIATE);
 
     $auth = new auth($dbo);
 
@@ -41,10 +33,10 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $gallery = new gallery($dbo);
-    $gallery->setRequestFrom($accountId);
+    $images = new images($dbo);
+    $images->setRequestFrom($accountId);
 
-    $result = $gallery->like($itemId, $accountId);
+    $result = $images->like($itemId, $accountId);
 
     echo json_encode($result);
     exit;

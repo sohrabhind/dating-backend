@@ -7,11 +7,7 @@
  * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
  */;
 
-if (!defined("APP_SIGNATURE")) {
 
-    header("Location: /");
-    exit;
-}
 
 if (!empty($_POST)) {
 
@@ -46,10 +42,10 @@ if (!empty($_POST)) {
 
     if (!$admin_info['error'] && $admin_info['access_level'] != ADMIN_ACCESS_LEVEL_READ_ONLY_RIGHTS) {
 
-        $gallery = new gallery($dbo);
-        $gallery->setRequestFrom($fromUserId);
-        $result = $gallery->remove($itemId);
-        unset($gallery);
+        $images = new gallery($dbo);
+        $images->setRequestFrom($fromUserId);
+        $result = $images->remove($itemId);
+        unset($images);
 
         $reports = new reports($dbo);
         $reports->remove(REPORT_TYPE_GALLERY_ITEM, $itemId);

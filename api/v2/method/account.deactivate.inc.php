@@ -31,10 +31,10 @@ if (!empty($_POST)) {
 
     // Remove All Medias
 
-    $gallery = new gallery($dbo);
-    $gallery->setRequestFrom($accountId);
-    $gallery->removeAll();
-    unset($gallery);
+    $images = new gallery($dbo);
+    $images->setRequestFrom($accountId);
+    $images->removeAll();
+    unset($images);
 
     $account = new account($dbo, $accountId);
 

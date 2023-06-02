@@ -62,10 +62,10 @@
 
                     $account->setState(ACCOUNT_STATE_BLOCKED);
 
-                    $gallery = new gallery($dbo);
-                    $gallery->setRequestFrom($accountInfo['id']);
-                    $gallery->removeAll();
-                    unset($gallery);
+                    $images = new gallery($dbo);
+                    $images->setRequestFrom($accountInfo['id']);
+                    $images->removeAll();
+                    unset($images);
 
                     $auth->removeAll($accountInfo['id']);
 
@@ -458,13 +458,13 @@
                                         if (strlen($accountInfo['bigPhotoUrl']) != 0) {
 
                                             ?>
-                                                <img src="<?php echo $accountInfo['bigPhotoUrl'] ?>" alt="user" />
+                                                <img src="<?php echo $accountInfo['bigPhotoUrl'] ?>" width="250" alt="user" />
                                             <?php
 
                                         } else {
 
                                             ?>
-                                                <img src="/assets/img/profile_default_photo.png" alt="user" />
+                                                <img src="/assets/img/profile_default_photo.png" width="250" alt="user" />
                                             <?php
                                         }
                                     ?>
@@ -518,10 +518,8 @@
                                                     <tr>
                                                         <th class="text-left">Id</th>
                                                         <th>Access token</th>
-                                                        <th>Client Id</th>
                                                         <th>Create At</th>
                                                         <th>Close At</th>
-                                                        <th>User agent</th>
                                                         <th>Ip address</th>
                                                     </tr>
                                                 </thead>

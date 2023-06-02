@@ -47,10 +47,10 @@ if (!empty($_POST)) {
 
     if (strlen($commentText) != 0) {
 
-        $gallery = new gallery($dbo);
-        $gallery->setRequestFrom($accountId);
+        $images = new gallery($dbo);
+        $images->setRequestFrom($accountId);
 
-        $itemInfo = $gallery->info($itemId);
+        $itemInfo = $images->info($itemId);
 
         if (!$itemInfo['error']) {
 

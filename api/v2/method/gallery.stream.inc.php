@@ -35,10 +35,10 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $gallery = new gallery($dbo);
-    $gallery->setRequestFrom($accountId);
+    $images = new gallery($dbo);
+    $images->setRequestFrom($accountId);
 
-    $result = $gallery->get($itemId, 0, false, 20);
+    $result = $images->get($itemId, 0, false, 20);
 
     echo json_encode($result);
     exit;

@@ -9,7 +9,6 @@
 
 session_start();
 error_reporting(E_ALL); // set to 0 when you resource is ready for all
-define("APP_SIGNATURE", "hindbyte"); // Add signature constant to protect include modules
 include_once("sys/core/init.inc.php");
 
 $page_id = '';

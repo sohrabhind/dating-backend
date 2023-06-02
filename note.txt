@@ -1,1 +1,8 @@
-**/sys/addons, **/html/firebase, **/html/stripe, **/html/recaptcha
+Fixing Match finder algorithims
+Delete Image from server on deletion
+Image size in profile
+Image Zoom in/out 
+
+
+
+**/js, **/css, **/sys/addons, **/html/firebase, **/html/stripe, **/html/recaptcha

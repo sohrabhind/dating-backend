@@ -35,10 +35,10 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $gallery = new gallery($dbo);
-    $gallery->setRequestFrom($accountId);
+    $images = new gallery($dbo);
+    $images->setRequestFrom($accountId);
 
-    $result = $gallery->remove($itemId);
+    $result = $images->remove($itemId);
 
     $reports = new reports($dbo);
     $reports->remove(REPORT_TYPE_GALLERY_ITEM, $itemId);

@@ -7,21 +7,13 @@
      * Copyright 2012-2022 Demyanchuk Dmitry (racconsquare@gmail.com)
      */
 
-    if (!defined("APP_SIGNATURE")) {
-
-        header("Location: /");
-        exit;
-    }
+    
 
     if (auth::isSession()) {
 
         header("Location: /");
         exit;
     }
-
-    include_once('sys/config/gconfig.inc.php');
-
-    require_once 'html/recaptcha/autoload.php';
 
     $user_username = '';
     $user_email = '';

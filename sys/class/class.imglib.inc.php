@@ -19,54 +19,6 @@ class imglib extends db_connect
         parent::__construct($dbo);
     }
 
-    public function setCorrectImageOrientation($filename)
-    {
-
-        $imgInfo = getimagesize($filename);
-
-        if ($imgInfo[2] == IMAGETYPE_JPEG) {
-
-            if (function_exists('exif_read_data')) {
-
-                $exif = @exif_read_data($filename);
-
-                if ($exif && isset($exif['Orientation'])) {
-
-                    $orientation = $exif['Orientation'];
-
-                    if (!empty($orientation)) {
-
-                        $img = imagecreatefromjpeg($filename);
-
-                        switch ($orientation) {
-
-                            case 3:
-
-                                $img = imagerotate($img, 180, 0);
-
-                                break;
-
-                            case 6:
-
-                                $img = imagerotate($img, -90, 0);
-
-                                break;
-
-                            case 8:
-
-                                $img = imagerotate($img, 90, 0);
-
-                                break;
-                        }
-
-                        imagejpeg($img, $filename, 100); // rewrite rotated image back to $filename
-                        imagedestroy($img);
-                    }
-                }
-            }
-        }
-    }
-
 
     public function createChatImg($new_file_name, $temp_file_name)
     {
@@ -112,8 +64,6 @@ class imglib extends db_connect
     public function newProfilePhoto($new_file_name, $temp_file_name)
     {
         $result = array("error" => true);
-
-        $this->setCorrectImageOrientation($new_file_name);
 
         list($w, $h, $type) = getimagesize($new_file_name);
         if ($w < 1 || $h < 1) {

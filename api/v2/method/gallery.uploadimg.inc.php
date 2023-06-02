@@ -91,9 +91,9 @@ if (!empty($_POST)) {
                 if (file_exists($new_file_name)) {
                     $response = $imglib->createMyImage($new_file_name, $temp_file_name);
                     if (!$response['error']) {
-                        $gallery = new gallery($dbo);
-                        $gallery->setRequestFrom($accountId);
-                        $gallery->add($accessMode, $comment, $response['normalImageUrl'], $itemType);
+                        $images = new gallery($dbo);
+                        $images->setRequestFrom($accountId);
+                        $images->add($accessMode, $comment, $response['normalImageUrl'], $itemType);
 
                         $result['error'] = false;
                         $result['error_code'] = ERROR_SUCCESS;

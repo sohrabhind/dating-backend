@@ -7,11 +7,7 @@
     * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
     */
 
-    if (!defined("APP_SIGNATURE")) {
-
-        header("Location: /");
-        exit;
-    }
+    
 
     include_once("sys/core/initialize.inc.php");
 

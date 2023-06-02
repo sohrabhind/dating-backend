@@ -50,7 +50,7 @@ class images extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function add($mode, $comment, $imgUrl = "", $itemType = 0, $imageArea = "", $imageCountry = "", $imageLat = "0.000000", $imageLng = "0.000000")
+    public function add($mode, $comment, $imgUrl = "", $itemType = 0)
     {
         $result = array(
             "error" => true,
@@ -74,16 +74,12 @@ class images extends db_connect
         $app_settings = $settings->get();
         unset($settings);
 
-        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, area, country, lat, lng, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :area, :country, :lat, :lng, :createAt, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :createAt, :ip_addr)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":accessMode", $mode, PDO::PARAM_INT);
         $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
         $stmt->bindParam(":comment", $comment, PDO::PARAM_STR);
         $stmt->bindParam(":imgUrl", $imgUrl, PDO::PARAM_STR);
-        $stmt->bindParam(":area", $imageArea, PDO::PARAM_STR);
-        $stmt->bindParam(":country", $imageCountry, PDO::PARAM_STR);
-        $stmt->bindParam(":lat", $imageLat, PDO::PARAM_STR);
-        $stmt->bindParam(":lng", $imageLng, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
 
@@ -146,6 +142,7 @@ class images extends db_connect
         $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
+            @unlink(MY_PHOTOS_PATH."/".basename($imageInfo['imgUrl']));
 
             $stmt2 = $this->db->prepare("DELETE FROM notifications WHERE itemId = (:itemId) AND notifyType > 6");
             $stmt2->bindParam(":itemId", $imageId, PDO::PARAM_INT);
@@ -439,7 +436,6 @@ class images extends db_connect
                                 "fromUserOnline" => $profileInfo['online'],
                                 "fromUserAllowPhotosComments" => $profileInfo['allowPhotosComments'],
                                 "comment" => $row['comment'],
-                                "area" => $row['area'],
                                 "country" => $row['country'],
                                 "lat" => $row['lat'],
                                 "lng" => $row['lng'],

@@ -9,13 +9,7 @@
      * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
      */
 
-    if (!defined("APP_SIGNATURE")) {
-
-        header("Location: /");
-        exit;
-    }
-
-    require_once 'html/recaptcha/autoload.php';
+    
 
     $page_id = "support";
 

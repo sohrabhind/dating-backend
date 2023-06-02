@@ -9,11 +9,7 @@
  * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
  */
 
-if (!defined("APP_SIGNATURE")) {
 
-    header("Location: /");
-    exit;
-}
 
 class reports extends db_connect
 {

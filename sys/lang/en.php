@@ -43,13 +43,13 @@
 
     $TEXT['topbar-ad'] = "Ads";
 
-    $TEXT['footer-about'] = "about";
+    $TEXT['footer-about'] = "About";
 
-    $TEXT['footer-terms'] = "terms";
+    $TEXT['footer-terms'] = "Terms";
 
     $TEXT['footer-contact'] = "contact us";
 
-    $TEXT['footer-support'] = "support";
+    $TEXT['footer-support'] = "Support";
 
     $TEXT['footer-android-application'] = "Android app";
 
