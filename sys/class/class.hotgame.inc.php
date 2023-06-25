@@ -1,19 +1,12 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 class hotgame extends db_connect
 {
     private $requestFrom = 0;
 
-    public function __construct($dbo = NULL)
+    public function __construct($dbo = null)
     {
         parent::__construct($dbo);
 
@@ -27,7 +20,7 @@ class hotgame extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function get($itemId, $lat, $lng, $distance = 1000, $gender = 2, $liked = 1)
+    public function get($itemId, $origLat, $origLon, $distance = 1000, $gender = 2, $country = 0)
     {
         $result = array(
             "error" => false,
@@ -40,9 +33,6 @@ class hotgame extends db_connect
             $itemId++;
         }
 
-        $tableName = "users";
-        $origLat = $lat;
-        $origLon = $lng;
         $dist = $distance; // This is the maximum distance (in miles) away from $origLat, $origLon in which to search
 
         if ($gender == 3) {
@@ -51,39 +41,50 @@ class hotgame extends db_connect
             $gender_sql = " and (gender = {$gender}) ";
         }
 
-        $sql = "SELECT id, lat, lng, 3956 * 2 *
-                    ASIN(SQRT( POWER(SIN(($origLat - lat)*pi()/180/2),2)
-                    +COS($origLat*pi()/180 )*COS(lat*pi()/180)
-                    *POWER(SIN(($origLon-lng)*pi()/180/2),2)))
-                    as distance FROM $tableName WHERE
-                    lng between ($origLon-$dist/cos(radians($origLat))*69)
-                    and ($origLon+$dist/cos(radians($origLat))*69)
-                    and lat between ($origLat-($dist/69))
-                    and ($origLat+($dist/69))
-                    and (id >= (SELECT FLOOR(MAX(id) * RAND()) FROM users))
-                    and (id <> $this->requestFrom)
-                    $gender_sql
-                    and (bigPhotoUrl <> '')
-                    and (state = 0)
-                    having distance < $dist LIMIT 10";
+        if ($origLat == 0 && $origLon == 0) {
+            $sql = "SELECT id, lat, lng, 12733 *
+            ASIN(SQRT( POWER(SIN(($origLat - lat)*pi()/180/2),2)
+            +COS($origLat*pi()/180 )*COS(lat*pi()/180)
+            *POWER(SIN(($origLon-lng)*pi()/180/2),2)))
+            as distance 
+            FROM users WHERE
+            (id <> $this->requestFrom)
+            $gender_sql
+            and (state = 0)
+            and country = $country  
+            ORDER BY RAND() 
+            LIMIT 10";
+        } else {
+            $sql = "SELECT id, lat, lng, 12733 *
+            ASIN(SQRT( POWER(SIN(($origLat - lat)*pi()/180/2),2)
+            +COS($origLat*pi()/180 )*COS(lat*pi()/180)
+            *POWER(SIN(($origLon-lng)*pi()/180/2),2)))
+            as distance, country as cntry 
+            FROM users WHERE
+            (id <> $this->requestFrom)
+            $gender_sql
+            and (state = 0)
+            having distance < $dist or cntry = $country 
+            ORDER BY RAND() 
+            LIMIT 10";
+        }
+
 
         $stmt = $this->db->prepare($sql);
-
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 while ($row = $stmt->fetch()) {
                     $profile = new profile($this->db, $row['id']);
                     $profile->setRequestFrom($this->requestFrom);
                     $profileInfo = $profile->get();
-                    $profileInfo['distance'] = round($this->getDistance($lat, $lng, $profileInfo['lat'], $profileInfo['lng']), 1);
-                    unset($profile);
-                    if ($liked == 0 && $profileInfo['iLiked']) {
-
-                    } else {
-                        array_push($result['items'], $profileInfo);
+                    if ($profileInfo['access_level'] == 0) {
+                        if ($origLat != 0 && $origLon != 0) {
+                            $profileInfo['distance'] = round($row['distance'], 1);
+                        }
                     }
-                    $result['itemId'] = $row['id'];
                     unset($profile);
+                    array_push($result['items'], $profileInfo);
+                    $result['itemId'] = $row['id'];
                 }
             }
         }
@@ -91,7 +92,8 @@ class hotgame extends db_connect
         return $result;
     }
 
-    public function getDistance($fromLat, $fromLng, $toLat, $toLng) {
+    public function getDistance($fromLat, $fromLng, $toLat, $toLng)
+    {
         $latFrom = deg2rad($fromLat);
         $lonFrom = deg2rad($fromLng);
         $latTo = deg2rad($toLat);
@@ -115,4 +117,3 @@ class hotgame extends db_connect
         return $this->requestFrom;
     }
 }
-

@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, http://ifsoft.co.uk
- * hindbyte@gmail.com
- *
- * Copyright 2012-2019 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 if (!empty($_POST)) {
 
@@ -29,7 +22,6 @@ if (!empty($_POST)) {
     }
 
     if ($notifyId == 0) {
-
         $account = new account($dbo, $accountId);
         $account->setLastNotifyView();
         unset($account);

@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 
 
@@ -38,13 +31,6 @@ class gallery extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    private function getMaxIdLikes()
-    {
-        $stmt = $this->db->prepare("SELECT MAX(id) FROM images_likes");
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
 
     public function count()
     {
@@ -56,7 +42,7 @@ class gallery extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function add($mode, $comment, $imgUrl = "", $itemType = 0)
+    public function add($mode, $imgUrl = "", $itemType = 0)
     {
         $result = array(
             "error" => true,
@@ -68,23 +54,13 @@ class gallery extends db_connect
             return $result;
         }
 
-        if (strlen($comment) != 0) {
-
-            $comment = $comment." ";
-        }
-
         $currentTime = time();
         $ip_addr = helper::ip_addr();
 
-        $settings = new settings($this->db);
-        $app_settings = $settings->get();
-        unset($settings);
-
-        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, comment, imgUrl, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :comment, :imgUrl, :createAt, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO images (fromUserId, accessMode, itemType, imgUrl, createAt, ip_addr) value (:fromUserId, :accessMode, :itemType, :imgUrl, :createAt, :ip_addr)");
         $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
         $stmt->bindParam(":accessMode", $mode, PDO::PARAM_INT);
         $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
-        $stmt->bindParam(":comment", $comment, PDO::PARAM_STR);
         $stmt->bindParam(":imgUrl", $imgUrl, PDO::PARAM_STR);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
         $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
@@ -165,19 +141,6 @@ class gallery extends db_connect
             $stmt2->bindParam(":itemId", $imageId, PDO::PARAM_INT);
             $stmt2->execute();
 
-            //remove all comments to post
-
-            $stmt3 = $this->db->prepare("UPDATE images_comments SET removeAt = (:removeAt) WHERE imageId = (:imageId)");
-            $stmt3->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
-            $stmt3->bindParam(":imageId", $imageId, PDO::PARAM_INT);
-            $stmt3->execute();
-
-            //remove all likes to post
-
-            $stmt4 = $this->db->prepare("UPDATE images_likes SET removeAt = (:removeAt) WHERE imageId = (:imageId) AND removeAt = 0");
-            $stmt4->bindParam(":imageId", $imageId, PDO::PARAM_INT);
-            $stmt4->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
-            $stmt4->execute();
 
             $result = array("error" => false);
 
@@ -211,221 +174,6 @@ class gallery extends db_connect
         return $result;
     }
 
-    private function getLikesCount($itemId)
-    {
-        $stmt = $this->db->prepare("SELECT count(*) FROM images_likes WHERE imageId = (:itemId) AND removeAt = 0");
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
-
-    public function getCommentsCount($itemId)
-    {
-        $stmt = $this->db->prepare("SELECT count(*) FROM images_comments WHERE imageId = (:itemId) AND removeAt = 0");
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
-
-    public function recalculate($itemId)
-    {
-        $result = array(
-            "error" => true,
-            "error_code" => ERROR_CODE_INITIATE
-        );
-
-        $comments_count = 0;
-        $likes_count = 0;
-        $rating = 0;
-
-        $likes_count = $this->getLikesCount($itemId);
-        $comments_count = $this->getCommentsCount($itemId);
-
-        $rating = $likes_count + $comments_count;
-
-        $stmt = $this->db->prepare("UPDATE images SET likesCount = (:likesCount), commentsCount = (:commentsCount), rating = (:rating) WHERE id = (:itemId)");
-        $stmt->bindParam(":likesCount", $likes_count, PDO::PARAM_INT);
-        $stmt->bindParam(":commentsCount", $comments_count, PDO::PARAM_INT);
-        $stmt->bindParam(":rating", $rating, PDO::PARAM_INT);
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $result = array(
-                "error" => true,
-                "error_code" => ERROR_CODE_INITIATE,
-                "comments_count" => $comments_count,
-                "likes_count" => $likes_count,
-                "rating" => $rating
-            );
-        }
-
-        return $result;
-    }
-
-    public function like($imageId, $fromUserId)
-    {
-        $account = new account($this->db, $fromUserId);
-        $account->setLastActive();
-        unset($account);
-
-        $result = array(
-            "error" => true,
-            "error_code" => ERROR_CODE_INITIATE
-        );
-
-        $spam = new spam($this->db);
-        $spam->setRequestFrom($this->getRequestFrom());
-
-        if ($spam->getGalleryLikesCount() > 30) {
-
-            return $result;
-        }
-
-        unset($spam);
-
-        $imageInfo = $this->info($imageId);
-
-        if ($imageInfo['error']) {
-
-            return $result;
-        }
-
-        if ($imageInfo['removeAt'] != 0) {
-
-            return $result;
-        }
-
-        if ($this->is_like_exists($imageId, $fromUserId)) {
-
-            $removeAt = time();
-
-            $stmt = $this->db->prepare("UPDATE images_likes SET removeAt = (:removeAt) WHERE imageId = (:imageId) AND fromUserId = (:fromUserId) AND removeAt = 0");
-            $stmt->bindParam(":fromUserId", $fromUserId, PDO::PARAM_INT);
-            $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
-            $stmt->bindParam(":removeAt", $removeAt, PDO::PARAM_INT);
-            $stmt->execute();
-
-            $imageInfo['iLiked'] = false;
-            $imageInfo['likesCount'] = $imageInfo['likesCount'] - 1;
-
-            $notify = new notify($this->db);
-            $notify->removeNotify($imageInfo['owner']['id'], $fromUserId, NOTIFY_TYPE_IMAGE_LIKE, $imageId);
-            unset($notify);
-
-        } else {
-
-            $createAt = time();
-            $ip_addr = helper::ip_addr();
-
-            $stmt = $this->db->prepare("INSERT INTO images_likes (toUserId, fromUserId, imageId, createAt, ip_addr) value (:toUserId, :fromUserId, :imageId, :createAt, :ip_addr)");
-            $stmt->bindParam(":toUserId", $imageInfo['fromUserId'], PDO::PARAM_INT);
-            $stmt->bindParam(":fromUserId", $fromUserId, PDO::PARAM_INT);
-            $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
-            $stmt->bindParam(":createAt", $createAt, PDO::PARAM_INT);
-            $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-            $stmt->execute();
-
-            $imageInfo['iLiked'] = true;
-            $imageInfo['likesCount'] = $imageInfo['likesCount'] + 1;
-
-            if ($imageInfo['owner']['id'] != $fromUserId) {
-
-                $blacklist = new blacklist($this->db);
-                $blacklist->setRequestFrom($imageInfo['fromUserId']);
-
-                if (!$blacklist->isExists($fromUserId)) {
-
-                    $account = new account($this->db, $imageInfo['owner']['id']);
-
-                    $fcm = new fcm($this->db);
-                    $fcm->setRequestFrom($this->getRequestFrom());
-                    $fcm->setRequestTo($imageInfo['owner']['id']);
-                    $fcm->setType(GCM_NOTIFY_IMAGE_LIKE);
-                    $fcm->setTitle("You have new like");
-                    $fcm->prepare();
-                    $fcm->send();
-                    unset($fcm);
-
-                    unset($account);
-
-                    $notify = new notify($this->db);
-                    $notify->createNotify($imageInfo['owner']['id'], $fromUserId, NOTIFY_TYPE_IMAGE_LIKE, $imageId);
-                    unset($notify);
-                }
-
-                unset($blacklist);
-            }
-        }
-
-        $this->recalculate($imageId);
-
-        $result = array(
-            "error" => false,
-            "error_code" => ERROR_SUCCESS,
-            "likesCount" => $imageInfo['likesCount'],
-            "iLiked" => $imageInfo['iLiked']
-        );
-
-        return $result;
-    }
-
-    private function is_like_exists($imageId, $fromUserId)
-    {
-        $stmt = $this->db->prepare("SELECT id FROM images_likes WHERE fromUserId = (:fromUserId) AND imageId = (:imageId) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":fromUserId", $fromUserId, PDO::PARAM_INT);
-        $stmt->bindParam(":imageId", $imageId, PDO::PARAM_INT);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public function getLikes($itemId, $itemIndex = 0)
-    {
-
-        if ($itemIndex == 0) {
-
-            $itemIndex = 1000000;
-        }
-
-        $result = array(
-            "error" => false,
-            "error_code" => ERROR_SUCCESS,
-            "itemIndex" => $itemIndex,
-            "items" => array()
-        );
-
-        $stmt = $this->db->prepare("SELECT * FROM images_likes WHERE imageId = (:itemId) AND id < (:itemIndex) AND removeAt = 0 ORDER BY id DESC LIMIT 20");
-        $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
-        $stmt->bindParam(':itemIndex', $itemIndex, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            if ($stmt->rowCount() > 0) {
-
-                while ($row = $stmt->fetch()) {
-
-                    $profile = new profile($this->db, $row['fromUserId']);
-                    $profile->setRequestFrom($this->getRequestFrom());
-                    $profileInfo = $profile->getVeryShort();
-                    unset($profile);
-
-                    array_push($result['items'], $profileInfo);
-
-                    $result['itemIndex'] = $row['id'];
-                }
-            }
-        }
-
-        return $result;
-    }
 
     public function info($itemId)
     {
@@ -454,16 +202,6 @@ class gallery extends db_connect
     {
         $time = new language($this->db, $this->language);
 
-        $iLiked = false;
-
-        if ($this->getRequestFrom() != 0) {
-
-            if ($this->is_like_exists($row['id'], $this->getRequestFrom())) {
-
-                $iLiked = true;
-            }
-        }
-
         $profile = new profile($this->db, $row['fromUserId']);
         $profileInfo = $profile->getVeryShort();
         unset($profile);
@@ -475,12 +213,7 @@ class gallery extends db_connect
             "owner" => $profileInfo,
             "accessMode" => $row['accessMode'],
             "itemType" => $row['itemType'],
-            "comment" => $row['comment'],
             "imgUrl" => $row['imgUrl'],
-            "rating" => $row['rating'],
-            "commentsCount" => $row['commentsCount'],
-            "likesCount" => $row['likesCount'],
-            "iLiked" => $iLiked,
             "createAt" => $row['createAt'],
             "date" => date("Y-m-d H:i:s", $row['createAt']),
             "timeAgo" => $time->timeAgo($row['createAt']),

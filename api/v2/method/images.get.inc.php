@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, http://ifsoft.co.uk
- * hindbyte@gmail.com
- *
- * Copyright 2012-2019 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 if (!empty($_POST)) {
 
@@ -45,15 +38,10 @@ if (!empty($_POST)) {
             exit;
         }
 
-        $image = new image($dbo);
-        $image->setRequestFrom($accountId);
-
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
                         "itemId" => $itemId,
-                        "comments" => $image->commentsGet($itemId, 0),
                         "items" => array());
-
         array_push($result['items'], $itemInfo);
     }
 

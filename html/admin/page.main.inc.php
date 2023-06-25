@@ -1,12 +1,6 @@
 <?php
 
-    /*!
-     * https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
-
+    
     if (!admin::isSession()) {
 
         header("Location: /admin/login");
@@ -162,10 +156,6 @@
                                             <tr>
                                                 <td class="text-left">Total chats</td>
                                                 <td><?php echo $stats->getChatsTotal(); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">Total active chats (not removed)</td>
-                                                <td><?php echo $stats->getChatsCount(); ?></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-left">Total messages</td>

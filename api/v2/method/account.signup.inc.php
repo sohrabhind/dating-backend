@@ -1,11 +1,6 @@
 <?php
 
-/*!
- * https://racconsquare.com
- * racconsquare@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (racconsquare@gmail.com)
- */
+
 
 
 
@@ -25,6 +20,7 @@ if (!empty($_POST)) {
     $photoUrl = isset($_POST['photo']) ? $_POST['photo'] : '';
 
     $user_gender = isset($_POST['gender']) ? $_POST['gender'] : 0;
+    $country = isset($_POST['country']) ? $_POST['country'] : 0;
 
     $u_age = isset($_POST['age']) ? $_POST['age'] : 0;
     $interests = isset($_POST['interests']) ? $_POST['interests'] : "";
@@ -32,6 +28,7 @@ if (!empty($_POST)) {
     $appType = helper::clearInt($appType);
 
     $user_gender = helper::clearInt($user_gender);
+    $country = helper::clearInt($country);
     $u_age = helper::clearInt($u_age);
     $interests = helper::clearText($interests);
     $interests = helper::escapeText($interests);
@@ -59,7 +56,7 @@ if (!empty($_POST)) {
     $account = new account($dbo);
     
     $access_level = 0;
-    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $access_level, $u_age, "", $interests);
+    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $access_level, $u_age, "", $interests, $country);
     unset($account);
     if (!$result['error']) {
 

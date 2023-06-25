@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 class find extends db_connect
 {
@@ -30,12 +23,10 @@ class find extends db_connect
     }
 
 
-    public function start($queryText = '', $itemId = 0, $gender = 3, $online = 0, $photo = 0, $levelMode = 0, $ageFrom = 18, $ageTo = 105, $distance = 3000, $lat = "", $lng = "")
+    public function start($itemId = 0, $gender = 3, $online = 0, $levelMode = 0, $ageFrom = 18, $ageTo = 105, $distance = 12500, $lat = 0.0000, $lng = 0.0000)
     {
-        $originQuery = $queryText;
 
         if ($itemId == 0) {
-
             $itemId = 90000000;
             $itemId++;
         }
@@ -47,51 +38,39 @@ class find extends db_connect
             "error" => false,
             "error_code" => ERROR_SUCCESS,
             "itemId" => $itemId,
-            "query" => $originQuery,
             "items" => array()
         );
 
+
         $origLat = $lat;
         $origLng = $lng;
-        $dist = $distance; // This is the maximum distance (in miles) away from $origLat, $origLon in which to search
+        $dist = $distance; // This is the maximum distance (in kilometers) away from $origLat, $origLon in which to search
 
         $endSql = " having distance < {$dist} ORDER BY regtime DESC LIMIT 20";
 
         $genderSql = "";
-
         if ($gender != 3) {
-
             $genderSql = " AND gender = {$gender}";
         }
 
         $onlineSql = "";
-
         if ($online > 0) {
             $current_time = time() - (15 * 60);
             $onlineSql = " AND last_authorize > {$current_time}";
         }
 
-        $photoSql = "";
-
-        if ($photo > 0) {
-            $photoSql = " AND bigPhotoUrl <> ''";
-        }
-
         $levelModeSql = "";
-
         if ($levelMode > 0) {
             $levelModeSql = " AND level != 0";
         }
 
         $dateSql = " AND u_age >= {$ageFrom} AND u_age <= {$ageTo}";
 
-        $queryText = "%".$queryText."%";
-
-        $sql = "SELECT id, regtime, lat, lng, 3956 * 2 *
+        $sql = "SELECT id, regtime, lat, lng, 12733 *
                     ASIN(SQRT( POWER(SIN(($origLat - lat)*pi()/180/2),2)
                     +COS($origLat*pi()/180 )*COS(lat*pi()/180)
                     *POWER(SIN(($origLng-lng)*pi()/180/2),2)))
-                    as distance  FROM users WHERE state = 0 AND (fullname LIKE '{$queryText}' OR email LIKE '{$queryText}') AND id < {$itemId}".$genderSql.$onlineSql.$photoSql.$levelModeSql.$dateSql.$endSql;
+                    as distance  FROM users WHERE state = 0  AND id < {$itemId}".$genderSql.$onlineSql.$levelModeSql.$dateSql.$endSql;
         $stmt = $this->db->prepare($sql);
 
         if ($stmt->execute()) {
@@ -100,7 +79,7 @@ class find extends db_connect
                     $profile = new profile($this->db, $row['id']);
                     $profile->setRequestFrom($this->getRequestFrom());
                     $profileInfo = $profile->getVeryShort();
-                    $profileInfo['distance'] = round($this->getDistance($lat, $lng, $profileInfo['lat'], $profileInfo['lng']), 1);
+                    $profileInfo['distance'] = round($row['distance'], 1);//round($this->getDistance($lat, $lng, $profileInfo['lat'], $profileInfo['lng']), 1);
                     unset($profile);
                     array_push($result['items'], $profileInfo);
                     $result['itemId'] = $row['id'];

@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 $result = array(
     "error" => true,
@@ -27,19 +20,10 @@ if (!empty($_POST)) {
 
     $itemType = isset($_POST['itemType']) ? $_POST['itemType'] : 0;
 
-    $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
-
     $accountId = helper::clearInt($accountId);
 
     $accessMode = helper::clearInt($accessMode);
     $itemType = helper::clearInt($itemType);
-
-    $comment = helper::clearText($comment);
-
-    $comment = preg_replace("/[\r\n]+/", "<br>", $comment); //replace all new lines to one new line
-    $comment  = preg_replace('/\s+/', ' ', $comment);        //replace all white spaces to one space
-
-    $comment = helper::escapeText($comment);
 
     $auth = new auth($dbo);
 
@@ -93,7 +77,7 @@ if (!empty($_POST)) {
                     if (!$response['error']) {
                         $images = new gallery($dbo);
                         $images->setRequestFrom($accountId);
-                        $images->add($accessMode, $comment, $response['normalImageUrl'], $itemType);
+                        $images->add($accessMode, $response['normalImageUrl'], $itemType);
 
                         $result['error'] = false;
                         $result['error_code'] = ERROR_SUCCESS;

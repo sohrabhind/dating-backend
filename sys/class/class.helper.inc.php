@@ -1,12 +1,5 @@
 <?php
 
-/*!
- * https://racconsquare.com
- * racconsquare@gmail.com
- *
- * Copyright 2012-2021 Demyanchuk Dmitry (racconsquare@gmail.com)
- */
-
 class helper extends db_connect
 {
     public function __construct($dbo = null)

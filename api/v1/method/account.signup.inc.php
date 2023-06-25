@@ -1,15 +1,4 @@
 <?php
-
-/*!
- * https://racconsquare.com
- * racconsquare@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (racconsquare@gmail.com)
- */
-
-
-
-
 if (!empty($_POST)) {
     $appType = isset($_POST['appType']) ? $_POST['appType'] : 2; // 2 = APP_TYPE_ANDROID
     
@@ -35,6 +24,7 @@ if (!empty($_POST)) {
     $image11 = isset($_POST['image11']) ? $_POST['image11'] : '';
 
     $user_gender = isset($_POST['gender']) ? $_POST['gender'] : 2;
+    $country = isset($_POST['country']) ? $_POST['country'] : 0;
     $u_age = isset($_POST['age']) ? $_POST['age'] : 0;
     $bio = isset($_POST['bio']) ? $_POST['bio'] : "";
     $interests = isset($_POST['interests']) ? $_POST['interests'] : "";
@@ -42,6 +32,7 @@ if (!empty($_POST)) {
     $appType = helper::clearInt($appType);
 
     $user_gender = helper::clearInt($user_gender);
+    $country = helper::clearInt($country);
     $u_age = helper::clearInt($u_age);
     $bio = helper::clearText($bio);
     $bio = helper::escapeText($bio);
@@ -102,7 +93,7 @@ if (!empty($_POST)) {
                 if (!$response['error']) {
                     $images = new gallery($dbo);
                     $images->setRequestFrom($accountId);
-                    $images->add(0, "", $response['normalImageUrl'], 0);
+                    $images->add(1, $response['normalImageUrl'], 0);
                 }
             }
         }
@@ -110,7 +101,7 @@ if (!empty($_POST)) {
 
     $account = new account($dbo);
     $access_level = 1;
-    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $access_level, $u_age, $bio, $interests);
+    $result = $account->signup($username, $fullname, $password, $email, $user_gender, $access_level, $u_age, $bio, $interests, $country);
     unset($account);
     if (!$result['error']) {
         $account = new account($dbo);
@@ -147,17 +138,17 @@ if (!empty($_POST)) {
             }
 
 
-            saveImage($dbo, $imglib, $image1, $accountId);
-            saveImage($dbo, $imglib, $image2, $accountId);
-            saveImage($dbo, $imglib, $image3, $accountId);
-            saveImage($dbo, $imglib, $image4, $accountId);
-            saveImage($dbo, $imglib, $image5, $accountId);
-            saveImage($dbo, $imglib, $image6, $accountId);
-            saveImage($dbo, $imglib, $image7, $accountId);
-            saveImage($dbo, $imglib, $image8, $accountId);
-            saveImage($dbo, $imglib, $image9, $accountId);
-            saveImage($dbo, $imglib, $image10, $accountId);
             saveImage($dbo, $imglib, $image11, $accountId);
+            saveImage($dbo, $imglib, $image10, $accountId);
+            saveImage($dbo, $imglib, $image9, $accountId);
+            saveImage($dbo, $imglib, $image8, $accountId);
+            saveImage($dbo, $imglib, $image7, $accountId);
+            saveImage($dbo, $imglib, $image6, $accountId);
+            saveImage($dbo, $imglib, $image5, $accountId);
+            saveImage($dbo, $imglib, $image4, $accountId);
+            saveImage($dbo, $imglib, $image3, $accountId);
+            saveImage($dbo, $imglib, $image2, $accountId);
+            saveImage($dbo, $imglib, $image1, $accountId);
 
             $account->updateCounters();
             $result['error'] = false;

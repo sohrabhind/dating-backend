@@ -1,21 +1,13 @@
 <?php
 
-/*!
- * https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 	try {
 
 		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS users (
 								  id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-								  gcm_regid TEXT,
-								  is_bot INT(10) UNSIGNED DEFAULT 0,
 								  level INT(10) UNSIGNED DEFAULT 0,
 								  level_create_at INT(10) UNSIGNED DEFAULT 0,
-								  gcm INT(10) UNSIGNED DEFAULT 1,
 								  state INT(10) UNSIGNED DEFAULT 0,
 								  access_level INT(10) UNSIGNED DEFAULT 0,
 								  fullname VARCHAR(150) NOT NULL DEFAULT '',
@@ -33,10 +25,8 @@
 								  removed SMALLINT(6) UNSIGNED DEFAULT 0,
 								  gl_id varchar(40) NOT NULL DEFAULT '',
 								  regtime INT(10) UNSIGNED DEFAULT 0,
-								  lasttime INT(10) UNSIGNED DEFAULT 0,
 								  images_count INT(11) UNSIGNED DEFAULT 0,
 								  likes_count INT(11) UNSIGNED DEFAULT 0,
-								  rating INT(11) UNSIGNED DEFAULT 0,
 								  balance INT(11) UNSIGNED DEFAULT 5,
 								  level_messages_count INT(11) UNSIGNED DEFAULT 150,
 								  gender SMALLINT(6) UNSIGNED DEFAULT 0,
@@ -51,21 +41,11 @@
 								  last_notify_view INT(10) UNSIGNED DEFAULT 0,
 								  last_authorize INT(10) UNSIGNED DEFAULT 0,
 								  ip_addr CHAR(32) NOT NULL DEFAULT '',
-								  allowComments SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowPhotosComments SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowMessages SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowShowOnline SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowLikesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowPhotosLikesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowCommentsGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowPhotosCommentsGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowMessagesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowCommentReplyGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowShowMyInfo SMALLINT(6) UNSIGNED DEFAULT 0,
-								  allowShowMyGallery SMALLINT(6) UNSIGNED DEFAULT 0,
-								  allowShowMyFriends SMALLINT(6) UNSIGNED DEFAULT 0,
-								  allowShowMyLikes SMALLINT(6) UNSIGNED DEFAULT 0,
-								  allowShowMyAge SMALLINT(6) UNSIGNED DEFAULT 0,
 								  bigPhotoUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								  photoCreateAt int(11) UNSIGNED DEFAULT 1,
   								PRIMARY KEY  (id), UNIQUE KEY (username)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
@@ -100,21 +80,6 @@
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci");
 		$sth->execute();
 
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS chats (
-								id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-								fromUserId INT(11) UNSIGNED DEFAULT 0,
-								toUserId INT(11) UNSIGNED DEFAULT 0,
-								fromUserId_lastView INT(11) UNSIGNED DEFAULT 0,
-								toUserId_lastView INT(11) UNSIGNED DEFAULT 0,
-								image VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								message varchar(800) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								messageCreateAt INT(11) UNSIGNED DEFAULT 0,
-								updateAt INT(11) UNSIGNED DEFAULT 0,
-								createAt INT(11) UNSIGNED DEFAULT 0,
-								removeAt INT(11) UNSIGNED DEFAULT 0,
-								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
-		$sth->execute();
-
 		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS messages (
 								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 								chatId int(11) UNSIGNED DEFAULT 0,
@@ -140,10 +105,6 @@
 								fromUserId int(11) UNSIGNED DEFAULT 0,
 								accessMode int(11) UNSIGNED DEFAULT 0,
 								itemType int(11) UNSIGNED DEFAULT 0,
-								likesCount int(11) UNSIGNED DEFAULT 0,
-								commentsCount int(11) UNSIGNED DEFAULT 0,
-								rating int(11) UNSIGNED DEFAULT 0,
-								comment varchar(400) DEFAULT '',
 								imgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								country VARCHAR(150) NOT NULL DEFAULT '',
 								lat float(10,6),
@@ -154,31 +115,6 @@
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
 
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS images_comments (
-								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-								fromUserId int(11) UNSIGNED DEFAULT 0,
-								replyToUserId int(11) UNSIGNED DEFAULT 0,
-								likesCount int(11) UNSIGNED DEFAULT 0,
-								imageId int(11) UNSIGNED DEFAULT 0,
-                                comment varchar(800) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-                                createAt int(11) UNSIGNED DEFAULT 0,
-                                removeAt int(11) UNSIGNED DEFAULT 0,
-                                notifyId int(11) UNSIGNED DEFAULT 0,
-								ip_addr CHAR(32) NOT NULL DEFAULT '',
-								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
-		$sth->execute();
-
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS images_likes (
-								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                                toUserId int(11) UNSIGNED DEFAULT 0,
-								fromUserId int(11) UNSIGNED DEFAULT 0,
-								imageId int(11) UNSIGNED DEFAULT 0,
-                                notifyId int(11) UNSIGNED DEFAULT 0,
-								createAt int(11) UNSIGNED DEFAULT 0,
-								removeAt int(11) UNSIGNED DEFAULT 0,
-								ip_addr CHAR(32) NOT NULL DEFAULT '',
-								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci");
-		$sth->execute();
 
 		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS stickers_data (
 								id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,

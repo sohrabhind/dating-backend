@@ -1,13 +1,6 @@
 <?php
 
-    /*!
-     * ifsoft.co.uk
-     *
-     * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
+    
 
     
 
@@ -29,6 +22,14 @@
                             <span class="hide-menu">Dashboard</span>
                         </a>
                     </li>
+                    
+                    <li>
+                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "chats_b") { echo "active";} ?>" href="/admin/chats_b" aria-expanded="false">
+                            <i class="ti-comment-alt"></i>
+                            <span class="hide-menu">Chats B</span>
+                        </a>
+                    </li>
+
                     <li>
                         <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "stickers") { echo "active";} ?>" href="/admin/stickers" aria-expanded="false">
                             <i class="ti-face-smile"></i>
@@ -67,25 +68,21 @@
                 <li class="nav-small-cap">Stream</li>
 
                     <li>
-                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "stream_images") { echo "active";} ?>" href="/admin/stream_images" aria-expanded="false">
+                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "images") { echo "active";} ?>" href="/admin/images" aria-expanded="false">
                             <i class="ti-image"></i>
                             <span class="hide-menu">Images Stream</span>
                         </a>
                     </li>
 
+                    
                     <li>
-                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "stream_messages") { echo "active";} ?>" href="/admin/stream_messages" aria-expanded="false">
+                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "chats") { echo "active";} ?>" href="/admin/chats" aria-expanded="false">
                             <i class="ti-comment-alt"></i>
-                            <span class="hide-menu">Messages Stream</span>
+                            <span class="hide-menu">Chats Stream</span>
                         </a>
                     </li>
 
-                    <li>
-                        <a class="waves-effect waves-dark <?php if (isset($page_id) && $page_id === "stream_comments") { echo "active";} ?>" href="/admin/stream_comments" aria-expanded="false">
-                            <i class="ti-comments"></i>
-                            <span class="hide-menu">Comments Stream</span>
-                        </a>
-                    </li>
+                    
 
                 <li class="nav-devider"></li>
 

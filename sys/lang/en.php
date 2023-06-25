@@ -107,7 +107,7 @@
 
     $TEXT['page-profile-report-sub-title'] = "Reported profiles are sent to our moderators for a review. They will ban the reported profiles if they violate terms of use";
 
-    $TEXT['page-profile-block-sub-title'] = "will not be able write comments to your Posts and send your messages, and you will not see notifications from";
+    $TEXT['page-profile-block-sub-title'] = "will not be able to send you messages, and you will not see notifications from";
 
 
 

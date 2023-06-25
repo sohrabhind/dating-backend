@@ -8,19 +8,18 @@ if (!empty($_POST)) {
     $distance = isset($_POST['distance']) ? $_POST['distance'] : 1000;
     $itemId = isset($_POST['itemId']) ? $_POST['itemId'] : 0;
 
-    $liked = isset($_POST['liked']) ? $_POST['liked'] : 1;
 
     $gender = isset($_POST['gender']) ? $_POST['gender'] : 3; // 3 = any
+    $country = isset($_POST['country']) ? $_POST['country'] : 0; // 3 = any
 
-    $lat = isset($_POST['lat']) ? $_POST['lat'] : '0.000000';
-    $lng = isset($_POST['lng']) ? $_POST['lng'] : '0.000000';
+    $lat = isset($_POST['lat']) ? $_POST['lat'] : 0.000000;
+    $lng = isset($_POST['lng']) ? $_POST['lng'] : 0.000000;
 
     $distance = helper::clearInt($distance);
     $itemId = helper::clearInt($itemId);
 
-    $liked = helper::clearInt($liked);
-
     $gender = helper::clearInt($gender);
+    $country = helper::clearInt($country);
 
     $lat = helper::clearText($lat);
     $lat = helper::escapeText($lat);
@@ -41,11 +40,16 @@ if (!empty($_POST)) {
     if (strlen($lat) > 0 && strlen($lng) > 0 && $itemId == 0) {
         $result = $account->setGeoLocation($lat, $lng);
     }
+    
+    if ($country != 0) {
+        $result = $account->setCountry($country);
+    }
 
     $hotgame = new hotgame($dbo);
     $hotgame->setRequestFrom($accountId);
-    $result = $hotgame->get($itemId, $lat, $lng, $distance, $gender, $liked);
-    
+    $result = $hotgame->get($itemId, $lat, $lng, $distance, $gender, $country);
+
     echo json_encode($result);
     exit;
+
 }

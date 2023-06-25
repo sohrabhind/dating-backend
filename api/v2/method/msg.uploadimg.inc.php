@@ -1,14 +1,5 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, http://ifsoft.co.uk
- * hindbyte@gmail.com
- *
- * Copyright 2012-2019 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
-
 $result = array("error" => true,
                 "error_code" => ERROR_CODE_INITIATE,
                 "error_description" => '');
@@ -127,7 +118,7 @@ if (!empty($_POST)) {
         $account = new account($dbo, $accountId);
         $free_messages_count = $account->getFreeMessagesCount();
         $level_messages_count = $account->getLevelMessagesCount();
-        $messages = new msg($dbo);
+        $messages = new messages($dbo);
         $messages->setRequestFrom($accountId);
 
         if ($account->getGender() == 1) {
@@ -157,7 +148,7 @@ if (!empty($_POST)) {
                         $result['error_description'] = "ok.";
                         $messageImg = $response['imgUrl'];
 
-                        $result = $messages->create($profileId, $chatId, $messageText, $messageImg, $chatFromUserId, $chatToUserId, $listId, $stickerId, $stickerImgUrl);
+                        $result = $messages->create($profileId, $chatId, $messageText, $messageImg, $listId, $stickerId, $stickerImgUrl);
                     }
                 }
             } else {

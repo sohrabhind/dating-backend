@@ -1,11 +1,6 @@
 <?php
 
-    /*!
-     * https://racconsquare.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
+    
 
     if (!admin::isSession()) {
 

@@ -1,13 +1,6 @@
 <?php
 
-    /*!
-     * ifsoft.co.uk
-     *
-     * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
+    
 
     if (!admin::isSession()) {
 
@@ -31,7 +24,7 @@
 
         if ($accessToken === admin::getAccessToken() && !APP_DEMO) {
 
-            $messages = new msg($dbo);
+            $messages = new messages($dbo);
             $messages->remove($msgId);
         }
     }

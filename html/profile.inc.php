@@ -1,12 +1,6 @@
 <?php
 
-    /*!
-     * https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
-
+    
     
 
     if (!auth::isSession()) {
@@ -301,9 +295,7 @@
 
 
                         if ($profileInfo['imagesCount'] != 0) {
-
-                            if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['allowShowMyGallery'] == 0) {
-
+            
                                 ?>
                                     <div class="main-content">
                                         <div class="card border-0 mt-4 col-12 p-0" id="preview-gallery-block">
@@ -333,14 +325,12 @@
                                         </div>
                                     </div>
                                 <?php
-                            }
                         }
                         
 
                         if ($profileInfo['likesCount'] != 0) {
 
-                            if ($profileInfo['id'] == auth::getCurrentUserId() || $profileInfo['allowShowMyLikes'] == 0) {
-
+                
                                 ?>
                                 <div class="main-content">
                                     <div class="card border-0 mt-4 col-12 p-0" id="preview-likes-block">
@@ -368,7 +358,6 @@
                                     </div>
                                 </div>
                                 <?php
-                            }
                         }
 
                         ?>

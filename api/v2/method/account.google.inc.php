@@ -1,11 +1,6 @@
 <?php
 
-/*!
- * https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 
 

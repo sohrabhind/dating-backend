@@ -1,12 +1,6 @@
 <?php
 
-    /*!
-     * https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
-
+    
     // If timezone is not installed on the server
 
     if (!ini_get('date.timezone')) {

@@ -1,12 +1,6 @@
 <?php
 
-    /*!
-     * https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
-
+    
     if (!admin::isSession()) {
 
         header("Location: /admin/login");
@@ -306,22 +300,7 @@
 
                 <td>
                 </td>
-                <td>
-                    <?php
-
-                        if (strlen($itemInfo['comment']) != 0) {
-
-                            ?>
-                                <h6><?php echo $itemInfo['comment']; ?></h6>
-                            <?php
-
-                        } else {
-
-                            ?>
-                                <h6>-</h6>
-                            <?php
-                        }
-                    ?>
+                <td><h6>-</h6>
                 </td>
 
                 <td>

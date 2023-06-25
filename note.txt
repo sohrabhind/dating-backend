@@ -9,3 +9,112 @@ Image Zoom in/out
 
 
 i9iZFYfWSkMJGc
+
+sudo systemctl stop mysql.service apache2.service
+sudo systemctl stop mysql
+
+
+
+SELECT id, lat, lng, 12733 *
+                    ASIN(SQRT( POWER(SIN((1.346 - lat)*pi()/180/2),2)
+                    +COS(1.346*pi()/180 )*COS(lat*pi()/180)
+                    *POWER(SIN((23.6-lng)*pi()/180/2),2)))
+                    as distance 
+                    FROM users WHERE
+                    (id >= (SELECT FLOOR(MAX(id) * RAND()) FROM users))
+                    and country = 91
+                    and (id <> 2)
+                    and gender = 1
+                    and (state = 0)
+                    having distance < 2000 LIMIT 10
+
+                    SELECT id, lat, lng FROM users WHERE
+                    country = 91
+                    and (id <> 2)
+                    and gender = 1
+                    and (state = 0)
+                    and (id >= (SELECT FLOOR(MAX(id) * RAND()) FROM users))
+                    LIMIT 10
+
+
+                    SELECT id, lat, lng, 12733 * ASIN(SQRT( POWER(SIN((1.346 - lat)*pi()/180/2),2) +COS(1.346*pi()/180 )*COS(lat*pi()/180) *POWER(SIN((23.6-lng)*pi()/180/2),2))) as distance FROM users WHERE 
+country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 
+and last_authorize > 1686049743 
+ORDER BY RAND() 
+LIMIT 10; 
+
+
+SELECT t.id -- etc, etc
+FROM users t
+INNER JOIN (
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max := (SELECT MAX(id) FROM users)) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on id > rand LIMIT 1)
+) x ON x.id = t.id
+ORDER BY t.id;
+
+
+
+SELECT t.id -- etc, etc
+FROM users t
+INNER JOIN (
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max := (SELECT MAX(id) FROM users)) + 1 as rand) r on country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and  id > rand  LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1) UNION
+    (SELECT id FROM users INNER JOIN (SELECT FLOOR(RAND() * @max) + 1 as rand) r on  country = 91 
+and id <> 2 
+and gender = 1 
+and state = 0 and id > rand LIMIT 1)
+) x ON x.id = t.id;
+
+
+
+
+SELECT t.id -- etc, etc FROM users t INNER JOIN ( SELECT id FROM users WHERE country = 91 AND id <> 2 AND gender = 1 AND state = 0 AND id > FLOOR(RAND() * (SELECT MAX(id) FROM users)) + 1 LIMIT 10 ) x USING (id); 
+
+
+
+SELECT id, lat, lng, 12733 * ASIN(SQRT( POWER(SIN((0.0000 - lat)*pi()/180/2),2) +COS(0.0000*pi()/180 )*COS(lat*pi()/180) *POWER(SIN((0.0000-lng)*pi()/180/2),2))) as distance, country as cntry FROM users WHERE (id <> 2) and (state = 0) having distance < 1000 or cntry = '91' ORDER BY RAND() LIMIT 10; 

@@ -1,14 +1,5 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, http://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2019 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
-
 // amount must be in cents | $1 = 100 cents
 
 $payments_packages = array();

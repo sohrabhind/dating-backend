@@ -1,11 +1,6 @@
 <?php
 
-/*!
- * https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 
 
@@ -37,16 +32,16 @@ if (!empty($_POST)) {
 
 
     $notifications_count = 0;
-    $level_messages_count = 0;
+    $getNewMessagesCount = 0;
 
     // Get new messages count
 
     if (APP_MESSAGES_COUNTERS) {
 
-        $msg = new msg($dbo);
+        $msg = new messages($dbo);
         $msg->setRequestFrom($accountId);
 
-        $level_messages_count = $msg->getNewMessagesCount();
+        $getNewMessagesCount = $msg->getNewMessagesCount();
 
         unset($msg);
     }
@@ -72,7 +67,7 @@ if (!empty($_POST)) {
     $arr = $config['allowSeenTyping'];
     $result['seenTyping'] = $arr['intValue'];
 
-    $result['messagesCount'] = $level_messages_count;
+    $result['messagesCount'] = $getNewMessagesCount;
     $result['notificationsCount'] = $notifications_count;
     
     $result['free_messages_count'] = $accountInfo['free_messages_count'];

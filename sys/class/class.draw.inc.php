@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 
 
@@ -316,7 +309,7 @@ class draw extends db_connect
         <?php
     }
 
-    static function image($post, $LANG, $helper = null, $showComments = false)
+    static function image($post, $LANG, $helper = null)
     {
         $fromUserPhoto = "/assets/img/profile_default_photo.png";
 
@@ -379,8 +372,6 @@ class draw extends db_connect
 
             <div class="item-meta post-item-content">
 
-                <p class="post-text mx-2"><?php echo $post['comment']; ?></p>
-
                 <?php
 
                 if ($post['itemType'] == ITEM_TYPE_IMAGE && strlen($post['imgUrl'])) {
@@ -391,23 +382,6 @@ class draw extends db_connect
 
                 }
                 ?>
-
-                <div class="item-counters <?php if ($post['likesCount'] == 0 && $post['commentsCount'] == 0) echo 'gone' ?>" data-id="<?php echo $post['id']; ?>">
-                    <a class="item-likes-count <?php if ($post['likesCount'] == 0) echo 'gone'; ?>" data-id="<?php echo $post['id']; ?>" href="/<?php echo $post['owner']['username']; ?>/gallery/<?php echo $post['id']; ?>/people"><?php echo $LANG['label-likes']; ?>: <span class="likes-count" data-id="<?php echo $post['id']; ?>"><?php echo $post['likesCount']; ?></span></a>
-                    <a class="item-comments-count <?php if ($post['commentsCount'] == 0) echo 'gone'; ?>" data-id="<?php echo $post['id']; ?>" href="/<?php echo $post['owner']['username']; ?>/gallery/<?php echo $post['id']; ?>"><?php echo $LANG['label-comments']; ?>: <span class="comments-count" data-id="<?php echo $post['id']; ?>"><?php echo $post['commentsCount']; ?></span></a>
-                </div>
-
-                <div class="item-footer">
-                    <div class="item-footer-container">
-                            <span class="item-footer-button">
-                                <a class="item-like-button item-footer-button <?php if ($post['iLiked']) echo "active"; ?>" onclick="Item.like('<?php echo $post['id']; ?>', '<?php echo ITEM_TYPE_GALLERY; ?>'); return false;" data-id="<?php echo $post['id']; ?>">
-                                    <i class="iconfont icofont-heart mr-1"></i>
-                                    <?php echo $LANG['action-like']; ?>
-                                </a>
-                            </span>
-
-                    </div>
-                </div>
 
             </div
 

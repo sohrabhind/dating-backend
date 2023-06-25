@@ -1,11 +1,6 @@
 <?php
 
-/*!
- * https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 class stats extends db_connect
 {
@@ -17,19 +12,10 @@ class stats extends db_connect
 
     }
 
-    public function getChatsCount()
-    {
-        $stmt = $this->db->prepare("SELECT count(*) FROM chats WHERE removeAt = 0");
+
+    public function getChatsTotal() {
+        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT CONCAT(fromUserId, '_', toUserId)) AS unique_count FROM messages");
         $stmt->execute();
-
-        return $number_of_rows = $stmt->fetchColumn();
-    }
-
-    public function getChatsTotal()
-    {
-        $stmt = $this->db->prepare("SELECT count(*) FROM chats");
-        $stmt->execute();
-
         return $number_of_rows = $stmt->fetchColumn();
     }
 
@@ -244,7 +230,6 @@ class stats extends db_connect
                 $dataInfo = array("id" => $row['id'],
                                   "accountId" => $row['accountId'],
                                   "accessToken" => $row['accessToken'],
-                                  "clientId" => $row['clientId'],
                                   "createAt" => $row['createAt'],
                                   "removeAt" => $row['removeAt'],
                                   "ip_addr" => $row['ip_addr']);

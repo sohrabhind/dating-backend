@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, http://ifsoft.co.uk
- * hindbyte@gmail.com
- *
- * Copyright 2012-2019 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 if (!empty($_POST)) {
 
@@ -17,14 +10,14 @@ if (!empty($_POST)) {
     $profileId = isset($_POST['profileId']) ? $_POST['profileId'] : '';
 
     $chatId = isset($_POST['chatId']) ? $_POST['chatId'] : 0;
-    $msgId = isset($_POST['msgId']) ? $_POST['msgId'] : 0;
+    $lastMessageId = isset($_POST['lastMessageId']) ? $_POST['lastMessageId'] : 0;
 
     $accountId = helper::clearInt($accountId);
 
     $profileId = helper::clearInt($profileId);
 
     $chatId = helper::clearInt($chatId);
-    $msgId = helper::clearInt($msgId);
+    $lastMessageId = helper::clearInt($lastMessageId);
 
     $result = array("error" => true,
                     "error_code" => ERROR_CODE_INITIATE);
@@ -36,7 +29,7 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $messages = new msg($dbo);
+    $messages = new messages($dbo);
     $messages->setRequestFrom($accountId);
 
     if ($chatId == 0) {
@@ -46,7 +39,7 @@ if (!empty($_POST)) {
 
     if ($chatId != 0) {
 
-        $result = $messages->getPreviousMessages($chatId, $msgId);
+        $result = $messages->getPreviousMessages($chatId, $lastMessageId);
     }
 
     echo json_encode($result);

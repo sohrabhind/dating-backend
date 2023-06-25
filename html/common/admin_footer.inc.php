@@ -1,13 +1,6 @@
 <?php
 
-    /*!
-     * ifsoft.co.uk admin engine v1.1
-     *
-     * http://ifsoft.com.ua, http://ifsoft.co.uk
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2019 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
+    
 
 ?>
 

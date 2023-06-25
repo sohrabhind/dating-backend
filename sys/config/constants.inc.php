@@ -1,11 +1,6 @@
 <?php
 
-    /*!
-     * https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
+    
 
 $B['GOOGLE_AUTHORIZATION'] = true; //false = Do not show buttons Login/Signup with Google | true = allow display buttons Login/Signup with Google
 
@@ -53,14 +48,12 @@ $C['IMAGE_TYPE_PROFILE_PHOTO'] = 0;
 $C['REPORT_TYPE_ITEM'] = 0;
 $C['REPORT_TYPE_PROFILE'] = 1;
 $C['REPORT_TYPE_MESSAGE'] = 2;
-$C['REPORT_TYPE_COMMENT'] = 3;
 $C['REPORT_TYPE_GALLERY_ITEM'] = 4;
 $C['REPORT_TYPE_MARKET_ITEM'] = 5;
 $C['REPORT_TYPE_COMMUNITY'] = 6;
 
 $C['ITEM_TYPE_IMAGE'] = 0;
 $C['ITEM_TYPE_POST'] = 2;
-$C['ITEM_TYPE_COMMENT'] = 3;
 $C['ITEM_TYPE_GALLERY'] = 4;
 
 // Payments

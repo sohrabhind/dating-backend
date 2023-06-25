@@ -1,0 +1,44 @@
+SELECT id, lat, lng FROM users WHERE country = 91 and (id <> 2) and gender = 1 and (state = 0) and (id >= (SELECT FLOOR(MAX(id) * RAND()) FROM users)) LIMIT 10; 
+WITHOUT COUNTRY, GENDER, STATE INDEX in 400k rows
+Showing rows 0 - 9 (10 total, Query took 17.8468 seconds.)
+Showing rows 0 - 9 (10 total, Query took 21.8051 seconds.) 
+WITH COUNTRY, GENDER, STATE INDEX in 400k rows
+Showing rows 0 - 9 (10 total, Query took 5.5022 seconds.)  
+Showing rows 0 - 9 (10 total, Query took 7.1806 seconds.)
+Showing rows 0 - 9 (10 total, Query took 5.2966 seconds.) 
+
+
+SELECT id, lat, lng, 12733 * ASIN(SQRT( POWER(SIN((1.346 - lat)*pi()/180/2),2) +COS(1.346*pi()/180 )*COS(lat*pi()/180) *POWER(SIN((23.6-lng)*pi()/180/2),2))) as distance FROM users WHERE id <> 2 and gender = 1 and state = 0 and last_authorize > 1686049743 ORDER BY RAND() LIMIT 10; 
+WITH COUNTRY, GENDER, STATE, last_authorize INDEX in 400k rows
+Showing rows 0 - 9 (10 total, Query took 0.3585 seconds.) 
+Showing rows 0 - 9 (10 total, Query took 0.3579 seconds.)
+Showing rows 0 - 9 (10 total, Query took 0.3438 seconds.) 
+
+
+SELECT id, lat, lng, 12733 * ASIN(SQRT( POWER(SIN((1.346 - lat)*pi()/180/2),2) +COS(1.346*pi()/180 )*COS(lat*pi()/180) *POWER(SIN((23.6-lng)*pi()/180/2),2))) as distance FROM users WHERE id <> 2 and gender = 1 and state = 0 and last_authorize > 1686049743 ORDER BY RAND(); 
+WITH COUNTRY, GENDER, STATE, last_authorize INDEX in 400k rows
+Showing rows 0 - 24 (79972 total, Query took 0.3547 seconds.) 
+Showing rows 0 - 24 (79972 total, Query took 0.4492 seconds.) 
+Showing rows 0 - 24 (79972 total, Query took 0.4202 seconds.) 
+
+
+SELECT id, lat, lng, 12733 * ASIN(SQRT( POWER(SIN((1.346 - lat)*pi()/180/2),2) +COS(1.346*pi()/180 )*COS(lat*pi()/180) *POWER(SIN((23.6-lng)*pi()/180/2),2))) as distance FROM users WHERE country = 91 and id <> 2 and gender = 1 and state = 0 and last_authorize > 1686049743 ORDER BY RAND() LIMIT 10; 
+WITH COUNTRY, GENDER, STATE, last_authorize INDEX in 400k rows
+Showing rows 0 - 9 (10 total, Query took 0.2534 seconds.) 
+Showing rows 0 - 9 (10 total, Query took 0.3042 seconds.) 
+Showing rows 0 - 9 (10 total, Query took 0.2892 seconds.) 
+
+SELECT id, lat, lng, 12733 * ASIN(SQRT( POWER(SIN((1.346 - lat)*pi()/180/2),2) +COS(1.346*pi()/180 )*COS(lat*pi()/180) *POWER(SIN((23.6-lng)*pi()/180/2),2))) as distance FROM users ORDER BY RAND(); 
+WITH COUNTRY, GENDER, STATE, last_authorize INDEX in 400k rows
+ Showing rows 0 - 24 (393297 total, Query took 0.4848 seconds.) 
+  Showing rows 0 - 24 (393297 total, Query took 0.5642 seconds.) 
+   Showing rows 0 - 24 (393297 total, Query took 0.5236 seconds.) 
+
+
+SELECT id, lat, lng, 12733 * ASIN(SQRT( POWER(SIN((1.346 - lat)*pi()/180/2),2) +COS(1.346*pi()/180 )*COS(lat*pi()/180) *POWER(SIN((23.6-lng)*pi()/180/2),2))) as distance FROM users WHERE id <> 2 and gender = 1 and state = 0 and last_authorize > 1686049743 and id > FLOOR(RAND() * (SELECT MAX(id) FROM users)) LIMIT 10; 
+WITH COUNTRY, GENDER, STATE, last_authorize INDEX in 400k rows
+Showing rows 0 - 9 (10 total, Query took 0.0048 seconds.) 
+Showing rows 0 - 9 (10 total, Query took 0.0050 seconds.)
+Showing rows 0 - 9 (10 total, Query took 0.0068 seconds.)
+
+

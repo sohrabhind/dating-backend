@@ -1,11 +1,6 @@
 <?php
 
-    /*!
-     * https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
+    
 
     if (!admin::isSession()) {
 
@@ -35,7 +30,7 @@
         $account = new account($dbo, $accountId);
         $accountInfo = $account->get();
 
-        $messages = new msg($dbo);
+        $messages = new messages($dbo);
         $messages->setRequestFrom($accountId);
 
         if ($accessToken === admin::getAccessToken() && $admin_info['access_level'] < ADMIN_ACCESS_LEVEL_MODERATOR_RIGHTS) {

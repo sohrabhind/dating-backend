@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 class profile extends db_connect
 {
@@ -122,9 +115,9 @@ class profile extends db_connect
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
+                                "access_level" => $row['access_level'],
                                 "level" => $level,
                                 "level_create_at" => $row['level_create_at'],
-                                "rating" => $row['rating'],
                                 "state" => $row['state'],
                                 "gender" => $row['gender'],
                                 "age" => $row['u_age'],
@@ -133,7 +126,7 @@ class profile extends db_connect
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
                                 "fullname" => $row['fullname'],
-                                "location" => stripcslashes($row['country']),
+                                "location" => stripcslashes($row['location']),
                                 "bio" => stripcslashes($row['bio']),
                                 "interests" => stripcslashes($row['interests']),
                                 "bigPhotoUrl" => $row['bigPhotoUrl'],
@@ -142,13 +135,7 @@ class profile extends db_connect
                                 "iAlcoholViews" => $row['iAlcoholViews'],
                                 "iLooking" => $row['iLooking'],
                                 "iInterested" => $row['iInterested'],
-                                "allowPhotosComments" => $row['allowPhotosComments'],
                                 "allowMessages" => $row['allowMessages'],
-                                "allowShowMyInfo" => $row['allowShowMyInfo'],
-                                "allowShowMyGallery" => $row['allowShowMyGallery'],
-                                "allowShowMyFriends" => $row['allowShowMyFriends'],
-                                "allowShowMyLikes" => $row['allowShowMyLikes'],
-                                "allowShowMyAge" => $row['allowShowMyAge'],
                                 "allowShowOnline" => $row['allowShowOnline'],
                                 "imagesCount" => $row['images_count'],
                                 "likesCount" => $row['likes_count'],
@@ -238,10 +225,9 @@ class profile extends db_connect
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
-                                "gcm_regid" => $row['gcm_regid'],
+                                "access_level" => $row['access_level'],
                                 "level" => $level,
                                 "level_create_at" => $row['level_create_at'],
-                                "rating" => $row['rating'],
                                 "state" => $row['state'],
                                 "gender" => $row['gender'],
                                 "age" => $row['u_age'],
@@ -250,19 +236,13 @@ class profile extends db_connect
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
                                 "fullname" => $row['fullname'],
-                                "location" => stripcslashes($row['country']),
+                                "location" => stripcslashes($row['location']),
                                 "bio" => stripcslashes($row['bio']),
                                 "interests" => stripcslashes($row['interests']),
                                 "imagesCount" => $row['images_count'],
                                 "likesCount" => $row['likes_count'],
                                 "bigPhotoUrl" => $row['bigPhotoUrl'],
-                                "allowPhotosComments" => $row['allowPhotosComments'],
                                 "allowMessages" => $row['allowMessages'],
-                                "allowShowMyInfo" => $row['allowShowMyInfo'],
-                                "allowShowMyGallery" => $row['allowShowMyGallery'],
-                                "allowShowMyFriends" => $row['allowShowMyFriends'],
-                                "allowShowMyLikes" => $row['allowShowMyLikes'],
-                                "allowShowMyAge" => $row['allowShowMyAge'],
                                 "allowShowOnline" => $row['allowShowOnline'],
                                 "inBlackList" => $inBlackList,
                                 "iLiked" => $iLiked,
@@ -330,10 +310,9 @@ class profile extends db_connect
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
-                                "gcm_regid" => $row['gcm_regid'],
+                                "access_level" => $row['access_level'],
                                 "level" => $level,
                                 "level_create_at" => $row['level_create_at'],
-                                "rating" => $row['rating'],
                                 "state" => $row['state'],
                                 "gender" => $row['gender'],
                                 "age" => $row['u_age'],
@@ -342,7 +321,7 @@ class profile extends db_connect
                                 "lng" => $row['lng'],
                                 "username" => $row['username'],
                                 "fullname" => $row['fullname'],
-                                "location" => stripcslashes($row['country']),
+                                "location" => stripcslashes($row['location']),
                                 "bio" => stripcslashes($row['bio']),
                                 "interests" => stripcslashes($row['interests']),
                                 "bigPhotoUrl" => $row['bigPhotoUrl'],
@@ -358,13 +337,7 @@ class profile extends db_connect
                                 "lastAuthorize" => $row['last_authorize'],
                                 "lastAuthorizeDate" => date("Y-m-d H:i:s", $row['last_authorize']),
                                 "lastAuthorizeTimeAgo" => $time->timeAgo($row['last_authorize']),
-                                "allowPhotosComments" => $row['allowPhotosComments'],
                                 "allowMessages" => $row['allowMessages'],
-                                "allowShowMyInfo" => $row['allowShowMyInfo'],
-                                "allowShowMyGallery" => $row['allowShowMyGallery'],
-                                "allowShowMyFriends" => $row['allowShowMyFriends'],
-                                "allowShowMyLikes" => $row['allowShowMyLikes'],
-                                "allowShowMyAge" => $row['allowShowMyAge'],
                                 "allowShowOnline" => $row['allowShowOnline'],
                                 "online" => $online,
                                 "inBlackList" => $inBlackList,

@@ -1,11 +1,6 @@
 <?php
 
-/*!
- * https://racconsquare.com
- * racconsquare@gmail.com
- *
- * Copyright 2012-2022 Demyanchuk Dmitry (racconsquare@gmail.com)
- */
+
 
 class account extends db_connect
 {
@@ -19,7 +14,7 @@ class account extends db_connect
         $this->setId($accountId);
     }
 
-    public function signup($username, $fullname, $password, $email, $gender, $access_level, $u_age, $bio, $interests)
+    public function signup($username, $fullname, $password, $email, $gender, $access_level, $u_age, $bio, $interests, $country = 0)
     {
 
         $result = array("error" => true);
@@ -119,7 +114,7 @@ class account extends db_connect
         $default_allow_messages = $app_settings['defaultAllowMessages']['intValue'];
         $default_user_language = "en";
 
-        $stmt = $this->db->prepare("INSERT INTO users (access_level, level_messages_count, language, state, username, fullname, password, email, balance, bio, interests, gender, u_age, regtime, allowMessages, ip_addr) value (:access_level, :level_messages_count, :language, :state, :username, :fullname, :password, :email, :balance, :bio, :interests, :gender, :age, :createAt, :allowMessages, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO users (access_level, level_messages_count, language, state, username, fullname, password, email, balance, bio, interests, gender, u_age, country, regtime, allowMessages, ip_addr) value (:access_level, :level_messages_count, :language, :state, :username, :fullname, :password, :email, :balance, :bio, :interests, :gender, :age, :country, :createAt, :allowMessages, :ip_addr)");
         $stmt->bindParam(":access_level", $access_level, PDO::PARAM_INT);
         $stmt->bindParam(":level_messages_count", $default_level_messages_count, PDO::PARAM_INT);
         $stmt->bindParam(":language", $default_user_language, PDO::PARAM_STR);
@@ -132,6 +127,7 @@ class account extends db_connect
         $stmt->bindParam(":gender", $gender, PDO::PARAM_INT);
         $stmt->bindParam(":bio", $bio, PDO::PARAM_STR);
         $stmt->bindParam(":interests", $interests, PDO::PARAM_STR);
+        $stmt->bindParam(":country", $country, PDO::PARAM_STR);
         $stmt->bindParam(":age", $u_age, PDO::PARAM_INT);
         $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
         $stmt->bindParam(":allowMessages", $default_allow_messages, PDO::PARAM_INT);
@@ -475,39 +471,6 @@ class account extends db_connect
         return 0;
     }
 
-    public function setRating($rating)
-    {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
-
-        $stmt = $this->db->prepare("UPDATE users SET rating = (:rating) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":rating", $rating, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
-        }
-
-        return $result;
-    }
-
-    public function getRating()
-    {
-        $stmt = $this->db->prepare("SELECT rating FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $row = $stmt->fetch();
-
-            return $row['rating'];
-        }
-
-        return 0;
-    }
-
 
     public function setImagesCount($imagesCount) {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
@@ -682,9 +645,9 @@ class account extends db_connect
     public function setLocation($location) {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
-        $stmt = $this->db->prepare("UPDATE users SET country = (:country) WHERE id = (:accountId)");
+        $stmt = $this->db->prepare("UPDATE users SET location = (:location) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":country", $location, PDO::PARAM_STR);
+        $stmt->bindParam(":location", $location, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
@@ -693,16 +656,30 @@ class account extends db_connect
     }
 
     public function getLocation() {
-        $stmt = $this->db->prepare("SELECT country FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt = $this->db->prepare("SELECT location FROM users WHERE id = (:accountId) LIMIT 1");
         $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $row = $stmt->fetch();
-            return $row['country'];
+            return $row['location'];
         }
 
         return '';
     }
+
+    
+    public function setCountry($country) {
+        $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
+        $stmt = $this->db->prepare("UPDATE users SET country = (:country) WHERE id = (:accountId)");
+        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":country", $country, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
+        }
+        return $result;
+    }
+
 
     public function setGeoLocation($lat, $lng)
     {
@@ -719,6 +696,7 @@ class account extends db_connect
 
         return $result;
     }
+
 
     public function getGeoLocation()
     {
@@ -927,29 +905,6 @@ class account extends db_connect
 
 
 
-    public function setAllowPhotosComments($allowPhotosComments)
-    {
-        $stmt = $this->db->prepare("UPDATE users SET allowPhotosComments = (:allowPhotosComments) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":allowPhotosComments", $allowPhotosComments, PDO::PARAM_INT);
-        $stmt->execute();
-    }
-
-    public function getAllowPhotosComments()
-    {
-        $stmt = $this->db->prepare("SELECT allowPhotosComments FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $row = $stmt->fetch();
-
-            return $row['allowPhotosComments'];
-        }
-
-        return 0;
-    }
-
     public function setFullname($fullname)
     {
         if (strlen($fullname) == 0) {
@@ -983,26 +938,6 @@ class account extends db_connect
         return 0;
     }
 
-    public function setAllowComments($allowComments)
-    {
-        $stmt = $this->db->prepare("UPDATE users SET allowComments = (:allowComments) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":allowComments", $allowComments, PDO::PARAM_INT);
-        $stmt->execute();
-    }
-
-    public function getAllowComments()
-    {
-        $stmt = $this->db->prepare("SELECT allowComments FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            $row = $stmt->fetch();
-            return $row['allowComments'];
-        }
-        return 0;
-    }
-
 
     public function setState($accountState)
     {
@@ -1024,41 +959,6 @@ class account extends db_connect
         return 0;
     }
 
-    public function setPrivacySettings($allowShowMyLikes, $allowShowMyFriends, $allowShowMyGallery, $allowShowMyInfo)
-    {
-        $stmt = $this->db->prepare("UPDATE users SET allowShowMyLikes = (:allowShowMyLikes), allowShowMyFriends = (:allowShowMyFriends), allowShowMyGallery = (:allowShowMyGallery), allowShowMyInfo = (:allowShowMyInfo)  WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":allowShowMyLikes", $allowShowMyLikes, PDO::PARAM_INT);
-        $stmt->bindParam(":allowShowMyFriends", $allowShowMyFriends, PDO::PARAM_INT);
-        $stmt->bindParam(":allowShowMyGallery", $allowShowMyGallery, PDO::PARAM_INT);
-        $stmt->bindParam(":allowShowMyInfo", $allowShowMyInfo, PDO::PARAM_INT);
-        $stmt->execute();
-    }
-
-    public function getPrivacySettings()
-    {
-        $result = array(
-            "error" => true,
-            "error_code" => ERROR_CODE_INITIATE
-        );
-
-        $stmt = $this->db->prepare("SELECT allowShowMyLikes, allowShowMyFriends, allowShowMyGallery, allowShowMyInfo FROM users WHERE id = (:id)");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $row = $stmt->fetch();
-
-            $result = array("error" => false,
-                            "error_code" => ERROR_SUCCESS,
-                            "allowShowMyLikes" => $row['allowShowMyLikes'],
-                            "allowShowMyFriends" => $row['allowShowMyFriends'],
-                            "allowShowMyGallery" => $row['allowShowMyGallery'],
-                            "allowShowMyInfo" => $row['allowShowMyInfo']);
-        }
-
-        return $result;
-    }
 
     public function setLastActive()
     {
@@ -1134,18 +1034,16 @@ class account extends db_connect
                                 "id" => $row['id'],
                                 "level" => $level,
                                 "level_create_at" => $row['level_create_at'],
-                                "gcm" => $row['gcm'],
                                 "balance" => $row['balance'],
                                 "free_messages_count" => $free_messages_count,
                                 "level_messages_count" => $row['level_messages_count'],
                                 "gl_id" => $row['gl_id'],
-                                "rating" => $row['rating'],
                                 "state" => $row['state'],
                                 "regtime" => $row['regtime'],
                                 "ip_addr" => $row['ip_addr'],
                                 "username" => $row['username'],
                                 "fullname" => stripcslashes($row['fullname']),
-                                "location" => stripcslashes($row['country']),
+                                "location" => stripcslashes($row['location']),
                                 "bio" => stripcslashes($row['bio']),
                                 "interests" => stripcslashes($row['interests']),
                                 "email" => $row['email'],
@@ -1162,19 +1060,10 @@ class account extends db_connect
                                 "iAlcoholViews" => $row['iAlcoholViews'],
                                 "iLooking" => $row['iLooking'],
                                 "iInterested" => $row['iInterested'],
-                                "allowShowMyInfo" => $row['allowShowMyInfo'],
-                                "allowShowMyGallery" => $row['allowShowMyGallery'],
-                                "allowShowMyFriends" => $row['allowShowMyFriends'],
-                                "allowShowMyLikes" => $row['allowShowMyLikes'],
-                                "allowShowMyAge" => $row['allowShowMyAge'],
                                 "allowShowOnline" => $row['allowShowOnline'],
-                                "allowPhotosComments" => $row['allowPhotosComments'],
-                                "allowComments" => $row['allowComments'],
                                 "allowMessages" => $row['allowMessages'],
                                 "allowLikesGCM" => $row['allowLikesGCM'],
-                                "allowCommentsGCM" => $row['allowCommentsGCM'],
                                 "allowMessagesGCM" => $row['allowMessagesGCM'],
-                                "allowCommentReplyGCM" => $row['allowCommentReplyGCM'],
                                 "lastAuthorize" => $row['last_authorize'],
                                 "lastAuthorizeDate" => date("Y-m-d H:i:s", $row['last_authorize']),
                                 "lastAuthorizeTimeAgo" => $time->timeAgo($row['last_authorize']),

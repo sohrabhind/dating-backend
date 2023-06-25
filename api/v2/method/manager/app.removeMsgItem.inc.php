@@ -1,11 +1,6 @@
 <?php
 
-/*!
- * https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
- */;
+;
 
 
 
@@ -40,7 +35,7 @@ if (!empty($_POST)) {
 
     if (!$admin_info['error'] && $admin_info['access_level'] != ADMIN_ACCESS_LEVEL_READ_ONLY_RIGHTS) {
 
-        $messages = new msg($dbo);
+        $messages = new messages($dbo);
         $messages->remove($itemId);
         unset($messages);
     }

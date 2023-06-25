@@ -1,13 +1,6 @@
 <?php
 
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, https://ifsoft.co.uk, https://hindbyte.com
- * hindbyte@gmail.com
- *
- * Copyright 2012-2020 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
+
 
 if (!empty($_POST)) {
 
@@ -41,21 +34,12 @@ if (!empty($_POST)) {
     $itemInfo = $images->info($itemId);
 
     if (!$itemInfo['error'] && $itemInfo['removeAt'] == 0) {
-
-        $comments = new comments($dbo);
-        $comments->setRequestFrom($accountId);
-
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
                         "itemId" => $itemId,
-                        "comments" => $comments->get($itemId, 0, $itemInfo),
                         "items" => array());
-
         array_push($result['items'], $itemInfo);
-
-        unset($comments);
     }
-
     echo json_encode($result);
     exit;
 }

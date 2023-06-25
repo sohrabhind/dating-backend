@@ -1,11 +1,6 @@
 <?php
 
-    /*!
-     * https://racconsquare.com
-     * racconsquare@gmail.com
-     *
-     * Copyright 2012-2022 Demyanchuk Dmitry (racconsquare@gmail.com)
-     */
+    
 
     
 

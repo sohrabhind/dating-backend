@@ -1,11 +1,6 @@
 <?php
 
-    /*!
-     * https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */;
+    
 
     if (!admin::isSession()) {
 
@@ -22,7 +17,7 @@
         $account = new account($dbo, $accountId);
         $accountInfo = $account->get();
 
-        $messages = new msg($dbo);
+        $messages = new messages($dbo);
         $messages->setRequestFrom($accountId);
 
     } else {
@@ -50,7 +45,7 @@
         $itemId = helper::clearInt($itemId);
         $loaded = helper::clearInt($loaded);
 
-        $result = $messages->getDialogs_new($itemId);
+        $result = $messages->getChatsList($itemId);
 
         $inbox_loaded = count($result['chats']);
 
@@ -74,7 +69,7 @@
 
                 ?>
 
-                    <a href="javascript:void(0)" onclick="Messages.moreItems('<?php echo $result['messageCreateAt']; ?>'); return false;">
+                    <a href="javascript:void(0)" onclick="Messages.moreItems('<?php echo $result['lastMessageId']; ?>'); return false;">
                         <button type="button" class="btn  btn-info footable-show">View More</button>
                     </a>
 
@@ -125,7 +120,7 @@
 
                 <?php
 
-                    $result = $messages->getDialogs_new(0);
+                    $result = $messages->getChatsList(0);
 
                     $inbox_loaded = count($result['chats']);
 
@@ -167,7 +162,7 @@
                                             ?>
 
                                             <div class="card-body more-items loading-more-container">
-                                                <a href="javascript:void(0)" onclick="Messages.moreItems('<?php echo $result['messageCreateAt']; ?>'); return false;">
+                                                <a href="javascript:void(0)" onclick="Messages.moreItems('<?php echo $result['lastMessageId']; ?>'); return false;">
                                                     <button type="button" class="btn  btn-info footable-show">View More</button>
                                                 </a>
                                             </div>

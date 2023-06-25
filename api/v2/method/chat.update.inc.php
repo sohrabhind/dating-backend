@@ -1,16 +1,5 @@
 <?php
-
-/*!
- * ifsoft.co.uk
- *
- * http://ifsoft.com.ua, http://ifsoft.co.uk
- * hindbyte@gmail.com
- *
- * Copyright 2012-2019 Demyanchuk Dmitry (hindbyte@gmail.com)
- */
-
 if (!empty($_POST)) {
-
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
@@ -31,20 +20,12 @@ if (!empty($_POST)) {
         "error_code" => ERROR_CODE_INITIATE
     );
 
-
-
     // Update Chat info
-
-    $msg = new msg($dbo);
+    $msg = new messages($dbo);
     $msg->setRequestFrom($accountId);
-
     $profileId = $chatFromUserId;
-
     if ($profileId == $accountId) {
-
-        $msg->setChatLastView_FromId($chatId);
-
-        $msg->setSeen($chatId, $chatToUserId);
+        $msg->setSeen($chatFromUserId, $chatToUserId);
 
         // GCM_MESSAGE_ONLY_FOR_PERSONAL_USER = 2
         // GCM_NOTIFY_SEEN= 15
@@ -61,12 +42,8 @@ if (!empty($_POST)) {
         $fcm->prepare();
         $fcm->send();
         unset($fcm);
-
     } else {
-
-        $msg->setChatLastView_ToId($chatId);
-
-        $msg->setSeen($chatId, $chatFromUserId);
+        $msg->setSeen($chatToUserId, $chatFromUserId);
 
         // GCM_MESSAGE_ONLY_FOR_PERSONAL_USER = 2
         // GCM_NOTIFY_SEEN= 15

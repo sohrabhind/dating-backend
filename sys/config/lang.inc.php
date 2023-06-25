@@ -1,12 +1,6 @@
 <?php
 
-    /*!
-     * https://hindbyte.com
-     * hindbyte@gmail.com
-     *
-     * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
-     */
-
+    
     if (isset($_COOKIE['lang'])) {
 
         $language = $_COOKIE['lang'];

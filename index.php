@@ -1,11 +1,6 @@
 <?php
 
-/*!
-	 * https://hindbyte.com
-	 * hindbyte@gmail.com
-	 *
-	 * Copyright 2012-2021 Demyanchuk Dmitry (hindbyte@gmail.com)
-	 */
+
 
 session_start();
 error_reporting(E_ALL); // set to 0 when you resource is ready for all

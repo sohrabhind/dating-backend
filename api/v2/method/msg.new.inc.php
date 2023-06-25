@@ -1,18 +1,11 @@
 <?php
 
-
-
 if (!empty($_POST)) {
-
-    
 
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
     $profileId = isset($_POST['profileId']) ? $_POST['profileId'] : 0;
-
-    $chatFromUserId = isset($_POST['chatFromUserId']) ? $_POST['chatFromUserId'] : 0;
-    $chatToUserId = isset($_POST['chatToUserId']) ? $_POST['chatToUserId'] : 0;
 
     $chatId = isset($_POST['chatId']) ? $_POST['chatId'] : 0;
     $messageText = isset($_POST['messageText']) ? $_POST['messageText'] : "";
@@ -31,9 +24,6 @@ if (!empty($_POST)) {
     $accountId = helper::clearInt($accountId);
 
     $profileId = helper::clearInt($profileId);
-
-    $chatFromUserId = helper::clearInt($chatFromUserId);
-    $chatToUserId = helper::clearInt($chatToUserId);
 
     $chatId = helper::clearInt($chatId);
 
@@ -74,9 +64,9 @@ if (!empty($_POST)) {
     }
 
     if (!$profileInfo['inBlackList']) {
-        $messages = new msg($dbo);
+        $messages = new messages($dbo);
         $messages->setRequestFrom($accountId);
-        $result = $messages->create($profileId, $chatId, $messageText, "", $chatFromUserId, $chatToUserId, $listId, $stickerId, $stickerImgUrl);
+        $result = $messages->create($profileId, $chatId, $messageText, "", $listId, $stickerId, $stickerImgUrl);
     }
     
     echo json_encode($result);
