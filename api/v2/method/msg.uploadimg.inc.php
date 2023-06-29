@@ -22,15 +22,7 @@ if (!empty($_POST)) {
     $chatId = isset($_POST['chatId']) ? $_POST['chatId'] : 0;
     $messageText = isset($_POST['messageText']) ? $_POST['messageText'] : "";
 
-    $listId = isset($_POST['listId']) ? $_POST['listId'] : 0;
-
-    $stickerId = isset($_POST['stickerId']) ? $_POST['stickerId'] : 0;
-    $stickerImgUrl = isset($_POST['stickerImgUrl']) ? $_POST['stickerImgUrl'] : "";
-
-    $stickerId = helper::clearInt($stickerId);
-
-    $stickerImgUrl = helper::clearText($stickerImgUrl);
-    $stickerImgUrl = helper::escapeText($stickerImgUrl);
+    $listId = isset($_POST['listId']) ? $_POST['listId']
 
 
     $accountId = helper::clearInt($accountId);
@@ -148,7 +140,7 @@ if (!empty($_POST)) {
                         $result['error_description'] = "ok.";
                         $messageImg = $response['imgUrl'];
 
-                        $result = $messages->create($profileId, $chatId, $messageText, $messageImg, $listId, $stickerId, $stickerImgUrl);
+                        $result = $messages->create($profileId, $chatId, $messageText, $messageImg, $listId);
                     }
                 }
             } else {

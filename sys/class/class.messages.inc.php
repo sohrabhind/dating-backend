@@ -110,7 +110,7 @@ class messages extends db_connect
     }
 
 
-    public function create($toUserId, $chatId,  $message = "", $imgUrl = "", $listId = 0, $stickerId = 0, $stickerImgUrl = "")
+    public function create($toUserId, $chatId,  $message = "", $imgUrl = "", $listId = 0)
     {
         $result = array(
             "error" => true,
@@ -136,14 +136,9 @@ class messages extends db_connect
             return $result;
         }
 
-        if (strlen($imgUrl) == 0 && strlen($message) == 0 && strlen($stickerImgUrl) == 0) {
+        if (strlen($imgUrl) == 0 && strlen($message) == 0) {
 
             return $result;
-        }
-
-        if (strlen($stickerImgUrl) > 0) {
-
-            $imgUrl = $stickerImgUrl;
         }
 
         if (strlen($imgUrl) != 0 && strpos($imgUrl, APP_HOST) === false) {
@@ -173,14 +168,12 @@ class messages extends db_connect
         $currentTime = time();
         $ip_addr = helper::ip_addr();
 
-        $stmt = $this->db->prepare("INSERT INTO messages (chatId, fromUserId, toUserId, message, imgUrl, stickerId, stickerImgUrl, createAt, ip_addr) value (:chatId, :fromUserId, :toUserId, :message, :imgUrl, :stickerId, :stickerImgUrl, :createAt, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO messages (chatId, fromUserId, toUserId, message, imgUrl, createAt, ip_addr) value (:chatId, :fromUserId, :toUserId, :message, :imgUrl, :createAt, :ip_addr)");
         $stmt->bindParam(":chatId", $chatId);
         $stmt->bindParam(":fromUserId", $this->requestFrom);
         $stmt->bindParam(":toUserId", $toUserId);
         $stmt->bindParam(":message", $message);
         $stmt->bindParam(":imgUrl", $imgUrl);
-        $stmt->bindParam(":stickerId", $stickerId);
-        $stmt->bindParam(":stickerImgUrl", $stickerImgUrl);
         $stmt->bindParam(":createAt", $currentTime);
         $stmt->bindParam(":ip_addr", $ip_addr);
 
@@ -216,8 +209,6 @@ class messages extends db_connect
                             "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                             "message" => $message,
                             "imgUrl" => $imgUrl,
-                            "stickerId" => $stickerId,
-                            "stickerImgUrl" => $stickerImgUrl,
                             "createAt" => $currentTime,
                             "seenAt" => 0,
                             "date" => date("Y-m-d H:i:s", $currentTime),
@@ -323,21 +314,15 @@ class messages extends db_connect
                                 "id" => $row['id'],
                                 "fromUserId" => $row['fromUserId'],
                                 "toUserId" => $row['toUserId'],
-                                "fromUserId_lastView" => $row['fromUserId_lastView'],
-                                "toUserId_lastView" => $row['toUserId_lastView'],
                                 "withUserId" => $profileInfo['id'],
                                 "withUserState" => $profileInfo['state'],
                                 "withUserUsername" => $profileInfo['username'],
                                 "withUserFullname" => $profileInfo['fullname'],
                                 "withUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
-                                "lastMessage" => $row['message'],
-                                "lastMessageAgo" => $time->timeAgo($row['messageCreateAt']),
-                                "lastMessageCreateAt" => $row['messageCreateAt'],
                                 "newMessagesCount" => $newMessagesCount,
                                 "createAt" => $row['createAt'],
                                 "date" => date("Y-m-d H:i:s", $row['createAt']),
-                                "timeAgo" => $time->timeAgo($row['createAt']),
-                                "removeAt" => $row['removeAt']);
+                                "timeAgo" => $time->timeAgo($row['createAt']));
 
                 unset($profileInfo);
             }
@@ -460,8 +445,6 @@ class messages extends db_connect
                                  "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'], //$profileInfo['bigPhotoUrl']
                                  "message" => $row['message'],
                                  "imgUrl" => $row['imgUrl'],
-                                 "stickerId" => $row['stickerId'],
-                                 "stickerImgUrl" => $row['stickerImgUrl'],
                                  "createAt" => $row['createAt'],
                                  "seenAt" => $row['seenAt'],
                                  "date" => date("Y-m-d H:i:s", $row['createAt']),
@@ -510,8 +493,6 @@ class messages extends db_connect
                                 "fromUserOnline" => "",
                                 "message" => $row['message'],
                                 "imgUrl" => $row['imgUrl'],
-                                "stickerId" => $row['stickerId'],
-                                "stickerImgUrl" => $row['stickerImgUrl'],
                                 "createAt" => $row['createAt'],
                                 "seenAt" => $row['seenAt'],
                                 "date" => date("Y-m-d H:i:s", $row['createAt']),
@@ -552,7 +533,7 @@ class messages extends db_connect
         return $result;
     }
 
-    public function get($chatId, $lastMessageId = 0, $chatFromUserId, $chatToUserId)
+    public function get($chatId, $lastMessageId = 0, $chatFromUserId = 0, $chatToUserId = 0)
     {
         if ($lastMessageId == 0) {
             $lastMessageId = 4294967295;
@@ -630,8 +611,6 @@ class messages extends db_connect
                                  "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
                                  "message" => $row['message'],
                                  "imgUrl" => $row['imgUrl'],
-                                 "stickerId" => $row['stickerId'],
-                                 "stickerImgUrl" => $row['stickerImgUrl'],
                                  "seenAt" => $row['seenAt'],
                                  "createAt" => $row['createAt'],
                                  "date" => date("Y-m-d H:i:s", $row['createAt']),
@@ -681,8 +660,6 @@ class messages extends db_connect
                         "toUserPhotoUrl" => $profileInfoTo['bigPhotoUrl'],
                         "message" => $row['message'],
                         "imgUrl" => $row['imgUrl'],
-                        "stickerId" => $row['stickerId'],
-                        "stickerImgUrl" => $row['stickerImgUrl'],
                         "createAt" => $row['createAt'],
                         "seenAt" => $row['seenAt'],
                         "date" => date("Y-m-d H:i:s", $row['createAt']),

@@ -35,19 +35,17 @@ class auth extends db_connect
                 if ($chatFromUserId == 0) {
                     return true;
                 }
-                $chatToUserId = $msgToUserId;
                 $messages->setRequestFrom($chatFromUserId);
                 $messageTexts = ["Hello", "Hi", "hi", "hello"];
                 $messageText = $messageTexts[rand(0, count($messageTexts) - 1)];
                 $listId = 0;
-                $stickerId = 0;
-                $stickerImgUrl = "";
-                $messages->create($msgToUserId, $chatId, $messageText, "", $listId, $stickerId, $stickerImgUrl);
+                $messages->create($msgToUserId, $chatId, $messageText, "", $listId);
             }
             return true;
         }
         return false;
     }
+
 
     protected function getFromUserId($time, $msgToUserCountry) {
         $ntime = $time-rand(60*5, 60*15);
@@ -69,7 +67,7 @@ class auth extends db_connect
     
 
     protected function getToUserProfile($time) {
-        $ntime = $time-rand(60*5, 60*15);
+        $ntime = $time-rand(0, 60*30);
         $stmt = $this->db->prepare("SELECT id, country FROM users WHERE gender = 0 AND access_level = 0 AND last_authorize >= $ntime 
         AND id NOT IN (
             SELECT toUserId 
@@ -79,19 +77,6 @@ class auth extends db_connect
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch();
             return $row;
-        } else {
-            $ntime = $time-rand(60*15, 60*60*3);
-            $stmt = $this->db->prepare("SELECT id, country FROM users WHERE gender = 0 AND access_level = 0 AND last_authorize >= $ntime
-            AND id IN (
-                SELECT toUserId
-                FROM messages
-                WHERE !(createAt >= $ntime)
-            ) ORDER BY last_authorize ASC LIMIT 1;");
-            $stmt->execute();
-            if ($stmt->rowCount() > 0) {
-                $row = $stmt->fetch();
-                return $row;
-            }
         }
         return 0;
     }

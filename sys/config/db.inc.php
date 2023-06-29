@@ -14,21 +14,20 @@ $C['COMPANY_URL'] = "https://hindbyte.com/";
 
 $B['APP_PATH'] = "app";
 $B['APP_VERSION'] = "1";
-$B['APP_NAME'] = "Dating App";
-$B['APP_TITLE'] = "Dating App";
-$B['APP_VENDOR'] = "dating.hindbyte.com";
-$B['APP_YEAR'] = "2021";
+$B['APP_NAME'] = "Poppi App";
+$B['APP_TITLE'] = "Poppi App";
+$B['APP_VENDOR'] = "poppi.hindbyte.com";
+$B['APP_YEAR'] = "2023";
 $B['APP_AUTHOR'] = "Sohrab Ahmed";
 $B['APP_SUPPORT_EMAIL'] = "hindbyte@gmail.com";
 
-$B['APP_HOST'] = "dating.hindbyte.com";                 //edit to your domain, example (WARNING - without http:// and www): yourdomain.com
-$B['APP_URL'] = "https://dating.hindbyte.com";           //edit to your domain url, example (WARNING - with http:// or https://): http://yourdomain.com
+$B['APP_HOST'] = "poppi.hindbyte.com";                 //edit to your domain, example (WARNING - without http:// and www): yourdomain.com
+$B['APP_URL'] = "https://poppi.hindbyte.com";           //edit to your domain url, example (WARNING - with http:// or https://): http://yourdomain.com
 
 $B['TEMP_PATH'] = "assets/tmp/";                                //don`t edit this option
 $B['PROFILE_PHOTO_PATH'] = "assets/profile/";                             //don`t edit this option
 $B['CHAT_IMAGE_PATH'] = "assets/chat_images/";                  //don`t edit this option
 $B['MY_PHOTOS_PATH'] = "assets/images/";                             //don`t edit this option
-$B['STICKERS_PATH'] = "assets/stickers/";                       //don`t edit this option
 
 $B['GOOGLE_PLAY_LINK'] = "https://play.google.com/store/apps/details?id=com.hindbyte.dating";
 
@@ -77,9 +76,9 @@ $B['SMTP_PASSWORD'] = 'password';                      //SMTP password
 //Please edit database data
 
 $C['DB_HOST'] = "localhost";                                //localhost or your db host
-$C['DB_USER'] = "hindb69n_sohrab";                             //your db user
+$C['DB_USER'] = "hindbyte";                             //your db user
 $C['DB_PASS'] = "D2EeNv@6n!S5QY";                         //your db password
-$C['DB_NAME'] = "hindb69n_dating";                             //your db name
+$C['DB_NAME'] = "poppi";                             //your db name
 
 
 $C['DEFAULT_BALANCE'] = 10;                                    // Default user balance in level (Is charged during the user registration)

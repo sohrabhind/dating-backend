@@ -200,17 +200,6 @@ class draw extends db_connect
                     <?php if ($profileInfo['online'] && $message['fromUserId'] != auth::getCurrentUserId()) echo "<span title=\"Online\" class=\"card-online-icon\"></span>"; ?>
                     <div class="card-content">
 
-                        <?php
-
-                        if ($message['stickerId'] != 0) {
-
-                            ?>
-                                <img class="sticker-img" style="" alt="sticker-img" src="<?php echo $message['stickerImgUrl']; ?>">
-                            <?php
-
-                        } else {
-
-                            ?>
                             <span class="card-status-text">
 
                                     <?php
@@ -234,9 +223,7 @@ class draw extends db_connect
                                     ?>
 
                                     </span>
-                            <?php
-                        }
-                        ?>
+                        
 
                         <span class="card-date">
                             <?php echo $time->timeAgo($message['createAt']); ?>

@@ -116,8 +116,6 @@ class fcm extends db_connect
             $this->data['msgFromUserPhotoUrl'] = $this->message['fromUserPhotoUrl'];
             $this->data['msgMessage'] = $this->message['message'];
             $this->data['msgImgUrl'] = $this->message['imgUrl'];
-            $this->data['stickerId'] = $this->message['stickerId'];
-            $this->data['stickerImgUrl'] = $this->message['stickerImgUrl'];
             $this->data['msgCreateAt'] = $this->message['createAt'];
             $this->data['msgDate'] = $this->message['date'];
             $this->data['msgTimeAgo'] = $this->message['timeAgo'];

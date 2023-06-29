@@ -88,8 +88,6 @@
 								toUserId int(11) UNSIGNED DEFAULT 0,
 								message varchar(800) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								imgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								stickerId int(11) UNSIGNED DEFAULT 0,
-								stickerImgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								country VARCHAR(150) NOT NULL DEFAULT '',
 								lat float(10,6),
 								lng float(10,6),
@@ -113,17 +111,6 @@
 								removeAt int(11) UNSIGNED DEFAULT 0,
 								ip_addr CHAR(32) NOT NULL DEFAULT '',
 								PRIMARY KEY  (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
-		$sth->execute();
-
-
-		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS stickers_data (
-								id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-								cost INT(11) UNSIGNED DEFAULT 0,
-								category INT(11) UNSIGNED DEFAULT 0,
-								imgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								createAt INT(11) UNSIGNED DEFAULT 0,
-								removeAt INT(11) UNSIGNED DEFAULT 0,
-								PRIMARY KEY (id)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
 
 

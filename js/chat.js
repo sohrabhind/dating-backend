@@ -150,49 +150,6 @@ Messages.create = function (chat_id, user_id) {
   });
 };
 
-Messages.sendSticker = function (chat_id, user_id, stickerId, stickerImgUrl) {
-
-
-    var message_id = $("li.message-item").last().attr("data-id");
-
-    $.ajax({
-        type: 'POST',
-        url: '/ajax/chat/msg',
-        data: "message_id=" + message_id  + "&chat_id=" + chat_id + "&user_id=" + user_id + "&stickerId=" + stickerId + "&stickerImgUrl=" + stickerImgUrl + '&access_token=' + account.accessToken,
-        dataType: 'json',
-        timeout: 30000,
-        success: function(response){
-
-            if (response.hasOwnProperty('error_code')) {
-
-                if (response.error_code == 506) {
-
-                    $('#otp-verification-dlg').modal('show');
-                }
-            }
-
-            if (response.hasOwnProperty('html')) {
-
-                if ($(".empty-list-banner").length) {
-
-                    $(".empty-list-banner").remove();
-                }
-
-                $("ul.content-list").append(response.html);
-            }
-
-            if (response.hasOwnProperty('items_all')) {
-
-                items_all = response.items_all;
-                items_loaded = $('li.message-item').length;
-            }
-        },
-        error: function(xhr, type){
-
-
-        }
-    });
-};
 
 Messages.more = function (chat_id, user_id) {
 

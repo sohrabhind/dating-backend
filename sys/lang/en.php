@@ -782,7 +782,7 @@
     // For version 5.1
 
     $TEXT['label-chat-empty'] = "Chat is empty.";
-    $TEXT['label-chat-empty-promo'] = "Start chatting! Send a message, sticker, emoticon or picture!";
+    $TEXT['label-chat-empty-promo'] = "Start chatting! Send a message, emoticon or picture!";
 
     $TEXT['label-item-missing'] = "Item does not exist or has been deleted.";
 

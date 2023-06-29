@@ -7,7 +7,6 @@
     include_once("sys/core/initialize.inc.php");
 
     $admin = new admin($dbo);
-    $stickers = new sticker($dbo);
 
     if ($admin->getCount() > 0) {
 
@@ -108,18 +107,6 @@
                     $settings->createValue("defaultAllowMessages", 1); //Default off
 
                     unset($settings);
-
-                    // Add standard stickers
-
-                    if ($stickers->db_getMaxId() < 1) {
-
-                        for ($i = 1; $i < 28; $i++) {
-
-                            $stickers->db_add(APP_URL."/assets/stickers/".$i.".png");
-
-                        }
-                    }
-
                     // Redirect to Admin Panel main page
 
                     header("Location: /admin/main");

@@ -101,10 +101,5 @@ $(document).ready(function() {
         return false;
     });
 
-    $(document).on('click', '.sticker-items', function() {
-
-        return false;
-    });
-
     $("textarea[name=comment]").autosize();
 });

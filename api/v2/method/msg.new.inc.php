@@ -12,14 +12,6 @@ if (!empty($_POST)) {
 
     $listId = isset($_POST['listId']) ? $_POST['listId'] : 0;
 
-    $stickerId = isset($_POST['stickerId']) ? $_POST['stickerId'] : 0;
-    $stickerImgUrl = isset($_POST['stickerImgUrl']) ? $_POST['stickerImgUrl'] : "";
-
-    $stickerId = helper::clearInt($stickerId);
-
-    $stickerImgUrl = helper::clearText($stickerImgUrl);
-    $stickerImgUrl = helper::escapeText($stickerImgUrl);
-
     
     $accountId = helper::clearInt($accountId);
 
@@ -66,7 +58,7 @@ if (!empty($_POST)) {
     if (!$profileInfo['inBlackList']) {
         $messages = new messages($dbo);
         $messages->setRequestFrom($accountId);
-        $result = $messages->create($profileId, $chatId, $messageText, "", $listId, $stickerId, $stickerImgUrl);
+        $result = $messages->create($profileId, $chatId, $messageText, "", $listId);
     }
     
     echo json_encode($result);
