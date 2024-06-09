@@ -1,9 +1,5 @@
 <?php
 
-    
-
-    
-
     if (auth::isSession()) {
 
         header("Location: /");
@@ -13,7 +9,7 @@
     $user_username = '';
     $user_email = '';
     $user_fullname = '';
-    $gender = 2;
+    $gender = 1;
     $age = 0;
 
     $error = false;
@@ -29,7 +25,7 @@
         $token = isset($_POST['authenticity_token']) ? $_POST['authenticity_token'] : '';
         $recaptcha_token = isset($_POST['recaptcha_token']) ? $_POST['recaptcha_token'] : '';
 
-        $gender = isset($_POST['gender']) ? $_POST['gender'] : 2;
+        $gender = isset($_POST['gender']) ? $_POST['gender'] : 1;
         $age = isset($_POST['age']) ? $_POST['age'] : 0;
 
         $user_username = helper::clearText($user_username);

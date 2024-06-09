@@ -60,6 +60,7 @@ if (!empty($_POST)) {
 
         $imglib = new imglib($dbo);
 
+        error_log(date('[Y-m-d H:i:s] ') . "Running");
         if (!$error) {
             $extension = strtolower(pathinfo($_FILES['uploaded_file']['name'], PATHINFO_EXTENSION));
             if ($extension == "jpg" || $extension == "jpeg" || $extension == "png" || $extension == "gif") {

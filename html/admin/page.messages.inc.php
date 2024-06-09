@@ -188,7 +188,7 @@
                         } else {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(/assets/img/profile_default_photo.png)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(/assets/icons/profile_default_photo.png)"></span>
                             <?php
                         }
                     ?>
@@ -201,10 +201,10 @@
 
                     <?php
 
-                        if (strlen($item['imgUrl']) != 0) {
+                        if (strlen($item['imageUrl']) != 0) {
 
                             ?>
-                                <img src="<?php echo $item['imgUrl']; ?>" alt="iMac" width="80">
+                                <img src="<?php echo $item['imageUrl']; ?>" alt="iMac" width="80">
                             <?php
 
                         } else {

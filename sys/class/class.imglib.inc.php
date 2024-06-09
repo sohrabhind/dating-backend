@@ -46,7 +46,7 @@ class imglib extends db_connect
         $response = $cdn->uploadChatImg($temp_file_name);
         if ($response['error'] === false) {
             $result['error'] = false;
-            $result['imgUrl'] = $response['fileUrl'];
+            $result['imageUrl'] = $response['fileUrl'];
         }
         
         @unlink($temp_file_name);

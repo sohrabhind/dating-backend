@@ -16,7 +16,7 @@
 
     $page_id = "install";
 
-    $itemId = 14781822; // Dating App Android = 14781822
+    $itemId = 4294967295; // Dating App Android = 14781822
                         // Dating App iOS = 19393764
                         // My Social Network Android = 13965025
                         // My Social Network iOS = 19414706
@@ -104,7 +104,6 @@
                     $settings->createValue("allowSeenTyping", 1);
                     $settings->createValue("allowMultiAccountsFunction", 1);
                     $settings->createValue("allowUpgradesSection", 1);
-                    $settings->createValue("defaultAllowMessages", 1); //Default off
 
                     unset($settings);
                     // Redirect to Admin Panel main page

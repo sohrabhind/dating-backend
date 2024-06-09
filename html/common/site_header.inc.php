@@ -23,7 +23,7 @@
 
     <meta charset="utf-8">
     <meta name="description" content="">
-    <link href="/assets/img/favicon.png" rel="shortcut icon" type="image/x-icon">
+    <link href="/assets/icons/favicon.png" rel="shortcut icon" type="image/x-icon">
     <?php
         foreach($css_files as $css): ?>
         <link rel="stylesheet" href="/css/<?php echo $css."?x=10"; ?>" type="text/css" media="screen">

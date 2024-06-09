@@ -43,6 +43,8 @@
 
     $TEXT['topbar-ad'] = "Ads";
 
+    $TEXT['footer-privacy'] = "Privacy Policy";
+    
     $TEXT['footer-about'] = "About";
 
     $TEXT['footer-terms'] = "Terms";
@@ -420,7 +422,7 @@
 
     $TEXT['msg-error-unknown'] = "Error. Try again later.";
 
-    $TEXT['msg-error-authorize'] = "Incorrect username or password.";
+    $TEXT['msg-error-authorize'] = "Incorrect email or password.";
 
     $TEXT['msg-error-deactivation'] = "Wrong password.";
 
@@ -547,8 +549,6 @@
     $TEXT['page-gdpr'] = "GDPR (General Data Protection Regulation) Privacy Rights";
     $TEXT['footer-gdpr'] = "GDPR";
 
-    $TEXT['label-cookie-message'] = "We use cookies to analyze our website traffic. By continuing to use the site, you agree to our ";
-
     $TEXT['label-missing-account'] = "Don't have an account?";
     $TEXT['label-existing-account'] = "You already have an account?";
     $TEXT['label-errors-title'] = "Error. Read below:";
@@ -620,8 +620,9 @@
 
     $TEXT['label-profile-photo-moderation-active'] = "Profile picture will be available to users after moderation. Now users see your previous photo, approved by moderators or default photo.";
 
-    // For version 4.6
+// For version 4.6
 
+    $TEXT['delete-profile'] = "Delete profile";
     $TEXT['page-privacy'] = "Privacy policy";
 
     // For version 4.7

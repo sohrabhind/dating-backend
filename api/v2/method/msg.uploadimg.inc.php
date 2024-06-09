@@ -95,12 +95,6 @@ if (!empty($_POST)) {
             exit;
         }
 
-        if ($profileInfo['allowMessages'] == 0) {
-            if (!$profileInfo['myFan']) {
-                echo json_encode($result);
-                exit;
-            }
-        }
 
         if ($profileInfo['inBlackList']) {
             echo json_encode($result);
@@ -138,7 +132,7 @@ if (!empty($_POST)) {
                         $result['error'] = false;
                         $result['error_code'] = ERROR_SUCCESS;
                         $result['error_description'] = "ok.";
-                        $messageImg = $response['imgUrl'];
+                        $messageImg = $response['imageUrl'];
 
                         $result = $messages->create($profileId, $chatId, $messageText, $messageImg, $listId);
                     }

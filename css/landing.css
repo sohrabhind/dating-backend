@@ -41,7 +41,7 @@
 [ login ]*/
 
 .home {
-    background-image: url(/assets/img/love_bg.png);
+    background-image: url(/assets/icons/love_bg.png);
     background-size: auto;
     background-color: #DE5E5D;
 }
@@ -110,12 +110,12 @@ margin: 0 auto;
     background-position: center;
     position: relative;
     z-index: 1;
-    background-image: url('/img/form_main_bg.png');
+    background-image: url('/icons/form_main_bg.png');
 }
 
 #signup-page .login100-more {
 
-    background-image: url('/img/form_bg.jpg');
+    background-image: url('/icons/form_bg.jpg');
 }
 
 .signup-page .login100-more {

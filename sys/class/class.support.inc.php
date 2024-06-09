@@ -28,8 +28,8 @@ class support extends db_connect
         $currentTime = time();
 
         $stmt = $this->db->prepare("UPDATE support SET removeAt = (:removeAt) WHERE id = (:ticketId)");
-        $stmt->bindParam(":ticketId", $ticketId, PDO::PARAM_INT);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":ticketId", $ticketId);
+        $stmt->bindParam(":removeAt", $currentTime);
 
         if ($stmt->execute()) {
 
@@ -49,12 +49,12 @@ class support extends db_connect
         $ip_addr = helper::ip_addr();
 
         $stmt = $this->db->prepare("INSERT INTO support (accountId, email, subject, text, createAt, ip_addr) value (:accountId, :email, :subject, :text, :createAt, :ip_addr)");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-        $stmt->bindParam(":subject", $subject, PDO::PARAM_STR);
-        $stmt->bindParam(":text", $text, PDO::PARAM_STR);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":subject", $subject);
+        $stmt->bindParam(":text", $text);
+        $stmt->bindParam(":createAt", $currentTime);
+        $stmt->bindParam(":ip_addr", $ip_addr);
 
         if ($stmt->execute()) {
 
@@ -71,7 +71,7 @@ class support extends db_connect
                         "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("SELECT * FROM support WHERE id = (:ticketId) LIMIT 1");
-        $stmt->bindParam(":ticketId", $ticketId, PDO::PARAM_INT);
+        $stmt->bindParam(":ticketId", $ticketId);
 
         if ($stmt->execute()) {
 

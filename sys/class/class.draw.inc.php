@@ -14,7 +14,7 @@ class draw extends db_connect
 
     static function guestItem($profile, $LANG, $helper = null)
     {
-        $profilePhotoUrl = "/assets/img/profile_default_photo.png";
+        $profilePhotoUrl = "/assets/icons/profile_default_photo.png";
 
         if (strlen($profile['guestUserPhoto']) != 0) {
 
@@ -73,7 +73,7 @@ class draw extends db_connect
 
     static function peopleItem($profile, $LANG, $helper = null)
     {
-        $profilePhotoUrl = "/assets/img/profile_default_photo.png";
+        $profilePhotoUrl = "/assets/icons/profile_default_photo.png";
 
         if (strlen($profile['bigPhotoUrl']) != 0) {
 
@@ -179,7 +179,7 @@ class draw extends db_connect
 
         if (strlen($profileInfo['photoUrl']) == 0) {
 
-            $profileInfo['photoUrl'] = "/assets/img/profile_default_photo.png";
+            $profileInfo['photoUrl'] = "/assets/icons/profile_default_photo.png";
         }
 
         $time = new language(NULL, $LANG['lang-code']);
@@ -213,10 +213,10 @@ class draw extends db_connect
                                         <?php
                                     }
 
-                                    if (strlen($message['imgUrl']) > 0) {
+                                    if (strlen($message['imageUrl']) > 0) {
 
                                         ?>
-                                            <img class="post-img" data-href="<?php echo $message['imgUrl']; ?>" onclick="blueimp.Gallery($(this)); return false" alt="post-img" src="<?php echo $message['imgUrl']; ?>">
+                                            <img class="post-img" data-href="<?php echo $message['imageUrl']; ?>" onclick="blueimp.Gallery($(this)); return false" alt="post-img" src="<?php echo $message['imageUrl']; ?>">
                                         <?php
                                     }
 
@@ -240,7 +240,7 @@ class draw extends db_connect
 
     static function peopleCardviewItem($profile, $LANG, $counter = false, $counter_text = "", $counter_hint = "", $counter_color = "")
     {
-        $profilePhotoUrl = "/assets/img/profile_default_photo.png";
+        $profilePhotoUrl = "/assets/icons/profile_default_photo.png";
 
         if (strlen($profile['bigPhotoUrl']) != 0) {
 
@@ -298,7 +298,7 @@ class draw extends db_connect
 
     static function image($post, $LANG, $helper = null)
     {
-        $fromUserPhoto = "/assets/img/profile_default_photo.png";
+        $fromUserPhoto = "/assets/icons/profile_default_photo.png";
 
         if (strlen($post['owner']['bigPhotoUrl']) != 0) {
 
@@ -361,10 +361,10 @@ class draw extends db_connect
 
                 <?php
 
-                if ($post['itemType'] == ITEM_TYPE_IMAGE && strlen($post['imgUrl'])) {
+                if ($post['itemType'] == ITEM_TYPE_IMAGE && strlen($post['imageUrl'])) {
 
                     ?>
-                    <img class="post-img" data-href="<?php echo $post['imgUrl']; ?>" onclick="blueimp.Gallery($(this)); return false" style="" alt="post-img" src="<?php echo $post['imgUrl']; ?>">
+                    <img class="post-img" data-href="<?php echo $post['imageUrl']; ?>" onclick="blueimp.Gallery($(this)); return false" style="" alt="post-img" src="<?php echo $post['imageUrl']; ?>">
                     <?php
 
                 }
@@ -442,7 +442,7 @@ class draw extends db_connect
 
                     if ($advanced) {
 
-                        $profilePhotoUrl = "/assets/img/profile_default_photo.png";
+                        $profilePhotoUrl = "/assets/icons/profile_default_photo.png";
 
                         if (strlen($photo['owner']['bigPhotoUrl']) != 0) {
 
@@ -526,7 +526,7 @@ class draw extends db_connect
 
                 <?php
 
-                $previewImg = "/assets/img/profile_default_photo.png";
+                $previewImg = "/assets/icons/profile_default_photo.png";
 
                 if (strlen($item['bigPhotoUrl']) != 0) {
 

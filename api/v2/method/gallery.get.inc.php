@@ -33,11 +33,7 @@ if (!empty($_POST)) {
     $images = new gallery($dbo);
     $images->setRequestFrom($accountId);
 
-    $accessMode = false;
-
-    if ($accountId == $profileId) $accessMode = true;
-
-    $result = $images->get($itemId, $profileId, $accessMode, 20);
+    $result = $images->get($itemId, $profileId, 20);
     echo json_encode($result);
     exit;
 }

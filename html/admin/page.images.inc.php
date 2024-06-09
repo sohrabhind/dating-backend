@@ -19,6 +19,7 @@
     $stats = new stats($dbo);
 
     $images = new gallery($dbo);
+    $images->checkAndRemoveOrphanedFiles();
 
     $inbox_all = $images->count();
     $inbox_loaded = 0;
@@ -31,7 +32,7 @@
         $itemId = helper::clearInt($itemId);
         $loaded = helper::clearInt($loaded);
 
-        $result = $images->get($itemId, 0, false, 10);
+        $result = $images->get($itemId, 0, 10);
 
         $inbox_loaded = count($result['items']);
 
@@ -122,7 +123,7 @@
 
                 <?php
 
-                    $result = $images->get(0, 0, false, 5);
+                    $result = $images->get(0, 0, 5);
 
                     $inbox_loaded = count($result['items']);
 
@@ -295,7 +296,7 @@
                         } else {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(/assets/img/profile_default_photo.png)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(/assets/icons/profile_default_photo.png)"></span>
                             <?php
                         }
                     ?>
@@ -308,10 +309,10 @@
 
                     <?php
 
-if (strlen($item['imgUrl']) != 0) {
+if (strlen($item['imageUrl']) != 0) {
 
     ?>
-    <img src="<?php echo $item['imgUrl']; ?>" alt="iMac" width="80">
+    <img src="<?php echo $item['imageUrl']; ?>" alt="iMac" width="80">
     <?php
 
 } else {

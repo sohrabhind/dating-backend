@@ -51,7 +51,6 @@ if (!empty($_POST)) {
                 $access_data = $auth->create($access_data['accountId'], $appType, $fcm_regId);
 
                 if (!$access_data['error']) {
-
                     $account = new account($dbo, $access_data['accountId']);
                     $account->setState(ACCOUNT_STATE_ENABLED);
                     $account->setLastActive();

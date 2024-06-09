@@ -57,7 +57,7 @@
 
     if (strlen($profilePhotoUrl) == 0) {
 
-        $profilePhotoUrl = "/assets/img/profile_default_photo.png";
+        $profilePhotoUrl = "/assets/icons/profile_default_photo.png";
     }
 
     auth::newAuthenticityToken();
@@ -184,25 +184,8 @@
 
                                     }
                                     ?>
-
-                                    <?php
-
-                                    if ($profileInfo['allowMessages'] == 0) {
-
-                                        ?>
-
-                                            <a data-toggle="modal" data-target="#profile-messages-not-allowed" href="javascript: void(0)" style="" class="flat_btn noselect"><?php echo $LANG['action-send-message']; ?></a>
-
-                                        <?php
-
-                                    } else {
-
-                                        ?>
-                                            <a href="/account/chat?chat_id=0&user_id=<?php echo $profileInfo['id']; ?>" style="" class="flat_btn noselect"><?php echo $LANG['action-send-message']; ?></a>
-                                        <?php
-                                    }
-
-                                    ?>
+                                    
+                                    <a href="/account/chat?chat_id=0&user_id=<?php echo $profileInfo['id']; ?>" style="" class="flat_btn noselect"><?php echo $LANG['action-send-message']; ?></a>
 
                                     <a onclick="Report.showDialog('<?php echo $profileInfo['id']; ?>', '<?php echo REPORT_TYPE_PROFILE; ?>'); return false;" class="flat_btn noselect"><?php echo $LANG['action-report']; ?></a>
 
@@ -311,7 +294,7 @@
 
                                                     $images = new gallery($dbo);
                                                     $images->setRequestFrom($profileInfo['id']);
-                                                    $result = $images->get(0, $profileInfo['id'], true, 1, 6);
+                                                    $result = $images->get(0, $profileInfo['id'], 6);
 
                                                     foreach ($result['items'] as $key => $value) {
 

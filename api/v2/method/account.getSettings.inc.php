@@ -36,22 +36,19 @@ if (!empty($_POST)) {
 
     // Get new messages count
 
-    if (APP_MESSAGES_COUNTERS) {
+    $msg = new messages($dbo);
+    $msg->setRequestFrom($accountId);
 
-        $msg = new messages($dbo);
-        $msg->setRequestFrom($accountId);
+    $getNewMessagesCount = $msg->getNewMessagesCount();
 
-        $getNewMessagesCount = $msg->getNewMessagesCount();
-
-        unset($msg);
-    }
+    unset($msg);
 
     // Get new notifications count
 
     $notifications = new notify($dbo);
     $notifications->setRequestFrom($accountId);
 
-    $notifications_count = $notifications->getNewCount($accountInfo['lastNotifyView']);
+    $notifications_count = $notifications->getNewCount($accountInfo['LastNotify']);
 
     unset($notifications);
 
@@ -69,7 +66,7 @@ if (!empty($_POST)) {
 
     $result['messagesCount'] = $getNewMessagesCount;
     $result['notificationsCount'] = $notifications_count;
-    
+
     $result['free_messages_count'] = $accountInfo['free_messages_count'];
     $result['level_messages_count'] = $accountInfo['level_messages_count'];
     $result['level'] = $accountInfo['level'];

@@ -61,14 +61,14 @@ class reports extends db_connect
         $ip_addr = helper::ip_addr();
 
         $stmt = $this->db->prepare("INSERT INTO reports (itemType, fromUserId, toUserId, itemId, abuseId, description, createAt, ip_addr) value (:itemType, :fromUserId, :toUserId, :itemId, :abuseId, :description, :createAt, :ip_addr)");
-        $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
-        $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
-        $stmt->bindParam(":toUserId", $toUseId, PDO::PARAM_INT);
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
-        $stmt->bindParam(":abuseId", $abuseId, PDO::PARAM_INT);
-        $stmt->bindParam(":description", $description, PDO::PARAM_STR);
-        $stmt->bindParam(":createAt", $create_at, PDO::PARAM_INT);
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+        $stmt->bindParam(":itemType", $itemType);
+        $stmt->bindParam(":fromUserId", $this->requestFrom);
+        $stmt->bindParam(":toUserId", $toUseId);
+        $stmt->bindParam(":itemId", $itemId);
+        $stmt->bindParam(":abuseId", $abuseId);
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":createAt", $create_at);
+        $stmt->bindParam(":ip_addr", $ip_addr);
 
         if ($stmt->execute()) {
 
@@ -97,8 +97,8 @@ class reports extends db_connect
         $remove_at = time();
 
         $stmt = $this->db->prepare("UPDATE reports SET removeAt = (:removeAt) WHERE id = (:itemId) AND removeAt = 0");
-        $stmt->bindParam(":removeAt", $remove_at, PDO::PARAM_INT);
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
+        $stmt->bindParam(":removeAt", $remove_at);
+        $stmt->bindParam(":itemId", $itemId);
 
         if ($stmt->execute()) {
 
@@ -120,9 +120,9 @@ class reports extends db_connect
         $remove_at = time();
 
         $stmt = $this->db->prepare("UPDATE reports SET removeAt = (:removeAt) WHERE itemType = (:itemType) AND itemId = (:itemId) AND removeAt = 0");
-        $stmt->bindParam(":removeAt", $remove_at, PDO::PARAM_INT);
-        $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
+        $stmt->bindParam(":removeAt", $remove_at);
+        $stmt->bindParam(":itemType", $itemType);
+        $stmt->bindParam(":itemId", $itemId);
 
         if ($stmt->execute()) {
 
@@ -147,8 +147,8 @@ class reports extends db_connect
         $remove_at = time();
 
         $stmt = $this->db->prepare("UPDATE reports SET removeAt = (:removeAt) WHERE itemType = (:itemType) AND removeAt = 0");
-        $stmt->bindParam(":removeAt", $remove_at, PDO::PARAM_INT);
-        $stmt->bindParam(":itemType", $itemType, PDO::PARAM_INT);
+        $stmt->bindParam(":removeAt", $remove_at);
+        $stmt->bindParam(":itemType", $itemType);
 
         if ($stmt->execute()) {
 

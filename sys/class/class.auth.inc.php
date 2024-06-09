@@ -16,8 +16,8 @@ class auth extends db_connect
         $accessToken = helper::escapeText($accessToken);
 
         $stmt = $this->db->prepare("SELECT id FROM access_data WHERE accountId = (:accountId) AND accessToken = (:accessToken) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":accessToken", $accessToken);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -91,9 +91,9 @@ class auth extends db_connect
         $currentTime = time(); //current time
 
         $stmt = $this->db->prepare("UPDATE access_data SET removeAt = (:removeAt) WHERE accountId = (:accountId) AND accessToken = (:accessToken)");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":accessToken", $accessToken);
+        $stmt->bindParam(":removeAt", $currentTime);
 
         if ($stmt->execute()) {
 
@@ -110,8 +110,8 @@ class auth extends db_connect
         $currentTime = time(); //current time
 
         $stmt = $this->db->prepare("UPDATE access_data SET removeAt = (:removeAt) WHERE accountId = (:accountId)");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":removeAt", $currentTime);
 
         if ($stmt->execute()) {
 
@@ -129,8 +129,8 @@ class auth extends db_connect
         $accessToken = helper::escapeText($accessToken);
 
         $stmt = $this->db->prepare("SELECT id FROM access_data WHERE accountId = (:accountId) AND accessToken = (:accessToken) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":accessToken", $accessToken);
         $stmt->execute();
 
         if ($stmt->execute()) {
@@ -149,8 +149,8 @@ class auth extends db_connect
     public function updateAuthorizationId($auth_id, $fcm_regId = "")
     {
         $stmt = $this->db->prepare("UPDATE access_data SET fcm_regId = (:fcm_regId) WHERE id = (:id)");
-        $stmt->bindParam(":id", $auth_id, PDO::PARAM_INT);
-        $stmt->bindParam(":fcm_regId", $fcm_regId, PDO::PARAM_STR);
+        $stmt->bindParam(":id", $auth_id);
+        $stmt->bindParam(":fcm_regId", $fcm_regId);
         $stmt->execute();
     }
 
@@ -167,12 +167,12 @@ class auth extends db_connect
         $accessToken = md5(uniqid(rand(), true));
 
         $stmt = $this->db->prepare("INSERT INTO access_data (accountId, accessToken, fcm_regId, appType, createAt, ip_addr) value (:accountId, :accessToken, :fcm_regId, :appType, :createAt, :ip_addr)");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
-        $stmt->bindParam(":fcm_regId", $fcm_regId, PDO::PARAM_STR);
-        $stmt->bindParam(":appType", $app_type, PDO::PARAM_INT);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":accessToken", $accessToken);
+        $stmt->bindParam(":fcm_regId", $fcm_regId);
+        $stmt->bindParam(":appType", $app_type);
+        $stmt->bindParam(":createAt", $currentTime);
+        $stmt->bindParam(":ip_addr", $ip_addr);
         if ($stmt->execute()) {
             $result = array(
                 'error'=> false,
@@ -201,7 +201,7 @@ class auth extends db_connect
     protected function getUserLogin($user_id)
     {
         $stmt = $this->db->prepare("SELECT username FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $user_id);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -215,7 +215,7 @@ class auth extends db_connect
     protected function getUserEmail($user_id)
     {
         $stmt = $this->db->prepare("SELECT email FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $user_id);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -363,7 +363,7 @@ class auth extends db_connect
 
         } else {
 
-            return "/assets/img/profile_default_photo.png";
+            return "/assets/icons/profile_default_photo.png";
         }
     }
 

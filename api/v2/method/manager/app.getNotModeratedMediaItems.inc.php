@@ -32,7 +32,7 @@ if (!empty($_POST)) {
     );
 
     $images = new gallery($dbo);
-    $result = $images->get($itemId, 0, false, 0);
+    $result = $images->get($itemId, 0, 0);
 
     echo json_encode($result);
     exit;

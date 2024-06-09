@@ -23,11 +23,8 @@
     $allowSeenTyping = 1;
 
     $allowMultiAccountsFunction = 1;
-
     $defaultLevelMessagesCount = 0;
     $defaultBalance = 10;
-
-    $defaultAllowMessages = 1;
 
     if (!empty($_POST)) {
 
@@ -39,8 +36,6 @@
 
         $defaultLevelMessagesCount = isset($_POST['defaultLevelMessagesCount']) ? $_POST['defaultLevelMessagesCount'] : 0;
         $defaultBalance = isset($_POST['defaultBalance']) ? $_POST['defaultBalance'] : 10;
-
-        $defaultAllowMessages_checkbox = isset($_POST['defaultAllowMessages']) ? $_POST['defaultAllowMessages'] : '';
 
     
         if ($authToken === helper::getAuthenticityToken() && $admin_info['access_level'] < ADMIN_ACCESS_LEVEL_MODERATOR_RIGHTS) {
@@ -64,15 +59,6 @@
                 $allowMultiAccountsFunction = 0;
             }
 
-            if ($defaultAllowMessages_checkbox === "on") {
-
-                $defaultAllowMessages = 1;
-
-            } else {
-
-                $defaultAllowMessages = 0;
-            }
-
             $defaultBalance = helper::clearInt($defaultBalance);
             $defaultLevelMessagesCount = helper::clearInt($defaultLevelMessagesCount);
 
@@ -82,8 +68,6 @@
 
             $settings->setValue("defaultBalance", $defaultBalance);
             $settings->setValue("defaultLevelMessagesCount", $defaultLevelMessagesCount);
-
-            $settings->setValue("defaultAllowMessages", $defaultAllowMessages);
 
         }
     }
@@ -103,9 +87,6 @@
 
     $arr = $config['defaultLevelMessagesCount'];
     $defaultLevelMessagesCount = $arr['intValue'];
-
-    $arr = $config['defaultAllowMessages'];
-    $defaultAllowMessages = $arr['intValue'];
 
     $page_id = "app";
 
@@ -184,11 +165,6 @@
                                         <p>
                                             <input type="checkbox" name="allowMultiAccountsFunction" id="allowMultiAccountsFunction" <?php if ($allowMultiAccountsFunction == 1) echo "checked=\"checked\"";  ?> />
                                             <label for="allowMultiAccountsFunction">Enable creation of multi-accounts</label>
-                                        </p>
-
-                                        <p>
-                                            <input type="checkbox" name="defaultAllowMessages" id="defaultAllowMessages" <?php if ($defaultAllowMessages == 1) echo "checked=\"checked\"";  ?> />
-                                            <label for="defaultAllowMessages">Allow private messages from all users by default (activating this option can increase the flow of spam in messages, each user can change this option in the settings of his account)</label>
                                         </p>
 
                                     </div>

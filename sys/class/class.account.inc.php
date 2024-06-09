@@ -14,7 +14,7 @@ class account extends db_connect
         $this->setId($accountId);
     }
 
-    public function signup($username, $fullname, $password, $email, $gender, $access_level, $u_age, $bio, $interests, $country = 0)
+    public function signup($username, $fullname, $password, $email, $gender, $access_level, $u_age, $bio, $interests, $country = '')
     {
 
         $result = array("error" => true);
@@ -23,66 +23,78 @@ class account extends db_connect
 
         if (!helper::isCorrectLogin($username)) {
 
-            $result = array("error" => true,
-                            "error_code" => ERROR_INCORRECT_USERNAME,
-                            "error_type" => 0,
-                            "error_description" => "Incorrect login");
+            $result = array(
+                "error" => true,
+                "error_code" => ERROR_INCORRECT_USERNAME,
+                "error_type" => 0,
+                "error_description" => "Incorrect login"
+            );
 
             return $result;
         }
 
         if ($helper->isUserExists($username)) {
-            $result = array("error" => true,
-                            "error_code" => ERROR_LOGIN_TAKEN,
-                            "error_type" => 0,
-                            "error_description" => "Login already taken");
+            $result = array(
+                "error" => true,
+                "error_code" => ERROR_LOGIN_TAKEN,
+                "error_type" => 0,
+                "error_description" => "Login already taken"
+            );
 
             return $result;
         }
 
         if (empty($fullname)) {
 
-            $result = array("error" => true,
-                            "error_code" => ERROR_EMPTY_FULL_NAME,
-                            "error_type" => 3,
-                            "error_description" => "Empty user full name");
+            $result = array(
+                "error" => true,
+                "error_code" => ERROR_EMPTY_FULL_NAME,
+                "error_type" => 3,
+                "error_description" => "Empty user full name"
+            );
 
             return $result;
         }
 
         if (!helper::isCorrectPassword($password)) {
 
-            $result = array("error" => true,
-                            "error_code" => ERROR_INCORRECT_PASSWORD,
-                            "error_type" => 1,
-                            "error_description" => "Incorrect password");
+            $result = array(
+                "error" => true,
+                "error_code" => ERROR_INCORRECT_PASSWORD,
+                "error_type" => 1,
+                "error_description" => "Incorrect password"
+            );
 
             return $result;
         }
 
         if (!helper::isCorrectEmail($email)) {
 
-            $result = array("error" => true,
-                            "error_code" => ERROR_INCORRECT_EMAIL,
-                            "error_type" => 2,
-                            "error_description" => "Wrong email");
+            $result = array(
+                "error" => true,
+                "error_code" => ERROR_INCORRECT_EMAIL,
+                "error_type" => 2,
+                "error_description" => "Wrong email"
+            );
 
             return $result;
         }
 
         if ($helper->isEmailExists($email)) {
 
-            $result = array("error" => true,
-                            "error_code" => ERROR_EMAIL_TAKEN,
-                            "error_type" => 2,
-                            "error_description" => "User with this email is already registered");
+            $result = array(
+                "error" => true,
+                "error_code" => ERROR_EMAIL_TAKEN,
+                "error_type" => 2,
+                "error_description" => "User with this email is already registered"
+            );
 
             return $result;
         }
 
-        if ($gender < 0 || $gender > 2) {
+        if ($gender < 0 || $gender > 1) {
             //0 = male //1= female//2 = other
-            $gender = 2; // Default gender. 2 = other
+            $gender = 1; // Default gender. 2 = other
         }
 
         if ($u_age > 110 || $u_age < 18) {
@@ -97,10 +109,12 @@ class account extends db_connect
 
         if ($app_settings['allowMultiAccountsFunction']['intValue'] == 0) {
             if ($this->checkMultiAccountsByIp($ip_addr)) {
-                $result = array("error" => true,
-                                "error_code" => 500,
-                                "error_type" => 4,
-                                "error_description" => "User with this ip is already registered");
+                $result = array(
+                    "error" => true,
+                    "error_code" => 500,
+                    "error_type" => 4,
+                    "error_description" => "User with this ip is already registered"
+                );
                 return $result;
             }
         }
@@ -111,41 +125,41 @@ class account extends db_connect
         $accountState = ACCOUNT_STATE_ENABLED;
         $default_user_balance = $app_settings['defaultBalance']['intValue'];
         $default_level_messages_count = $app_settings['defaultLevelMessagesCount']['intValue'];
-        $default_allow_messages = $app_settings['defaultAllowMessages']['intValue'];
         $default_user_language = "en";
 
-        $stmt = $this->db->prepare("INSERT INTO users (access_level, level_messages_count, language, state, username, fullname, password, email, balance, bio, interests, gender, u_age, country, regtime, allowMessages, ip_addr) value (:access_level, :level_messages_count, :language, :state, :username, :fullname, :password, :email, :balance, :bio, :interests, :gender, :age, :country, :createAt, :allowMessages, :ip_addr)");
-        $stmt->bindParam(":access_level", $access_level, PDO::PARAM_INT);
-        $stmt->bindParam(":level_messages_count", $default_level_messages_count, PDO::PARAM_INT);
-        $stmt->bindParam(":language", $default_user_language, PDO::PARAM_STR);
-        $stmt->bindParam(":state", $accountState, PDO::PARAM_INT);
-        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
-        $stmt->bindParam(":fullname", $fullname, PDO::PARAM_STR);
-        $stmt->bindParam(":password", $passw_hash, PDO::PARAM_STR);
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-        $stmt->bindParam(":balance", $default_user_balance, PDO::PARAM_INT);
-        $stmt->bindParam(":gender", $gender, PDO::PARAM_INT);
-        $stmt->bindParam(":bio", $bio, PDO::PARAM_STR);
-        $stmt->bindParam(":interests", $interests, PDO::PARAM_STR);
-        $stmt->bindParam(":country", $country, PDO::PARAM_STR);
-        $stmt->bindParam(":age", $u_age, PDO::PARAM_INT);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":allowMessages", $default_allow_messages, PDO::PARAM_INT);
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+        $stmt = $this->db->prepare("INSERT INTO users (access_level, level_messages_count, language, state, username, fullname, password, email, balance, bio, interests, gender, u_age, country, regtime, ip_addr) value (:access_level, :level_messages_count, :language, :state, :username, :fullname, :password, :email, :balance, :bio, :interests, :gender, :age, :country, :createAt, :ip_addr)");
+        $stmt->bindParam(":access_level", $access_level);
+        $stmt->bindParam(":level_messages_count", $default_level_messages_count);
+        $stmt->bindParam(":language", $default_user_language);
+        $stmt->bindParam(":state", $accountState);
+        $stmt->bindParam(":username", $username);
+        $stmt->bindParam(":fullname", $fullname);
+        $stmt->bindParam(":password", $passw_hash);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":balance", $default_user_balance);
+        $stmt->bindParam(":gender", $gender);
+        $stmt->bindParam(":bio", $bio);
+        $stmt->bindParam(":interests", $interests);
+        $stmt->bindParam(":country", $country);
+        $stmt->bindParam(":age", $u_age);
+        $stmt->bindParam(":createAt", $currentTime);
+        $stmt->bindParam(":ip_addr", $ip_addr);
 
         if ($stmt->execute()) {
 
             $this->setId($this->db->lastInsertId());
 
-            $result = array("error" => false,
-                            'error_code' => ERROR_SUCCESS,
-                            'error_description' => 'SignUp Success!',
-                            'accountId' => $this->getId(),
-                            'username' => $username,
-                            'fullname' => $fullname,
-                            'password' => $password,
-                            'balance' => $default_user_balance,
-                            'level_messages_count' => $default_level_messages_count);
+            $result = array(
+                "error" => false,
+                'error_code' => ERROR_SUCCESS,
+                'error_description' => 'SignUp Success!',
+                'accountId' => $this->getId(),
+                'username' => $username,
+                'fullname' => $fullname,
+                'password' => $password,
+                'balance' => $default_user_balance,
+                'level_messages_count' => $default_level_messages_count
+            );
 
             return $result;
         }
@@ -163,35 +177,43 @@ class account extends db_connect
         $passw_hash = hash('sha256', $password);
 
         $stmt2 = $this->db->prepare("SELECT id, state, fullname, bigPhotoUrl, level, level_messages_count FROM users WHERE email = (:email) AND password = (:password) LIMIT 1");
-            $stmt2->bindParam(":email", $email, PDO::PARAM_STR);
-            $stmt2->bindParam(":password", $passw_hash, PDO::PARAM_STR);
-            $stmt2->execute();
+        $stmt2->bindParam(":email", $email);
+        $stmt2->bindParam(":password", $passw_hash);
+        $stmt2->execute();
 
         if ($stmt2->rowCount() > 0) {
-                $row2 = $stmt2->fetch();
-                $access_data = array("error" => false,
-                                     "error_code" => ERROR_SUCCESS,
-                                     "accountId" => $row2['id'],
-                                     "fullname" => $row2['fullname'],
-                                     "photoUrl" => $row2['bigPhotoUrl'],
-                                     "level" => $row2['level'],
-                                     "level_messages_count" => $row2['level_messages_count']);
+            $row2 = $stmt2->fetch();
+            $bigPhotoUrl = "";
+            if ($row2['bigPhotoUrl'] != '') {
+                $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . $row2['bigPhotoUrl'];
+            }
+            $access_data = array(
+                "error" => false,
+                "error_code" => ERROR_SUCCESS,
+                "accountId" => $row2['id'],
+                "fullname" => $row2['fullname'],
+                "photoUrl" => $bigPhotoUrl,
+                "level" => $row2['level'],
+                "level_messages_count" => $row2['level_messages_count']
+            );
         }
 
         return $access_data;
     }
 
-    public function logout($accountId, $accessToken) {
+    public function logout($accountId, $accessToken)
+    {
         $auth = new auth($this->db);
         $auth->remove($accountId, $accessToken);
     }
 
-    public function checkMultiAccountsByIp($ip_addr) {
-        
+    public function checkMultiAccountsByIp($ip_addr)
+    {
+
         $createAt = time() - 12 * 3600; // 6 hours
         $stmt = $this->db->prepare("SELECT id FROM users WHERE ip_addr = (:ip_addr) AND regtime > (:regtime) LIMIT 1");
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-        $stmt->bindParam(":regtime", $createAt, PDO::PARAM_INT);
+        $stmt->bindParam(":ip_addr", $ip_addr);
+        $stmt->bindParam(":regtime", $createAt);
 
         if ($stmt->execute()) {
 
@@ -206,8 +228,10 @@ class account extends db_connect
 
     public function setPassword($password, $newPassword)
     {
-        $result = array('error' => true,
-                        'error_code' => ERROR_CODE_INITIATE);
+        $result = array(
+            'error' => true,
+            'error_code' => ERROR_CODE_INITIATE
+        );
 
         if (!helper::isCorrectPassword($password)) {
 
@@ -222,16 +246,18 @@ class account extends db_connect
         $passw_hash = hash('sha256', $password);
 
         $stmt2 = $this->db->prepare("SELECT id FROM users WHERE id = (:accountId) AND password = (:password) LIMIT 1");
-        $stmt2->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt2->bindParam(":password", $passw_hash, PDO::PARAM_STR);
+        $stmt2->bindParam(":accountId", $this->id);
+        $stmt2->bindParam(":password", $passw_hash);
         $stmt2->execute();
 
         if ($stmt2->rowCount() > 0) {
 
             $this->newPassword($newPassword);
 
-            $result = array("error" => false,
-                                "error_code" => ERROR_SUCCESS);
+            $result = array(
+                "error" => false,
+                "error_code" => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -242,25 +268,29 @@ class account extends db_connect
         $newHash = hash('sha256', $password);
 
         $stmt = $this->db->prepare("UPDATE users SET password = (:newHash) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":newHash", $newHash, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":newHash", $newHash);
         $stmt->execute();
     }
 
 
     public function setHeight($u_height)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET u_height = (:u_height) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":u_height", $u_height, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":u_height", $u_height);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -269,7 +299,7 @@ class account extends db_connect
     public function getHeight()
     {
         $stmt = $this->db->prepare("SELECT u_height FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -283,17 +313,21 @@ class account extends db_connect
 
     public function setAge($u_age)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET u_age = (:u_age) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":u_age", $u_age, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":u_age", $u_age);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -302,7 +336,7 @@ class account extends db_connect
     public function getAge()
     {
         $stmt = $this->db->prepare("SELECT u_age FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -317,25 +351,30 @@ class account extends db_connect
 
     public function setGender($gender)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET gender = (:gender) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":gender", $gender, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":gender", $gender);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
     }
 
-    public function getGender() {
+    public function getGender()
+    {
         $stmt = $this->db->prepare("SELECT gender FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
         if ($stmt->execute()) {
             $row = $stmt->fetch();
             return $row['gender'];
@@ -344,7 +383,8 @@ class account extends db_connect
     }
 
 
-    public function setLevel($level) {
+    public function setLevel($level)
+    {
         $result = array(
             "error" => true,
             "error_code" => ERROR_CODE_INITIATE
@@ -356,9 +396,9 @@ class account extends db_connect
         }
 
         $stmt = $this->db->prepare("UPDATE users SET level= (:level), level_create_at = (:level_create_at) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":level", $level, PDO::PARAM_INT);
-        $stmt->bindParam(":level_create_at", $level_create_at, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":level", $level);
+        $stmt->bindParam(":level_create_at", $level_create_at);
 
         if ($stmt->execute()) {
             $result = array(
@@ -369,14 +409,15 @@ class account extends db_connect
         return $result;
     }
 
-    public function getLevel() {
+    public function getLevel()
+    {
         $stmt = $this->db->prepare("SELECT level, level_create_at FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
             $row = $stmt->fetch();
 
-            if ($row['level'] > 0 && time() < $row['level_create_at']+(30*24*60*60)) {
+            if ($row['level'] > 0 && time() < $row['level_create_at'] + (30 * 24 * 60 * 60)) {
                 $level = $row['level'];
             } else {
                 $level = 0;
@@ -389,17 +430,21 @@ class account extends db_connect
 
     public function setBalance($balance)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET balance = (:balance) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":balance", $balance, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":balance", $balance);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -408,7 +453,7 @@ class account extends db_connect
     public function getBalance()
     {
         $stmt = $this->db->prepare("SELECT balance FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -420,18 +465,23 @@ class account extends db_connect
         return 0;
     }
 
-    public function setLevelMessagesCount($count) {
-        if ($count < 0) { $count = 0; }
+    public function setLevelMessagesCount($count)
+    {
+        if ($count < 0) {
+            $count = 0;
+        }
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET level_messages_count = (:level_messages_count) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":level_messages_count", $count, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":level_messages_count", $count);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -439,45 +489,48 @@ class account extends db_connect
 
     public function getLevelMessagesCount()
     {
-        $stmt = $this->db->prepare("SELECT level_messages_count FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("SELECT level, level_messages_count, level_create_at FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
-
             $row = $stmt->fetch();
-
-            return $row['level_messages_count'];
+            if ($row['level'] > 0 && time() < $row['level_create_at'] + (30 * 24 * 60 * 60)) {
+                $level_messages_count = $row['level_messages_count'];
+            } else {
+                $level_messages_count = 0;
+            }
         }
 
-        return 0;
+        return $level_messages_count;
     }
 
     public function getFreeMessagesCount()
     {
         $free_messages_per_day = 5;
-        $pastTime = time()-(24*60*60);
+        $pastTime = time() - (24 * 60 * 60);
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM messages WHERE fromUserId = (:accountId) AND createAt > (:pastTime)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":pastTime", $pastTime, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":pastTime", $pastTime);
 
         if ($stmt->execute()) {
             $number_of_rows = $stmt->fetchColumn();
-            $free_messages_count = $free_messages_per_day-$number_of_rows;
+            $free_messages_count = $free_messages_per_day - $number_of_rows;
             if ($free_messages_count < 0) {
                 $free_messages_count = 0;
-            } 
+            }
             return $free_messages_count;
         }
         return 0;
     }
 
 
-    public function setImagesCount($imagesCount) {
+    public function setImagesCount($imagesCount)
+    {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET images_count = (:images_count) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":images_count", $imagesCount, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":images_count", $imagesCount);
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
         }
@@ -488,7 +541,7 @@ class account extends db_connect
     public function getImagesCount()
     {
         $stmt = $this->db->prepare("SELECT count(*) FROM images WHERE fromUserId = (:fromUserId) AND removeAt = 0");
-        $stmt->bindParam(":fromUserId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":fromUserId", $this->id);
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -502,9 +555,9 @@ class account extends db_connect
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET images_count = (:images_count), likes_count = (:likes_count) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":images_count", $imagesCount, PDO::PARAM_INT);
-        $stmt->bindParam(":likes_count", $likesCount, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":images_count", $imagesCount);
+        $stmt->bindParam(":likes_count", $likesCount);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
@@ -520,8 +573,8 @@ class account extends db_connect
         );
 
         $stmt = $this->db->prepare("UPDATE users SET gl_id = (:gl_id) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":gl_id", $gl_id, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":gl_id", $gl_id);
 
         if ($stmt->execute()) {
 
@@ -534,9 +587,10 @@ class account extends db_connect
         return $result;
     }
 
-    public function getGoogleFirebaseId() {
+    public function getGoogleFirebaseId()
+    {
         $stmt = $this->db->prepare("SELECT gl_id FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
         if ($stmt->execute()) {
             $row = $stmt->fetch();
             return $row['gl_id'];
@@ -546,22 +600,24 @@ class account extends db_connect
 
 
 
-    public function setInterests($interests) {
+    public function setInterests($interests)
+    {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
         $stmt = $this->db->prepare("UPDATE users SET interests = (:interests) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":interests", $interests, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":interests", $interests);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
         }
-        
+
         return $result;
     }
 
-    public function getInterests() {
+    public function getInterests()
+    {
         $stmt = $this->db->prepare("SELECT interests FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
             $row = $stmt->fetch();
@@ -570,7 +626,8 @@ class account extends db_connect
         return '';
     }
 
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $helper = new helper($this->db);
@@ -584,8 +641,8 @@ class account extends db_connect
         }
 
         $stmt = $this->db->prepare("UPDATE users SET email = (:email) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":email", $email);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
@@ -596,7 +653,7 @@ class account extends db_connect
     public function getEmail()
     {
         $stmt = $this->db->prepare("SELECT email FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
             $row = $stmt->fetch();
@@ -607,8 +664,10 @@ class account extends db_connect
 
     public function setUsername($username)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $helper = new helper($this->db);
 
@@ -621,8 +680,8 @@ class account extends db_connect
         }
 
         $stmt = $this->db->prepare("UPDATE users SET username = (:username) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":username", $username);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
@@ -633,7 +692,7 @@ class account extends db_connect
     public function getUsername()
     {
         $stmt = $this->db->prepare("SELECT username FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
             $row = $stmt->fetch();
@@ -642,12 +701,13 @@ class account extends db_connect
         return '';
     }
 
-    public function setLocation($location) {
+    public function setLocation($location)
+    {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET location = (:location) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":location", $location, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":location", $location);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
@@ -655,9 +715,10 @@ class account extends db_connect
         return $result;
     }
 
-    public function getLocation() {
+    public function getLocation()
+    {
         $stmt = $this->db->prepare("SELECT location FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
             $row = $stmt->fetch();
@@ -667,12 +728,13 @@ class account extends db_connect
         return '';
     }
 
-    
-    public function setCountry($country) {
+
+    public function setCountry($country)
+    {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
         $stmt = $this->db->prepare("UPDATE users SET country = (:country) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":country", $country, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":country", $country);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
@@ -686,9 +748,9 @@ class account extends db_connect
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET lat = (:lat), lng = (:lng) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":lat", $lat, PDO::PARAM_STR);
-        $stmt->bindParam(":lng", $lng, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":lat", $lat);
+        $stmt->bindParam(":lng", $lng);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
@@ -703,16 +765,18 @@ class account extends db_connect
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("SELECT lat, lng FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
             $row = $stmt->fetch();
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS,
-                            'lat' => $row['lat'],
-                            'lng' => $row['lng']);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS,
+                'lat' => $row['lat'],
+                'lng' => $row['lng']
+            );
         }
 
         return $result;
@@ -721,7 +785,7 @@ class account extends db_connect
     public function getLikesCount()
     {
         $stmt = $this->db->prepare("SELECT count(*) FROM profile_likes WHERE toUserId = (:toUserId)");
-        $stmt->bindParam(":toUserId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":toUserId", $this->id);
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -732,8 +796,8 @@ class account extends db_connect
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET likes_count = (:likes_count) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":likes_count", $likesCount, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":likes_count", $likesCount);
 
         if ($stmt->execute()) {
 
@@ -744,12 +808,13 @@ class account extends db_connect
     }
 
 
-    public function setBio($bio) {
+    public function setBio($bio)
+    {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("UPDATE users SET bio = (:bio) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":bio", $bio, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":bio", $bio);
 
         if ($stmt->execute()) {
             $result = array('error' => false, 'error_code' => ERROR_SUCCESS);
@@ -761,7 +826,7 @@ class account extends db_connect
     public function getBio()
     {
         $stmt = $this->db->prepare("SELECT bio FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
             $row = $stmt->fetch();
@@ -770,7 +835,8 @@ class account extends db_connect
         return '';
     }
 
-    public function restorePointCreate($email) {
+    public function restorePointCreate($email)
+    {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $restorePointInfo = $this->restorePointInfo();
@@ -779,43 +845,48 @@ class account extends db_connect
             return $restorePointInfo;
         }
 
-        $currentTime = time();	// Current time
+        $currentTime = time();    // Current time
 
         $ip_addr = helper::ip_addr();
 
         $hash = md5(uniqid(rand(), true));
 
         $stmt = $this->db->prepare("INSERT INTO restore_data (accountId, hash, email, createAt, ip_addr) value (:accountId, :hash, :email, :createAt, :ip_addr)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":hash", $hash, PDO::PARAM_STR);
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":hash", $hash);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":createAt", $currentTime);
+        $stmt->bindParam(":ip_addr", $ip_addr);
 
         if ($stmt->execute()) {
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS,
-                            'accountId' => $this->id,
-                            'hash' => $hash,
-                            'email' => $email);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS,
+                'accountId' => $this->id,
+                'hash' => $hash,
+                'email' => $email
+            );
         }
         return $result;
     }
 
-    public function restorePointInfo() {
+    public function restorePointInfo()
+    {
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("SELECT * FROM restore_data WHERE accountId = (:accountId) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch();
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS,
-                            'accountId' => $row['accountId'],
-                            'hash' => $row['hash'],
-                            'email' => $row['email']);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS,
+                'accountId' => $row['accountId'],
+                'hash' => $row['hash'],
+                'email' => $row['email']
+            );
         }
 
         return $result;
@@ -823,19 +894,23 @@ class account extends db_connect
 
     public function restorePointRemove()
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $removeAt = time();
 
         $stmt = $this->db->prepare("UPDATE restore_data SET removeAt = (:removeAt) WHERE accountId = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":removeAt", $removeAt, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":removeAt", $removeAt);
 
         if ($stmt->execute()) {
 
-            $result = array("error" => false,
-                            "error_code" => ERROR_SUCCESS);
+            $result = array(
+                "error" => false,
+                "error_code" => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -844,45 +919,46 @@ class account extends db_connect
     public function deactivation($password)
     {
 
-        $result = array('error' => true,
-                        'error_code' => ERROR_CODE_INITIATE);
+        $result = array(
+            'error' => true,
+            'error_code' => ERROR_CODE_INITIATE
+        );
 
         if (!helper::isCorrectPassword($password)) {
-
             return $result;
         }
 
         $passw_hash = hash('sha256', $password);
 
         $stmt2 = $this->db->prepare("SELECT id FROM users WHERE id = (:accountId) AND password = (:password) LIMIT 1");
-        $stmt2->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt2->bindParam(":password", $passw_hash, PDO::PARAM_STR);
+        $stmt2->bindParam(":accountId", $this->id);
+        $stmt2->bindParam(":password", $passw_hash);
         $stmt2->execute();
 
         if ($stmt2->rowCount() > 0) {
-
             $this->setState(ACCOUNT_STATE_DISABLED);
-
-            $result = array("error" => false,
-                                "error_code" => ERROR_SUCCESS);
+            $result = array("error" => false, "error_code" => ERROR_SUCCESS);
         }
-
         return $result;
     }
 
     public function setLanguage($language)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET language = (:language) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":language", $language, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":language", $language);
 
         if ($stmt->execute()) {
 
-            $result = array("error" => false,
-                            "error_code" => ERROR_SUCCESS);
+            $result = array(
+                "error" => false,
+                "error_code" => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -891,7 +967,7 @@ class account extends db_connect
     public function getLanguage()
     {
         $stmt = $this->db->prepare("SELECT language FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -913,44 +989,25 @@ class account extends db_connect
         }
 
         $stmt = $this->db->prepare("UPDATE users SET fullname = (:fullname) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":fullname", $fullname, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":fullname", $fullname);
 
         $stmt->execute();
-    }
-
-    public function setAllowMessages($allowMessages)
-    {
-        $stmt = $this->db->prepare("UPDATE users SET allowMessages = (:allowMessages) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":allowMessages", $allowMessages, PDO::PARAM_INT);
-        $stmt->execute();
-    }
-
-    public function getAllowMessages() {
-        $stmt = $this->db->prepare("SELECT allowMessages FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            $row = $stmt->fetch();
-            return $row['allowMessages'];
-        }
-        return 0;
     }
 
 
     public function setState($accountState)
     {
         $stmt = $this->db->prepare("UPDATE users SET state = (:accountState) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":accountState", $accountState, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":accountState", $accountState);
         $stmt->execute();
     }
 
     public function getState()
     {
         $stmt = $this->db->prepare("SELECT state FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {
             $row = $stmt->fetch();
@@ -963,27 +1020,26 @@ class account extends db_connect
     public function setLastActive()
     {
         $time = time();
-
         $stmt = $this->db->prepare("UPDATE users SET last_authorize = (:last_authorize) WHERE id = (:id)");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":last_authorize", $time, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":last_authorize", $time);
         $stmt->execute();
     }
 
-    public function setLastNotifyView()
+    public function setLastNotify()
     {
         $time = time();
 
-        $stmt = $this->db->prepare("UPDATE users SET last_notify_view = (:last_notify_view) WHERE id = (:id)");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":last_notify_view", $time, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("UPDATE users SET last_notify = (:last_notify) WHERE id = (:id)");
+        $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":last_notify", $time);
         $stmt->execute();
     }
 
-    public function getLastNotifyView()
+    public function getLastNotify()
     {
-        $stmt = $this->db->prepare("SELECT last_notify_view FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("SELECT last_notify FROM users WHERE id = (:id) LIMIT 1");
+        $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {
 
@@ -991,7 +1047,7 @@ class account extends db_connect
 
                 $row = $stmt->fetch();
 
-                return $row['last_notify_view'];
+                return $row['last_notify'];
             }
         }
 
@@ -1001,11 +1057,12 @@ class account extends db_connect
     }
 
 
-    public function get() {
+    public function get()
+    {
         $result = array("error" => true, "error_code" => ERROR_ACCOUNT_ID);
 
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
@@ -1020,60 +1077,64 @@ class account extends db_connect
                 if ($row['last_authorize'] != 0 && $row['last_authorize'] > ($current_time - 15 * 60)) {
                     $online = true;
                 }
-    
 
-                if ($row['level'] > 0 && time() < $row['level_create_at']+(30*24*60*60)) {
+
+                if ($row['level'] > 0 && time() < $row['level_create_at'] + (30 * 24 * 60 * 60)) {
                     $level = $row['level'];
                 } else {
                     $level = 0;
                 }
-                
+
+
+                $bigPhotoUrl = "";
+                if ($row['bigPhotoUrl'] != '') {
+                    $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . $row['bigPhotoUrl'];
+                }
+
                 $time = new language($this->db);
-                $result = array("error" => false,
-                                "error_code" => ERROR_SUCCESS,
-                                "id" => $row['id'],
-                                "level" => $level,
-                                "level_create_at" => $row['level_create_at'],
-                                "balance" => $row['balance'],
-                                "free_messages_count" => $free_messages_count,
-                                "level_messages_count" => $row['level_messages_count'],
-                                "gl_id" => $row['gl_id'],
-                                "state" => $row['state'],
-                                "regtime" => $row['regtime'],
-                                "ip_addr" => $row['ip_addr'],
-                                "username" => $row['username'],
-                                "fullname" => stripcslashes($row['fullname']),
-                                "location" => stripcslashes($row['location']),
-                                "bio" => stripcslashes($row['bio']),
-                                "interests" => stripcslashes($row['interests']),
-                                "email" => $row['email'],
-                                "emailVerify" => $row['emailVerify'],
-                                "gender" => $row['gender'],
-                                "age" => $row['u_age'],
-                                "height" => $row['u_height'],
-                                "lat" => $row['lat'],
-                                "lng" => $row['lng'],
-                                "language" => $row['language'],
-                                "bigPhotoUrl" => $row['bigPhotoUrl'],
-                                "iReligiousView" => $row['iReligiousView'],
-                                "iSmokingViews" => $row['iSmokingViews'],
-                                "iAlcoholViews" => $row['iAlcoholViews'],
-                                "iLooking" => $row['iLooking'],
-                                "iInterested" => $row['iInterested'],
-                                "allowShowOnline" => $row['allowShowOnline'],
-                                "allowMessages" => $row['allowMessages'],
-                                "allowLikesGCM" => $row['allowLikesGCM'],
-                                "allowMessagesGCM" => $row['allowMessagesGCM'],
-                                "lastAuthorize" => $row['last_authorize'],
-                                "lastAuthorizeDate" => date("Y-m-d H:i:s", $row['last_authorize']),
-                                "lastAuthorizeTimeAgo" => $time->timeAgo($row['last_authorize']),
-                                "online" => $online,
-                                "imagesCount" => $row['images_count'],
-                                "likesCount" => $row['likes_count'],
-                                "notificationsCount" => $notifications_count,
-                                "messagesCount" => $level_messages_count,
-                                "photoCreateAt" => $row['photoCreateAt'],
-                                "lastNotifyView" => $row['last_notify_view']);
+                $result = array(
+                    "error" => false,
+                    "error_code" => ERROR_SUCCESS,
+                    "id" => $row['id'],
+                    "level" => $level,
+                    "level_create_at" => $row['level_create_at'],
+                    "balance" => $row['balance'],
+                    "free_messages_count" => $free_messages_count,
+                    "level_messages_count" => $row['level_messages_count'],
+                    "gl_id" => $row['gl_id'],
+                    "state" => $row['state'],
+                    "regtime" => $row['regtime'],
+                    "ip_addr" => $row['ip_addr'],
+                    "username" => $row['username'],
+                    "fullname" => stripcslashes($row['fullname']),
+                    "location" => stripcslashes($row['location']),
+                    "bio" => stripcslashes($row['bio']),
+                    "interests" => stripcslashes($row['interests']),
+                    "email" => $row['email'],
+                    "emailVerify" => $row['emailVerify'],
+                    "gender" => $row['gender'],
+                    "age" => $row['u_age'],
+                    "height" => $row['u_height'],
+                    "lat" => $row['lat'],
+                    "lng" => $row['lng'],
+                    "language" => $row['language'],
+                    "bigPhotoUrl" => $bigPhotoUrl,
+                    "iReligiousView" => $row['iReligiousView'],
+                    "iSmokingViews" => $row['iSmokingViews'],
+                    "iAlcoholViews" => $row['iAlcoholViews'],
+                    "iLooking" => $row['iLooking'],
+                    "iInterested" => $row['iInterested'],
+                    "allowShowOnline" => $row['allowShowOnline'],
+                    "lastAuthorize" => $row['last_authorize'],
+                    "lastAuthorizeDate" => date("Y-m-d H:i:s", $row['last_authorize']),
+                    "lastAuthorizeTimeAgo" => $time->timeAgo($row['last_authorize']),
+                    "online" => $online,
+                    "imagesCount" => $row['images_count'],
+                    "likesCount" => $row['likes_count'],
+                    "notificationsCount" => $notifications_count,
+                    "messagesCount" => $level_messages_count,
+                    "LastNotify" => $row['last_notify']
+                );
 
                 unset($time);
             }
@@ -1087,8 +1148,8 @@ class account extends db_connect
         $result = array("error" => true);
 
         $stmt = $this->db->prepare("UPDATE users SET fullname = (:fullname) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":fullname", $fullname, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":fullname", $fullname);
 
         if ($stmt->execute()) {
 
@@ -1101,8 +1162,8 @@ class account extends db_connect
     public function setPhoto($array_data)
     {
         $stmt = $this->db->prepare("UPDATE users SET bigPhotoUrl = (:bigPhotoUrl) WHERE id = (:account_id)");
-        $stmt->bindParam(":account_id", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":bigPhotoUrl", $array_data['bigPhotoUrl'], PDO::PARAM_STR);
+        $stmt->bindParam(":account_id", $this->id);
+        $stmt->bindParam(":bigPhotoUrl", $array_data['bigPhotoUrl']);
 
         $stmt->execute();
     }
@@ -1112,7 +1173,7 @@ class account extends db_connect
     public function getAccessLevel($user_id)
     {
         $stmt = $this->db->prepare("SELECT access_level FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $user_id);
 
         if ($stmt->execute()) {
 
@@ -1130,8 +1191,8 @@ class account extends db_connect
     public function setAccessLevel($access_level)
     {
         $stmt = $this->db->prepare("UPDATE users SET access_level = (:access_level) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":access_level", $access_level, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":access_level", $access_level);
 
         $stmt->execute();
     }
@@ -1139,17 +1200,21 @@ class account extends db_connect
 
     public function set_iReligiousView($religiousView)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET iReligiousView = (:iReligiousView) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":iReligiousView", $religiousView, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":iReligiousView", $religiousView);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -1158,7 +1223,7 @@ class account extends db_connect
     public function get_iReligiousView()
     {
         $stmt = $this->db->prepare("SELECT iReligiousView FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -1176,17 +1241,21 @@ class account extends db_connect
 
     public function set_iSmokingViews($smokingViews)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET iSmokingViews = (:iSmokingViews) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":iSmokingViews", $smokingViews, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":iSmokingViews", $smokingViews);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -1195,7 +1264,7 @@ class account extends db_connect
     public function get_iSmokingViews()
     {
         $stmt = $this->db->prepare("SELECT iSmokingViews FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -1209,17 +1278,21 @@ class account extends db_connect
 
     public function set_iAlcoholViews($alcoholViews)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET iAlcoholViews = (:iAlcoholViews) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":iAlcoholViews", $alcoholViews, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":iAlcoholViews", $alcoholViews);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -1228,7 +1301,7 @@ class account extends db_connect
     public function get_iAlcoholViews()
     {
         $stmt = $this->db->prepare("SELECT iAlcoholViews FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -1242,17 +1315,21 @@ class account extends db_connect
 
     public function set_iLooking($looking)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET iLooking = (:iLooking) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":iLooking", $looking, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":iLooking", $looking);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -1261,7 +1338,7 @@ class account extends db_connect
     public function get_iLooking()
     {
         $stmt = $this->db->prepare("SELECT iLooking FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -1275,17 +1352,21 @@ class account extends db_connect
 
     public function set_iInterested($interested)
     {
-        $result = array("error" => true,
-                        "error_code" => ERROR_CODE_INITIATE);
+        $result = array(
+            "error" => true,
+            "error_code" => ERROR_CODE_INITIATE
+        );
 
         $stmt = $this->db->prepare("UPDATE users SET iInterested = (:iInterested) WHERE id = (:accountId)");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":iInterested", $interested, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":iInterested", $interested);
 
         if ($stmt->execute()) {
 
-            $result = array('error' => false,
-                            'error_code' => ERROR_SUCCESS);
+            $result = array(
+                'error' => false,
+                'error_code' => ERROR_SUCCESS
+            );
         }
 
         return $result;
@@ -1294,7 +1375,7 @@ class account extends db_connect
     public function get_iInterested()
     {
         $stmt = $this->db->prepare("SELECT iInterested FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
 
         if ($stmt->execute()) {
 
@@ -1321,8 +1402,8 @@ class account extends db_connect
         $result = array("error" => true);
 
         $stmt = $this->db->prepare("UPDATE users SET anonymousQuestions = (:anonymousQuestions) WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":anonymousQuestions", $anonymousQuestions, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $this->id);
+        $stmt->bindParam(":anonymousQuestions", $anonymousQuestions);
         $stmt->execute();
 
         if ($stmt->execute()) {
@@ -1333,4 +1414,3 @@ class account extends db_connect
         return $result;
     }
 }
-

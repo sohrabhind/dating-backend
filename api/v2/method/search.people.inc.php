@@ -9,7 +9,7 @@ if (!empty($_POST)) {
 
     $itemId = isset($_POST['itemId']) ? $_POST['itemId'] : 0;
 
-    $gender = isset($_POST['gender']) ? $_POST['gender'] : -3;
+    $gender = isset($_POST['gender']) ? $_POST['gender'] : 1;
     $online = isset($_POST['online']) ? $_POST['online'] : 0;
     $levelMode = isset($_POST['level']) ? $_POST['level'] : 0;
     $ageFrom = isset($_POST['ageFrom']) ? $_POST['ageFrom'] : 13;

@@ -31,7 +31,7 @@ class cleaner extends db_connect
         $result = array("error" => true,
                         "error_code" => ERROR_CODE_INITIATE);
 
-        $stmt = $this->db->prepare("UPDATE messages SET removeAt = 1 WHERE imgUrl > ''");
+        $stmt = $this->db->prepare("UPDATE messages SET removeAt = 1 WHERE imageUrl > ''");
 
         if ($stmt->execute()) {
 

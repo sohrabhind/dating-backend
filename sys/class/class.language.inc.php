@@ -9,9 +9,7 @@
 
 		public function __construct($dbo = NULL, $language = "en")
         {
-
 			parent::__construct($dbo);
-
             $this->set($language);
 
 		}
@@ -72,7 +70,7 @@
 
             if($time < 60) return $now; else
             if($time < 3600) return $this->declOfNum(($time-($time%60))/60, $titles).$about; else
-            if($time < 86400) return$this->declOfNum(($time-($time%3600))/3600, $titles2).$about; else
+            if($time < 86400) return $this->declOfNum(($time-($time%3600))/3600, $titles2).$about; else
             if($time < 2073600) return $this->declOfNum(($time - ($time % 86400)) / 86400, $titles3).$about; else
             if($time < 62208000) return $this->declOfNum(($time - ($time % 2073600)) / 2073600, $titles4).$about; else return gmdate("d-m-Y", $time);
         }

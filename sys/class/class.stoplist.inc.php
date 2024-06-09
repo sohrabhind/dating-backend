@@ -37,10 +37,10 @@ class stoplist extends db_connect
         $currentTime = time();
 
         $stmt = $this->db->prepare("INSERT INTO stoplist (byAdminId, reason, createAt, ip_addr) value (:byAdminId, :reason, :createAt, :ip_addr)");
-        $stmt->bindParam(":byAdminId", $byAdminId, PDO::PARAM_INT);
-        $stmt->bindParam(":reason", $reason, PDO::PARAM_STR);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+        $stmt->bindParam(":byAdminId", $byAdminId);
+        $stmt->bindParam(":reason", $reason);
+        $stmt->bindParam(":createAt", $currentTime);
+        $stmt->bindParam(":ip_addr", $ip_addr);
 
         if ($stmt->execute()) {
 
@@ -59,8 +59,8 @@ class stoplist extends db_connect
         $currentTime = time();
 
         $stmt = $this->db->prepare("UPDATE stoplist SET removeAt = (:removeAt) WHERE ip_addr = (:ip_addr)");
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":ip_addr", $ip_addr);
+        $stmt->bindParam(":removeAt", $currentTime);
 
         if ($stmt->execute()) {
 
@@ -74,7 +74,7 @@ class stoplist extends db_connect
     public function isExists($ip_addr)
     {
         $stmt = $this->db->prepare("SELECT * FROM stoplist WHERE ip_addr = (:ip_addr) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+        $stmt->bindParam(":ip_addr", $ip_addr);
 
         if ($stmt->execute()) {
 
@@ -93,7 +93,7 @@ class stoplist extends db_connect
                         "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("SELECT * FROM stoplist WHERE id = (:itemId) LIMIT 1");
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
+        $stmt->bindParam(":itemId", $itemId);
 
         if ($stmt->execute()) {
 
@@ -132,7 +132,7 @@ class stoplist extends db_connect
                         "items" => array());
 
         $stmt = $this->db->prepare("SELECT id FROM stoplist WHERE removeAt = 0 AND id < (:itemId) ORDER BY id DESC LIMIT 20");
-        $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
+        $stmt->bindParam(':itemId', $itemId);
 
         if ($stmt->execute()) {
 

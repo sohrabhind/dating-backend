@@ -18,7 +18,7 @@ if (!empty($_POST)) {
     }
 
     $account = new account($dbo, $accountId);
-    $account->setLastNotifyView();
+    $account->setLastNotify();
 
     $notifications = new notify($dbo);
     $notifications->setRequestFrom($accountId);

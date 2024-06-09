@@ -44,11 +44,10 @@ class cdn extends db_connect
 
     public function uploadMyImage($imgFilename)
     {
-        rename($imgFilename, MY_PHOTOS_PATH.basename($imgFilename));
-
+        rename($imgFilename, MY_IMAGES_PATH.basename($imgFilename));
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
-                        "fileUrl" => APP_URL."/".MY_PHOTOS_PATH.basename($imgFilename));
+                        "fileUrl" => basename($imgFilename));
 
         return $result;
     }
@@ -56,10 +55,9 @@ class cdn extends db_connect
     public function uploadPhoto($imgFilename)
     {
         rename($imgFilename, PROFILE_PHOTO_PATH.basename($imgFilename));
-
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
-                        "fileUrl" => APP_URL."/".PROFILE_PHOTO_PATH.basename($imgFilename));
+                        "fileUrl" => basename($imgFilename));
 
         return $result;
     }
@@ -68,10 +66,9 @@ class cdn extends db_connect
     public function uploadChatImg($imgFilename)
     {
         rename($imgFilename, CHAT_IMAGE_PATH.basename($imgFilename));
-
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
-                        "fileUrl" => APP_URL."/".CHAT_IMAGE_PATH.basename($imgFilename));
+                        "fileUrl" => basename($imgFilename));
 
         return $result;
     }

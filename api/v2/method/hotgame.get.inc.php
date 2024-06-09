@@ -9,8 +9,8 @@ if (!empty($_POST)) {
     $itemId = isset($_POST['itemId']) ? $_POST['itemId'] : 0;
 
 
-    $gender = isset($_POST['gender']) ? $_POST['gender'] : 3; // 3 = any
-    $country = isset($_POST['country']) ? $_POST['country'] : 0; // 3 = any
+    $gender = isset($_POST['gender']) ? $_POST['gender'] : 1;
+    $country = isset($_POST['country']) ? $_POST['country'] : '';
 
     $lat = isset($_POST['lat']) ? $_POST['lat'] : 0.000000;
     $lng = isset($_POST['lng']) ? $_POST['lng'] : 0.000000;
@@ -19,7 +19,9 @@ if (!empty($_POST)) {
     $itemId = helper::clearInt($itemId);
 
     $gender = helper::clearInt($gender);
-    $country = helper::clearInt($country);
+
+    $country = helper::clearText($country);
+    $country = helper::escapeText($country);
 
     $lat = helper::clearText($lat);
     $lat = helper::escapeText($lat);
@@ -41,7 +43,7 @@ if (!empty($_POST)) {
         $result = $account->setGeoLocation($lat, $lng);
     }
     
-    if ($country != 0) {
+    if ($country != '') {
         $result = $account->setCountry($country);
     }
 

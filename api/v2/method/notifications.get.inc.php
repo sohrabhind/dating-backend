@@ -23,7 +23,7 @@ if (!empty($_POST)) {
 
     if ($notifyId == 0) {
         $account = new account($dbo, $accountId);
-        $account->setLastNotifyView();
+        $account->setLastNotify();
         unset($account);
     }
 

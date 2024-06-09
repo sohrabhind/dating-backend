@@ -36,8 +36,8 @@ class notify extends db_connect
                                "notifications" => array());
 
         $stmt = $this->db->prepare("SELECT * FROM notifications WHERE notifyToId = (:notifyToId) AND id < (:notifyId) ORDER BY id DESC LIMIT 20");
-        $stmt->bindParam(':notifyToId', $this->requestFrom, PDO::PARAM_INT);
-        $stmt->bindParam(':notifyId', $notifyId, PDO::PARAM_INT);
+        $stmt->bindParam(':notifyToId', $this->requestFrom);
+        $stmt->bindParam(':notifyId', $notifyId);
 
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
@@ -50,12 +50,17 @@ class notify extends db_connect
                                              "fullname" => "",
                                              "online" => false,
                                              "verify" => 0,
-                                             "bigPhotoUrl" => "/assets/img/profile_default_photo.png");
+                                             "bigPhotoUrl" => "/assets/icons/profile_default_photo.png");
 
                     } else {
                         $profile = new profile($this->db, $row['notifyFromId']);
                         $profileInfo = $profile->getVeryShort();
                         unset($profile);
+                    }
+
+                    $bigPhotoUrl = "";
+                    if ($profileInfo['bigPhotoUrl'] != '') {
+                        $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . basename($profileInfo['bigPhotoUrl']);
                     }
 
                     $data = array("id" => $row['id'],
@@ -65,7 +70,7 @@ class notify extends db_connect
                                   "fromUserState" => $profileInfo['state'],
                                   "fromUserUsername" => $profileInfo['username'],
                                   "fromUserFullname" => $profileInfo['fullname'],
-                                  "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
+                                  "fromUserPhotoUrl" => $bigPhotoUrl,
                                   "fromUserOnline" => $profileInfo['online'],
                                   "createAt" => $row['createAt'],
                                   "timeAgo" => $time->timeAgo($row['createAt']));
@@ -87,11 +92,11 @@ class notify extends db_connect
         $createAt = time();
 
         $stmt = $this->db->prepare("INSERT INTO notifications (notifyToId, notifyFromId, notifyType, itemId, createAt) value (:notifyToId, :notifyFromId, :notifyType, :itemId, :createAt)");
-        $stmt->bindParam(":notifyToId", $notifyToId, PDO::PARAM_INT);
-        $stmt->bindParam(":notifyFromId", $notifyFromId, PDO::PARAM_INT);
-        $stmt->bindParam(":notifyType", $notifyType, PDO::PARAM_INT);
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
-        $stmt->bindParam(":createAt", $createAt, PDO::PARAM_INT);
+        $stmt->bindParam(":notifyToId", $notifyToId);
+        $stmt->bindParam(":notifyFromId", $notifyFromId);
+        $stmt->bindParam(":notifyType", $notifyType);
+        $stmt->bindParam(":itemId", $itemId);
+        $stmt->bindParam(":createAt", $createAt);
         $stmt->execute();
 
         return $this->db->lastInsertId();
@@ -100,42 +105,42 @@ class notify extends db_connect
     public function remove($notifyId)
     {
         $stmt = $this->db->prepare("DELETE FROM notifications WHERE id = (:notifyId)");
-        $stmt->bindParam(":notifyId", $notifyId, PDO::PARAM_INT);
+        $stmt->bindParam(":notifyId", $notifyId);
         $stmt->execute();
     }
 
     public function delete($notifyId)
     {
         $stmt = $this->db->prepare("DELETE FROM notifications WHERE id = (:notifyId) AND notifyToId = (:notifyToId)");
-        $stmt->bindParam(":notifyId", $notifyId, PDO::PARAM_INT);
-        $stmt->bindParam(":notifyToId", $this->requestFrom, PDO::PARAM_INT);
+        $stmt->bindParam(":notifyId", $notifyId);
+        $stmt->bindParam(":notifyToId", $this->requestFrom);
         $stmt->execute();
     }
 
     public function removeNotify($notifyToId, $notifyFromId, $notifyType, $itemId = 0)
     {
         $stmt = $this->db->prepare("DELETE FROM notifications WHERE notifyToId = (:notifyToId) AND notifyFromId = (:notifyFromId) AND notifyType = (:notifyType) AND itemId = (:itemId)");
-        $stmt->bindParam(":notifyToId", $notifyToId, PDO::PARAM_INT);
-        $stmt->bindParam(":notifyFromId", $notifyFromId, PDO::PARAM_INT);
-        $stmt->bindParam(":notifyType", $notifyType, PDO::PARAM_INT);
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
+        $stmt->bindParam(":notifyToId", $notifyToId);
+        $stmt->bindParam(":notifyFromId", $notifyFromId);
+        $stmt->bindParam(":notifyType", $notifyType);
+        $stmt->bindParam(":itemId", $itemId);
         $stmt->execute();
     }
 
     public function getAllCount()
     {
         $stmt = $this->db->prepare("SELECT count(*) FROM notifications WHERE notifyToId = (:notifyToId)");
-        $stmt->bindParam(":notifyToId", $this->requestFrom, PDO::PARAM_INT);
+        $stmt->bindParam(":notifyToId", $this->requestFrom);
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function getNewCount($lastNotifyView)
+    public function getNewCount($LastNotify)
     {
-        $stmt = $this->db->prepare("SELECT count(*) FROM notifications WHERE notifyToId = (:notifyToId) AND createAt > (:lastNotifyView) AND removeAt = 0");
-        $stmt->bindParam(":notifyToId", $this->requestFrom, PDO::PARAM_INT);
-        $stmt->bindParam(":lastNotifyView", $lastNotifyView, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("SELECT count(*) FROM notifications WHERE notifyToId = (:notifyToId) AND createAt > (:LastNotify) AND removeAt = 0");
+        $stmt->bindParam(":notifyToId", $this->requestFrom);
+        $stmt->bindParam(":LastNotify", $LastNotify);
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -147,7 +152,7 @@ class notify extends db_connect
                         "error_code" => ERROR_SUCCESS);
 
         $stmt = $this->db->prepare("DELETE FROM notifications WHERE notifyToId = (:notifyToId)");
-        $stmt->bindParam(":notifyToId", $this->requestFrom, PDO::PARAM_INT);
+        $stmt->bindParam(":notifyToId", $this->requestFrom);
         $stmt->execute();
 
         return $result;

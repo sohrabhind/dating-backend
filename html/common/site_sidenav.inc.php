@@ -182,12 +182,16 @@
                             }
 
                             if ($sn_add_me) {
+                                $bigPhotoUrl = "";
+                                if (auth::getCurrentUserPhotoUrl() != '') {
+                                    $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . auth::getCurrentUserPhotoUrl();
+                                }
 
                                 $sn_profile_info = array(
                                     "id" => auth::getCurrentUserId(),
                                     "username" => auth::getCurrentUserLogin(),
                                     "fullname" => auth::getCurrentUserFullname(),
-                                    "bigPhotoUrl" => auth::getCurrentUserPhotoUrl(),
+                                    "bigPhotoUrl" => $bigPhotoUrl,
                                     "online" => true
                                 );
 
@@ -195,11 +199,8 @@
                             }
 
                             foreach ($sn_result['items'] as $key => $value) {
-
                                 draw::spotlightSideNavItem($value, $LANG, $sn_add_me);
-
                                 if ($sn_add_me) {
-
                                     $sn_add_me = false;
                                 }
                             }

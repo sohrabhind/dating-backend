@@ -104,7 +104,7 @@
 
 .homepage:after, .homepage:before, .homepage-section-1, .homepage-section-2 {
 
-    background-image: url(/assets/img/index_bg.png?x=10);
+    background-image: url(/assets/icons/index_bg.png?x=10);
     background-size: cover;
 }
 

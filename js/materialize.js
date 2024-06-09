@@ -1131,12 +1131,12 @@ $(document).ready(function(){
         function updateParallax(initial) {
           var container_height;
           if (window_width < 601) {
-            container_height = ($this.height() > 0) ? $this.height() : $this.children("img").height();
+            container_height = ($this.height() > 0) ? $this.height() : $this.children("icons").height();
           }
           else {
             container_height = ($this.height() > 0) ? $this.height() : 500;
           }
-          var $img = $this.children("img").first();
+          var $img = $this.children("icons").first();
           var img_height = $img.height();
           var parallax_dist = img_height - container_height;
           var bottom = $this.offset().top + container_height;
@@ -1157,7 +1157,7 @@ $(document).ready(function(){
         }
 
         // Wait for image load
-        $this.children("img").one("load", function() {
+        $this.children("icons").one("load", function() {
           updateParallax(true);
         }).each(function() {
           if(this.complete) $(this).load();
@@ -3256,7 +3256,7 @@ $(document).ready(function(){
         });
 
         // Move img src into background-image
-        $slides.find('img').each(function () {
+        $slides.find('icons').each(function () {
           var placeholderBase64 = 'data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
           if ($(this).attr('src') !== placeholderBase64) {
             $(this).css('background-image', 'url(' + $(this).attr('src') + ')' );
@@ -3311,7 +3311,7 @@ $(document).ready(function(){
         }
 
         // Adjust height to current slide
-        $active.find('img').each(function() {
+        $active.find('icons').each(function() {
           $active.find('.caption').velocity({opacity: 1, translateX: 0, translateY: 0}, {duration: options.transition, queue: false, easing: 'easeOutQuad'});
         });
 

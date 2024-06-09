@@ -20,93 +20,7 @@ class payments extends db_connect
 
         return $number_of_rows = $stmt->fetchColumn();
     }
-
-    public function create($paymentAction, $paymentType, $level, $amount = 0, $currency = 0)
-    {
-        $result = array(
-            "error" => true,
-            "error_code" => ERROR_CODE_INITIATE
-        );
-
-        $currentTime = time();
-        $ip_addr = helper::ip_addr();
-
-        $stmt = $this->db->prepare("INSERT INTO payments (fromUserId, paymentAction, paymentType, level, amount, currency, createAt, ip_addr) value (:fromUserId, :paymentAction, :paymentType, :level, :amount, :currency, :createAt, :ip_addr)");
-        $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
-        $stmt->bindParam(":paymentAction", $paymentAction, PDO::PARAM_INT);
-        $stmt->bindParam(":paymentType", $paymentType, PDO::PARAM_INT);
-        $stmt->bindParam(":level", $level, PDO::PARAM_INT);
-        $stmt->bindParam(":amount", $amount, PDO::PARAM_INT);
-        $stmt->bindParam(":currency", $currency, PDO::PARAM_INT);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
-
-        if ($stmt->execute()) {
-
-            $result = array(
-                "error" => false,
-                "error_code" => ERROR_SUCCESS
-            );
-        }
-
-        return $result;
-    }
-
-    public function remove($itemId)
-    {
-        $result = array(
-            "error" => true,
-            "error_code" => ERROR_CODE_INITIATE
-        );
-
-        $currentTime = time();
-
-        $stmt = $this->db->prepare("UPDATE payments SET removeAt = (:removeAt) WHERE id = (:itemId)");
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            $result = array(
-                "error" => false,
-                "error_code" => ERROR_SUCCESS
-            );
-        }
-
-        return $result;
-    }
-
-    public function clear() {
-
-        $currentTime = time();
-
-        $stmt = $this->db->prepare("UPDATE payments SET removeAt = (:removeAt) WHERE fromUserId = (:fromUserId)");
-        $stmt->bindParam(":fromUserId", $this->requestFrom, PDO::PARAM_INT);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
-    }
-
-    public function info($itemId)
-    {
-        $result = array(
-            "error" => true,
-            "error_code" => ERROR_CODE_INITIATE
-        );
-
-        $stmt = $this->db->prepare("SELECT * FROM payments WHERE id = (:itemId) LIMIT 1");
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-
-            if ($stmt->rowCount() > 0) {
-
-                $row = $stmt->fetch();
-
-                $result = $this->quickInfo($row);
-            }
-        }
-
-        return $result;
-    }
+    
 
     public function quickInfo($row, $details = false)
     {
@@ -116,9 +30,8 @@ class payments extends db_connect
             "error" => false,
             "error_code" => ERROR_SUCCESS,
             "id" => $row['id'],
-            "fromUserId" => $row['fromUserId'],
-            "paymentAction" => $row['paymentAction'],
-            "paymentType" => $row['paymentType'],
+            "user_id" => $row['user_id'],
+            "added" => $row['added'],
             "level" => $row['level'],
             "amount" => $row['amount'],
             "currency" => $row['currency'],
@@ -129,7 +42,7 @@ class payments extends db_connect
 
         if ($details) {
 
-            $profile = new profile($this->db, $row['fromUserId']);
+            $profile = new profile($this->db, $row['user_id']);
             $profileInfo = $profile->getVeryShort();
             unset($profile);
 
@@ -143,7 +56,7 @@ class payments extends db_connect
     {
         if ($itemId == 0) {
 
-            $itemId = 1000000;
+            $itemId = 4294967295;
         }
 
         $result = array(
@@ -153,10 +66,10 @@ class payments extends db_connect
             "items" => array()
         );
 
-        $stmt = $this->db->prepare("SELECT * FROM payments WHERE fromUserId = (:fromUserId) AND id < (:itemId) AND removeAt = 0 ORDER BY id DESC LIMIT :limit");
-        $stmt->bindParam(':fromUserId', $this->requestFrom, PDO::PARAM_INT);
-        $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("SELECT * FROM payments WHERE user_id = (:user_id) AND id < (:itemId) AND added = 1  ORDER BY id DESC LIMIT :limit");
+        $stmt->bindParam(':user_id', $this->requestFrom);
+        $stmt->bindParam(':itemId', $itemId);
+        $stmt->bindParam(':limit', $limit);
 
         if ($stmt->execute()) {
 
@@ -186,12 +99,12 @@ class payments extends db_connect
 
         if ($itemId == 0) {
 
-            $itemId = 100000;
+            $itemId = 4294967295;
         }
 
-        $stmt = $this->db->prepare("SELECT * FROM payments WHERE id < (:itemId) AND paymentAction = 0 AND removeAt = 0 ORDER BY id DESC LIMIT :limit");
-        $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("SELECT * FROM payments WHERE id < (:itemId) AND added = 1  ORDER BY id DESC LIMIT :limit");
+        $stmt->bindParam(':itemId', $itemId);
+        $stmt->bindParam(':limit', $limit);
 
         if ($stmt->execute()) {
 

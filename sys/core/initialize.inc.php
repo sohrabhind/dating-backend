@@ -38,16 +38,11 @@
 								  iLooking SMALLINT(6) UNSIGNED DEFAULT 0,
 								  iInterested SMALLINT(6) UNSIGNED DEFAULT 0,
 								  emailVerify SMALLINT(6) UNSIGNED DEFAULT 0,
-								  last_notify_view INT(10) UNSIGNED DEFAULT 0,
+								  last_notify INT(10) UNSIGNED DEFAULT 0,
 								  last_authorize INT(10) UNSIGNED DEFAULT 0,
 								  ip_addr CHAR(32) NOT NULL DEFAULT '',
-								  allowMessages SMALLINT(6) UNSIGNED DEFAULT 1,
 								  allowShowOnline SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowLikesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowPhotosLikesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
-								  allowMessagesGCM SMALLINT(6) UNSIGNED DEFAULT 1,
 								  bigPhotoUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								  photoCreateAt int(11) UNSIGNED DEFAULT 1,
   								PRIMARY KEY  (id), UNIQUE KEY (username)) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci");
 		$sth->execute();
 
@@ -87,7 +82,7 @@
 								fromUserId int(11) UNSIGNED DEFAULT 0,
 								toUserId int(11) UNSIGNED DEFAULT 0,
 								message varchar(800) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
-								imgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+								imageUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								country VARCHAR(150) NOT NULL DEFAULT '',
 								lat float(10,6),
 								lng float(10,6),
@@ -101,9 +96,8 @@
 		$sth = $dbo->prepare("CREATE TABLE IF NOT EXISTS images (
 								id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 								fromUserId int(11) UNSIGNED DEFAULT 0,
-								accessMode int(11) UNSIGNED DEFAULT 0,
 								itemType int(11) UNSIGNED DEFAULT 0,
-								imgUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
+								imageUrl VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
 								country VARCHAR(150) NOT NULL DEFAULT '',
 								lat float(10,6),
 								lng float(10,6),

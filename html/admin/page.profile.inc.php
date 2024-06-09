@@ -1,9 +1,6 @@
 <?php
 
-    
-
     if (!admin::isSession()) {
-
         header("Location: /admin/login");
         exit;
     }
@@ -36,69 +33,56 @@
         if ($accessToken === admin::getAccessToken() && $admin_info['access_level'] < ADMIN_ACCESS_LEVEL_MODERATOR_RIGHTS) {
 
             switch ($act) {
-
                 case "disconnect": {
-
-                    $account->setFacebookId('');
-
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;
                 }
 
                 case "close": {
-
+                    $auth = new auth($dbo);
                     $auth->removeAll($accountId);
-
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;
                 }
 
                 case "block": {
-
-                    $account->setState(ACCOUNT_STATE_BLOCKED);
-
                     $images = new gallery($dbo);
                     $images->setRequestFrom($accountInfo['id']);
                     $images->removeAll();
+                    $images->checkAndRemoveOrphanedFiles();
                     unset($images);
-
+                    $photos = array("error" => false, "bigPhotoUrl" => "");
+                    $account->setPhoto($photos);
+                    $auth = new auth($dbo);
                     $auth->removeAll($accountInfo['id']);
-
+                    $account->setState(ACCOUNT_STATE_BLOCKED);
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;
                 }
 
                 case "unblock": {
-
                     $account->setState(ACCOUNT_STATE_ENABLED);
-
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;
                 }
 
 
                 case "promode_set": {
-
                     $account->setLevel(1);
-
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;
                 }
 
                 case "promode_unset": {
-
                     $account->setLevel(0);
-
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;
                 }
 
                 case "delete-photo": {
-
+                    @unlink(PROFILE_PHOTO_PATH . "/" . basename($accountInfo['bigPhotoUrl']));
                     $data = array("bigPhotoUrl" => '');
-
                     $account->setPhoto($data);
-
                     header("Location: /admin/profile?id=".$accountInfo['id']);
                     break;
                 }
@@ -459,7 +443,7 @@
                                         } else {
 
                                             ?>
-                                                <img src="/assets/img/profile_default_photo.png" width="250" alt="user" />
+                                                <img src="/assets/icons/profile_default_photo.png" width="250" alt="user" />
                                             <?php
                                         }
                                     ?>

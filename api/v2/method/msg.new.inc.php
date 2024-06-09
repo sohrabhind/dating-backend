@@ -12,7 +12,6 @@ if (!empty($_POST)) {
 
     $listId = isset($_POST['listId']) ? $_POST['listId'] : 0;
 
-    
     $accountId = helper::clearInt($accountId);
 
     $profileId = helper::clearInt($profileId);
@@ -34,7 +33,6 @@ if (!empty($_POST)) {
     $auth = new auth($dbo);
 
     if (!$auth->authorize($accountId, $accessToken)) {
-
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
@@ -46,13 +44,6 @@ if (!empty($_POST)) {
     if ($profileInfo['state'] != ACCOUNT_STATE_ENABLED) {
         echo json_encode($result);
         exit;
-    }
-
-    if ($profileInfo['allowMessages'] == 0) {
-        if (!$profileInfo['myFan']) {
-            echo json_encode($result);
-            exit;
-        }
     }
 
     if (!$profileInfo['inBlackList']) {

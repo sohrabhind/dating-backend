@@ -19,27 +19,21 @@ if (!empty($_POST)) {
         api::printError(ERROR_ACCESS_TOKEN, "Error authorization.");
     }
 
-    $result = array("error" => true,
-                    "error_code" => ERROR_CODE_INITIATE);
+    $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
 
     // Remove All Medias
 
     $images = new gallery($dbo);
     $images->setRequestFrom($accountId);
     $images->removeAll();
+    $images->checkAndRemoveOrphanedFiles();
     unset($images);
 
     $account = new account($dbo, $accountId);
 
     // Remove Avatar
-
     $photos = array("error" => false, "bigPhotoUrl" => "");
     $account->setPhoto($photos);
-
-    // Unset Facebook Id
-    $account->setFacebookId("");
-    // Unset Email
-    $account->setEmail("");
 
     // Deactivate Account
 

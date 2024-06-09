@@ -26,7 +26,7 @@
         $itemId = helper::clearInt($itemId);
         $loaded = helper::clearInt($loaded);
 
-        $result = $messages->getChatsStream($itemId);
+        $result = $messages->getChatsStreamB($itemId);
         $inbox_loaded = count($result['messages']);
         $result['inbox_loaded'] = $inbox_loaded + $loaded;
         $result['inbox_all'] = $inbox_all;
@@ -115,7 +115,7 @@
 
                 <?php
 
-                    $result = $messages->getChatsStream(0);
+                    $result = $messages->getChatsStreamB(0);
 
                     $inbox_loaded = count($result['messages']);
 
@@ -271,7 +271,7 @@
                         } else {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(/assets/img/profile_default_photo.png)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(/assets/icons/profile_default_photo.png)"></span>
                             <?php
                         }
                     ?>
@@ -295,7 +295,7 @@
                         } else {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(/assets/img/profile_default_photo.png)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(/assets/icons/profile_default_photo.png)"></span>
                             <?php
                         }
                     ?>

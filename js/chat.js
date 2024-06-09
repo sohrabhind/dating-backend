@@ -213,7 +213,7 @@ Messages.removeChat = function(chat_id, user_id) {
 Messages.changeChatImg = function(title, accountId, accessToken) {
 
   var img_url = $("img.msg_img_preview").attr("src");
-  var def_url = "/assets/img/camera.png";
+  var def_url = "/assets/icons/camera.png";
 
   var i = img_url.localeCompare(def_url);
 
@@ -245,10 +245,10 @@ Messages.changeChatImg = function(title, accountId, accessToken) {
 
                         $.colorbox.close();
 
-                        if (response.hasOwnProperty('imgUrl')) {
+                        if (response.hasOwnProperty('imageUrl')) {
 
-                            $("input[name=message_image]").val(response.imgUrl);
-                            $("img.msg_img_preview").attr("src", response.imgUrl);
+                            $("input[name=message_image]").val(response.imageUrl);
+                            $("img.msg_img_preview").attr("src", response.imageUrl);
                         }
                     }
                 }

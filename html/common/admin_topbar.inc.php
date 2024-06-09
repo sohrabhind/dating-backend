@@ -12,11 +12,11 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/admin/main">
                 <b> <!-- Logo icon --> <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                    <img src="/assets/img/admin-logo-icon.png" alt="homepage" class="light-logo" /> <!-- Light Logo icon -->
+                    <img src="/assets/icons/admin-logo-icon.png" alt="homepage" class="light-logo" /> <!-- Light Logo icon -->
                 </b> <!--End Logo icon -->
 
                 <span> <!-- Logo text --> <!-- Light Logo text -->
-                    <img src="/assets/img/admin-logo-text.png" class="light-logo" alt="homepage" />
+                    <img src="/assets/icons/admin-logo-text.png" class="light-logo" alt="homepage" />
                 </span>
             </a>
         </div>
@@ -61,7 +61,7 @@
 
                 <li class="nav-item dropdown ">
                     <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <img src="/assets/img/profile_default_photo.png" alt="user" class="profile-pic">
+                        <img src="/assets/icons/profile_default_photo.png" alt="user" class="profile-pic">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right scale-up show">
                         <ul class="dropdown-user">

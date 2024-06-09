@@ -45,7 +45,7 @@ class helper extends db_connect
     public function getUserLogin($accountId)
     {
         $stmt = $this->db->prepare("SELECT username FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $accountId, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $accountId);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -61,7 +61,7 @@ class helper extends db_connect
     public function getUserPhoto($accountId)
     {
         $stmt = $this->db->prepare("SELECT bigPhotoUrl FROM users WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $accountId, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $accountId);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -70,7 +70,7 @@ class helper extends db_connect
 
             if (strlen($row['bigPhotoUrl']) == 0) {
 
-                return "/assets/img/profile_default_photo.png";
+                return "/assets/icons/profile_default_photo.png";
 
             } else {
 
@@ -78,7 +78,7 @@ class helper extends db_connect
             }
         }
 
-        return "/assets/img/profile_default_photo.png";
+        return "/assets/icons/profile_default_photo.png";
     }
 
     public function getUserId($username)
@@ -87,7 +87,7 @@ class helper extends db_connect
         $username = helper::escapeText($username);
 
         $stmt = $this->db->prepare("SELECT id FROM users WHERE username = (:username) LIMIT 1");
-        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+        $stmt->bindParam(":username", $username);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -106,7 +106,7 @@ class helper extends db_connect
         $google_id = helper::escapeText($google_id);
 
         $stmt = $this->db->prepare("SELECT id FROM users WHERE gl_id = (:gl_id) LIMIT 1");
-        $stmt->bindParam(":gl_id", $google_id, PDO::PARAM_STR);
+        $stmt->bindParam(":gl_id", $google_id);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -124,7 +124,7 @@ class helper extends db_connect
     public function getUserIdByEmail($email)
     {
         $stmt = $this->db->prepare("SELECT id FROM users WHERE email = (:email) LIMIT 1");
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        $stmt->bindParam(":email", $email);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -146,7 +146,7 @@ class helper extends db_connect
                         "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("SELECT * FROM restore_data WHERE hash = (:hash) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":hash", $hash, PDO::PARAM_STR);
+        $stmt->bindParam(":hash", $hash);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -166,7 +166,7 @@ class helper extends db_connect
     public function isEmailExists($user_email)
     {
         $stmt = $this->db->prepare("SELECT id FROM users WHERE email = (:email) LIMIT 1");
-        $stmt->bindParam(':email', $user_email, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $user_email);
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 return true;
@@ -181,7 +181,7 @@ class helper extends db_connect
         $username = helper::escapeText($username);
 
         $stmt = $this->db->prepare("SELECT id FROM users WHERE username = (:username) LIMIT 1");
-        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+        $stmt->bindParam(":username", $username);
 
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
@@ -197,7 +197,7 @@ class helper extends db_connect
         $phoneNumber = helper::escapeText($phoneNumber);
 
         $stmt = $this->db->prepare("SELECT id FROM users WHERE otpPhone = (:otpPhone) LIMIT 1");
-        $stmt->bindParam(":otpPhone", $phoneNumber, PDO::PARAM_STR);
+        $stmt->bindParam(":otpPhone", $phoneNumber);
 
         if ($stmt->execute()) {
 

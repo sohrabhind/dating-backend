@@ -1195,7 +1195,7 @@ body.sidebar-open {
 }
 
 .android-version-icon {
-    background: url(/assets/img/android_icon.png?10) no-repeat 0 -1px;
+    background: url(/assets/icons/android_icon.png?10) no-repeat 0 -1px;
     height: 11px;
     width: auto;
     padding: 0 14px 0 0;
@@ -1206,7 +1206,7 @@ body.sidebar-open {
 }
 
 .ios-version-icon {
-    background: url(/assets/img/ios_icon.png?11) no-repeat 0 -2px;
+    background: url(/assets/icons/ios_icon.png?11) no-repeat 0 -2px;
     height: 11px;
     width: auto;
     padding: 0 14px 0 0;
@@ -1497,7 +1497,7 @@ body.sidebar-open {
 
 .post-like i.like-icon {
 
-    background: url(/assets/img/like.gif?2) no-repeat 1px 0px;
+    background: url(/assets/icons/like.gif?2) no-repeat 1px 0px;
     height: 10px;
     opacity: 0.4;
     filter: alpha(opacity=40);
@@ -1579,7 +1579,7 @@ body.sidebar-open {
     left: 50%;
     top: 50%;
     border: 0;
-    background-image: url(/assets/img/video_play.png?x=2);
+    background-image: url(/assets/icons/video_play.png?x=2);
 }
 
 .change_image {
@@ -1805,7 +1805,7 @@ body.sidebar-open {
 .file_loader_block {
     display: none;
     height: 40px;
-    background-image: url(/assets/img/spinner-rosetta-blue.gif);
+    background-image: url(/assets/icons/spinner-rosetta-blue.gif);
     background-position-x: center;
     background-position-y: 7px;
     background-repeat: no-repeat;
@@ -2249,7 +2249,7 @@ body.sidebar-open {
 
 .top-banner.empty-list-banner {
 
-    background: url(/assets/img/empty_list.png?10) no-repeat center center;
+    background: url(/assets/icons/empty_list.png?10) no-repeat center center;
     padding: 135px 40px !important;
 }
 
@@ -2863,7 +2863,7 @@ body.sidebar-open {
     height: 48px;
     margin-top: 14px;
     font-size: 0;
-    background: url(/assets/img/logo.png?x=4) no-repeat 0px
+    background: url(/assets/icons/logo.png?x=4) no-repeat 0px
 }
 
 @media (min-width: 768px) {
@@ -3984,7 +3984,7 @@ body.sidebar-open {
     height: 18px;
     background-size: cover;
     background-color: transparent;
-    background-image: url(/assets/img/pro_icon.png?x=2);
+    background-image: url(/assets/icons/pro_icon.png?x=2);
     background-position: center center;
     border-radius: 50%;
     background-repeat: no-repeat;
@@ -4012,7 +4012,7 @@ body.sidebar-open {
 
     background-size: cover;
     background-color: transparent;
-    background-image: url(/assets/img/notify_like.png?x=2);
+    background-image: url(/assets/icons/notify_like.png?x=2);
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -4021,7 +4021,7 @@ body.sidebar-open {
 
     background-size: cover;
     background-color: transparent;
-    background-image: url(/assets/img/notify_follower.png?x=2);
+    background-image: url(/assets/icons/notify_follower.png?x=2);
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -4030,7 +4030,7 @@ body.sidebar-open {
 
     background-size: cover;
     background-color: transparent;
-    background-image: url(/assets/img/notify_comment.png?x=2);
+    background-image: url(/assets/icons/notify_comment.png?x=2);
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -4039,7 +4039,7 @@ body.sidebar-open {
 
     background-size: cover;
     background-color: transparent;
-    background-image: url(/assets/img/notify_gift.png?x=2);
+    background-image: url(/assets/icons/notify_gift.png?x=2);
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -4048,7 +4048,7 @@ body.sidebar-open {
 
     background-size: cover;
     background-color: transparent;
-    background-image: url(/assets/img/notify_approved.png);
+    background-image: url(/assets/icons/notify_approved.png);
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -4057,7 +4057,7 @@ body.sidebar-open {
 
     background-size: cover;
     background-color: transparent;
-    background-image: url(/assets/img/notify_rejected.png);
+    background-image: url(/assets/icons/notify_rejected.png);
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -4066,7 +4066,7 @@ body.sidebar-open {
 
     background-size: cover;
     background-color: transparent;
-    background-image: url(/assets/img/notify_reply.png?x=2);
+    background-image: url(/assets/icons/notify_reply.png?x=2);
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -5460,7 +5460,7 @@ span.cardview-img {
     left: 50%;
     top: 50%;
     border: 0;
-    background-image: url(/assets/img/video_play.png?x=2);
+    background-image: url(/assets/icons/video_play.png?x=2);
 }
 
 .gallery-item-preview .info-badge {

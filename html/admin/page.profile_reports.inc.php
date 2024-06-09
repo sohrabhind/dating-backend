@@ -208,7 +208,7 @@
                         } else {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(/assets/img/profile_default_photo.png)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(/assets/icons/profile_default_photo.png)"></span>
                             <?php
                         }
                     ?>
@@ -245,7 +245,7 @@
                         } else {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(/assets/img/profile_default_photo.png)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(/assets/icons/profile_default_photo.png)"></span>
                             <?php
                         }
                     ?>

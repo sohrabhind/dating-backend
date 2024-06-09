@@ -33,9 +33,9 @@ class settings extends db_connect
         );
 
         $stmt = $this->db->prepare("INSERT INTO settings (name, intValue, textValue) value (:name, :intValue, :textValue)");
-        $stmt->bindParam(":name", $name, PDO::PARAM_STR);
-        $stmt->bindParam(":intValue", $intValue, PDO::PARAM_INT);
-        $stmt->bindParam(":textValue", $textValue, PDO::PARAM_STR);
+        $stmt->bindParam(":name", $name);
+        $stmt->bindParam(":intValue", $intValue);
+        $stmt->bindParam(":textValue", $textValue);
 
         if ($stmt->execute()) {
 
@@ -53,16 +53,16 @@ class settings extends db_connect
     public function setValue($name, $intValue, $textValue = "")
     {
         $stmt = $this->db->prepare("UPDATE settings SET intValue = (:intValue), textValue = (:textValue) WHERE name = (:valueName)");
-        $stmt->bindParam(":valueName", $name, PDO::PARAM_STR);
-        $stmt->bindParam(":intValue", $intValue, PDO::PARAM_INT);
-        $stmt->bindParam(":textValue", $textValue, PDO::PARAM_STR);
+        $stmt->bindParam(":valueName", $name);
+        $stmt->bindParam(":intValue", $intValue);
+        $stmt->bindParam(":textValue", $textValue);
         $stmt->execute();
     }
 
     public function getIntValue($name)
     {
         $stmt = $this->db->prepare("SELECT intValue FROM settings WHERE name = (:valueName) LIMIT 1");
-        $stmt->bindParam(":valueName", $name, PDO::PARAM_STR);
+        $stmt->bindParam(":valueName", $name);
 
         if ($stmt->execute()) {
 
@@ -77,7 +77,7 @@ class settings extends db_connect
     public function getTextValue($name)
     {
         $stmt = $this->db->prepare("SELECT textValue FROM settings WHERE name = (:valueName) LIMIT 1");
-        $stmt->bindParam(":valueName", $name, PDO::PARAM_INT);
+        $stmt->bindParam(":valueName", $name);
 
         if ($stmt->execute()) {
 
@@ -92,7 +92,7 @@ class settings extends db_connect
     public function deleteValue($name)
     {
         $stmt = $this->db->prepare("DELETE FROM settings WHERE name = (:valueName)");
-        $stmt->bindParam(":valueName", $name, PDO::PARAM_STR);
+        $stmt->bindParam(":valueName", $name);
         $stmt->execute();
     }
 

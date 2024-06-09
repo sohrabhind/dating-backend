@@ -57,11 +57,11 @@ class admin extends db_connect
         $currentTime = time();
 
         $stmt = $this->db->prepare("INSERT INTO admins (access_level, username, password, fullname, createAt) value (:access_level, :username, :password, :fullname, :createAt)");
-        $stmt->bindParam(":access_level", $access_level, PDO::PARAM_INT);
-        $stmt->bindParam(":username", $username, PDO::PARAM_STR);
-        $stmt->bindParam(":password", $passw_hash, PDO::PARAM_STR);
-        $stmt->bindParam(":fullname", $fullname, PDO::PARAM_STR);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":access_level", $access_level);
+        $stmt->bindParam(":username", $username);
+        $stmt->bindParam(":password", $passw_hash);
+        $stmt->bindParam(":fullname", $fullname);
+        $stmt->bindParam(":createAt", $currentTime);
 
         if ($stmt->execute()) {
 
@@ -96,8 +96,8 @@ class admin extends db_connect
         $passw_hash = hash('sha256', $password);
 
             $stmt2 = $this->db->prepare("SELECT * FROM admins WHERE username = (:username) AND password = (:password) LIMIT 1");
-            $stmt2->bindParam(":username", $username, PDO::PARAM_STR);
-            $stmt2->bindParam(":password", $passw_hash, PDO::PARAM_STR);
+            $stmt2->bindParam(":username", $username);
+            $stmt2->bindParam(":password", $passw_hash);
             $stmt2->execute();
 
             if ($stmt2->rowCount() > 0) {
@@ -138,8 +138,8 @@ class admin extends db_connect
         $passw_hash = hash('sha256', $password);
 
             $stmt2 = $this->db->prepare("SELECT id FROM admins WHERE id = (:adminId) AND password = (:password) LIMIT 1");
-            $stmt2->bindParam(":adminId", $this->id, PDO::PARAM_INT);
-            $stmt2->bindParam(":password", $passw_hash, PDO::PARAM_STR);
+            $stmt2->bindParam(":adminId", $this->id);
+            $stmt2->bindParam(":password", $passw_hash);
             $stmt2->execute();
 
             if ($stmt2->rowCount() > 0) {
@@ -160,8 +160,8 @@ class admin extends db_connect
         $newHash = hash('sha256', $password);
 
         $stmt = $this->db->prepare("UPDATE admins SET password = (:newHash) WHERE id = (:adminId)");
-        $stmt->bindParam(":adminId", $this->id, PDO::PARAM_INT);
-        $stmt->bindParam(":newHash", $newHash, PDO::PARAM_STR);
+        $stmt->bindParam(":adminId", $this->id);
+        $stmt->bindParam(":newHash", $newHash);
         $stmt->execute();
     }
 
@@ -173,7 +173,7 @@ class admin extends db_connect
         );
 
         $stmt = $this->db->prepare("SELECT * FROM admins WHERE id = (:id) LIMIT 1");
-        $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $this->id);
 
         if ($stmt->execute()) {
 
@@ -204,8 +204,8 @@ class admin extends db_connect
         $currentTime = time();
 
         $stmt = $this->db->prepare("UPDATE admins SET removeAt = (:removeAt) WHERE id = (:adminId)");
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":adminId", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":removeAt", $currentTime);
+        $stmt->bindParam(":adminId", $this->id);
         $stmt->execute();
     }
 
@@ -253,8 +253,8 @@ class admin extends db_connect
         $accessToken = helper::escapeText($accessToken);
 
         $stmt = $this->db->prepare("SELECT id FROM admins_data WHERE accountId = (:accountId) AND accessToken = (:accessToken) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":accessToken", $accessToken);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -275,9 +275,9 @@ class admin extends db_connect
         $currentTime = time(); //current time
 
         $stmt = $this->db->prepare("UPDATE admins_data SET removeAt = (:removeAt) WHERE accountId = (:accountId) AND accessToken = (:accessToken)");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":accessToken", $accessToken);
+        $stmt->bindParam(":removeAt", $currentTime);
 
         if ($stmt->execute()) {
 
@@ -294,8 +294,8 @@ class admin extends db_connect
         $currentTime = time(); //current time
 
         $stmt = $this->db->prepare("UPDATE admins_data SET removeAt = (:removeAt) WHERE accountId = (:accountId)");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":removeAt", $currentTime);
 
         if ($stmt->execute()) {
 
@@ -313,8 +313,8 @@ class admin extends db_connect
         $accessToken = helper::escapeText($accessToken);
 
         $stmt = $this->db->prepare("SELECT id FROM admins_data WHERE accountId = (:accountId) AND accessToken = (:accessToken) AND removeAt = 0 LIMIT 1");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":accessToken", $accessToken);
         $stmt->execute();
 
         if ($stmt->execute()) {
@@ -333,8 +333,8 @@ class admin extends db_connect
     public function updateAuthorizationId($auth_id, $fcm_regId = "")
     {
         $stmt = $this->db->prepare("UPDATE admins_data SET fcm_regId = (:fcm_regId) WHERE id = (:id)");
-        $stmt->bindParam(":id", $auth_id, PDO::PARAM_INT);
-        $stmt->bindParam(":fcm_regId", $fcm_regId, PDO::PARAM_STR);
+        $stmt->bindParam(":id", $auth_id);
+        $stmt->bindParam(":fcm_regId", $fcm_regId);
         $stmt->execute();
     }
 
@@ -352,12 +352,12 @@ class admin extends db_connect
         $accessToken = md5(uniqid(rand(), true));
 
         $stmt = $this->db->prepare("INSERT INTO admins_data (accountId, accessToken, fcm_regId, appType, createAt, ip_addr) value (:accountId, :accessToken, :fcm_regId, :appType, :createAt, :ip_addr)");
-        $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
-        $stmt->bindParam(":accessToken", $accessToken, PDO::PARAM_STR);
-        $stmt->bindParam(":fcm_regId", $fcm_regId, PDO::PARAM_STR);
-        $stmt->bindParam(":appType", $app_type, PDO::PARAM_INT);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":ip_addr", $ip_addr, PDO::PARAM_STR);
+        $stmt->bindParam(":accountId", $accountId);
+        $stmt->bindParam(":accessToken", $accessToken);
+        $stmt->bindParam(":fcm_regId", $fcm_regId);
+        $stmt->bindParam(":appType", $app_type);
+        $stmt->bindParam(":createAt", $currentTime);
+        $stmt->bindParam(":ip_addr", $ip_addr);
 
         if ($stmt->execute()) {
 

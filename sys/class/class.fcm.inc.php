@@ -1,7 +1,5 @@
 <?php
 
-
-
 class fcm extends db_connect
 {
     private $requestFrom = 0; // Sender Account ID
@@ -79,24 +77,22 @@ class fcm extends db_connect
         if ($this->getAppType() == APP_TYPE_ALL) {
 
             $stmt = $this->db->prepare("SELECT fcm_regId FROM access_data WHERE accountId = (:accountId) AND removeAt = 0 AND appType > 1 AND fcm_regId <> ''"); // appType = 1 -> APP_TYPE_WEB
-            $stmt->bindParam(":accountId", $this->requestTo, PDO::PARAM_INT);
+            $stmt->bindParam(":accountId", $this->requestTo);
 
         } else if ($this->getAppType() == APP_TYPE_MANAGER) {
 
             $stmt = $this->db->prepare("SELECT fcm_regId FROM admins_data WHERE removeAt = 0 AND appType = (:appType) AND fcm_regId <> ''");
-            $stmt->bindParam(":appType", $this->appType, PDO::PARAM_INT);
+            $stmt->bindParam(":appType", $this->appType);
 
         } else {
 
             $stmt = $this->db->prepare("SELECT fcm_regId FROM access_data WHERE accountId = (:accountId) AND removeAt = 0 AND appType = (:appType) AND fcm_regId <> ''");
-            $stmt->bindParam(":accountId", $this->requestTo, PDO::PARAM_INT);
-            $stmt->bindParam(":appType", $this->appType, PDO::PARAM_INT);
+            $stmt->bindParam(":accountId", $this->requestTo);
+            $stmt->bindParam(":appType", $this->appType);
         }
 
         if ($stmt->execute()) {
-
             while ($row = $stmt->fetch()) {
-
                 $this->ids[] = $row['fcm_regId'];
             }
         }
@@ -108,14 +104,14 @@ class fcm extends db_connect
 
         if (count($this->getMessage()) != 0) {
             $this->data['msgId'] = $this->message['id'];
-            $this->data['msgFromUserId'] = $this->message['fromUserId'];
-            $this->data['msgFromUserState'] = $this->message['fromUserState'];
-            $this->data['msgFromUserOnline'] = $this->message['fromUserOnline'];
-            $this->data['msgFromUserUsername'] = $this->message['fromUserUsername'];
-            $this->data['msgFromUserFullname'] = $this->message['fromUserFullname'];
-            $this->data['msgFromUserPhotoUrl'] = $this->message['fromUserPhotoUrl'];
+            $this->data['fromUserId'] = $this->message['fromUserId'];
+            $this->data['fromUserState'] = $this->message['fromUserState'];
+            $this->data['fromUserOnline'] = $this->message['fromUserOnline'];
+            $this->data['fromUserUsername'] = $this->message['fromUserUsername'];
+            $this->data['fromUserFullname'] = $this->message['fromUserFullname'];
+            $this->data['fromUserPhotoUrl'] = $this->message['fromUserPhotoUrl'];
             $this->data['msgMessage'] = $this->message['message'];
-            $this->data['msgImgUrl'] = $this->message['imgUrl'];
+            $this->data['msgImgUrl'] = $this->message['imageUrl'];
             $this->data['msgCreateAt'] = $this->message['createAt'];
             $this->data['msgDate'] = $this->message['date'];
             $this->data['msgTimeAgo'] = $this->message['timeAgo'];

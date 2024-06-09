@@ -31,7 +31,7 @@ if (!empty($_POST)) {
     $images = new gallery($dbo);
     $images->setRequestFrom($accountId);
 
-    $result = $images->get($itemId, 0, false, 20);
+    $result = $images->get($itemId, 0, 20);
 
     echo json_encode($result);
     exit;

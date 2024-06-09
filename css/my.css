@@ -77,13 +77,13 @@ a.btn-facebook, a.btn-google {
 }
 
 .icon-facebook {
-    background-image: url(/assets/img/facebook.png);
+    background-image: url(/assets/icons/facebook.png);
     width: 32px;
     height: 32px;
 }
 
 .icon-google {
-    background-image: url(/assets/img/ic_google_logo.png);
+    background-image: url(/assets/icons/ic_google_logo.png);
     background-size: cover;
     width: 24px;
     height: 24px;

@@ -2,3 +2,6 @@
 /.vscode
 error_log
 .ftpquota
+sys/config/db.inc.php
+note.txt
+log.txt

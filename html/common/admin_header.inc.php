@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon.png">
     <title><?php echo $page_title; ?></title>
 
     <link href="/html/admin/css/bootstrap.css?x=1" rel="stylesheet">

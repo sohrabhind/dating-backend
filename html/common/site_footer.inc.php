@@ -1,5 +1,5 @@
 
-    <div id="main-footer" style=" position: fixed;
+    <div id="main-footer" style="
             padding: 10px 10px 0px 10px;
             bottom: 0;
             width: 100%;
@@ -11,7 +11,7 @@
         <div class="wrap">
 
             <ul id="footer-nav">
-                <li><a href="/about"><?php echo $LANG['footer-about']; ?></a></li>
+                <li><a href="/privacy"><?php echo $LANG['footer-privacy']; ?></a></li>
                 <li><a href="/terms"><?php echo $LANG['footer-terms']; ?></a></li>
                 <li><a href="/support"><?php echo $LANG['footer-support']; ?></a></li>
 

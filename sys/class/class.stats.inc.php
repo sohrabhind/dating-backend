@@ -46,7 +46,7 @@ class stats extends db_connect
     public function getUsersCountByState($accountState)
     {
         $stmt = $this->db->prepare("SELECT count(*) FROM users WHERE state = (:state)");
-        $stmt->bindParam(":state", $accountState, PDO::PARAM_INT);
+        $stmt->bindParam(":state", $accountState);
         $stmt->execute();
 
         return $number_of_rows = $stmt->fetchColumn();
@@ -108,7 +108,7 @@ class stats extends db_connect
                         "items" => array());
 
         $stmt = $this->db->prepare("SELECT * FROM refill_history WHERE id < (:itemId) ORDER BY id DESC LIMIT 50");
-        $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
+        $stmt->bindParam(':itemId', $itemId);
 
         if ($stmt->execute()) {
 
@@ -145,7 +145,7 @@ class stats extends db_connect
                         "users" => array());
 
         $stmt = $this->db->prepare("SELECT id FROM users WHERE id < (:userId) ORDER BY id DESC LIMIT 20");
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':userId', $userId);
 
         if ($stmt->execute()) {
 
@@ -184,8 +184,8 @@ class stats extends db_connect
         $searchText = '%'.$query.'%';
 
         $stmt = $this->db->prepare("SELECT id FROM users WHERE id < (:userId) AND username LIKE (:query) OR email LIKE (:query) OR fullname LIKE (:query) ORDER BY id DESC LIMIT 100");
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $stmt->bindParam(':query', $searchText, PDO::PARAM_STR);
+        $stmt->bindParam(':userId', $userId);
+        $stmt->bindParam(':query', $searchText);
 
         if ($stmt->execute()) {
 
@@ -220,8 +220,8 @@ class stats extends db_connect
                         "data" => array());
 
         $stmt = $this->db->prepare("SELECT * FROM access_data WHERE accountId = (:accountId) AND id < (:authId) ORDER BY id DESC LIMIT 200");
-        $stmt->bindParam(':authId', $authId, PDO::PARAM_INT);
-        $stmt->bindParam(':accountId', $accountId, PDO::PARAM_INT);
+        $stmt->bindParam(':authId', $authId);
+        $stmt->bindParam(':accountId', $accountId);
 
         if ($stmt->execute()) {
 
@@ -252,7 +252,7 @@ class stats extends db_connect
                         "data" => array());
 
         $stmt = $this->db->prepare("SELECT * FROM gcm_history WHERE accountId = (:accountId) ORDER BY id DESC LIMIT 20");
-        $stmt->bindParam(':accountId', $accountId, PDO::PARAM_INT);
+        $stmt->bindParam(':accountId', $accountId);
 
         if ($stmt->execute()) {
 

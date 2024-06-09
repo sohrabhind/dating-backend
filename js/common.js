@@ -78,7 +78,7 @@ Gallery.add = function (itemImg, itemPreviewImg, itemOriginImg) {
     $.ajax({
         type: 'POST',
         url: '/api/' + options.api_version + '/method/gallery.new',
-        data: 'accessToken=' + account.accessToken + "&accountId=" + account.id + "&imgUrl=" + itemImg,
+        data: 'accessToken=' + account.accessToken + "&accountId=" + account.id + "&imageUrl=" + itemImg,
         dataType: 'json',
         timeout: 30000,
         success: function(response) {

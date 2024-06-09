@@ -23,12 +23,11 @@ class find extends db_connect
     }
 
 
-    public function start($itemId = 0, $gender = 3, $online = 0, $levelMode = 0, $ageFrom = 18, $ageTo = 105, $distance = 12500, $lat = 0.0000, $lng = 0.0000)
+    public function start($itemId = 0, $gender = 1, $online = 0, $levelMode = 0, $ageFrom = 18, $ageTo = 105, $distance = 12500, $lat = 0.0000, $lng = 0.0000)
     {
 
         if ($itemId == 0) {
-            $itemId = 90000000;
-            $itemId++;
+            $itemId = 4294967295;
         }
 
         $ageFrom = $ageFrom - 1;
@@ -48,10 +47,7 @@ class find extends db_connect
 
         $endSql = " having distance < {$dist} ORDER BY regtime DESC LIMIT 20";
 
-        $genderSql = "";
-        if ($gender != 3) {
-            $genderSql = " AND gender = {$gender}";
-        }
+        $genderSql = " and (gender = {$gender}) ";
 
         $onlineSql = "";
         if ($online > 0) {

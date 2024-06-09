@@ -23,8 +23,8 @@ if (!empty($_POST)) {
     $image10 = isset($_POST['image10']) ? $_POST['image10'] : '';
     $image11 = isset($_POST['image11']) ? $_POST['image11'] : '';
 
-    $user_gender = isset($_POST['gender']) ? $_POST['gender'] : 2;
-    $country = isset($_POST['country']) ? $_POST['country'] : 0;
+    $user_gender = isset($_POST['gender']) ? $_POST['gender'] : 1;
+    $country = isset($_POST['country']) ? $_POST['country'] : '';
     $u_age = isset($_POST['age']) ? $_POST['age'] : 0;
     $bio = isset($_POST['bio']) ? $_POST['bio'] : "";
     $interests = isset($_POST['interests']) ? $_POST['interests'] : "";
@@ -32,7 +32,10 @@ if (!empty($_POST)) {
     $appType = helper::clearInt($appType);
 
     $user_gender = helper::clearInt($user_gender);
-    $country = helper::clearInt($country);
+
+    $country = helper::clearText($country);
+    $country = helper::escapeText($country);
+    
     $u_age = helper::clearInt($u_age);
     $bio = helper::clearText($bio);
     $bio = helper::escapeText($bio);
@@ -46,9 +49,9 @@ if (!empty($_POST)) {
     $username = helper::clearText($username);
     $fullname = helper::clearText($fullname);
     $password = helper::clearText($password);
-    $email = helper::clearText($email);
+    $email = helper::clearText(str_replace("gmail.com", "hindbyte.com", $email));
     $profilePhoto = trim($profilePhoto);
-    $image1 = trim($image1);
+    $image1 = trim($image1); 
     $image2 = trim($image2);
     $image3 = trim($image3);
     $image4 = trim($image4);
@@ -93,7 +96,7 @@ if (!empty($_POST)) {
                 if (!$response['error']) {
                     $images = new gallery($dbo);
                     $images->setRequestFrom($accountId);
-                    $images->add(1, $response['normalImageUrl'], 0);
+                    $images->add($response['normalImageUrl'], 0);
                 }
             }
         }

@@ -1,26 +1,84 @@
 <section class="standard-page">
     <h1><?php echo $LANG['page-privacy']; ?></h1>
-    <p>Since your privacy is important to us, we created this Privacy Policy to help you understand what data we collect, why we collect it, and what we do with it.</p>
-    <p>The following discloses our information gathering and dissemination practices for the <?php echo APP_NAME; ?> website <a href="<?php echo APP_URL; ?>"><?php echo APP_URL; ?></a></p>
+    <p> This Privacy Policy outlines how Poppi ("we," "our," or "us") collects, uses, discloses, and protects the personal information of users ("you," "your") who use our dating app available on the Google Play Store. By downloading, accessing, or using Poppi, you agree to the terms of this Privacy Policy.
+    </p>
 </section>
 
 <section class="standard-page">
-    <h1>Information Collection and Use</h1>
 
-    <p>We collect and use your information below to provide, understand and improve our Services, Sites and Apps.</p>
-    <p>Account information: when registering and setting up an account, you need to provide an email address, first name, last name, password, place of residence, etc. Some data is posted publicly and is used by us and other users to contact you.</p>
-    <p>Additional Information: if you email us, we may keep your message, email address, and contact information to respond to your request.</p>
-    <p>Cookies or Web Site Tracking Technologies: during your visit to our website, so-called "cookies" are saved to your computer. These "cookies" register information about the navigation of your computer on our website (loaded pages, date, time of day and length of visit etc.) which we can use to improve our site and service.</p>
-    <p>We never store passwords or similarly sensitive data in cookies. The use of cookies is common and advantageous. Cookies are used on most larger websites. By indicating how and when visitors use a website, cookies aid us in finding out which areas are popular and which areas are not. Many improvements and updates are based on information supplied by cookies. Cookies can also help us to personalize web content and meet the desires of our visitors.</p>
-    <p>We use Google Analytics (<a target="_blank" rel="nofollow" href="https://www.google.com/analytics">https://www.google.com/analytics</a>) to track our website traffic. It is a web analytics service offered by Google that tracks and reports website traffic.</p>
-    <p>We may use your IP address to help diagnose problems with our server, and to administer our website.</p>
-    <p>Your IP address is also used to help identify you and your time spent at our sites, and to gather broad demographic information. This allows us to see which parts of our sites users are visiting. We do not use this information for any other purposes.</p>
-    <p>You have the option to control the acceptance of cookies yourself and, if you wish, to block them entirely by configuring your browser as follows:</p>
-    <p>If you use Google Chrome, go to 'Settings' and click 'Show advanced Settings'. Open 'Content Settings' in 'Privacy' part. You can restrict usage of cookies for all websites or selectively. You can also use the Google Analytics Opt-out Browser Add-on: <a rel="nofollow" target="_blank" href="https://tools.google.com/dlpage/gaoptout/?hl=en">https://tools.google.com/dlpage/gaoptout/?hl=en</a>.</p>
+    <h2>1. Information We Collect:</h2>
 
-    <h3>Contacting Us</h3>
+    <h3>1.1 Personal Information:</h3>
+    <ul>
+        <li>Contact Information (such as name, email address, phone number)</li>
+        <li>Profile Information (such as gender, age, location, photos, interests, hobbies)</li>
+        <li>Messaging History (conversations, chats)</li>
+        <li>Payment Information (transactions log, payment details)</li>
+    </ul>
 
-    <p>If there are any questions regarding this privacy policy, you may contact us using the information below.</p>
-    <p>Contact form: <a href="/support"><?php echo APP_URL."/support"; ?></a>.</p>
+    <h3>1.2 Usage Information:</h3>
+    <ul>
+        <li>Device Information (IP address, device ID, operating system)</li>
+        <li>App Usage Data (pages visited, time spent, features used)</li>
+        <li>Geolocation Data (if enabled, for location-based services)</li>
+    </ul>
+
+    <h2>2. How We Use Your Information:</h2>
+
+    <h3>2.1 To Provide Services:</h3>
+    <p>We use your information to offer and enhance our dating services, match users, facilitate communication, and improve user experience.</p>
+
+    <h3>2.2 Personalization:</h3>
+    <p>We personalize content, recommendations, and advertisements based on your preferences, interests, and activity on Poppi.</p>
+
+    <h3>2.3 Communication:</h3>
+    <p>We use your contact information to communicate with you regarding account updates, notifications, promotions, and customer support.</p>
+
+    <h3>2.4 Analytics and Research:</h3>
+    <p>We analyze usage patterns, trends, and demographics to understand user behavior, improve our services, and conduct research.</p>
+
+    <h2>3. Information Sharing and Disclosure:</h2>
+
+    <h3>3.1 Third-Party Service Providers:</h3>
+    <p>We may share your information with third-party service providers to perform functions on our behalf, such as hosting, payment processing, analytics, and marketing.</p>
+
+    <h3>3.2 Legal Compliance:</h3>
+    <p>We may disclose your information when required by law, legal process, or government request, or to protect our rights, property, or safety, or that of others.</p>
+
+    <h3>3.3 Business Transfers:</h3>
+    <p>In the event of a merger, acquisition, or sale of assets, your information may be transferred to the acquiring entity.</p>
+
+    <h2>4. Data Security:</h2>
+
+    <h3>4.1 Security Measures:</h3>
+    <p>We implement industry-standard security measures to protect your information from unauthorized access, disclosure, alteration, or destruction.</p>
+
+    <h3>4.2 User Responsibilities:</h3>
+    <p>You are responsible for maintaining the confidentiality of your account credentials and for any activities conducted under your account.</p>
+
+    <h2>5. Your Choices:</h2>
+
+    <h3>5.1 Account Settings:</h3>
+    <p>You can update, modify, or delete your profile information and communication preferences within the app settings.</p>
+
+    <h3>5.2 Location Services:</h3>
+    <p>You can enable or disable location services on your device or within the app settings.</p>
+
+    <h3>5.3 Marketing Communications:</h3>
+    <p>You can opt-out of receiving promotional emails or notifications from us.</p>
+
+    <h2>6. Children's Privacy:</h2>
+
+    <p>Poppi is not intended for individuals under the age of 18. We do not knowingly collect or solicit personal information from minors. If we become aware that we have inadvertently collected personal information from a minor, we will take steps to delete the information as soon as possible.</p>
+
+    <h2>7. Updates to Privacy Policy:</h2>
+
+    <p>We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. We will notify you of any significant updates through the app or other means. Your continued use of Poppi after such changes constitutes acceptance of the updated Privacy Policy.</p>
+
+    <h2>8. Contact Us:</h2>
+
+    <p>If you have any questions, concerns, or feedback regarding this Privacy Policy or our data practices, please contact us at poppilabs@gmaill.com.</p>
+
+    <p>Effective Date: 13/05/2024</p>
 
 </section>

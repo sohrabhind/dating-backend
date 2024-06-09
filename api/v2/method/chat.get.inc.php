@@ -1,9 +1,6 @@
 <?php
 
 
-
-
-
 if (!empty($_POST)) {
 
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;

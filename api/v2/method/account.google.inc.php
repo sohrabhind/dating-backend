@@ -98,14 +98,10 @@ if (!empty($_POST)) {
                     $auth = new auth($dbo);
                     $result = $auth->create($account_id, $app_type, $fcm_regId);
                     if (!$result['error']) {
-
                         $account->setLastActive();
                         $result['account'] = array();
-
                         array_push($result['account'], $account_info);
-
                         if ($app_type == APP_TYPE_WEB) {
-
                             auth::setSession($result['accountId'], $account_info['username'], $account_info['fullname'], $account_info['bigPhotoUrl'], $account_info['balance'], $account_info['level'], $account_info['level_messages_count'], 0, $result['accessToken']);
                             auth::updateCookie($account_info['username'], $result['accessToken']);
                         }

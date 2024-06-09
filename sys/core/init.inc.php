@@ -7,7 +7,6 @@
 
     include_once("sys/config/db.inc.php");
     include_once("sys/config/lang.inc.php");
-    include_once("sys/config/payments.inc.php");
 
     foreach ($C as $name => $val) {
         define($name, $val);
@@ -28,11 +27,8 @@
     $dbo = new PDO($dsn, DB_USER, DB_PASS);
 
     spl_autoload_register(function($class) {
-
         $filename = "sys/class/class.".$class.".inc.php";
-
         if (file_exists($filename)) {
-
             include_once($filename);
         }
     });

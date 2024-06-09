@@ -12,7 +12,7 @@ if (!empty($_POST)) {
     $interests = isset($_POST['interests']) ? $_POST['interests'] : '';
     $bio = isset($_POST['bio']) ? $_POST['bio'] : '';
 
-    $gender = isset($_POST['gender']) ? $_POST['gender'] : 0;
+    $gender = isset($_POST['gender']) ? $_POST['gender'] : 1;
 
     $u_age = isset($_POST['age']) ? $_POST['age'] : 0;
 

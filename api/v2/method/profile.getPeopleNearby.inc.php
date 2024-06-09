@@ -9,7 +9,7 @@ if (!empty($_POST)) {
 
     $itemId = isset($_POST['itemId']) ? $_POST['itemId'] : 0;
 
-    $gender = isset($_POST['gender']) ? $_POST['gender'] : 2;
+    $gender = isset($_POST['gender']) ? $_POST['gender'] : 1;
     $distance = isset($_POST['distance']) ? $_POST['distance'] : 30;
 
     $lat = isset($_POST['lat']) ? $_POST['lat'] : '0.000000';

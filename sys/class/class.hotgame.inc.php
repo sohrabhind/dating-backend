@@ -9,7 +9,6 @@ class hotgame extends db_connect
     public function __construct($dbo = null)
     {
         parent::__construct($dbo);
-
     }
 
     private function getMaxId()
@@ -20,26 +19,23 @@ class hotgame extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function get($itemId, $origLat, $origLon, $distance = 1000, $gender = 2, $country = 0)
+    public function get($itemId, $origLat, $origLon, $distance = 1000, $gender = 0, $country = '')
     {
         $result = array(
             "error" => false,
             "error_code" => ERROR_SUCCESS,
             "itemId" => $itemId,
-            "items" => array());
+            "items" => array()
+        );
 
         if ($itemId == 0) {
-            $itemId = 1000000;
-            $itemId++;
+            $itemId = 4294967295;
         }
 
         $dist = $distance; // This is the maximum distance (in miles) away from $origLat, $origLon in which to search
 
-        if ($gender == 3) {
-            $gender_sql = "";
-        } else {
-            $gender_sql = " and (gender = {$gender}) ";
-        }
+
+        $gender_sql = " and (gender = {$gender}) ";
 
         if ($origLat == 0 && $origLon == 0) {
             $sql = "SELECT id, lat, lng, 12733 *
@@ -51,7 +47,7 @@ class hotgame extends db_connect
             (id <> $this->requestFrom)
             $gender_sql
             and (state = 0)
-            and country = $country  
+            and country = '$country'  
             ORDER BY RAND() 
             LIMIT 10";
         } else {
@@ -64,7 +60,7 @@ class hotgame extends db_connect
             (id <> $this->requestFrom)
             $gender_sql
             and (state = 0)
-            having distance < $dist or cntry = $country 
+            having distance < $dist or cntry = '$country' 
             ORDER BY RAND() 
             LIMIT 10";
         }

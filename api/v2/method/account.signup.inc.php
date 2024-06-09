@@ -1,9 +1,5 @@
 <?php
 
-
-
-
-
 if (!empty($_POST)) {
 
     $appType = isset($_POST['appType']) ? $_POST['appType'] : 2; // 2 = APP_TYPE_ANDROID
@@ -19,8 +15,8 @@ if (!empty($_POST)) {
 
     $photoUrl = isset($_POST['photo']) ? $_POST['photo'] : '';
 
-    $user_gender = isset($_POST['gender']) ? $_POST['gender'] : 0;
-    $country = isset($_POST['country']) ? $_POST['country'] : 0;
+    $user_gender = isset($_POST['gender']) ? $_POST['gender'] : 1;
+    $country = isset($_POST['country']) ? $_POST['country'] : '';
 
     $u_age = isset($_POST['age']) ? $_POST['age'] : 0;
     $interests = isset($_POST['interests']) ? $_POST['interests'] : "";
@@ -28,8 +24,12 @@ if (!empty($_POST)) {
     $appType = helper::clearInt($appType);
 
     $user_gender = helper::clearInt($user_gender);
-    $country = helper::clearInt($country);
+
+    $country = helper::clearText($country);
+    $country = helper::escapeText($country);
+
     $u_age = helper::clearInt($u_age);
+    
     $interests = helper::clearText($interests);
     $interests = helper::escapeText($interests);
 
@@ -68,7 +68,6 @@ if (!empty($_POST)) {
         if (!$result['error']) {
             $auth = new auth($dbo);
             $result = $auth->create($result['accountId'], $appType, $fcm_regId);
-
             if (!$result['error']) {
                 $account = new account($dbo, $result['accountId']);
                 if (strlen($uid) != 0) {

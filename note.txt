@@ -3,6 +3,7 @@ Delete Image from server on deletion
 Image size in profile
 Image Zoom in/out 
 
+UPDATE users SET level = FLOOR(RAND() * 4), level_create_at = '2000000000' WHERE access_level = 1;
 
 
 **/js, **/css, **/sys/addons, **/html/firebase, **/html/stripe, **/html/recaptcha
@@ -26,7 +27,7 @@ SELECT id, lat, lng, 12733 *
                     and (id <> 2)
                     and gender = 1
                     and (state = 0)
-                    having distance < 2000 LIMIT 10
+                    having distance < 2000 LIMIT 10;
 
                     SELECT id, lat, lng FROM users WHERE
                     country = 91
@@ -118,3 +119,20 @@ SELECT t.id -- etc, etc FROM users t INNER JOIN ( SELECT id FROM users WHERE cou
 
 
 SELECT id, lat, lng, 12733 * ASIN(SQRT( POWER(SIN((0.0000 - lat)*pi()/180/2),2) +COS(0.0000*pi()/180 )*COS(lat*pi()/180) *POWER(SIN((0.0000-lng)*pi()/180/2),2))) as distance, country as cntry FROM users WHERE (id <> 2) and (state = 0) having distance < 1000 or cntry = '91' ORDER BY RAND() LIMIT 10; 
+
+
+
+
+gpt-3.5/gpt-4: 
+One token generally corresponds to ~4 characters of text for common English text. This translates to roughly ¾ of a word (so 100 tokens ~= 75 words).
+
+Model: gpt-3.5
+Input: $0.50 / 1M tokens
+Output: $1.50 / 1M tokens
+
+Model: gpt-4
+Input: 30.00 / 1M tokens
+Output: $60.00 / 1M tokens
+
+
+

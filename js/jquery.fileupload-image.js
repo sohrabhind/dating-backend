@@ -199,7 +199,7 @@
                         if (newImg && (newImg.width !== img.width ||
                                 newImg.height !== img.height ||
                                 options.forceResize)) {
-                            data[newImg.getContext ? 'canvas' : 'img'] = newImg;
+                            data[newImg.getContext ? 'canvas' : 'icons'] = newImg;
                         }
                         data.preview = newImg;
                         dfd.resolveWith(that, [data]);

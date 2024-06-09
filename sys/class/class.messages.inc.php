@@ -19,7 +19,7 @@ class messages extends db_connect
 
     public function myActiveChatsCount() {
         $stmt = $this->db->prepare("SELECT count(id) FROM messages WHERE (fromUserId = (:userId) OR toUserId = (:userId)) AND removeAt = 0");
-        $stmt->bindParam(":userId", $this->requestFrom, PDO::PARAM_INT);
+        $stmt->bindParam(":userId", $this->requestFrom);
         $stmt->execute();
         return $number_of_rows = $stmt->fetchColumn();
     }
@@ -28,7 +28,7 @@ class messages extends db_connect
     public function messagesCountByChat($chatId)
     {
         $stmt = $this->db->prepare("SELECT count(*) FROM messages WHERE chatId = (:chatId) AND removeAt = 0");
-        $stmt->bindParam(":chatId", $chatId, PDO::PARAM_INT);
+        $stmt->bindParam(":chatId", $chatId);
         $stmt->execute();
         return $number_of_rows = $stmt->fetchColumn();
     }
@@ -62,9 +62,9 @@ class messages extends db_connect
         $chatId = 0;
         $currentTime = time();
         $stmt = $this->db->prepare("INSERT INTO chats (fromUserId, toUserId, createAt) value (:fromUserId, :toUserId, :createAt)");
-        $stmt->bindParam(":fromUserId", $fromUserId, PDO::PARAM_INT);
-        $stmt->bindParam(":toUserId", $toUserId, PDO::PARAM_INT);
-        $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":fromUserId", $fromUserId);
+        $stmt->bindParam(":toUserId", $toUserId);
+        $stmt->bindParam(":createAt", $currentTime);
 
         if ($stmt->execute()) {
             $chatId = $this->db->lastInsertId();
@@ -75,8 +75,8 @@ class messages extends db_connect
     public function getChatId($fromUserId, $toUserId) {
         $chatId = 0;
         $stmt = $this->db->prepare("SELECT id FROM chats WHERE (fromUserId = :fromUserId AND toUserId = :toUserId) OR (fromUserId = :toUserId AND toUserId = :fromUserId) LIMIT 1");
-        $stmt->bindParam(":fromUserId", $fromUserId, PDO::PARAM_INT);
-        $stmt->bindParam(":toUserId", $toUserId, PDO::PARAM_INT);
+        $stmt->bindParam(":fromUserId", $fromUserId);
+        $stmt->bindParam(":toUserId", $toUserId);
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch();
@@ -100,8 +100,8 @@ class messages extends db_connect
 
     public function getMessagesFromUser($myUserId, $fromUserId) {
         $stmt = $this->db->prepare("SELECT count(id) FROM messages WHERE toUserId = (:toUserId) AND fromUserId = (:fromUserId)");
-        $stmt->bindParam(':toUserId', $myUserId, PDO::PARAM_INT);
-        $stmt->bindParam(':fromUserId', $fromUserId, PDO::PARAM_INT);
+        $stmt->bindParam(':toUserId', $myUserId);
+        $stmt->bindParam(':fromUserId', $fromUserId);
 
         if ($stmt->execute()) {
             return $number_of_rows = $stmt->fetchColumn();
@@ -110,7 +110,7 @@ class messages extends db_connect
     }
 
 
-    public function create($toUserId, $chatId,  $message = "", $imgUrl = "", $listId = 0)
+    public function create($toUserId, $chatId,  $message = "", $imageUrl = "", $listId = 0)
     {
         $result = array(
             "error" => true,
@@ -136,12 +136,11 @@ class messages extends db_connect
             return $result;
         }
 
-        if (strlen($imgUrl) == 0 && strlen($message) == 0) {
-
+        if (strlen($imageUrl) == 0 && strlen($message) == 0) {
             return $result;
         }
 
-        if (strlen($imgUrl) != 0 && strpos($imgUrl, APP_HOST) === false) {
+        if (strlen($imageUrl) != 0 && strpos($imageUrl, APP_HOST) === false) {
             return $result;
         }
 
@@ -168,12 +167,12 @@ class messages extends db_connect
         $currentTime = time();
         $ip_addr = helper::ip_addr();
 
-        $stmt = $this->db->prepare("INSERT INTO messages (chatId, fromUserId, toUserId, message, imgUrl, createAt, ip_addr) value (:chatId, :fromUserId, :toUserId, :message, :imgUrl, :createAt, :ip_addr)");
+        $stmt = $this->db->prepare("INSERT INTO messages (chatId, fromUserId, toUserId, message, imageUrl, createAt, ip_addr) value (:chatId, :fromUserId, :toUserId, :message, :imageUrl, :createAt, :ip_addr)");
         $stmt->bindParam(":chatId", $chatId);
         $stmt->bindParam(":fromUserId", $this->requestFrom);
         $stmt->bindParam(":toUserId", $toUserId);
         $stmt->bindParam(":message", $message);
-        $stmt->bindParam(":imgUrl", $imgUrl);
+        $stmt->bindParam(":imageUrl", $imageUrl);
         $stmt->bindParam(":createAt", $currentTime);
         $stmt->bindParam(":ip_addr", $ip_addr);
 
@@ -198,6 +197,11 @@ class messages extends db_connect
             $profileInfo = $profile->getVeryShort();
             unset($profile);
 
+            $bigPhotoUrl = "";
+            if ($profileInfo['bigPhotoUrl'] != '') {
+                $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . basename($profileInfo['bigPhotoUrl']);
+            }
+
             $msgInfo = array("error" => false,
                             "error_code" => ERROR_SUCCESS,
                             "id" => $lastMessageId,
@@ -206,9 +210,9 @@ class messages extends db_connect
                             "fromUserOnline" => $profileInfo['online'],
                             "fromUserUsername" => $profileInfo['username'],
                             "fromUserFullname" => $profileInfo['fullname'],
-                            "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
+                            "fromUserPhotoUrl" => $bigPhotoUrl,
                             "message" => $message,
-                            "imgUrl" => $imgUrl,
+                            "imageUrl" => $imageUrl,
                             "createAt" => $currentTime,
                             "seenAt" => 0,
                             "date" => date("Y-m-d H:i:s", $currentTime),
@@ -242,12 +246,21 @@ class messages extends db_connect
 
 
     public function removeChat($chatId) {
+        $stmt = $this->db->prepare("SELECT imageUrl FROM messages WHERE chatId = (:chatId) AND removeAt = 0 AND imageUrl != ''");
+        $stmt->bindParam(":chatId", $chatId);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($rows as $row) {
+                @unlink(CHAT_IMAGE_PATH . "/" . basename($row['imageUrl']));
+            }
+        }
+        
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
         $currentTime = time();
         $stmt = $this->db->prepare("UPDATE messages SET removeAt = (:removeAt) WHERE chatId = (:chatId)");
-        $stmt->bindParam(":chatId", $chatId, PDO::PARAM_INT);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
-
+        $stmt->bindParam(":chatId", $chatId);
+        $stmt->bindParam(":removeAt", $currentTime);
         if ($stmt->execute()) {
             $result = array("error" => false, "error_code" => ERROR_SUCCESS);
         }
@@ -256,13 +269,21 @@ class messages extends db_connect
 
 
     public function remove($itemId) {
+        $stmt = $this->db->prepare("SELECT imageUrl FROM messages WHERE id = (:itemId) AND removeAt = 0 AND imageUrl != ''");
+        $stmt->bindParam(":itemId", $itemId);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($rows as $row) {
+                @unlink(CHAT_IMAGE_PATH . "/" . basename($row['imageUrl']));
+            }
+        }
+
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
-
         $currentTime = time();
-
         $stmt = $this->db->prepare("UPDATE messages SET removeAt = (:removeAt) WHERE id = (:itemId)");
-        $stmt->bindParam(":itemId", $itemId, PDO::PARAM_INT);
-        $stmt->bindParam(":removeAt", $currentTime, PDO::PARAM_INT);
+        $stmt->bindParam(":itemId", $itemId);
+        $stmt->bindParam(":removeAt", $currentTime);
 
         if ($stmt->execute()) {
             $result = array("error" => false, "error_code" => ERROR_SUCCESS);
@@ -272,8 +293,8 @@ class messages extends db_connect
 
     public function getNewMessagesInChat($chatId, $fromUserId) {
         $stmt = $this->db->prepare("SELECT count(id) FROM messages WHERE chatId = (:chatId) AND fromUserId <> (:fromUserId) AND seenAt = 0 AND removeAt = 0");
-        $stmt->bindParam(':fromUserId', $fromUserId, PDO::PARAM_INT);
-        $stmt->bindParam(':chatId', $chatId, PDO::PARAM_INT);
+        $stmt->bindParam(':fromUserId', $fromUserId);
+        $stmt->bindParam(':chatId', $chatId);
         if ($stmt->execute()) {
             return $number_of_rows = $stmt->fetchColumn();
         }
@@ -286,7 +307,7 @@ class messages extends db_connect
                         "error_code" => ERROR_CODE_INITIATE);
 
         $stmt = $this->db->prepare("SELECT * FROM chats WHERE id = (:chatId) LIMIT 1");
-        $stmt->bindParam(":chatId", $chatId, PDO::PARAM_INT);
+        $stmt->bindParam(":chatId", $chatId);
 
         if ($stmt->execute()) {
 
@@ -309,16 +330,21 @@ class messages extends db_connect
                 $profileInfo = $profile->getVeryShort();
                 unset($profile);
 
+                $bigPhotoUrl = "";
+                if ($profileInfo['bigPhotoUrl'] != '') {
+                    $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . basename($profileInfo['bigPhotoUrl']);
+                }
+
                 $result = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
                                 "id" => $row['id'],
                                 "fromUserId" => $row['fromUserId'],
                                 "toUserId" => $row['toUserId'],
                                 "withUserId" => $profileInfo['id'],
-                                "withUserState" => $profileInfo['state'],
+                                "level" => $profileInfo['level'],
                                 "withUserUsername" => $profileInfo['username'],
                                 "withUserFullname" => $profileInfo['fullname'],
-                                "withUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
+                                "withUserPhotoUrl" => $bigPhotoUrl,
                                 "newMessagesCount" => $newMessagesCount,
                                 "createAt" => $row['createAt'],
                                 "date" => date("Y-m-d H:i:s", $row['createAt']),
@@ -347,8 +373,8 @@ class messages extends db_connect
         ON m.chatId = t.chatId AND m.id = t.maxId 
         ORDER BY m.id DESC 
         LIMIT 20");
-        $stmt->bindParam(':lastMessageId', $lastMessageId, PDO::PARAM_INT);
-        $stmt->bindParam(':userId', $this->requestFrom, PDO::PARAM_INT);
+        $stmt->bindParam(':lastMessageId', $lastMessageId);
+        $stmt->bindParam(':userId', $this->requestFrom);
 
         if ($stmt->execute()) {
             while ($row = $stmt->fetch()) {
@@ -365,8 +391,11 @@ class messages extends db_connect
                 unset($profile);
 
                 $newMessagesCount = 0;
-                if (APP_MESSAGES_COUNTERS) {
-                    $newMessagesCount = $this->getNewMessagesInChat($row['chatId'], $this->getRequestFrom());
+                $newMessagesCount = $this->getNewMessagesInChat($row['chatId'], $this->getRequestFrom());
+                
+                $bigPhotoUrl = "";
+                if ($profileInfo['bigPhotoUrl'] != '') {
+                    $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . basename($profileInfo['bigPhotoUrl']);
                 }
 
                 $chatInfo = array("error" => false,
@@ -376,11 +405,11 @@ class messages extends db_connect
                                   "fromUserId" => $row['fromUserId'],
                                   "toUserId" => $row['toUserId'],
                                   "withUserId" => $profileInfo['id'],
-                                  "withUserState" => $profileInfo['state'],
+                                  "level" => $profileInfo['level'],
                                   "withUserOnline" => $profileInfo['online'],
                                   "withUserUsername" => $profileInfo['username'],
                                   "withUserFullname" => $profileInfo['fullname'],
-                                  "withUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
+                                  "withUserPhotoUrl" => $bigPhotoUrl,
                                   "lastMessage" => $row['message'],
                                   "lastMessageAgo" => $time->timeAgo($row['createAt']),
                                   "lastMessageCreateAt" => $row['createAt'],
@@ -402,7 +431,7 @@ class messages extends db_connect
 
     public function getNewMessagesCount() {
         $stmt = $this->db->prepare("SELECT count(*) FROM messages WHERE fromUserId <> (:fromUserId) AND seenAt = 0 AND removeAt = 0");
-        $stmt->bindParam(':fromUserId', $this->requestFrom, PDO::PARAM_INT);
+        $stmt->bindParam(':fromUserId', $this->requestFrom);
         if ($stmt->execute()) {
             return $number_of_rows = $stmt->fetchColumn();
         }
@@ -421,8 +450,8 @@ class messages extends db_connect
                           "messages" => array());
 
         $stmt = $this->db->prepare("SELECT * FROM messages WHERE chatId = (:chatId) AND id < (:lastMessageId) AND removeAt = 0 ORDER BY id DESC LIMIT 20");
-        $stmt->bindParam(':chatId', $chatId, PDO::PARAM_INT);
-        $stmt->bindParam(':lastMessageId', $lastMessageId, PDO::PARAM_INT);
+        $stmt->bindParam(':chatId', $chatId);
+        $stmt->bindParam(':lastMessageId', $lastMessageId);
 
         if ($stmt->execute()) {
 
@@ -433,6 +462,15 @@ class messages extends db_connect
                 $profile = new profile($this->db, $row['fromUserId']);
                 $profileInfo = $profile->getVeryShort();
                 unset($profile);
+                $imageUrl = "";
+                if ($row['imageUrl'] != '') {
+                    $imageUrl = APP_URL . "/" . CHAT_IMAGE_PATH . $row['imageUrl'];
+                }
+
+                $bigPhotoUrl = "";
+                if ($profileInfo['bigPhotoUrl'] != '') {
+                    $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . basename($profileInfo['bigPhotoUrl']);
+                }
 
                 $msgInfo = array("error" => false,
                                  "error_code" => ERROR_SUCCESS,
@@ -442,9 +480,9 @@ class messages extends db_connect
                                  "fromUserUsername" => $profileInfo['username'], //$profileInfo['username']
                                  "fromUserFullname" => $profileInfo['fullname'], //$profileInfo['fullname']
                                  "fromUserOnline" => $profileInfo['online'], //$profileInfo['fullname']
-                                 "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'], //$profileInfo['bigPhotoUrl']
+                                 "fromUserPhotoUrl" => $bigPhotoUrl, //$profileInfo['bigPhotoUrl']
                                  "message" => $row['message'],
-                                 "imgUrl" => $row['imgUrl'],
+                                 "imageUrl" => $imageUrl,
                                  "createAt" => $row['createAt'],
                                  "seenAt" => $row['seenAt'],
                                  "date" => date("Y-m-d H:i:s", $row['createAt']),
@@ -473,14 +511,19 @@ class messages extends db_connect
                           "messages" => array());
 
         $stmt = $this->db->prepare("SELECT * FROM messages WHERE chatId = (:chatId) AND id > (:lastMessageId) AND removeAt = 0 ORDER BY id ASC");
-        $stmt->bindParam(':chatId', $chatId, PDO::PARAM_INT);
-        $stmt->bindParam(':lastMessageId', $lastMessageId, PDO::PARAM_INT);
+        $stmt->bindParam(':chatId', $chatId);
+        $stmt->bindParam(':lastMessageId', $lastMessageId);
 
         if ($stmt->execute()) {
 
             while ($row = $stmt->fetch()) {
 
                 $time = new language($this->db, $this->language);
+
+                $imageUrl = "";
+                if ($row['imageUrl'] != '') {
+                    $imageUrl = APP_URL . "/" . CHAT_IMAGE_PATH . $row['imageUrl'];
+                }
 
                 $msgInfo = array("error" => false,
                                 "error_code" => ERROR_SUCCESS,
@@ -492,7 +535,7 @@ class messages extends db_connect
                                 "fromUserPhotoUrl" => "", //$profileInfo['bigPhotoUrl']
                                 "fromUserOnline" => "",
                                 "message" => $row['message'],
-                                "imgUrl" => $row['imgUrl'],
+                                "imageUrl" => $imageUrl,
                                 "createAt" => $row['createAt'],
                                 "seenAt" => $row['seenAt'],
                                 "date" => date("Y-m-d H:i:s", $row['createAt']),
@@ -519,9 +562,9 @@ class messages extends db_connect
 
         $currentTime = time();
         $stmt = $this->db->prepare("UPDATE messages SET seenAt = (:seenAt) WHERE toUserId = (:toUserId) AND fromUserId = (:fromUserId) AND removeAt = 0 AND seenAt = 0");
-        $stmt->bindParam(":seenAt", $currentTime, PDO::PARAM_INT);
-        $stmt->bindParam(":toUserId", $toUserId, PDO::PARAM_INT);
-        $stmt->bindParam(":fromUserId", $fromUser, PDO::PARAM_INT);
+        $stmt->bindParam(":seenAt", $currentTime);
+        $stmt->bindParam(":toUserId", $toUserId);
+        $stmt->bindParam(":fromUserId", $fromUser);
         if ($stmt->execute()) {
 
             $result = array(
@@ -540,9 +583,7 @@ class messages extends db_connect
         }
 
         if ($chatFromUserId == 0 || $chatToUserId == 0) {
-
             $chatInfo = $this->chatInfo($chatId);
-
             $chatFromUserId = $chatInfo['fromUserId'];
             $chatToUserId = $chatInfo['toUserId'];
         }
@@ -565,9 +606,9 @@ class messages extends db_connect
               AND removeAt = 0
         ORDER BY id DESC
         LIMIT 20;");
-        $stmt->bindParam(":fromUserId", $chatFromUserId, PDO::PARAM_INT);
-        $stmt->bindParam(":toUserId", $chatToUserId, PDO::PARAM_INT);
-        $stmt->bindParam(':lastMessageId', $lastMessageId, PDO::PARAM_INT);
+        $stmt->bindParam(":fromUserId", $chatFromUserId);
+        $stmt->bindParam(":toUserId", $chatToUserId);
+        $stmt->bindParam(':lastMessageId', $lastMessageId);
 
         if ($stmt->execute()) {
 
@@ -597,9 +638,20 @@ class messages extends db_connect
 
                 }
 
-//                $profile = new profile($this->db, $row['fromUserId']);
-//                $profileInfo = $profile->getVeryShort();
-//                unset($profile);
+                //                $profile = new profile($this->db, $row['fromUserId']);
+                //                $profileInfo = $profile->getVeryShort();
+                //                unset($profile);
+
+
+                $imageUrl = "";
+                if ($row['imageUrl'] != '') {
+                    $imageUrl = APP_URL . "/" . CHAT_IMAGE_PATH . $row['imageUrl'];
+                }
+
+                $bigPhotoUrl = "";
+                if ($profileInfo['bigPhotoUrl'] != '') {
+                    $bigPhotoUrl = APP_URL . "/" . PROFILE_PHOTO_PATH . basename($profileInfo['bigPhotoUrl']);
+                }
 
                 $msgInfo = array("error" => false,
                                  "error_code" => ERROR_SUCCESS,
@@ -608,9 +660,9 @@ class messages extends db_connect
                                  "fromUserState" => $profileInfo['state'],
                                  "fromUserUsername" => $profileInfo['username'],
                                  "fromUserFullname" => $profileInfo['fullname'],
-                                 "fromUserPhotoUrl" => $profileInfo['bigPhotoUrl'],
+                                 "fromUserPhotoUrl" => $bigPhotoUrl,
                                  "message" => $row['message'],
-                                 "imgUrl" => $row['imgUrl'],
+                                 "imageUrl" => $imageUrl,
                                  "seenAt" => $row['seenAt'],
                                  "createAt" => $row['createAt'],
                                  "date" => date("Y-m-d H:i:s", $row['createAt']),
@@ -632,13 +684,28 @@ class messages extends db_connect
     public function info($row)
     {
         $time = new language($this->db, $this->language);
-
         $profile = new profile($this->db, $row['fromUserId']);
         $profileInfoFrom = $profile->getVeryShort();
         unset($profile);
         $profile = new profile($this->db, $row['toUserId']);
         $profileInfoTo = $profile->getVeryShort();
         unset($profile);
+
+
+        $imageUrl = "";
+        if ($row['imageUrl'] != '') {
+            $imageUrl = APP_URL . "/" . CHAT_IMAGE_PATH . $row['imageUrl'];
+        }
+
+        $bigPhotoUrlFrom = "";
+        if ($profileInfoFrom['bigPhotoUrl'] != '') {
+            $bigPhotoUrlFrom = APP_URL . "/" . PROFILE_PHOTO_PATH . basename($profileInfoFrom['bigPhotoUrl']);
+        }
+
+        $bigPhotoUrlTo = "";
+        if ($profileInfoTo['bigPhotoUrl'] != '') {
+            $bigPhotoUrlTo = APP_URL . "/" . PROFILE_PHOTO_PATH . basename($profileInfoTo['bigPhotoUrl']);
+        }
 
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
@@ -650,16 +717,16 @@ class messages extends db_connect
                         "fromUserUsername" => $profileInfoFrom['username'],
                         "fromUserFullname" => $profileInfoFrom['fullname'],
                         "fromUserOnline" => $profileInfoFrom['online'],
-                        "fromUserPhotoUrl" => $profileInfoFrom['bigPhotoUrl'],
+                        "fromUserPhotoUrl" => $bigPhotoUrlFrom,
                         "toUserId" => $row['toUserId'],
                         "toUserState" => $profileInfoTo['state'],
                         "toUserAL" => $profileInfoTo['access_level'],
                         "toUserUsername" => $profileInfoTo['username'],
                         "toUserFullname" => $profileInfoTo['fullname'],
                         "toUserOnline" => $profileInfoTo['online'],
-                        "toUserPhotoUrl" => $profileInfoTo['bigPhotoUrl'],
+                        "toUserPhotoUrl" => $bigPhotoUrlTo,
                         "message" => $row['message'],
-                        "imgUrl" => $row['imgUrl'],
+                        "imageUrl" => $imageUrl,
                         "createAt" => $row['createAt'],
                         "seenAt" => $row['seenAt'],
                         "date" => date("Y-m-d H:i:s", $row['createAt']),
@@ -678,7 +745,7 @@ class messages extends db_connect
                           "messages" => array());
 
         $stmt = $this->db->prepare("SELECT * FROM messages WHERE chatId = (:chatId) AND removeAt = 0 ORDER BY id DESC");
-        $stmt->bindParam(':chatId', $chatId, PDO::PARAM_INT);
+        $stmt->bindParam(':chatId', $chatId);
 
         if ($stmt->execute()) {
             while ($row = $stmt->fetch()) {
@@ -688,6 +755,35 @@ class messages extends db_connect
             }
         }
         return $messages;
+    }
+
+
+    public function getChatsStreamB($lastMessageId = 0)
+    {
+        if ($lastMessageId == 0) {
+            $lastMessageId = 4294967295;
+        }
+
+        $result = array(
+            "error" => false,
+            "error_code" => ERROR_SUCCESS,
+            "lastMessageId" => $lastMessageId,
+            "messages" => array()
+        );
+
+        $stmt = $this->db->prepare("SELECT m.* FROM messages m JOIN ( SELECT chatId, MAX(id) AS maxId FROM messages WHERE id < :lastMessageId AND removeAt = 0 GROUP BY chatId ) t ON m.chatId = t.chatId AND m.id = t.maxId JOIN users u1 ON (m.fromUserId = u1.id AND u1.access_level = 1) OR (m.toUserId = u1.id AND u1.access_level = 1) ORDER BY m.id DESC LIMIT 20;");
+        $stmt->bindParam(':lastMessageId', $lastMessageId);
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                while ($row = $stmt->fetch()) {
+                    $msgInfo = $this->info($row);
+                    array_push($result['messages'], $msgInfo);
+                    $result['lastMessageId'] = $row['id'];
+                    unset($msgInfo);
+                }
+            }
+        }
+        return $result;
     }
 
     public function getChatsStream($lastMessageId = 0) {
@@ -705,7 +801,7 @@ class messages extends db_connect
         ON m.chatId = t.chatId AND m.id = t.maxId 
         ORDER BY m.id DESC 
         LIMIT 20;");
-        $stmt->bindParam(':lastMessageId', $lastMessageId, PDO::PARAM_INT);
+        $stmt->bindParam(':lastMessageId', $lastMessageId);
         if ($stmt->execute()) {
             if ($stmt->rowCount() > 0) {
                 while ($row = $stmt->fetch()) {

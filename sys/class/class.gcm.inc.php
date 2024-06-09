@@ -19,7 +19,7 @@ class gcm extends db_connect
         if ($this->accountId != 0) {
 
             $stmt = $this->db->prepare("SELECT fcm_regId FROM access_data WHERE accountId = (:accountId) AND removeAt = 0 AND appType > 1 AND fcm_regId <> ''"); // appType = 1 -> APP_TYPE_WEB
-            $stmt->bindParam(":accountId", $accountId, PDO::PARAM_INT);
+            $stmt->bindParam(":accountId", $accountId);
 
             if ($stmt->execute()) {
 
@@ -184,7 +184,6 @@ class gcm extends db_connect
         $result = curl_exec($ch);
 
         if (curl_errno($ch)) {
-
             $result = array("error" => true,
                             "failure" => 1,
                             "description" => curl_error($ch));
@@ -213,12 +212,12 @@ class gcm extends db_connect
             $currentTime = time();
 
             $stmt = $this->db->prepare("INSERT INTO gcm_history (msg, msgType, accountId, status, success, createAt) value (:msg, :msgType, :accountId, :status, :success, :createAt)");
-            $stmt->bindParam(":msg", $msg, PDO::PARAM_STR);
-            $stmt->bindParam(":msgType", $msgType, PDO::PARAM_INT);
-            $stmt->bindParam(":accountId", $this->accountId, PDO::PARAM_INT);
-            $stmt->bindParam(":status", $status, PDO::PARAM_INT);
-            $stmt->bindParam(":success", $success, PDO::PARAM_INT);
-            $stmt->bindParam(":createAt", $currentTime, PDO::PARAM_INT);
+            $stmt->bindParam(":msg", $msg);
+            $stmt->bindParam(":msgType", $msgType);
+            $stmt->bindParam(":accountId", $this->accountId);
+            $stmt->bindParam(":status", $status);
+            $stmt->bindParam(":success", $success);
+            $stmt->bindParam(":createAt", $currentTime);
             $stmt->execute();
         }
     }
@@ -226,11 +225,8 @@ class gcm extends db_connect
     public function forAll()
     {
         $stmt = $this->db->prepare("SELECT fcm_regId FROM access_data WHERE removeAt = 0 AND appType > 1 AND fcm_regId <> ''"); // appType = 1 -> APP_TYPE_WEB
-
         if ($stmt->execute()) {
-
             while ($row = $stmt->fetch()) {
-
                 $this->addDeviceId($row['fcm_regId']);
             }
         }

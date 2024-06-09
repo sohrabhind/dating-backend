@@ -269,7 +269,7 @@
                         } else {
 
                             ?>
-                                <img src="/assets/img/profile_default_photo.png" alt="user" class="img-circle">
+                                <img src="/assets/icons/profile_default_photo.png" alt="user" class="img-circle">
                             <?php
                         }
 

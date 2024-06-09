@@ -16,13 +16,10 @@ if (!empty($_POST)) {
     $accountId = isset($_POST['accountId']) ? $_POST['accountId'] : 0;
     $accessToken = isset($_POST['accessToken']) ? $_POST['accessToken'] : '';
 
-    $accessMode = isset($_POST['accessMode']) ? $_POST['accessMode'] : 0;
-
     $itemType = isset($_POST['itemType']) ? $_POST['itemType'] : 0;
 
     $accountId = helper::clearInt($accountId);
 
-    $accessMode = helper::clearInt($accessMode);
     $itemType = helper::clearInt($itemType);
 
     $auth = new auth($dbo);
@@ -77,7 +74,7 @@ if (!empty($_POST)) {
                     if (!$response['error']) {
                         $images = new gallery($dbo);
                         $images->setRequestFrom($accountId);
-                        $images->add($accessMode, $response['normalImageUrl'], $itemType);
+                        $images->add($response['normalImageUrl'], $itemType);
 
                         $result['error'] = false;
                         $result['error_code'] = ERROR_SUCCESS;

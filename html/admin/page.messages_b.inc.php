@@ -90,7 +90,7 @@
                         <h3 class="text-themecolor">Dashboard</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/admin/main">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/chats">Chats</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/chats_b">Chats</a></li>
                             <li class="breadcrumb-item active">Messages</li>
                         </ol>
                     </div>
@@ -239,7 +239,7 @@ function sendMsg() {
                         } else {
 
                             ?>
-                                <span class="round" style="background-size: cover; background-image: url(/assets/img/profile_default_photo.png)"></span>
+                                <span class="round" style="background-size: cover; background-image: url(/assets/icons/profile_default_photo.png)"></span>
                             <?php
                         }
                     ?>
@@ -252,10 +252,10 @@ function sendMsg() {
 
                     <?php
 
-                        if (strlen($item['imgUrl']) != 0) {
+                        if (strlen($item['imageUrl']) != 0) {
 
                             ?>
-                                <img src="<?php echo $item['imgUrl']; ?>" alt="iMac" width="80">
+                                <img src="<?php echo $item['imageUrl']; ?>" alt="iMac" width="80">
                             <?php
 
                         } else {

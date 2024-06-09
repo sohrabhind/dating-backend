@@ -20,7 +20,7 @@ class geo extends db_connect
         return $number_of_rows = $stmt->fetchColumn();
     }
 
-    public function getPeopleNearby($itemId, $lat, $lng, $distance = 30, $gender = 3)
+    public function getPeopleNearby($itemId, $lat, $lng, $distance = 30, $gender = 1)
     {
         if ($itemId == 0) {
 
@@ -39,15 +39,7 @@ class geo extends db_connect
         $dist = $distance; // This is the maximum distance (in miles) away from $origLat, $origLon in which to search
 
         // gender:  0 = male, 1= female, 2 = secret, 3 = all
-
-        if ($gender == 3) {
-
-            $gender_sql = "";
-
-        } else {
-
-            $gender_sql = " and (gender = {$gender}) ";
-        }
+        $gender_sql = " and (gender = {$gender}) ";
 
         $sql = "SELECT id, lat, lng, 3956 * 2 *
                     ASIN(SQRT( POWER(SIN(($origLat - lat)*pi()/180/2),2)
