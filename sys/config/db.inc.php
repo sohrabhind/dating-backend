@@ -38,13 +38,13 @@ $B['STRIPE_SECRET_KEY'] = "sk_test_hLn3Pfu0vdl7M5p45ZInquCtvbK";
 
 // Google OAuth client |
 
-$B['GOOGLE_CLIENT_ID'] = "332858474720-jpfrmd5olhinc2oam42b659l9c95e4jq.apps.googleusercontent.com";
-$B['GOOGLE_CLIENT_SECRET'] = "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";
+$B['GOOGLE_CLIENT_ID'] = "123xyz.apps.googleusercontent.com";
+$B['GOOGLE_CLIENT_SECRET'] = "123xyz";
 
 // Push notifications settings | For sending FCM (Firebase Cloud Messages) | https://hindbyte.com/help/how_to_create_fcm_android/
 
-$B['GOOGLE_API_KEY'] = "AAAATX_pQOA:APA91bHB_NwcoKxBfOkdWN_H8C6Q9t6FaKr3n6dBU-HF9obr5V0AkImC3PHLEzSRwsPBKwV9t-yOfkRkmmH4tfgpKeJ_tFqQMrRXN4i0YGgg9ckBNc3C6COtuEk4vE_-G8YBXDX9IsdN";
-$B['GOOGLE_SENDER_ID'] = "332858474720";
+$B['GOOGLE_API_KEY'] = "123xyz";
+$B['GOOGLE_SENDER_ID'] = "123xyz";
 
 $B['FIREBASE_API_KEY'] = $B['GOOGLE_API_KEY'];
 $B['FIREBASE_SENDER_ID'] = $B['GOOGLE_SENDER_ID'];
@@ -55,13 +55,13 @@ $B['FIREBASE_PROJECT_ID'] = "dating-287c7";
 
 // Facebook settings | For login/signup with facebook | https://hindbyte.com/help/how_to_create_facebook_application_and_get_app_id_and_app_secret/
 
-$B['FACEBOOK_APP_ID'] = "3453453453445345";
-$B['FACEBOOK_APP_SECRET'] = "e961f4egfad1d65ef08f1e491690be56b24";
+$B['FACEBOOK_APP_ID'] = "123xyz";
+$B['FACEBOOK_APP_SECRET'] = "123xyz";
 
 // Recaptcha settings | Create you keys for reCAPTCHA v3 | https://www.google.com/recaptcha/admin/create
 
-$B['RECAPTCHA_SITE_KEY'] = "6LeDMrsZ4AAAAABl-hJMuzsj2ogn3swLgflro0hmHSD";
-$B['RECAPTCHA_SECRET_KEY'] = "6LeDMrsZAAgAAAKYGhjyXvK3qCqtIE5lMik6lENx9";
+$B['RECAPTCHA_SITE_KEY'] = "123xyz";
+$B['RECAPTCHA_SECRET_KEY'] = "123xyz";
 
 // SMTP Settings | For password recovery
 
@@ -77,7 +77,7 @@ $B['SMTP_PASSWORD'] = 'password';                      //SMTP password
 
 $C['DB_HOST'] = "localhost";                                //localhost or your db host
 $C['DB_USER'] = "hindbyte";                             //your db user
-$C['DB_PASS'] = "D2EeNv@6n!S5QY";                         //your db password
+$C['DB_PASS'] = "123xyz";                         //your db password
 $C['DB_NAME'] = "poppi";                             //your db name
 
 
