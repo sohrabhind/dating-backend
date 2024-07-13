@@ -125,7 +125,8 @@ class messages extends db_connect
         $account->setLastActive();
         $free_messages_count = $account->getFreeMessagesCount();
         $level_messages_count = $account->getLevelMessagesCount();
-
+		
+      	/*
         if ($account->getGender() == 1) {
             $free_messages_count = 1;
         } else if (($free_messages_count == 0 || $this->getMessagesFromUser($this->requestFrom, $toUserId) > 0) && ($account->getLevel() == 0 || $level_messages_count == 0)) {
@@ -134,9 +135,10 @@ class messages extends db_connect
                 "error_code" => 402
             );
             return $result;
-        }
+        }*/
 
         if (strlen($imageUrl) == 0 && strlen($message) == 0) {
+
             return $result;
         }
 

@@ -44,7 +44,7 @@ class cdn extends db_connect
 
     public function uploadMyImage($imgFilename)
     {
-        rename($imgFilename, MY_IMAGES_PATH.basename($imgFilename));
+        rename($imgFilename, MY_PHOTOS_PATH.basename($imgFilename));
         $result = array("error" => false,
                         "error_code" => ERROR_SUCCESS,
                         "fileUrl" => basename($imgFilename));

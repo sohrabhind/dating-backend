@@ -95,7 +95,7 @@ class gallery extends db_connect
         $dbImageUrls = $stmt->fetchAll(PDO::FETCH_COLUMN);
         
         if (count($dbImageUrls) > 0) {
-            $directoryFiles = glob(MY_IMAGES_PATH . '/*');
+            $directoryFiles = glob(MY_PHOTOS_PATH . '/*');
             foreach ($directoryFiles as $file) {
                 $filename = basename($file);
                 if (!in_array($filename, $dbImageUrls)) {
@@ -142,7 +142,7 @@ class gallery extends db_connect
         if ($stmt->rowCount() > 0) {
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($rows as $row) {
-                @unlink(MY_IMAGES_PATH . "/" . basename($row['imageUrl']));
+                @unlink(MY_PHOTOS_PATH . "/" . basename($row['imageUrl']));
             }
         }
 
@@ -191,7 +191,7 @@ class gallery extends db_connect
         $stmt->bindParam(":removeAt", $currentTime);
 
         if ($stmt->execute()) {
-            @unlink(MY_IMAGES_PATH . "/" . basename($imageInfo['imageUrl']));
+            @unlink(MY_PHOTOS_PATH . "/" . basename($imageInfo['imageUrl']));
 
             $stmt2 = $this->db->prepare("DELETE FROM notifications WHERE itemId = (:itemId) AND notifyType > 6");
             $stmt2->bindParam(":itemId", $imageId);
@@ -243,7 +243,7 @@ class gallery extends db_connect
 
         $imageUrl = "";
         if ($row['imageUrl'] != '') {
-            $imageUrl = APP_URL . "/" . MY_IMAGES_PATH . $row['imageUrl'];
+            $imageUrl = APP_URL . "/" . MY_PHOTOS_PATH . $row['imageUrl'];
         }
         $result = array(
             "error" => false,
