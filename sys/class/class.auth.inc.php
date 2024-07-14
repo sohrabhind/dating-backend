@@ -49,7 +49,7 @@ class auth extends db_connect
 
     protected function getFromUserId($time, $msgToUserCountry) {
         $ntime = $time-rand(60*5, 60*15);
-        $stmt = $this->db->prepare("SELECT id FROM users WHERE country = $msgToUserCountry AND gender = 1 AND access_level = 1 ORDER BY last_authorize ASC LIMIT 1");
+        $stmt = $this->db->prepare("SELECT id FROM users WHERE country = '$msgToUserCountry' AND gender = 1 AND access_level = 1 ORDER BY last_authorize ASC LIMIT 1");
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch();

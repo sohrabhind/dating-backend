@@ -409,23 +409,6 @@ class account extends db_connect
         return $result;
     }
 
-    public function getLevel()
-    {
-        $stmt = $this->db->prepare("SELECT level, level_create_at FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id);
-
-        if ($stmt->execute()) {
-            $row = $stmt->fetch();
-
-            if ($row['level'] > 0 && time() < $row['level_create_at'] + (30 * 24 * 60 * 60)) {
-                $level = $row['level'];
-            } else {
-                $level = 0;
-            }
-            return $level;
-        }
-        return 0;
-    }
 
 
     public function setBalance($balance)
@@ -471,7 +454,6 @@ class account extends db_connect
             $count = 0;
         }
         $result = array("error" => true, "error_code" => ERROR_CODE_INITIATE);
-
         $stmt = $this->db->prepare("UPDATE users SET level_messages_count = (:level_messages_count) WHERE id = (:accountId)");
         $stmt->bindParam(":accountId", $this->id);
         $stmt->bindParam(":level_messages_count", $count);
@@ -487,28 +469,49 @@ class account extends db_connect
         return $result;
     }
 
-    public function getLevelMessagesCount()
-    {
-        $stmt = $this->db->prepare("SELECT level, level_messages_count, level_create_at FROM users WHERE id = (:accountId) LIMIT 1");
-        $stmt->bindParam(":accountId", $this->id);
 
+    public function getLevel()
+    {
+        $level = 0;
+        $stmt = $this->db->prepare("SELECT level, level_create_at FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt->bindParam(":accountId", $this->id);
         if ($stmt->execute()) {
             $row = $stmt->fetch();
             if ($row['level'] > 0 && time() < $row['level_create_at'] + (30 * 24 * 60 * 60)) {
-                $level_messages_count = $row['level_messages_count'];
-            } else {
-                $level_messages_count = 0;
+                $level = $row['level'];
             }
         }
+        return $level;
+    }
 
+    public function getLevelMessagesCount($level = 0)
+    {
+        $level_messages_count = 0;
+        if ($level == 0) {
+            return $level_messages_count;
+        }
+        $stmt = $this->db->prepare("SELECT level_messages_count FROM users WHERE id = (:accountId) LIMIT 1");
+        $stmt->bindParam(":accountId", $this->id);
+        if ($stmt->execute()) {
+            $row = $stmt->fetch();
+            $level_messages_count = $row['level_messages_count'];
+        }
         return $level_messages_count;
     }
 
-    public function getFreeMessagesCount()
+    public function getFreeMessagesCount($level = 0)
     {
         $free_messages_per_day = 5;
+        if ($level > 0) {
+            $stmt = $this->db->prepare("SELECT chats FROM level WHERE id = :level LIMIT 1");
+            $stmt->bindParam(":level", $level);
+            if ($stmt->execute()) {
+                $row = $stmt->fetch();
+                $free_messages_per_day = $row['chats'];
+            }
+        }
         $pastTime = time() - (24 * 60 * 60);
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM messages WHERE fromUserId = (:accountId) AND createAt > (:pastTime)");
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM chats WHERE fromUserId = :accountId AND createAt > :pastTime");
         $stmt->bindParam(":accountId", $this->id);
         $stmt->bindParam(":pastTime", $pastTime);
 
@@ -1068,21 +1071,20 @@ class account extends db_connect
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch();
                 $notifications_count = 0;
-                $level_messages_count = $this->getLevelMessagesCount();
-                $free_messages_count = $this->getFreeMessagesCount();
+                if ($row['level'] > 0 && time() < $row['level_create_at'] + (30 * 24 * 60 * 60)) {
+                    $level = $row['level'];
+                } else {
+                    $level = 0;
+                }
+                $level_messages_count = $this->getLevelMessagesCount($level);
+                $free_messages_count = $this->getFreeMessagesCount($level);
 
                 $online = false;
                 $current_time = time();
 
                 if ($row['last_authorize'] != 0 && $row['last_authorize'] > ($current_time - 15 * 60)) {
                     $online = true;
-                }
-
-
-                if ($row['level'] > 0 && time() < $row['level_create_at'] + (30 * 24 * 60 * 60)) {
-                    $level = $row['level'];
-                } else {
-                    $level = 0;
+                    $online = false;
                 }
 
 

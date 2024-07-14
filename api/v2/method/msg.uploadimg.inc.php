@@ -22,7 +22,7 @@ if (!empty($_POST)) {
     $chatId = isset($_POST['chatId']) ? $_POST['chatId'] : 0;
     $messageText = isset($_POST['messageText']) ? $_POST['messageText'] : "";
 
-    $listId = isset($_POST['listId']) ? $_POST['listId']
+    $listId = isset($_POST['listId']) ? $_POST['listId']: 0;
 
 
     $accountId = helper::clearInt($accountId);
@@ -102,14 +102,38 @@ if (!empty($_POST)) {
         }
 
         $account = new account($dbo, $accountId);
-        $free_messages_count = $account->getFreeMessagesCount();
-        $level_messages_count = $account->getLevelMessagesCount();
+        $isReplyMessage = true;
+        $level = $account->getLevel();
+        $gender = $account->getGender();
+
         $messages = new messages($dbo);
         $messages->setRequestFrom($accountId);
 
-        if ($account->getGender() == 1) {
-            $free_messages_count = 1;
-        } else if (($free_messages_count == 0 || $messages->getMessagesFromUser($accountId, $profileId) > 0) && ($account->getLevel() == 0 || $level_messages_count == 0)) {
+        if ($chatId == 0) {
+            $chatId = $messages->getChatId($accountId, $profileId);
+            if ($chatId == 0) {
+                if ($gender == 1) {
+                    $free_messages_count = 1;
+                } else {
+                    $free_messages_count = $account->getFreeMessagesCount($level);
+                    if ($free_messages_count == 0) {
+                        $result = array(
+                            "error" => true,
+                            "error_code" => 402
+                        );
+                        echo json_encode($result);
+                        exit;
+                    }
+                }
+                $isReplyMessage = false;
+            }
+        }
+
+        $level_messages_count = $account->getLevelMessagesCount($level);
+        
+        if ($gender == 1) {
+            $level_messages_count = 1;
+        } else if ($isReplyMessage && $level_messages_count == 0) {
             $result = array(
                 "error" => true,
                 "error_code" => 402
@@ -117,13 +141,14 @@ if (!empty($_POST)) {
             echo json_encode($result);
             exit;
         }
+
         
         if (!$error) {
             $extension = strtolower(pathinfo($_FILES['uploaded_file']['name'], PATHINFO_EXTENSION));
             if ($extension == "jpg" || $extension == "jpeg" || $extension == "png" || $extension == "gif") {
                 $new_file_name = TEMP_PATH.helper::generateHash(32).".".$extension;
                 $temp_file_name = TEMP_PATH.helper::generateHash(32).".".$extension;
-                move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $new_file_name);
+                @move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $new_file_name);
 
                 if (file_exists($new_file_name)) {
                     $imglib = new imglib($dbo);
@@ -133,7 +158,6 @@ if (!empty($_POST)) {
                         $result['error_code'] = ERROR_SUCCESS;
                         $result['error_description'] = "ok.";
                         $messageImg = $response['imageUrl'];
-
                         $result = $messages->create($profileId, $chatId, $messageText, $messageImg, $listId);
                     }
                 }

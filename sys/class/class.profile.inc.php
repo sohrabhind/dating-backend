@@ -102,6 +102,7 @@ class profile extends db_connect
                 if ($row['last_authorize'] != 0 && $row['last_authorize'] > ($current_time - 15 * 60)) {
 
                     $online = true;
+                    $online = false;
                 }
 
 
@@ -217,6 +218,7 @@ class profile extends db_connect
                 if ($row['last_authorize'] != 0 && $row['last_authorize'] > ($current_time - 15 * 60)) {
 
                     $online = true;
+                    $online = false;
                 }
 
 
@@ -309,6 +311,7 @@ class profile extends db_connect
 
                 if ($row['last_authorize'] != 0 && $row['last_authorize'] > ($current_time - 15 * 60)) {
                     $online = true;
+                    $online = false;
                 }
 
 
@@ -542,9 +545,9 @@ class profile extends db_connect
         );
 
         $stmt = $this->db->prepare("SELECT * FROM profile_likes WHERE toUserId = (:toUserId) AND id < (:itemId) ORDER BY id DESC LIMIT :limit");
-        $stmt->bindParam(':toUserId', $this->id);
-        $stmt->bindParam(':itemId', $itemId);
-        $stmt->bindParam(':limit', $limit);
+        $stmt->bindParam(':toUserId', $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 

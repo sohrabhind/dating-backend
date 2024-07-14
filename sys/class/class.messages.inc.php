@@ -98,17 +98,6 @@ class messages extends db_connect
         return $str;
     }
 
-    public function getMessagesFromUser($myUserId, $fromUserId) {
-        $stmt = $this->db->prepare("SELECT count(id) FROM messages WHERE toUserId = (:toUserId) AND fromUserId = (:fromUserId)");
-        $stmt->bindParam(':toUserId', $myUserId);
-        $stmt->bindParam(':fromUserId', $fromUserId);
-
-        if ($stmt->execute()) {
-            return $number_of_rows = $stmt->fetchColumn();
-        }
-        return 0;
-    }
-
 
     public function create($toUserId, $chatId,  $message = "", $imageUrl = "", $listId = 0)
     {
@@ -123,26 +112,12 @@ class messages extends db_connect
         
         $account = new account($this->db, $this->requestFrom);
         $account->setLastActive();
-        $free_messages_count = $account->getFreeMessagesCount();
-        $level_messages_count = $account->getLevelMessagesCount();
+        $isReplyMessage = true;
+        $level = $account->getLevel();
+        $gender = $account->getGender();
 		
-      	/*
-        if ($account->getGender() == 1) {
-            $free_messages_count = 1;
-        } else if (($free_messages_count == 0 || $this->getMessagesFromUser($this->requestFrom, $toUserId) > 0) && ($account->getLevel() == 0 || $level_messages_count == 0)) {
-            $result = array(
-                "error" => true,
-                "error_code" => 402
-            );
-            return $result;
-        }*/
 
         if (strlen($imageUrl) == 0 && strlen($message) == 0) {
-
-            return $result;
-        }
-
-        if (strlen($imageUrl) != 0 && strpos($imageUrl, APP_HOST) === false) {
             return $result;
         }
 
@@ -153,7 +128,20 @@ class messages extends db_connect
         if ($chatId == 0) {
             $chatId = $this->getChatId($this->getRequestFrom(), $toUserId);
             if ($chatId == 0) {
+                if ($gender == 1) {
+                    $free_messages_count = 1;
+                } else {
+                    $free_messages_count = $account->getFreeMessagesCount($level);
+                    if ($free_messages_count == 0) {
+                        $result = array(
+                            "error" => true,
+                            "error_code" => 402
+                        );
+                        return $result;
+                    }
+                }
                 $chatId = $this->createChat($this->getRequestFrom(), $toUserId);
+                $isReplyMessage = false;
                 if ($chatId == 0) {
                     $result = array(
                         "error" => true,
@@ -165,6 +153,19 @@ class messages extends db_connect
             }
         }
 
+        $level_messages_count = $account->getLevelMessagesCount($level);
+        
+        /*
+        if ($gender == 1) {
+            $level_messages_count = 1;
+        } else if ($isReplyMessage && $level_messages_count == 0) {
+            $result = array(
+                "error" => true,
+                "error_code" => 402
+            );
+            return $result;
+        }
+        */
 
         $currentTime = time();
         $ip_addr = helper::ip_addr();
@@ -180,10 +181,10 @@ class messages extends db_connect
 
 
         if ($stmt->execute()) {
-            if ($free_messages_count == 0) {
+            $lastMessageId = $this->db->lastInsertId();
+            if ($isReplyMessage && $gender != 1) {
                 $account->setLevelMessagesCount($level_messages_count - 1);
             }
-            $lastMessageId = $this->db->lastInsertId();
         
             $result = array("error" => false,
                             "error_code" => ERROR_SUCCESS,
@@ -602,14 +603,12 @@ class messages extends db_connect
 
         $stmt = $this->db->prepare("SELECT *
         FROM messages
-        WHERE (fromUserId = :fromUserId AND toUserId = :toUserId)
-               OR (fromUserId = :toUserId AND toUserId = :fromUserId)
+        WHERE chatId = (:chatId)
               AND id < :lastMessageId
               AND removeAt = 0
         ORDER BY id DESC
         LIMIT 20;");
-        $stmt->bindParam(":fromUserId", $chatFromUserId);
-        $stmt->bindParam(":toUserId", $chatToUserId);
+        $stmt->bindParam(":chatId", $chatId);
         $stmt->bindParam(':lastMessageId', $lastMessageId);
 
         if ($stmt->execute()) {
