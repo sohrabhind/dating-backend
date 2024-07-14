@@ -1,5 +1,5 @@
 <?php
-
+/*
 $profile = new profile($dbo, 0);
 $profile->setRequestFrom(0);
 $toUserIds = $profile->getLikeToProfiles();
@@ -22,6 +22,7 @@ foreach ($toUserIds as $toUserId) {
     $messages->setRequestFrom($fromUserId);
     $result = $messages->create($toUserId, 0, $messageTexts[array_rand($messageTexts)], "", 0);
 }
+*/
 
 ?>
 

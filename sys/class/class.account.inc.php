@@ -1068,7 +1068,7 @@ class account extends db_connect
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch();
                 $notifications_count = 0;
-                $level_messages_count = 0;
+                $level_messages_count = $this->getLevelMessagesCount();
                 $free_messages_count = $this->getFreeMessagesCount();
 
                 $online = false;
@@ -1100,7 +1100,7 @@ class account extends db_connect
                     "level_create_at" => $row['level_create_at'],
                     "balance" => $row['balance'],
                     "free_messages_count" => $free_messages_count,
-                    "level_messages_count" => $row['level_messages_count'],
+                    "level_messages_count" => $level_messages_count,
                     "gl_id" => $row['gl_id'],
                     "state" => $row['state'],
                     "regtime" => $row['regtime'],
